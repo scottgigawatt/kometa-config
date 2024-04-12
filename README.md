@@ -29,4 +29,4 @@ This project is licensed under the [Apache License 2.0](LICENSE). See the LICENS
 
 ## Support
 
-For any questions or issues related to this configuration, feel free to open an issue on this repository. We'll do our best to assist you.
+For any questions or issues related to this configuration, feel free to open an issue on this repository. I'll do our best to assist you.
