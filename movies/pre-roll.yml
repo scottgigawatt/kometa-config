@@ -1,0 +1,129 @@
+collections:
+  Weekly:
+    build_collection: false
+    server_preroll: |
+      /volume2/plex/prerolls/weekly/01.mp4;
+      /volume2/plex/prerolls/weekly/02.mp4;
+      /volume2/plex/prerolls/weekly/03.mp4;
+      /volume2/plex/prerolls/weekly/04.mp4;
+      /volume2/plex/prerolls/weekly/05.mp4;
+      /volume2/plex/prerolls/weekly/06.mp4;
+      /volume2/plex/prerolls/weekly/07.mp4;
+      /volume2/plex/prerolls/weekly/08.mp4;
+      /volume2/plex/prerolls/weekly/09.mp4;
+      /volume2/plex/prerolls/weekly/10.mp4;
+      /volume2/plex/prerolls/weekly/11.mp4;
+      /volume2/plex/prerolls/weekly/12.mp4;
+      /volume2/plex/prerolls/weekly/13.mp4;
+      /volume2/plex/prerolls/weekly/14.mp4;
+      /volume2/plex/prerolls/weekly/15.mp4;
+      /volume2/plex/prerolls/weekly/16.mp4;
+      /volume2/plex/prerolls/weekly/17.mp4;
+      /volume2/plex/prerolls/weekly/18.mp4;
+      /volume2/plex/prerolls/weekly/19.mp4;
+      /volume2/plex/prerolls/weekly/20.mp4;
+      /volume2/plex/prerolls/weekly/21.mp4;
+      /volume2/plex/prerolls/weekly/22.mp4;
+      /volume2/plex/prerolls/weekly/23.mp4;
+      /volume2/plex/prerolls/weekly/24.mp4;
+      /volume2/plex/prerolls/weekly/25.mp4;
+      /volume2/plex/prerolls/weekly/26.mp4;
+      /volume2/plex/prerolls/weekly/27.mp4;
+      /volume2/plex/prerolls/weekly/28.mp4;
+      /volume2/plex/prerolls/weekly/29.mp4;
+      /volume2/plex/prerolls/weekly/30.mp4;
+      /volume2/plex/prerolls/weekly/31.mp4;
+      /volume2/plex/prerolls/weekly/32.mp4;
+      /volume2/plex/prerolls/weekly/33.mp4;
+      /volume2/plex/prerolls/weekly/34.mp4;
+      /volume2/plex/prerolls/weekly/35.mp4;
+      /volume2/plex/prerolls/weekly/36.mp4;
+      /volume2/plex/prerolls/weekly/37.mp4;
+      /volume2/plex/prerolls/weekly/38.mp4;
+      /volume2/plex/prerolls/weekly/39.mp4;
+      /volume2/plex/prerolls/weekly/40.mp4
+    schedule:
+      - range(03/01-03/21) # Skip Easter
+      - range(04/26-05/31) # Skip Pride Month (June)
+      - range(03/01-05/31)
+      - range(07/01-09/15)
+
+  New Year:
+    build_collection: false
+    server_preroll: |
+      /volume2/plex/prerolls/new-year/01.mp4;
+      /volume2/plex/prerolls/new-year/02.mp4
+    schedule: range(12/26-01/15)
+
+  Black History Month:
+    build_collection: false
+    server_preroll: /volume2/plex/prerolls/seasonal/black-history-month.mp4
+    schedule:
+      - range(02/01-02/09)
+      - range(02/15-02/28)
+
+  Valentine's Day:
+    build_collection: false
+    server_preroll: /volume2/plex/prerolls/seasonal/valentines-day.mp4
+    schedule: range(02/10-02/14)
+
+  Easter:
+    build_collection: false
+    server_preroll: /volume2/plex/prerolls/seasonal/easter.mp4
+    schedule: range(03/22-04/25)
+
+  Pride Month:
+    build_collection: false
+    server_preroll: /volume2/plex/prerolls/seasonal/pride-month.mp4
+    schedule: range(06/01-06/30)
+
+Halloween:
+  build_collection: false
+  server_preroll: |
+    /volume2/plex/prerolls/halloween/01.mp4;
+    /volume2/plex/prerolls/halloween/02.mp4;
+    /volume2/plex/prerolls/halloween/03.mp4;
+    /volume2/plex/prerolls/halloween/04.mp4;
+    /volume2/plex/prerolls/halloween/05.mp4;
+    /volume2/plex/prerolls/halloween/06.mp4;
+    /volume2/plex/prerolls/halloween/07.mp4;
+    /volume2/plex/prerolls/halloween/08.mp4;
+    /volume2/plex/prerolls/halloween/09.mp4;
+    /volume2/plex/prerolls/halloween/10.mp4;
+    /volume2/plex/prerolls/halloween/11.mp4;
+    /volume2/plex/prerolls/halloween/12.mp4;
+    /volume2/plex/prerolls/halloween/13.mp4;
+    /volume2/plex/prerolls/halloween/14.mp4;
+    /volume2/plex/prerolls/halloween/15.mp4
+  schedule: range(09/16-10/31)
+
+Christmas:
+  build_collection: false
+  server_preroll: |
+    /volume2/plex/prerolls/christmas/01.mp4;
+    /volume2/plex/prerolls/christmas/02.mp4;
+    /volume2/plex/prerolls/christmas/03.mp4;
+    /volume2/plex/prerolls/christmas/04.mp4;
+    /volume2/plex/prerolls/christmas/05.mp4;
+    /volume2/plex/prerolls/christmas/06.mp4;
+    /volume2/plex/prerolls/christmas/07.mp4;
+    /volume2/plex/prerolls/christmas/08.mp4;
+    /volume2/plex/prerolls/christmas/09.mp4;
+    /volume2/plex/prerolls/christmas/10.mp4;
+    /volume2/plex/prerolls/christmas/11.mp4;
+    /volume2/plex/prerolls/christmas/12.mp4;
+    /volume2/plex/prerolls/christmas/13.mp4;
+    /volume2/plex/prerolls/christmas/14.mp4;
+    /volume2/plex/prerolls/christmas/15.mp4;
+    /volume2/plex/prerolls/christmas/16.mp4;
+    /volume2/plex/prerolls/christmas/17.mp4;
+    /volume2/plex/prerolls/christmas/18.mp4;
+    /volume2/plex/prerolls/christmas/19.mp4;
+    /volume2/plex/prerolls/christmas/20.mp4;
+    /volume2/plex/prerolls/christmas/21.mp4;
+    /volume2/plex/prerolls/christmas/22.mp4;
+    /volume2/plex/prerolls/christmas/23.mp4;
+    /volume2/plex/prerolls/christmas/24.mp4;
+    /volume2/plex/prerolls/christmas/25.mp4;
+    /volume2/plex/prerolls/christmas/26.mp4
+  schedule: range(11/01-12/25)
