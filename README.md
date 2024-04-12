@@ -2,6 +2,8 @@
 
 This repository contains the configuration files for Plex Meta Manager (PMM). PMM is a tool used to enhance the metadata and artwork for media libraries managed by Plex.
 
+![Collections](collections.png "Collections")
+
 ## Description
 
 This configuration has been customized for my specific setup and has diverged from the original fork of the repository. It is based on the original configuration files from [TheChrisK](https://github.com/TheChrisK/PMM).

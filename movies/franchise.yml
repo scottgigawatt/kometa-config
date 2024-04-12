@@ -167,14 +167,13 @@ collections:
         title: John Wick
     summary: "John Wick is an American neo-noir action thriller media franchise created by Derek Kolstad and centered on John Wick, a former hitman who is forced back into the criminal underworld he had previously abandoned."
 
-  Kung Fu Panda Collection:
-    template:
-      name: franchise
-      poster_id: Kung Fu Panda
-    # url_poster: https://theposterdb.com/api/assets/53716
-    trakt_list:
-      - https://trakt.tv/lists/official/kung-fu-panda-collection
-    summary: "The Kung Fu Panda series are computer-animated action comedy films set in a version of China populated by humanoid talking animals, the plot revolves around a bumbling humanoid panda named Po who aspires to be a kung fu master."
+  # Kung Fu Panda Collection:
+  #   template:
+  #     name: franchise
+  #     poster_id: Kung Fu Panda
+  #   trakt_list:
+  #     - https://trakt.tv/lists/official/kung-fu-panda-collection
+  #   summary: "The Kung Fu Panda series are computer-animated action comedy films set in a version of China populated by humanoid talking animals, the plot revolves around a bumbling humanoid panda named Po who aspires to be a kung fu master."
 
   Lethal Weapon Collection:
     template:
