@@ -1,8 +1,8 @@
-# PMM - Plex Meta Manager Configuration
+# Plex Meta Manager Configuration
 
 This repository contains the configuration files for Plex Meta Manager (PMM). PMM is a tool used to enhance the metadata and artwork for media libraries managed by Plex.
 
-![Collections](collections.png "Collections")
+![collections](https://github.com/scottgigawatt/pmm-config/assets/16313565/70ca085d-0259-44bb-8849-f4f99a8f5d75 "Collections")
 
 ## Description
 
@@ -10,14 +10,20 @@ This configuration has been customized for my specific setup and has diverged fr
 
 ## Credits
 
+Special thanks to the contributors mentioned below for their valuable contributions to the Plex Meta Manager ecosystem.
+
 - **[TheChrisK](https://github.com/TheChrisK)**: Original configuration files and related posters
 - **[meisnate12](https://github.com/meisnate12)**: Plex-Meta-Manager and related images
 - **[s0len](https://github.com/s0len)**: TV overlay images
 - **[pterisaur](https://github.com/pterisaur)**: People posters
 
-## Acknowledgments
+## My Contributions
 
-Special thanks to the contributors mentioned above for their valuable contributions to the Plex Meta Manager ecosystem.
+### Subgenre Posters
+
+I have contributed a set of custom subgenre posters to enhance the visual experience of Plex media libraries. View subgenre posters [here](./assets/posters/subgenre_top/).
+
+![subgenre-posters](https://github.com/scottgigawatt/pmm-config/assets/16313565/091fc37c-e9d4-4f8e-8e2c-0b537f46e8c0 "Subgenre Posters")
 
 ## Usage
 

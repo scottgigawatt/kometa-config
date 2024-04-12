@@ -2,7 +2,7 @@ templates:
   random:
     file_poster: "/config/assets/posters/favorites/Weekly Shuffle.png"
     sort_title: "!058_<<collection_name>>"
-    summary: "A weekly collection of 25 random movies. Changes every Monday."
+    summary: "Experience the ever-changing Weekly Shuffle: 25 randomly selected movies, refreshed every Monday for a new cinematic journey."
     sync_mode: sync
     visible_library: true
     visible_home: true

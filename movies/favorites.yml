@@ -39,10 +39,10 @@ collections:
       - https://trakt.tv/users/kfarley121/lists/plex-movies
     summary: "A collection of Kylie's buzzworthy favorite movies."
 
-  # Weezer's Favorite Movies:
-  #   template:
-  #     name: favorites
-  #     poster_id: Weezer's Favorites
-  #   trakt_list:
-  #     - https://trakt.tv/users/m-louise-allen/lists/plex-favorite-movies
-  #   summary: "A collection of Weezer's bussin favorite movies."
+  Weezer's Favorite Movies:
+    template:
+      name: favorites
+      poster_id: Weezer's Favorites
+    trakt_list:
+      - https://trakt.tv/users/m-louise-allen/lists/plex-favorite-movies
+    summary: "A collection of Weezer's bussin favorite movies."

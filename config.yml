@@ -16,7 +16,7 @@ libraries:
             starting: current_year-1
             ending: current_year-1
           summary_format: Top <<limit>> movies of <<key>>. Sorted by critic rating.
-          collection_section: '010'
+          collection_section: "010"
           schedule: range(01/01-04/01)
     settings:
       delete_not_scheduled: true
@@ -108,7 +108,7 @@ libraries:
           visible_shared_popular: true
       - pmm: seasonal
         template_variables:
-          emoji: ''
+          emoji: ""
           schedule_independence: range(06/28-07/05)
           schedule_labor: range(09/01-09/05)
           schedule_thanksgiving: range(11/01-11/24)
@@ -128,7 +128,7 @@ libraries:
           list_size: 25
           list_minimum: 0
           summary_popular: A collection of the most watched movies on this Plex server.
-          collection_section: '020_1'
+          collection_section: "020_1"
       - pmm: trakt
         template_variables:
           use_collected: false
@@ -149,8 +149,8 @@ libraries:
             trek: Star Trek Universe
             xmen: X-Men Collection
           exclude: # In franchise.yml config
-          - marvel
-          collection_section: '106'
+            - marvel
+          collection_section: "106"
       - pmm: other_chart
         template_variables:
           visible_library_pirated: true
@@ -191,8 +191,8 @@ libraries:
           vertical_align: top
           vertical_offset: 0
           font_size: 1
-          font_color: '#00000000'
-          back_color: '#00000000'
+          font_color: "#00000000"
+          back_color: "#00000000"
           back_width_airing: 1000
           back_width_returning: 1000
           back_width_ended: 1000
@@ -252,7 +252,7 @@ libraries:
           list_size: 25
           list_minimum: 0
           summary_popular: A collection of the most watched movies on this Plex server.
-          collection_section: '020_1'
+          collection_section: "020_1"
       - pmm: trakt
         template_variables:
           use_collected: false
@@ -320,10 +320,10 @@ settings:
   show_unconfigured: true
   playlist_exclude_users:
   run_order:
-  - operations
-  - metadata
-  - collections
-  - overlays
+    - operations
+    - metadata
+    - collections
+    - overlays
 
 plex:
   url: http://localhost:32400
@@ -348,7 +348,7 @@ tmdb:
   apikey: abc123
   language: en
   cache_expiration: 60
-  region:
+  region: US
 trakt:
   client_id: abc123
   client_secret: abc123

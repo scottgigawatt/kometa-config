@@ -2,9 +2,5 @@
 *.cache
 UUID
 logs/
-overlays/Kids Movies Original Posters/
-overlays/Movies Original Posters/
-overlays/TV Shows Original Posters/
 auth.yml
 .DS_Store
-.vscode
