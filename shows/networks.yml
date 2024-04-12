@@ -11,155 +11,200 @@ templates:
 collections:
   ABC:
     template:
-      {
-        name: network,
-        network: "2, 18, 75, 279, 321, 1345, 1410, 2854, 3322, 5069",
-      }
+      name: network
+      network: "2, 18, 75, 279, 321, 1345, 1410, 2854, 3322, 5069"
 
   Adult Swim:
-    template: { name: network, network: "80, 5629, 6929" }
+    template:
+      name: network
+      network: "80, 5629, 6929"
 
   AMC:
-    template: { name: network, network: "174, 4661, 6400" }
+    template:
+      name: network
+      network: "174, 4661, 6400"
 
   Apple TV+:
-    template: { name: network, network: 2552 }
+    template:
+      name: network
+      network: "2552"
 
   BBC:
     template:
-      {
-        name: network,
-        network: "3, 4, 100, 126, 332, 414, 428, 493, 1001, 1051, 1155, 3278, 3546, 3590, 5687, 6142, 6291, 6419, 6824, 6852, 6980, 7033, 7111, 7194, 7227, 7228",
-      }
+      name: network
+      network: "3, 4, 100, 126, 332, 414, 428, 493, 1001, 1051, 1155, 3278, 3546, 3590, 5687, 6142, 6291, 6419, 6824, 6852, 6980, 7033, 7111, 7194, 7227, 7228"
 
   CBS:
-    template: { name: network, network: "16, 1709, 2528, 2621" }
+    template:
+      name: network
+      network: "16, 1709, 2528, 2621"
 
   Comedy Central:
     template:
-      {
-        name: network,
-        network: "47, 278, 1087, 1226, 2178, 2436, 2988, 3082, 4535, 5847",
-      }
+      name: network
+      network: "47, 278, 1087, 1226, 2178, 2436, 2988, 3082, 4535, 5847"
 
   Disney+:
-    template: { name: network, network: "2739, 2919" }
+    template:
+      name: network
+      network: "2739, 2919"
 
   Epix:
-    template: { name: network, network: 922 }
+    template:
+      name: network
+      network: "922"
 
   Fox:
     template:
-      {
-        name: network,
-        network: "19, 303, 961, 1117, 1414, 1498, 2446, 2648, 2686, 4522, 4774, 4908, 5028, 5201, 5996, 6088, 6379",
-      }
+      name: network
+      network: "19, 303, 961, 1117, 1414, 1498, 2446, 2648, 2686, 4522, 4774, 4908, 5028, 5201, 5996, 6088, 6379"
 
   FX:
-    template: { name: network, network: 88 }
+    template:
+      name: network
+      network: "88"
 
   FXX:
-    template: { name: network, network: 1035 }
+    template:
+      name: network
+      network: "1035"
 
   HBO:
-    template: { name: network, network: "49, 2593, 3308" }
+    template:
+      name: network
+      network: "49, 2593, 3308"
 
   Hulu:
-    template: { name: network, network: 453 }
+    template:
+      name: network
+      network: "453"
 
   ITV:
     template:
-      { name: network, network: "9, 112, 149, 261, 307, 590, 1159, 3187, 5871" }
+      name: network
+      network: "9, 112, 149, 261, 307, 590, 1159, 3187, 5871"
 
   National Geographic:
     template:
-      { name: network, network: "43, 799, 1756, 1825, 3355, 4293, 4476" }
+      name: network
+      network: "43, 799, 1756, 1825, 3355, 4293, 4476"
 
   Max:
     template:
-      {
-        name: network,
-        network: "505, 1074, 4383, 6783, 3186, 5479, 5484, 5485, 5666, 5750, 5764, 5836",
-      }
+      name: network
+      network: "505, 1074, 4383, 6783, 3186, 5479, 5484, 5485, 5666, 5750, 5764, 5836"
 
   NBC:
-    template: { name: network, network: "6, 2462" }
+    template:
+      name: network
+      network: "6, 2462"
 
   Netflix:
-    template: { name: network, network: 213 }
+    template:
+      name: network
+      network: "213"
 
   Nickelodeon:
     template:
-      { name: network, network: "13, 286, 416, 474, 775, 794, 2314, 4015" }
+      name: network
+      network: "13, 286, 416, 474, 775, 794, 2314, 4015"
 
   Paramount+:
     template:
-      {
-        name: network,
-        network: "4330, 5506, 5511, 5567, 6100, 6183, 6318, 6445, 7244",
-      }
+      name: network
+      network: "4330, 5506, 5511, 5567, 6100, 6183, 6318, 6445, 7244"
 
   PBS:
-    template: { name: network, network: "14, 122, 5562" }
+    template:
+      name: network
+      network: "14, 122, 5562"
 
   Peacock:
-    template: { name: network, network: 3353 }
+    template:
+      name: network
+      network: "3353"
 
   Showtime:
-    template: { name: network, network: 67 }
+    template:
+      name: network
+      network: "67"
 
   Starz:
-    template: { name: network, network: "318, 758" }
+    template:
+      name: network
+      network: "318, 758"
 
   Syfy:
-    template: { name: network, network: "77, 3701" }
+    template:
+      name: network
+      network: "77, 3701"
 
   TBS:
-    template: { name: network, network: "68, 160, 5012" }
+    template:
+      name: network
+      network: "68, 160, 5012"
 
   The CW:
-    template: { name: network, network: "71, 1049, 2693" }
+    template:
+      name: network
+      network: "71, 1049, 2693"
 
   The WB:
-    template: { name: network, network: 21 }
+    template:
+      name: network
+      network: "21"
 
   TNT:
-    template: { name: network, network: "41, 1191, 2857" }
+    template:
+      name: network
+      network: "41, 1191, 2857"
 
   USA:
-    template: { name: network, network: 30 }
+    template:
+      name: network
+      network: "30"
 
   YouTube:
-    template: { name: network, network: "247, 1436" }
+    template:
+      name: network
+      network: "247, 1436"
 
   # A&E:
-  #   template: { name: network, network: "129, 2639, 3688" }
+  #   template:
+  #     name: network
+  #     network: "129, 2639, 3688"
 
   # Bravo:
-  #   template: { name: network, network: "74, 312, 485" }
+  #   template:
+  #     name: network
+  #     network: "74, 312, 485"
 
   # Britbox:
-  #   template: { name: network, network: 4025 }
+  #   template:
+  #     name: network
+  #     network: "4025"
 
   # Cartoon Network:
   #   template:
-  #     {
-  #       name: network,
-  #       network: "56, 217, 1232, 1483, 2193, 3917, 4945, 6018, 6033, 6206, 6315, 6702, 6869, 7072, 7109, 7133",
-  #     }
+  #     name: network
+  #     network: "56, 217, 1232, 1483, 2193, 3917, 4945, 6018, 6033, 6206, 6315, 6702, 6869, 7072, 7109, 7133"
 
   # Discovery:
   #   template:
-  #     {
-  #       name: network,
-  #       network: "10, 22, 64, 106, 244, 626, 670, 1079, 1287, 1534, 2087, 2480, 2692, 3045, 3591, 3900, 3953, 4440, 4462, 4741",
-  #     }
+  #     name: network
+  #     network: "10, 22, 64, 106, 244, 626, 670, 1079, 1287, 1534, 2087, 2480, 2692, 3045, 3591, 3900, 3953, 4440, 4462, 4741"
 
   # HGTV:
-  #   template: { name: network, network: 210 }
+  #   template:
+  #     name: network
+  #     network: "210"
 
   # Lifetime:
-  #   template: { name: network, network: "34, 2974, 6595, 1072, 7103" }
+  #   template:
+  #     name: network
+  #     network: "34, 2974, 6595, 1072, 7103"
 
   # Prime Video:
-  #   template: { name: network, network: 1024 }
+  #   template:
+  #     name: network
+  #     network: "1024"
