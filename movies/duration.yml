@@ -1,0 +1,16 @@
+templates:
+  duration:
+    file_poster: /config/assets/posters/duration/<<collection_name>>.png
+    sort_title: "!099_<<collection_name>>"
+    collection_order: alpha
+    sync_mode: sync
+    schedule: weekly(wednesday)
+
+collections:
+  90 Minutes or Less:
+    template:
+      name: duration
+    plex_search:
+      all:
+        duration.lte: 96
+    summary: "A collection of titles that are 90 minutes or less in duration."

@@ -1,0 +1,40 @@
+playlists:
+  Battlestar Galactica (Timeline Order):
+    sync_mode: sync
+    libraries: Movies, TV Shows
+    sync_to_users: all
+    file_poster: "config/assets/posters/playlist/Battlestar Galactica (Timeline Order).png"
+    trakt_list: https://trakt.tv/users/pedrohcramos/lists/battlestar-galactica
+    summary: Battlestar Galactica in chronological order.
+
+  Adult Animation:
+    sync_mode: sync
+    libraries: Movies, TV Shows
+    sync_to_users: all
+    file_poster: "config/assets/posters/playlist/Adult Animation.png"
+    trakt_list: https://trakt.tv/users/scottgigawatt/lists/adult-animation
+    summary: "Just because it's animated doesn't mean it's for kids! These cool cartoon movies and TV shows run the gamut from funny to dark and everything in between."
+
+  Saturday Morning Cartoons:
+    sync_mode: sync
+    libraries: Movies, TV Shows
+    sync_to_users: all
+    file_poster: "config/assets/posters/playlist/Saturday Morning Cartoons.png"
+    trakt_list: https://trakt.tv/users/scottgigawatt/lists/saturday-morning-cartoons
+    summary: "Indulge in pure nostalgia with Saturday Morning Cartoons — a lineup of timeless animated classics for a trip down memory lane. Relive the joy of iconic characters and catchy tunes."
+
+  Classic Sitcoms:
+    sync_mode: sync
+    libraries: Movies, TV Shows
+    sync_to_users: all
+    file_poster: "config/assets/posters/playlist/Classic Sitcoms.png"
+    trakt_list: https://trakt.tv/users/scottgigawatt/lists/classic-sitcoms
+    summary: "Enjoy timeless laughs with our Classic Sitcoms playlist. Dive into the humor and charm of iconic shows that have stood the test of time. From witty one-liners to unforgettable characters, this collection is your ticket to a laughter-filled trip through television history."
+
+  Modern Sitcoms:
+    sync_mode: sync
+    libraries: Movies, TV Shows
+    sync_to_users: all
+    file_poster: "config/assets/posters/playlist/Modern Sitcoms.png"
+    trakt_list: https://trakt.tv/users/scottgigawatt/lists/modern-sitcoms
+    summary: "Experience the best of contemporary comedy with our Modern Sitcoms playlist. Bursting with laughter, relatable characters, and witty humor, it's your go-to for a quick dose of today's comedic brilliance."

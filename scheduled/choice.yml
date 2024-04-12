@@ -1,0 +1,60 @@
+external_templates:
+  pmm: templates
+  template_variables:
+    collection_section: "130"
+
+templates:
+  choice_award_winner:
+    sort_title: "!130_<<collection_name>>"
+    collection_order: release.desc
+    sync_mode: sync
+    schedule: range(01/01-04/01)
+
+collections:
+  Critics Choice Best Picture Winners:
+    template:
+      - name: shared
+        sort: Critics Choice Awards !1
+        allowed_libraries: movie
+        image: award/choice/best_picture_winner
+        translation_key: choice_best
+      - name: arr
+      - name: custom
+        collection_order: release.desc
+      - name: choice_award_winner
+    trakt_list:
+      - https://trakt.tv/users/oldmankestis/lists/critics-choice-best-picture-winners
+    summary: "Winners of the Critics Choice Best Picture category."
+
+dynamic_collections:
+  Critics Choice Awards:
+    type: number
+    sync: true
+    data:
+      starting: current_year-5
+      ending: current_year
+    title_format: Critics Choice Awards <<key_name>>
+    template:
+      - choice_award_winner
+      - use_year_collections
+      - trakt
+      - shared
+      - arr
+      - custom
+    template_variables:
+      trakt_list:
+        default: https://trakt.tv/users/pjcob/lists/<<key>>-<<url>>-choice
+      image:
+        default: award/choice/<<key>>
+      translation_key:
+        default: choice_year
+      url:
+        default: critic-s
+        2019: critics
+        2018: critics
+        2017: critics
+        2016: critics
+        2015: critics
+        2014: critics
+      dynamic:
+        default: true

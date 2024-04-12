@@ -1,0 +1,120 @@
+templates:
+  genre:
+    file_poster: /config/assets/posters/genre/<<poster_id>>.jpg
+    sort_title: "!060_<<collection_name>>"
+    collection_order: title.asc
+    sync_mode: sync
+
+collections:
+  Horror Movies:
+    template:
+      name: genre
+      poster_id: Horror
+    trakt_list:
+      - https://trakt.tv/users/movistapp/lists/horror
+      - https://trakt.tv/users/g0g0/lists/horror
+      - https://trakt.tv/users/oldmankestis/lists/horror
+    imdb_list:
+      - https://www.imdb.com/list/ls079318228/ # Top 200 Horror Movies
+      - https://www.imdb.com/list/ls025783055/ # Family Halloween Movies
+      - https://www.imdb.com/list/ls063988425/ # Halloween Movies That Aren't Too Scary or Gory
+      - https://www.imdb.com/list/ls059633855/ # Top 240 Horror Movies 2000-2018
+      - https://www.imdb.com/list/ls009129354/ # Horror - More than 300 Horror Movies To Watch Late at Night
+    plex_search:
+      any:
+        genre: Horror
+    schedule: range(11/01-09/14)
+    summary: "This collection includes Horror films, themes, and Halloween based titles."
+    sync_to_trakt_list: horror
+    sync_missing_to_trakt_list: true
+
+  LGBTQ+ Movies:
+    template:
+      name: genre
+      poster_id: LGBTQ+
+    imdb_list: https://www.imdb.com/list/ls062688328/
+    trakt_list:
+      - https://trakt.tv/users/gus210/lists/gay-movies-and-tv-shows
+      - https://trakt.tv/users/sele_nap/lists/lgbt
+      - https://trakt.tv/users/eragos/lists/gay-movies-tv-shows
+      - https://trakt.tv/users/jmmeler/lists/gay
+    schedule: weekly(tuesday)
+    summary: "LGBTQ+ is a genre of films where the characters depict lesbian, gay, bisexual, transgender, queer and intersex people."
+    sync_to_trakt_list: lgbtq
+    sync_missing_to_trakt_list: true
+
+  Sports Movies:
+    template:
+      name: genre
+      poster_id: Sport
+    letterboxd_list:
+      - https://letterboxd.com/vanfo/list/sports/
+    reciperr_list: https://reciperr.com/api/recipe/list/params?recipeMetadataId=654e862a78250cfc782dacae
+    schedule: weekly(tuesday)
+    summary: "A collection of sports films, themes and sporting related titles."
+    sync_to_trakt_list: sports
+    sync_missing_to_trakt_list: true
+
+  Spy Movies:
+    template:
+      name: genre
+      poster_id: Spy
+    imdb_search:
+      list.any:
+        - ls050515402 # Best CIA, NSA, Secret Service Movies
+        - ls068127872 # Spies: Best Spy Movies:The Ultimate List
+      limit: 200
+    trakt_list:
+      - https://trakt.tv/users/votifex/lists/espionage
+      - https://trakt.tv/users/oldmankestis/lists/espionage
+    schedule: weekly(tuesday)
+    summary: "This collection includes Spy films, themes and government intelligence based titles."
+    sync_to_trakt_list: espionage
+    sync_missing_to_trakt_list: true
+
+  Stand-up Comedy:
+    template:
+      name: genre
+      poster_id: Stand-Up Comedy
+    imdb_search:
+      keyword.any: stand-up-comedy,stand-up-comedy-special
+      type: tv_special
+      genre: comedy
+      sort_by: release.desc
+      limit: 200
+    trakt_list:
+      - https://trakt.tv/users/oldmankestis/lists/stand-up-comedy
+    schedule: weekly(tuesday)
+    summary: "A collection of stand-up comedy specials."
+    sync_to_trakt_list: stand-up-comedy
+    sync_missing_to_trakt_list: true
+
+  War Movies:
+    template:
+      name: genre
+      poster_id: War
+    trakt_list:
+      - https://trakt.tv/users/oldmankestis/lists/war
+      - https://trakt.tv/users/movistapp/lists/war
+    plex_search:
+      all:
+        genre: War
+    schedule: weekly(tuesday)
+    summary: "This collection includes War films, themes and military based titles."
+    sync_to_trakt_list: war
+    sync_missing_to_trakt_list: true
+
+  Western Movies:
+    template:
+      name: genre
+      poster_id: Western
+    trakt_list:
+      - https://trakt.tv/users/movistapp/lists/western
+      - https://trakt.tv/users/oldmankestis/lists/western
+    plex_search:
+      all:
+        genre: Western
+    schedule: weekly(tuesday)
+    summary: "A collection of Western films, themes and cowboy related titles."
+    sync_to_trakt_list: western
+    sync_missing_to_trakt_list: true

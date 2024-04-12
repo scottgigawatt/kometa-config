@@ -1,0 +1,15 @@
+templates:
+  favorites:
+    file_poster: /config/assets/posters/favorites/<<poster_id>>.png
+    sort_title: "!059_<<collection_name>>"
+    collection_order: alpha
+    sync_mode: sync
+
+collections:
+  Kylie's Favorite Shows:
+    template:
+      name: favorites
+      poster_id: Kylie's Favorites
+    trakt_list:
+      - https://trakt.tv/users/kfarley121/lists/plex-movies
+    summary: "A collection of Kylie's hype-tastic favorite shows."

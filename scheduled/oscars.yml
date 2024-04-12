@@ -1,0 +1,82 @@
+external_templates:
+  pmm: templates
+  template_variables:
+    collection_section: "130"
+
+templates:
+  oscar_award_winner:
+    sort_title: "!130_<<collection_name>>"
+    collection_order: release.desc
+    sync_mode: sync
+    imdb_search:
+      type: movie
+      event.winning: <<event_winning>>
+      sort_by: year.desc
+      limit: 100
+    schedule: range(01/01-04/01)
+
+  oscar_award_winner_dynamic:
+    sort_title: "!130_<<collection_name>>"
+    run_definition: movie
+    imdb_search:
+      type: movie
+      release.after: <<key-1>>-01-01
+      release.before: <<key-1>>-12-31
+      event.winning: oscar
+      sort_by: rating.desc
+      limit: 100
+    schedule: range(01/01-04/01)
+
+collections:
+  Oscars Best Picture Winners:
+    variables:
+      key: best_picture
+      event_winning: oscar_picture
+    template:
+      - name: shared
+        sort: Oscars !1
+        allowed_libraries: movie
+        image: award/oscars/best_picture_winner
+        translation_key: oscars_picture
+      - name: arr
+      - name: custom
+      - name: oscar_award_winner
+
+  Oscars Best Director Winners:
+    variables:
+      key: best_director
+      event_winning: oscar_director
+    template:
+      - name: shared
+        sort: Oscars !2
+        allowed_libraries: movie
+        image: award/oscars/best_director_winner
+        translation_key: oscars_director
+      - name: arr
+      - name: custom
+      - name: oscar_award_winner
+
+dynamic_collections:
+  Oscars Winners:
+    type: number
+    sync: true
+    data:
+      starting: current_year-6
+      ending: current_year-1
+    title_format: Oscars Winners <<key_name>>
+    template:
+      - oscar_award_winner_dynamic
+      - use_year_collections
+      - imdb
+      - shared
+      - arr
+      - custom
+    template_variables:
+      allowed_libraries:
+        default: movie
+      image:
+        default: award/oscars/winner/<<key>>
+      translation_key:
+        default: oscars_year
+      dynamic:
+        default: true

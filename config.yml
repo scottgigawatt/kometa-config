@@ -1,0 +1,380 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/meisnate12/Plex-Meta-Manager/nightly/json-schema/config-schema.json
+
+libraries:
+  Scheduled:
+    library_name: Movies
+    report_path: config/missing/scheduled-report.yml
+    template_variables:
+      use_separator: false
+    collection_files:
+      - folder: /config/scheduled/
+      - pmm: year
+        template_variables:
+          limit: 50
+          sort_by: critic_rating.desc
+          data:
+            starting: current_year-1
+            ending: current_year-1
+          summary_format: Top <<limit>> movies of <<key>>. Sorted by critic rating.
+          collection_section: '010'
+          schedule: range(01/01-04/01)
+    settings:
+      delete_not_scheduled: true
+      asset_directory: config/assets
+
+  Movies:
+    report_path: config/missing/movies-report.yml
+    template_variables:
+      use_separator: false
+    schedule_overlays: weekly(tuesday)
+    # overlay_files:
+    #   - file: config/overlays/top.yml
+    #   - remove_overlays: false
+    overlay_files:
+      # Creates a ribbon style background in the top left corner with a width of 313 pixels. Keep in mind, it has to be run before any overlay which is supposed to be on top of the background
+      - url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/background_top_left_313_wide.yml
+
+      # Resolution in the upper left corner in 45 degree format
+      - pmm: resolution
+        template_variables:
+          url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/resolution-top-left-45deg/<<overlay_name>>.png
+          horizontal_align: left
+          horizontal_offset: 0
+          vertical_offset: 0
+          vertical_align: top
+          final_horizontal_offset: 0
+          final_vertical_offset: 0
+          back_width: 1000
+          back_height: 1500
+          back_color: 00
+
+      # Audio in the upper left corner in 45 degree format
+      - pmm: audio_codec
+        template_variables:
+          url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/audio-top-left-45deg/<<key>>.png
+          horizontal_align: left
+          horizontal_offset: 0
+          vertical_offset: 0
+          vertical_align: top
+          back_width: 1000
+          back_height: 1500
+          back_color: 00
+
+      # Award ribbons in the bottom right corner
+      - url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/ribbon_awards.yml
+
+      # IMDB ribbons in the bottom right corner
+      - url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/ribbon_imdb.yml
+
+      # Rotten tomatoes ribbons in the bottom right corner
+      - url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/ribbon_rotten.yml
+
+      # Trending ribbons in the bottom right corner
+      - url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/ribbon_trending.yml
+
+    collection_files:
+      - folder: config/movies/
+      - pmm: content_rating_us
+      - pmm: studio
+        template_variables:
+          minimum_items: 10
+      - pmm: decade
+        template_variables:
+          limit: 100
+          limit_1970: 25
+          summary_format: Top <<limit>> movies of the <<key>>s. Sorted by critic rating.
+          summary_1970: Top <<limit_1970>> movies of the <<key>>s. Sorted by critic rating.
+          minimum_items: 25
+      - pmm: genre
+        template_variables:
+          sort_by: title.asc
+          exclude: # In genre.yml config
+            - Horror
+            - War
+            - Western
+            - Spy
+            - Sport
+          minimum_items: 10
+      - pmm: imdb
+        template_variables:
+          use_lowest: false
+          order_top: 3
+          order_popular: 3
+      - pmm: tmdb
+        template_variables:
+          limit_popular: 50
+          visible_library_popular: true
+          visible_home_popular: true
+          visible_shared_popular: true
+      - pmm: seasonal
+        template_variables:
+          emoji: ''
+          schedule_independence: range(06/28-07/05)
+          schedule_labor: range(09/01-09/05)
+          schedule_thanksgiving: range(11/01-11/24)
+          schedule_veteran: range(11/01-11/12)
+          imdb_list_veteran: https://www.imdb.com/list/ls561621160/
+          exclude: # In seasonal.yml config
+            - christmas
+            - halloween
+            - easter
+            - valentine
+            - patrick
+            - thanksgiving
+            - years
+      - pmm: tautulli
+        template_variables:
+          list_days: 30
+          list_size: 25
+          list_minimum: 0
+          summary_popular: A collection of the most watched movies on this Plex server.
+          collection_section: '020_1'
+      - pmm: trakt
+        template_variables:
+          use_collected: false
+          use_recommended: false
+          use_watched: false
+          order_popular: 4
+          order_trending: 4
+          schedule: weekly(monday)
+      - pmm: universe
+        template_variables:
+          trakt_list_mcu: https://trakt.tv/users/donxy/lists/marvel-cinematic-universe
+          trakt_list_dcu: https://trakt.tv/users/lampshadetricky/lists/dc-extended-universe
+          trakt_list_trek: https://trakt.tv/users/rzepkowski/lists/star-trek-movies
+          trakt_list_avp: https://trakt.tv/users/liudvikas/lists/aliens-predators-movies
+          minimum_items: 3
+          append_data:
+            star: Star Wars Saga
+            trek: Star Trek Universe
+            xmen: X-Men Collection
+          exclude: # In franchise.yml config
+          - marvel
+          collection_section: '106'
+      - pmm: other_chart
+        template_variables:
+          visible_library_pirated: true
+          visible_home_pirated: true
+          visible_shared_pirated: true
+          use_anidb: false
+          use_commonsense: false
+          use_stevenlu: false
+    operations:
+      schedule: weekly(monday)
+      mass_genre_update: tmdb
+      mass_audience_rating_update: imdb
+      mass_critic_rating_update: mdb_tomatoes
+      mass_user_rating_update: trakt_user
+
+  TV Shows:
+    report_path: config/missing/tv-shows-report.yml
+    template_variables:
+      use_separator: false
+    schedule_overlays: weekly(tuesday)
+    # overlay_files:
+    #   - remove_overlays: false
+    #   - file: config/overlays/top.yml
+    overlay_files:
+      # Status in the top left corner
+      - pmm: status
+        template_variables:
+          text_airing: .
+          url_airing: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/status-top-left/airing.png
+          text_returning: .
+          url_returning: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/status-top-left/returning.png
+          text_canceled: .
+          url_canceled: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/status-top-left/cancelled.png
+          text_ended: .
+          url_ended: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/status-top-left/ended.png
+          horizontal_align: left
+          horizontal_offset: 25
+          vertical_align: top
+          vertical_offset: 0
+          font_size: 1
+          font_color: '#00000000'
+          back_color: '#00000000'
+          back_width_airing: 1000
+          back_width_returning: 1000
+          back_width_ended: 1000
+          back_width_cancelled: 1000
+          back_width: 1000
+          back_height_airing: 1500
+          back_height_returning: 1500
+          back_height_ended: 1500
+          back_height_cancelled: 1500
+          back_height: 1500
+          back_padding: 0
+          back_line_width: 1000
+          final_horizontal_offset: 0
+          final_vertical_offset: 0
+
+      # Fallback Network logo which is overwritten by pmm: network if it finds an image for the network. Must run before pmm: network.
+      - url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/network_fallback.yml
+
+      # Uses the default PMM network but replaces the image with custom ones
+      - pmm: network
+        template_variables:
+          horizontal_align: left
+          horizontal_offset: 0
+          vertical_offset: 0
+          vertical_align: top
+          back_width: 1000
+          back_height: 1500
+          url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/network-top-left/<<key>>.png
+          back_color: 00
+
+    collection_files:
+      - folder: config/shows/
+      - file: config/scheduled/emmy.yml
+      - pmm: content_rating_us
+      - pmm: studio
+        template_variables:
+          minimum_items: 10
+      - pmm: franchise
+      - pmm: genre
+        template_variables:
+          sort_by: title.asc
+          minimum_items: 2
+      - pmm: imdb
+        template_variables:
+          use_lowest: false
+          order_top: 3
+          order_popular: 3
+      - pmm: tmdb
+        template_variables:
+          limit_popular: 50
+          visible_library_popular: true
+          visible_home_popular: true
+          visible_shared_popular: true
+      - pmm: tautulli
+        template_variables:
+          list_days: 30
+          list_size: 25
+          list_minimum: 0
+          summary_popular: A collection of the most watched movies on this Plex server.
+          collection_section: '020_1'
+      - pmm: trakt
+        template_variables:
+          use_collected: false
+          use_recommended: false
+          use_watched: false
+          order_popular: 4
+          order_trending: 4
+          schedule: weekly(monday)
+    settings:
+      delete_not_scheduled: true
+      asset_directory: config/assets
+    operations:
+      schedule: weekly(monday)
+      mass_genre_update: tmdb
+      mass_audience_rating_update: imdb
+      mass_critic_rating_update: mdb_tomatoes
+      mass_user_rating_update: trakt_user
+
+playlist_files:
+  - file: config/playlists/playlists.yml
+  - pmm: playlist
+  - playlist_sync_to_user: all
+
+settings:
+  cache: true
+  cache_expiration: 30
+  asset_directory: config/assets
+  asset_folders: false
+  asset_depth: 1
+  create_asset_folders: false
+  prioritize_assets: true
+  dimensional_asset_rename: false
+  download_url_assets: true
+  show_missing_season_assets: false
+  show_missing_episode_assets: false
+  show_asset_not_needed: true
+  sync_mode: append
+  minimum_items: 1
+  default_collection_order:
+  delete_below_minimum: true
+  delete_not_scheduled: false
+  run_again_delay: 2
+  missing_only_released: false
+  only_filter_missing: false
+  show_unmanaged: true
+  show_filtered: false
+  show_options: false
+  show_missing: false
+  show_missing_assets: true
+  save_report: true
+  tvdb_language: eng
+  ignore_ids:
+    - 232618
+    - 156249
+    - 241239
+    - 71365
+    - 84200
+  ignore_imdb_ids: tt0096548,tt0214341,tt4834232,tt0088484,tt0090509,tt0092324,tt0280249,tt4093826,tt1758429,tt0203082
+  item_refresh_delay: 0
+  playlist_report: true
+  playlist_sync_to_users: all
+  verify_ssl: true
+  custom_repo:
+  check_nightly: true
+  show_unconfigured: true
+  playlist_exclude_users:
+  run_order:
+  - operations
+  - metadata
+  - collections
+  - overlays
+
+plex:
+  url: http://localhost:32400
+  token: abc123
+  timeout: 60
+  db_cache: 1024
+  clean_bundles: false
+  empty_trash: false
+  optimize: false
+tautulli:
+  url: http://localhost:8181
+  apikey: abc123
+notifiarr:
+  apikey: abc123
+webhooks:
+  error:
+  version:
+  run_start:
+  run_end:
+  changes:
+tmdb:
+  apikey: abc123
+  language: en
+  cache_expiration: 60
+  region:
+trakt:
+  client_id: abc123
+  client_secret: abc123
+  authorization:
+    access_token: abc123
+    token_type: Bearer
+    expires_in: 7889237
+    refresh_token: abc123
+    scope: public
+    created_at: 1703125356
+  pin:
+mdblist:
+  apikey: abc123
+  cache_expiration: 60
+omdb:
+  apikey: abc123
+  cache_expiration: 60
+github:
+  token: abc123
+mal:
+  client_id: abc123
+  client_secret: abc123
+  localhost_url: http://localhost/
+  authorization:
+    access_token: abc123
+    token_type: Bearer
+    expires_in: 2678400
+    refresh_token: abc123
+  cache_expiration: 60

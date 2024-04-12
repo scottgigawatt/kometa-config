@@ -1,0 +1,98 @@
+templates:
+  seasonal:
+    file_poster: /config/assets/posters/seasonal/<<poster_id>>.jpg
+    sort_title: "!00_<<collection_name>>"
+    collection_order: critic_rating.desc
+    sync_mode: sync
+    visible_library: true
+    visible_home: true
+    visible_shared: true
+    delete_not_scheduled: true
+    summary: "A timed collection of <<holiday>> movies and other movies that may relate to the holiday."
+
+collections:
+  Valentine's Day Movies:
+    template:
+      name: seasonal
+      holiday: "Valentine's Day"
+      poster_id: valentine
+    letterboxd_list: https://letterboxd.com/ediblehedgehog/list/theme-valentines/by/rating/
+    plex_search:
+      - all:
+          genre: Romance, Comedy
+          # critic_rating.gte: 8.0
+      - all:
+          genre: Romance, Drama
+          # critic_rating.gte: 8.0
+    schedule: range(02/10-02/14)
+
+  St. Patrick's Day Movies:
+    template:
+      name: seasonal
+      holiday: "St. Patrick's Day"
+      poster_id: patrick
+    schedule: range(03/16-03/18)
+
+  Easter Movies:
+    template:
+      name: seasonal
+      holiday: "Easter"
+      poster_id: easter
+    letterboxd_list: https://letterboxd.com/ediblehedgehog/list/theme-easter/by/rating/
+    trakt_list: https://trakt.tv/users/scottgigawatt/lists/easter
+    schedule: range(03/22-04/25)
+
+  Halloween and Horror Movies:
+    template:
+      name: seasonal
+      holiday: "Halloween"
+      poster_id: halloween
+    trakt_list:
+      - https://trakt.tv/users/oldmankestis/lists/horror
+      - https://trakt.tv/users/movistapp/lists/horror
+      - https://trakt.tv/users/g0g0/lists/horror
+      - https://trakt.tv/users/pterisaur/lists/halloween
+    plex_search:
+      any:
+        genre: Horror
+    schedule: range(09/15-10/31)
+
+  Thanksgiving Movies:
+    template:
+      name: seasonal
+      holiday: "Thanksgiving"
+      poster_id: thanksgiving
+    letterboxd_list: https://letterboxd.com/ediblehedgehog/list/theme-thanksgiving/by/rating/
+    schedule: range(11/01-12/15)
+
+  Christmas Movies:
+    template:
+      name: seasonal
+      holiday: "Christmas"
+      poster_id: christmas
+    reciperr_list: https://reciperr.com/api/recipe/list/params?recipeMetadataId=655666f7f5d2acfadaa0a530
+    trakt_list:
+      - https://trakt.tv/users/littlestella3/lists/christmas
+      - https://trakt.tv/users/triadcool/lists/christmas
+      - https://trakt.tv/users/pterisaur/lists/christmas
+      - https://trakt.tv/users/oldmankestis/lists/christmas
+    filters:
+      title.not:
+        - Lethal Weapon
+        - The Ice Harvest
+        - Life with Mikey
+        - Two Night Stand
+        - Brazil
+        - Spencer
+        - Iron Man 3
+        - Planes, Trains & Automobiles
+        - Kiss Kiss Bang Bang
+    schedule: range(11/20-12/28)
+
+  New Year's Eve Movies:
+    template:
+      name: seasonal
+      holiday: "New Year's Eve"
+      poster_id: years
+    letterboxd_list: https://letterboxd.com/ediblehedgehog/list/theme-new-years-eve/by/rating/
+    schedule: range(12/26-01/02)

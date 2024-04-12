@@ -1,0 +1,40 @@
+external_templates:
+  pmm: templates
+  template_variables:
+    collection_section: 130
+
+templates:
+  emmy_award_winner:
+    sort_title: "!130_<<collection_name>>"
+    run_definition: show
+    imdb_search:
+      type: tv_series, tv_mini_series
+      release.after: <<key-1>>-05-31
+      release.before: <<key>>-06-01
+      event.winning: emmy
+      sort_by: rating.desc
+      limit: 100
+    schedule: range(01/01-04/01)
+
+dynamic_collections:
+  Emmys:
+    type: number
+    sync: true
+    data:
+      starting: current_year-5
+      ending: current_year
+    title_format: Emmys <<key_name>>
+    template:
+      - emmy_award_winner
+      - use_year_collections
+      - imdb
+      - shared
+      - arr
+      - custom
+    template_variables:
+      image:
+        default: award/emmys/winner/<<key>>
+      translation_key:
+        default: emmy_year
+      dynamic:
+        default: true

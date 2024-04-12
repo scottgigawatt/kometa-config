@@ -1,0 +1,43 @@
+templates:
+  seasonal:
+    file_poster: /config/assets/posters/seasonal/<<poster_id>>.jpg
+    sort_title: "!00_<<collection_name>>"
+    collection_order: critic_rating.desc
+    sync_mode: sync
+    builder_level: episode
+    visible_library: true
+    visible_home: true
+    visible_shared: true
+    delete_not_scheduled: true
+    summary: "A collection of <<holiday>> themed episodes and other episodes that may relate to the holiday."
+
+collections:
+  Halloween Episodes:
+    template:
+      name: seasonal
+      holiday: "Halloween"
+      poster_id: halloween
+    trakt_list:
+      - https://trakt.tv/users/uyn5hnpr2wdjwksh/lists/halloween-episodes
+      - https://trakt.tv/users/ashleyangel/lists/halloween-episodes
+    schedule: range(09/15-10/31)
+
+  Thanksgiving Episodes:
+    template:
+      name: seasonal
+      holiday: "Thanksgiving"
+      poster_id: thanksgiving
+    trakt_list:
+      - https://trakt.tv/users/uyn5hnpr2wdjwksh/lists/thanksgiving-episodes
+      - https://trakt.tv/users/ashleyangel/lists/thanksgiving-episodes
+    schedule: range(11/01-12/15)
+
+  Christmas Episodes:
+    template:
+      name: seasonal
+      holiday: "Christmas"
+      poster_id: christmas
+    trakt_list:
+      - https://trakt.tv/users/uyn5hnpr2wdjwksh/lists/christmas-episodes
+      - https://trakt.tv/users/ashleyangel/lists/christmas-episodes
+    schedule: range(11/20-12/28)
