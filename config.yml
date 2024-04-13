@@ -46,7 +46,7 @@ libraries:
           final_vertical_offset: 0
           back_width: 1000
           back_height: 1500
-          back_color: 00
+          back_color: "#0000"
 
       # Audio in the upper left corner in 45 degree format
       - pmm: audio_codec
@@ -58,7 +58,7 @@ libraries:
           vertical_align: top
           back_width: 1000
           back_height: 1500
-          back_color: 00
+          back_color: "#0000"
 
       # Award ribbons in the bottom right corner
       - url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/ribbon_awards.yml
@@ -221,7 +221,7 @@ libraries:
           back_width: 1000
           back_height: 1500
           url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/network-top-left/<<key>>.png
-          back_color: 00
+          back_color: "#0000"
 
     collection_files:
       - folder: config/shows/
