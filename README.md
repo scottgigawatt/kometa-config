@@ -16,8 +16,7 @@ Special thanks to the contributors mentioned below for their valuable contributi
 - **[meisnate12](https://github.com/meisnate12)**: Plex-Meta-Manager and related images
 - **[s0len](https://github.com/s0len)**: TV overlay images
 - **[pterisaur](https://github.com/pterisaur)**: People posters
-- **[0x5f3](https://github.com/0x5f3)**: Top subgenre collections config ([view here](https://github.com/0x5f3/Plex-Meta-Manager-Configs/blob/master/0x5f3/collections/movie/130_subgenre_top.yml))
-
+- **[0x5f3](https://github.com/0x5f3)**: Top subgenre collections
 
 ## My Contributions
 
