@@ -95,6 +95,14 @@ collections:
       - https://trakt.tv/users/kodi-c881832b-f962-4cc7-b587-ed15aed31a9c/lists/dune-movies
     summary: "The saga of Paul Atreides and his rise to power on the deadly planet Arrakis."
 
+  Ghostbusters Collection:
+    template:
+      name: Franchise
+    plex_search:
+      all:
+        title.begins: Ghostbusters
+    summary: "The Ghostbusters franchise consists of American supernatural comedies, based on an original concept created by Dan Aykroyd and Harold Ramis in 1984. The plot ostensibly centers around a group of eccentric New York City parapsychologists who investigate, encounter, and capture ghosts, paranormal manifestations, demigods and demons. The franchise expanded with licensed action figures, books, comic books, video games, television series, theme park attractions, and other original Ghostbusters-themed products. This collection does not include the 2016 reboot directed by Robert Feig."
+
   The Godfather Trilogy:
     template:
       name: franchise
