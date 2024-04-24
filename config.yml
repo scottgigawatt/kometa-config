@@ -8,7 +8,7 @@ libraries:
       use_separator: false
     collection_files:
       - folder: /config/scheduled/
-      - pmm: year
+      - default: year
         template_variables:
           limit: 50
           sort_by: critic_rating.desc
@@ -35,7 +35,7 @@ libraries:
       - url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/background_top_left_313_wide.yml
 
       # Resolution in the upper left corner in 45 degree format
-      - pmm: resolution
+      - default: resolution
         template_variables:
           url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/resolution-top-left-45deg/<<overlay_name>>.png
           horizontal_align: left
@@ -49,7 +49,7 @@ libraries:
           back_color: "#0000"
 
       # Audio in the upper left corner in 45 degree format
-      - pmm: audio_codec
+      - default: audio_codec
         template_variables:
           url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/audio-top-left-45deg/<<key>>.png
           horizontal_align: left
@@ -74,18 +74,18 @@ libraries:
 
     collection_files:
       - folder: config/movies/
-      - pmm: content_rating_us
-      - pmm: studio
+      - default: content_rating_us
+      - default: studio
         template_variables:
           minimum_items: 10
-      - pmm: decade
+      - default: decade
         template_variables:
           limit: 100
           limit_1970: 25
           summary_format: Top <<limit>> movies of the <<key>>s. Sorted by critic rating.
           summary_1970: Top <<limit_1970>> movies of the <<key>>s. Sorted by critic rating.
           minimum_items: 25
-      - pmm: genre
+      - default: genre
         template_variables:
           sort_by: title.asc
           exclude: # In genre.yml config
@@ -95,18 +95,18 @@ libraries:
             - Spy
             - Sport
           minimum_items: 10
-      - pmm: imdb
+      - default: imdb
         template_variables:
           use_lowest: false
           order_top: 3
           order_popular: 3
-      - pmm: tmdb
+      - default: tmdb
         template_variables:
           limit_popular: 50
           visible_library_popular: true
           visible_home_popular: true
           visible_shared_popular: true
-      - pmm: seasonal
+      - default: seasonal
         template_variables:
           emoji: ""
           schedule_independence: range(06/28-07/05)
@@ -122,14 +122,14 @@ libraries:
             - patrick
             - thanksgiving
             - years
-      - pmm: tautulli
+      - default: tautulli
         template_variables:
           list_days: 30
           list_size: 25
           list_minimum: 0
           summary_popular: A collection of the most watched movies on this Plex server.
           collection_section: "020_1"
-      - pmm: trakt
+      - default: trakt
         template_variables:
           use_collected: false
           use_recommended: false
@@ -137,7 +137,7 @@ libraries:
           order_popular: 4
           order_trending: 4
           schedule: weekly(monday)
-      - pmm: universe
+      - default: universe
         template_variables:
           trakt_list_mcu: https://trakt.tv/users/donxy/lists/marvel-cinematic-universe
           trakt_list_dcu: https://trakt.tv/users/lampshadetricky/lists/dc-extended-universe
@@ -151,7 +151,7 @@ libraries:
           exclude: # In franchise.yml config
             - marvel
           collection_section: "106"
-      - pmm: other_chart
+      - default: other_chart
         template_variables:
           visible_library_pirated: true
           visible_home_pirated: true
@@ -176,7 +176,7 @@ libraries:
     #   - file: config/overlays/top.yml
     overlay_files:
       # Status in the top left corner
-      - pmm: status
+      - default: status
         template_variables:
           text_airing: .
           url_airing: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/status-top-left/airing.png
@@ -208,11 +208,11 @@ libraries:
           final_horizontal_offset: 0
           final_vertical_offset: 0
 
-      # Fallback Network logo which is overwritten by pmm: network if it finds an image for the network. Must run before pmm: network.
+      # Fallback Network logo which is overwritten by default: network if it finds an image for the network. Must run before default: network.
       - url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/network_fallback.yml
 
-      # Uses the default PMM network but replaces the image with custom ones
-      - pmm: network
+      # Uses the default Kometa network but replaces the image with custom ones
+      - default: network
         template_variables:
           horizontal_align: left
           horizontal_offset: 0
@@ -226,34 +226,34 @@ libraries:
     collection_files:
       - folder: config/shows/
       - file: config/scheduled/emmy.yml
-      - pmm: content_rating_us
-      - pmm: studio
+      - default: content_rating_us
+      - default: studio
         template_variables:
           minimum_items: 10
-      - pmm: franchise
-      - pmm: genre
+      - default: franchise
+      - default: genre
         template_variables:
           sort_by: title.asc
           minimum_items: 2
-      - pmm: imdb
+      - default: imdb
         template_variables:
           use_lowest: false
           order_top: 3
           order_popular: 3
-      - pmm: tmdb
+      - default: tmdb
         template_variables:
           limit_popular: 50
           visible_library_popular: true
           visible_home_popular: true
           visible_shared_popular: true
-      - pmm: tautulli
+      - default: tautulli
         template_variables:
           list_days: 30
           list_size: 25
           list_minimum: 0
           summary_popular: A collection of the most watched movies on this Plex server.
           collection_section: "020_1"
-      - pmm: trakt
+      - default: trakt
         template_variables:
           use_collected: false
           use_recommended: false
@@ -273,7 +273,7 @@ libraries:
 
 playlist_files:
   - file: config/playlists/playlists.yml
-  - pmm: playlist
+  - default: playlist
   - playlist_sync_to_user: all
 
 settings:

@@ -1,8 +1,8 @@
-# Plex Meta Manager Configuration
+# Kometa Configuration
 
-This repository contains the configuration files for Plex Meta Manager (PMM). PMM is a tool used to enhance the metadata and artwork for media libraries managed by Plex.
+This repository contains the configuration files for Kometa. Kometa is a tool used to enhance the metadata and artwork for media libraries managed by Plex.
 
-![collections](https://github.com/scottgigawatt/pmm-config/assets/16313565/70ca085d-0259-44bb-8849-f4f99a8f5d75 "Collections")
+![collections](https://github.com/scottgigawatt/kometa-config/assets/16313565/70ca085d-0259-44bb-8849-f4f99a8f5d75 "Collections")
 
 ## Description
 
@@ -10,7 +10,7 @@ This configuration has been customized for my specific setup and has diverged fr
 
 ## Credits
 
-Special thanks to the contributors mentioned below for their valuable contributions to the Plex Meta Manager ecosystem.
+Special thanks to the contributors mentioned below for their valuable contributions to the Kometa ecosystem.
 
 - **[TheChrisK](https://github.com/TheChrisK)**: Original configuration files and related posters
 - **[meisnate12](https://github.com/meisnate12)**: Plex-Meta-Manager and related images
@@ -24,11 +24,11 @@ Special thanks to the contributors mentioned below for their valuable contributi
 
 I have contributed a set of custom subgenre posters to enhance the visual experience of Plex media libraries. View subgenre posters [here](./assets/posters/subgenre_top/).
 
-![subgenre-posters](https://github.com/scottgigawatt/pmm-config/assets/16313565/091fc37c-e9d4-4f8e-8e2c-0b537f46e8c0 "Subgenre Posters")
+![subgenre-posters](https://github.com/scottgigawatt/kometa-config/assets/16313565/091fc37c-e9d4-4f8e-8e2c-0b537f46e8c0 "Subgenre Posters")
 
 ## Usage
 
-To use this configuration, simply clone or download the repository and follow the instructions provided in the documentation of Plex Meta Manager.
+To use this configuration, simply clone or download the repository and follow the instructions provided in the [documentation of Kometa](https://kometa.wiki/en/latest/).
 
 ## License
 
