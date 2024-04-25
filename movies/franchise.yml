@@ -97,7 +97,7 @@ collections:
 
   Ghostbusters Collection:
     template:
-      name: Franchise
+      name: franchise
     plex_search:
       all:
         title.begins: Ghostbusters
