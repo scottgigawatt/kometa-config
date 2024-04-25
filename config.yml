@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/meisnate12/Plex-Meta-Manager/nightly/json-schema/config-schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Kometa-Team/Kometa/nightly/json-schema/config-schema.json
 
 libraries:
   Scheduled:
