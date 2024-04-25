@@ -13,7 +13,7 @@ This configuration has been customized for my specific setup and has diverged fr
 Special thanks to the contributors mentioned below for their valuable contributions to the Kometa ecosystem.
 
 - **[TheChrisK](https://github.com/TheChrisK)**: Original configuration files and related posters
-- **[meisnate12](https://github.com/meisnate12)**: Plex-Meta-Manager and related images
+- **[meisnate12](https://github.com/meisnate12)**: Kometa and related images
 - **[s0len](https://github.com/s0len)**: TV overlay images
 - **[pterisaur](https://github.com/pterisaur)**: People posters
 - **[0x5f3](https://github.com/0x5f3)**: Top subgenre collections
