@@ -230,6 +230,8 @@ libraries:
       - default: studio
         template_variables:
           minimum_items: 10
+          exclude: # In networks.yml config
+            - HBO
       - default: franchise
       - default: genre
         template_variables:
@@ -274,7 +276,7 @@ libraries:
 playlist_files:
   - file: config/playlists/playlists.yml
   - default: playlist
-  - playlist_sync_to_user: all
+  - playlist_sync_to_users: all
 
 settings:
   cache: true
@@ -316,6 +318,8 @@ settings:
   playlist_sync_to_users: all
   verify_ssl: true
   custom_repo:
+  overlay_artwork_filetype: jpg
+  overlay_artwork_quality: 75
   check_nightly: true
   show_unconfigured: true
   playlist_exclude_users:
