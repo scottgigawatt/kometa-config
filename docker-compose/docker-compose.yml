@@ -6,6 +6,11 @@
 #
 
 #
+# Docker Compose version on the target system
+#
+version: "2.9"
+
+#
 # Define the services section
 #
 services:
@@ -13,12 +18,6 @@ services:
   # Define the 'kometa' service
   #
   kometa:
-    #
-    # External environment variables
-    #
-    env_file:
-      - path: kometa.env # Environment variables for the container
-        required: true   # Throw an error if the env file is missing
     #
     # Docker image and container information
     #
@@ -37,13 +36,33 @@ services:
       - TZ=${TZ}                     # Set the timezone to America/New_York
 
     #
-    # Mount host directory '/volume2/docker/kometa-config' to the container directory '/config'
+    # Mount host directories into the container
     #
     volumes:
       - /volume2/docker/kometa-config:/config:rw
 
-#
-# Include the 'image-maid' service
-#
-include:
-  - image-maid.yml
+  #
+  # Define the 'image-maid' service
+  #
+  image-maid:
+    #
+    # Docker image and container information
+    #
+    image: kometateam/imagemaid:${IMAGE_MAID_TAG} # Run using the nightly Kometa build
+    pull_policy: always                           # Ensure that the image is always pulled
+    container_name: image-maid-${IMAGE_MAID_TAG}  # Append Docker image tag to container name
+    restart: unless-stopped                       # Restart the container unless explicitly stopped
+    network_mode: bridge                          # Use the default bridge network
+
+    #
+    # Define the container environment
+    #
+    environment:
+      - TZ=${TZ} # Set the timezone to America/New_York
+
+    #
+    # Mount host directories into the container
+    #
+    volumes:
+      - /volume2/docker/kometa-config/docker-compose/image-maid-config:/config:rw
+      - /volume2/PlexMediaServer/AppData/Plex Media Server:/plex:rw
