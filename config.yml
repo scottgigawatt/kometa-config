@@ -1,5 +1,3 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/Kometa-Team/Kometa/nightly/json-schema/config-schema.json
-
 libraries:
   Scheduled:
     library_name: Movies
@@ -359,10 +357,10 @@ trakt:
   authorization:
     access_token: abc123
     token_type: Bearer
-    expires_in: 7889237
+    expires_in: 101010
     refresh_token: abc123
     scope: public
-    created_at: 1703125356
+    created_at: 101010
   pin:
 mdblist:
   apikey: abc123
@@ -379,6 +377,6 @@ mal:
   authorization:
     access_token: abc123
     token_type: Bearer
-    expires_in: 2678400
+    expires_in: 101010
     refresh_token: abc123
   cache_expiration: 60

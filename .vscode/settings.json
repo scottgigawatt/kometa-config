@@ -1,4 +1,8 @@
 {
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/compose-spec/compose-spec/260582406ace6cf4f239ea861903549bb97c45eb/schema/compose-spec.json": "{docker-compose*.yml,compose*.yml}",
+    "https://raw.githubusercontent.com/Kometa-Team/Kometa/nightly/json-schema/config-schema.json": "{*config*.yml}",
+  },
   "cSpell.words": [
     "apikey",
     "Battlestar",
@@ -8,8 +12,10 @@
     "Galactica",
     "Galitzine",
     "Ghostbusters",
+    "imagemaid",
     "imdb",
     "Kometa",
+    "kometateam",
     "Kylie's",
     "LGBTQ",
     "linebreak",

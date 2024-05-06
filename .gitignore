@@ -4,3 +4,4 @@ UUID
 logs/
 auth.yml
 .DS_Store
+.secrets/

@@ -1,0 +1,49 @@
+#
+# docker-compose.yml: Sets up Kometa and ImageMaid for managing metadata and cleaning up images in Plex Media Server.
+#
+# For more information about Kometa, visit: https://kometa.wiki/en/nightly/kometa/scripts/imagemaid/
+# For more information about ImageMaid, visit: https://kometa.wiki/en/nightly/kometa/scripts/imagemaid/
+#
+
+#
+# Define the services section
+#
+services:
+  #
+  # Define the 'kometa' service
+  #
+  kometa:
+    #
+    # External environment variables
+    #
+    env_file:
+      - path: kometa.env # Environment variables for the container
+        required: true   # Throw an error if the env file is missing
+    #
+    # Docker image and container information
+    #
+    image: kometateam/kometa:${KOMETA_TAG} # Run using the nightly Kometa build
+    pull_policy: always                    # Ensure that the image is always pulled
+    container_name: kometa-${KOMETA_TAG}   # Append Docker image tag to container name
+    restart: unless-stopped                # Restart the container unless explicitly stopped
+    network_mode: bridge                   # Use the default bridge network
+
+    #
+    # Define the container environment
+    #
+    environment:
+      - KOMETA_DEBUG=${KOMETA_DEBUG} # Toggles running with extra debug logs
+      - KOMETA_RUN=${KOMETA_RUN}     # Toggles running Kometa right away
+      - TZ=${TZ}                     # Set the timezone to America/New_York
+
+    #
+    # Mount host directory '/volume2/docker/kometa-config' to the container directory '/config'
+    #
+    volumes:
+      - /volume2/docker/kometa-config:/config:rw
+
+#
+# Include the 'image-maid' service
+#
+include:
+  - image-maid.yml
