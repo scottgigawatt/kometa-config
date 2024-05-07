@@ -2,6 +2,6 @@
 *.cache
 UUID
 logs/
-auth.yml
 .DS_Store
 .secrets/
+auth.yml
