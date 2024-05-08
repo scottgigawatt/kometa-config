@@ -1,5 +1,5 @@
 templates:
-  IMDbTop250:
+  imdbtop250:
     default:
       overlay: <<overlay_name>>
     imdb_chart: top_<<library_type>>s
@@ -13,7 +13,7 @@ templates:
       vertical_offset: 0
       vertical_align: bottom
 
-  RT-Cert-Fresh:
+  rt-cert-fresh:
     optional:
       - overlay_level
     collection_level: <<overlay_level>>
@@ -28,7 +28,7 @@ templates:
       vertical_offset: 10
       vertical_align: bottom
 
-  Meta-Must:
+  meta-must:
     optional:
       - overlay_level
     collection_level: <<overlay_level>>
@@ -44,17 +44,17 @@ templates:
       vertical_align: bottom
 
 overlays:
-  IMDB-Top-250red:
+  imdb-top-250red:
     template:
-      - name: IMDbTop250
+      - name: imdbtop250
         weight: 50
 
-  RT-Cert-Freshred:
+  rt-cert-freshred:
     template:
-      - name: RT-Cert-Fresh
+      - name: rt-cert-fresh
         weight: 40
 
-  MC-Must-See:
+  mc-must-see:
     template:
-      - name: Meta-Must
+      - name: meta-must
         weight: 45

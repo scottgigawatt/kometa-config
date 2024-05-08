@@ -1,0 +1,79 @@
+#
+# Define TV show templates
+#
+templates:
+  #
+  # Define TV show 'status' template
+  #
+  status:
+    default:
+      overlay: <<overlay_name>>
+    run_definition: show
+    overlay:
+      name: <<overlay_name>>
+      url: https://raw.githubusercontent.com/scottgigawatt/kometa-config/main/overlays/status-top-left/<<status>>.png
+      group: status
+      weight: <<weight>>
+      horizontal_offset: 0
+      horizontal_align: left
+      vertical_offset: 0
+      vertical_align: top
+
+#
+# Define TV show 'status' overlays
+#
+overlays:
+  #
+  # Define overlays for TV shows with 'airing' status
+  #
+  airing:
+    template:
+      name: status
+      group: status
+      weight: 900
+      status: airing
+    tmdb_on_the_air: 500
+
+  #
+  # Define overlays for TV shows with 'returning' status
+  #
+  returning:
+    template:
+      name: status
+      group: status
+      weight: 800
+      status: returning
+    plex_all: true
+    filters:
+      tmdb_status:
+        - returning
+        - planned
+        - production
+
+  #
+  # Define overlays for TV shows with 'ended' status
+  #
+  ended:
+    template:
+      name: status
+      group: status
+      weight: 600
+      status: ended
+    plex_all: true
+    filters:
+      tmdb_status:
+        - ended
+
+  #
+  # Define overlays for TV shows with 'cancelled' status
+  #
+  cancelled:
+    template:
+      name: status
+      group: status
+      weight: 700
+      status: cancelled
+    plex_all: true
+    filters:
+      tmdb_status:
+        - canceled

@@ -1,20 +1,20 @@
 # Kometa Configuration
 
-This repository contains the configuration files for Kometa. Kometa is a tool used to enhance the metadata and artwork for media libraries managed by Plex.
+This repository contains configuration files tailored for enhancing Plex media libraries using Kometa.
 
 ![collections](https://github.com/scottgigawatt/kometa-config/assets/16313565/70ca085d-0259-44bb-8849-f4f99a8f5d75 "Collections")
 
 ## Description
 
-This configuration has been customized for my specific setup and has diverged from the original fork of the repository. It is based on the original configuration files from [TheChrisK](https://github.com/TheChrisK/PMM).
+Customized configuration files optimized for my specific setup and needs, diverging from the original fork by [TheChrisK](https://github.com/TheChrisK/PMM).
 
 ## Credits
 
-Special thanks to the contributors mentioned below for their valuable contributions to the Kometa ecosystem.
+Special thanks to contributors:
 
-- **[TheChrisK](https://github.com/TheChrisK)**: Original configuration files and related posters
-- **[meisnate12](https://github.com/meisnate12)**: Kometa and related images
-- **[s0len](https://github.com/s0len)**: TV overlay images
+- **[TheChrisK](https://github.com/TheChrisK)**: Original files and posters
+- **[meisnate12](https://github.com/meisnate12)**: Kometa and images
+- **[s0len](https://github.com/s0len)**: TV overlays
 - **[pterisaur](https://github.com/pterisaur)**: People posters
 - **[0x5f3](https://github.com/0x5f3)**: Top subgenre collections
 
@@ -22,18 +22,18 @@ Special thanks to the contributors mentioned below for their valuable contributi
 
 ### Subgenre Posters
 
-I have contributed a set of custom subgenre posters to enhance the visual experience of Plex media libraries. View subgenre posters [here](./assets/posters/subgenre_top/).
+Custom subgenre posters to enhance Plex libraries. View [here](./assets/posters/subgenre_top/).
 
 ![subgenre-posters](https://github.com/scottgigawatt/kometa-config/assets/16313565/091fc37c-e9d4-4f8e-8e2c-0b537f46e8c0 "Subgenre Posters")
 
 ## Usage
 
-To use this configuration, simply clone or download the repository and follow the instructions provided in the [documentation of Kometa](https://kometa.wiki/en/latest/).
+Clone or download the repository and follow [Kometa documentation](https://kometa.wiki/en/latest/).
 
 ## License
 
-This project is licensed under the [Apache License 2.0](LICENSE). See the LICENSE file for details.
+Licensed under the [Apache License 2.0](LICENSE). See LICENSE file for details.
 
-## Support
+---
 
-For any questions or issues related to this configuration, feel free to open an issue on this repository. I'll do my best to assist you.
+For questions or issues, open an issue on this repository.

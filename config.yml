@@ -1,11 +1,31 @@
+#
+# config.yml: Main configuration file for Kometa.
+#
+
+#
+# Define the libraries
+#
 libraries:
+  #
+  # Define scheduled movie collections
+  #
   Scheduled:
+    # Define target Plex library
     library_name: Movies
+
+    # Define where to store missing movies report
     report_path: config/missing/scheduled-report.yml
+
+    # Define scheduled 'Movies' library template variable overrides
     template_variables:
       use_separator: false
+
+    # Define scheduled 'Movies' library collections
     collection_files:
+      # Define folder with scheduled 'Movies' library collections
       - folder: /config/scheduled/
+
+      # Dynamic collections based on the years available in your library, sorted by critic rating to create a "best of"
       - default: year
         template_variables:
           limit: 50
@@ -16,26 +36,173 @@ libraries:
           summary_format: Top <<limit>> movies of <<key>>. Sorted by critic rating.
           collection_section: "010"
           schedule: range(01/01-04/01)
+
+    # Define scheduled 'Movies' library settings
     settings:
       delete_not_scheduled: true
       asset_directory: config/assets
 
+  #
+  # Define 'Movies' library collections
+  #
   Movies:
+    # Define where to store missing movies report
     report_path: config/missing/movies-report.yml
+
+    # Define 'Movies' library template variable overrides
     template_variables:
       use_separator: false
-    schedule_overlays: weekly(tuesday)
-    # overlay_files:
-    #   - file: config/overlays/top.yml
-    #   - remove_overlays: false
+
+    # Define 'Movies' library collections
+    collection_files:
+      # Define folder with 'Movies' library collections
+      - folder: config/movies/
+
+      #
+      # Define 'Movies' library default collections
+      #
+
+      # Dynamic collections based on the content ratings available in your library
+      - default: content_rating_us
+
+      # Collections with items that are based on or inspired by various media outlets, such as books or video games
+      - default: based
+        template_variables:
+          summary_true_story: Films based on or inspired by a true story.
+          summary_book: Films based on or inspired by a book.
+          summary_video_game: Films based on or inspired by a video game.
+          summary_comic: Films based on or inspired by a comic.
+          schedule: all[weekly(sunday), hourly(06-07)]
+
+      # Dynamic collections based on the studios available in your library
+      - default: studio
+        template_variables:
+          minimum_items: 10
+
+      # Dynamic collections based on the decades available in your library, sorted by critic rating to create a "best of"
+      - default: decade
+        template_variables:
+          limit: 100
+          limit_1970: 25
+          summary_format: Top <<limit>> movies of the <<key>>s. Sorted by critic rating.
+          summary_1970: Top <<limit_1970>> movies of the <<key>>s. Sorted by critic rating.
+          minimum_items: 25
+
+      # Dynamic collections based on the genres available in your library
+      - default: genre
+        template_variables:
+          sort_by: title.asc
+          exclude: # In genre.yml config
+            - Horror
+            - War
+            - Western
+            - Spy
+            - Sport
+          minimum_items: 10
+
+      # Collections based on IMDb charts
+      - default: imdb
+        template_variables:
+          use_lowest: false
+          order_top: 3
+          order_popular: 3
+
+      # Collections based on TMDb charts
+      - default: tmdb
+        template_variables:
+          limit_popular: 50
+          visible_library_popular: true
+          visible_home_popular: true
+          visible_shared_popular: true
+
+      # Dynamic seasonal collections based on holidays
+      - default: seasonal
+        template_variables:
+          emoji: ""
+          schedule_independence: range(06/28-07/05)
+          schedule_labor: range(09/01-09/05)
+          schedule_thanksgiving: range(11/01-11/24)
+          schedule_veteran: range(11/01-11/12)
+          imdb_list_veteran: https://www.imdb.com/list/ls561621160/
+          # These default collections are defined in the seasonal.yml config
+          exclude:
+            - christmas
+            - halloween
+            - easter
+            - valentine
+            - patrick
+            - thanksgiving
+            - years
+
+      # Collections based on Tautulli/Plex charts
+      - default: tautulli
+        template_variables:
+          collection_section: "020_1"
+          list_days: 30
+          list_size: 25
+          list_minimum: 0
+          summary_popular: A collection of the most watched movies on this Plex server.
+
+      # Collections based on Trakt charts
+      - default: trakt
+        template_variables:
+          use_collected: false
+          use_recommended: false
+          use_watched: false
+          order_popular: 4
+          order_trending: 4
+          schedule: weekly(monday)
+
+      # Collections based on popular movie universes, such as the Marvel Cinematic Universe or Wizarding World
+      - default: universe
+        template_variables:
+          collection_section: "106"
+          trakt_list_mcu: https://trakt.tv/users/donxy/lists/marvel-cinematic-universe
+          trakt_list_dcu: https://trakt.tv/users/lampshadetricky/lists/dc-extended-universe
+          trakt_list_trek: https://trakt.tv/users/rzepkowski/lists/star-trek-movies
+          trakt_list_avp: https://trakt.tv/users/liudvikas/lists/aliens-predators-movies
+          minimum_items: 3
+          append_data:
+            star: Star Wars Saga
+            trek: Star Trek Universe
+            xmen: X-Men Collection
+          # These default collections are defined in the franchise.yml config
+          exclude:
+            - marvel
+
+      # Collections based on other charts, e.g. Steven Lu's popular movies and top 10 pirated movies of the week
+      - default: other_chart
+        template_variables:
+          visible_library_pirated: true
+          visible_home_pirated: true
+          visible_shared_pirated: true
+          use_anidb: false
+          use_commonsense: false
+          use_stevenlu: false
+
+    #
+    # Define 'Movies' library overlays
+    #
+    schedule_overlays: hourly(06-07)
+    remove_overlays: false
     overlay_files:
-      # Creates a ribbon style background in the top left corner with a width of 313 pixels. Keep in mind, it has to be run before any overlay which is supposed to be on top of the background
-      - url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/background_top_left_313_wide.yml
+      - file: config/overlays/top.yml
+      - file: config/overlays/background.yml
+      - default: mediastinger
+        template_variables:
+          file: config/overlays/bottom-left/mediastinger-bottom-left.png
+          vertical_align: bottom
+          vertical_offset: 0
+          horizontal_align: right
+          horizontal_offset: 0
+          back_width: 1000
+          back_height: 1500
+          back_color: "#0000"
 
       # Resolution in the upper left corner in 45 degree format
       - default: resolution
         template_variables:
-          url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/resolution-top-left-45deg/<<overlay_name>>.png
+          file: config/overlays/resolution-top-left-45deg/<<overlay_name>>.png
           horizontal_align: left
           horizontal_offset: 0
           vertical_offset: 0
@@ -49,7 +216,7 @@ libraries:
       # Audio in the upper left corner in 45 degree format
       - default: audio_codec
         template_variables:
-          url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/audio-top-left-45deg/<<key>>.png
+          file: config/overlays/audio-top-left-45deg/<<key>>.png
           horizontal_align: left
           horizontal_offset: 0
           vertical_offset: 0
@@ -58,68 +225,83 @@ libraries:
           back_height: 1500
           back_color: "#0000"
 
-      # Award ribbons in the bottom right corner
-      - url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/ribbon_awards.yml
+    #
+    # Define 'Movies' library settings
+    #
+    settings:
+      show_missing_assets: false
 
-      # IMDB ribbons in the bottom right corner
-      - url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/ribbon_imdb.yml
+    #
+    # Define 'Movies' library operations
+    #
+    operations:
+      schedule: all[weekly(monday|thursday|saturday), hourly(06-07)]
+      mass_genre_update: tmdb
+      mass_audience_rating_update: imdb
+      mass_critic_rating_update: mdb_tomatoes
+      mass_user_rating_update: trakt_user
+      assets_for_all: true
 
-      # Rotten tomatoes ribbons in the bottom right corner
-      - url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/ribbon_rotten.yml
+  #
+  # Define TV show collections
+  #
+  TV Shows:
+    # Define where to store missing TV shows report
+    report_path: config/missing/tv-shows-report.yml
 
-      # Trending ribbons in the bottom right corner
-      - url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/ribbon_trending.yml
+    # Define 'TV Shows' library template variable overrides
+    template_variables:
+      use_separator: false
 
+    #
+    # Define 'TV Shows' library collections
+    #
     collection_files:
-      - folder: config/movies/
+      # Define folder with 'TV Shows' library collections
+      - folder: config/shows/
+
+      # Define with scheduled 'TV Shows' library collections
+      - file: config/scheduled/emmy.yml
+
+      #
+      # Define 'Movies' library default collections
+      #
+
+      # Dynamic collections based on the content ratings available in your library
       - default: content_rating_us
+
+      # Dynamic collections based on the studios available in your library
       - default: studio
         template_variables:
           minimum_items: 10
-      - default: decade
-        template_variables:
-          limit: 100
-          limit_1970: 25
-          summary_format: Top <<limit>> movies of the <<key>>s. Sorted by critic rating.
-          summary_1970: Top <<limit_1970>> movies of the <<key>>s. Sorted by critic rating.
-          minimum_items: 25
+          exclude: # In networks.yml config
+            - HBO
+
+      # Collections based on popular TV show franchises
+      - default: franchise
+
+      # Dynamic collections based on the genres available in your library
       - default: genre
         template_variables:
           sort_by: title.asc
-          exclude: # In genre.yml config
-            - Horror
-            - War
-            - Western
-            - Spy
-            - Sport
-          minimum_items: 10
+          minimum_items: 2
+
+      # Collections based on IMDb charts
       - default: imdb
         template_variables:
           use_lowest: false
           order_top: 3
           order_popular: 3
+
+      # Collections based on TMDb charts
       - default: tmdb
         template_variables:
           limit_popular: 50
           visible_library_popular: true
           visible_home_popular: true
           visible_shared_popular: true
-      - default: seasonal
-        template_variables:
-          emoji: ""
-          schedule_independence: range(06/28-07/05)
-          schedule_labor: range(09/01-09/05)
-          schedule_thanksgiving: range(11/01-11/24)
-          schedule_veteran: range(11/01-11/12)
-          imdb_list_veteran: https://www.imdb.com/list/ls561621160/
-          exclude: # In seasonal.yml config
-            - christmas
-            - halloween
-            - easter
-            - valentine
-            - patrick
-            - thanksgiving
-            - years
+
+      # Collections based on Tautulli/Plex charts
       - default: tautulli
         template_variables:
           list_days: 30
@@ -127,6 +309,8 @@ libraries:
           list_minimum: 0
           summary_popular: A collection of the most watched movies on this Plex server.
           collection_section: "020_1"
+
+      # Collections based on Trakt charts
       - default: trakt
         template_variables:
           use_collected: false
@@ -134,82 +318,14 @@ libraries:
           use_watched: false
           order_popular: 4
           order_trending: 4
-          schedule: weekly(monday)
-      - default: universe
-        template_variables:
-          trakt_list_mcu: https://trakt.tv/users/donxy/lists/marvel-cinematic-universe
-          trakt_list_dcu: https://trakt.tv/users/lampshadetricky/lists/dc-extended-universe
-          trakt_list_trek: https://trakt.tv/users/rzepkowski/lists/star-trek-movies
-          trakt_list_avp: https://trakt.tv/users/liudvikas/lists/aliens-predators-movies
-          minimum_items: 3
-          append_data:
-            star: Star Wars Saga
-            trek: Star Trek Universe
-            xmen: X-Men Collection
-          exclude: # In franchise.yml config
-            - marvel
-          collection_section: "106"
-      - default: other_chart
-        template_variables:
-          visible_library_pirated: true
-          visible_home_pirated: true
-          visible_shared_pirated: true
-          use_anidb: false
-          use_commonsense: false
-          use_stevenlu: false
-    operations:
-      schedule: weekly(monday)
-      mass_genre_update: tmdb
-      mass_audience_rating_update: imdb
-      mass_critic_rating_update: mdb_tomatoes
-      mass_user_rating_update: trakt_user
-
-  TV Shows:
-    report_path: config/missing/tv-shows-report.yml
-    template_variables:
-      use_separator: false
-    schedule_overlays: weekly(tuesday)
-    # overlay_files:
-    #   - remove_overlays: false
-    #   - file: config/overlays/top.yml
+    #
+    # Define 'Movies' library overlays
+    #
+    schedule_overlays: hourly(06-07)
+    remove_overlays: false
     overlay_files:
-      # Status in the top left corner
-      - default: status
-        template_variables:
-          text_airing: .
-          url_airing: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/status-top-left/airing.png
-          text_returning: .
-          url_returning: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/status-top-left/returning.png
-          text_canceled: .
-          url_canceled: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/status-top-left/cancelled.png
-          text_ended: .
-          url_ended: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/status-top-left/ended.png
-          horizontal_align: left
-          horizontal_offset: 25
-          vertical_align: top
-          vertical_offset: 0
-          font_size: 1
-          font_color: "#00000000"
-          back_color: "#00000000"
-          back_width_airing: 1000
-          back_width_returning: 1000
-          back_width_ended: 1000
-          back_width_cancelled: 1000
-          back_width: 1000
-          back_height_airing: 1500
-          back_height_returning: 1500
-          back_height_ended: 1500
-          back_height_cancelled: 1500
-          back_height: 1500
-          back_padding: 0
-          back_line_width: 1000
-          final_horizontal_offset: 0
-          final_vertical_offset: 0
-
-      # Fallback Network logo which is overwritten by default: network if it finds an image for the network. Must run before default: network.
-      - url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/network_fallback.yml
-
-      # Uses the default Kometa network but replaces the image with custom ones
+      - file: config/overlays/top.yml
+      - file: config/overlays/status.yml
       - default: network
         template_variables:
           horizontal_align: left
@@ -218,64 +334,37 @@ libraries:
           vertical_align: top
           back_width: 1000
           back_height: 1500
-          url: https://raw.githubusercontent.com/s0len/meta-manager-config/main/overlays/network-top-left/<<key>>.png
+          file: config/overlays/network-top-left/<<key>>.png
           back_color: "#0000"
 
-    collection_files:
-      - folder: config/shows/
-      - file: config/scheduled/emmy.yml
-      - default: content_rating_us
-      - default: studio
-        template_variables:
-          minimum_items: 10
-          exclude: # In networks.yml config
-            - HBO
-      - default: franchise
-      - default: genre
-        template_variables:
-          sort_by: title.asc
-          minimum_items: 2
-      - default: imdb
-        template_variables:
-          use_lowest: false
-          order_top: 3
-          order_popular: 3
-      - default: tmdb
-        template_variables:
-          limit_popular: 50
-          visible_library_popular: true
-          visible_home_popular: true
-          visible_shared_popular: true
-      - default: tautulli
-        template_variables:
-          list_days: 30
-          list_size: 25
-          list_minimum: 0
-          summary_popular: A collection of the most watched movies on this Plex server.
-          collection_section: "020_1"
-      - default: trakt
-        template_variables:
-          use_collected: false
-          use_recommended: false
-          use_watched: false
-          order_popular: 4
-          order_trending: 4
-          schedule: weekly(monday)
+    #
+    # Define 'TV Shows' library settings
+    #
     settings:
       delete_not_scheduled: true
       asset_directory: config/assets
+
+    #
+    # Define 'TV Shows' library operations
+    #
     operations:
-      schedule: weekly(monday)
+      schedule: all[weekly(monday|thursday|saturday), hourly(06-07)]
       mass_genre_update: tmdb
       mass_audience_rating_update: imdb
       mass_critic_rating_update: mdb_tomatoes
       mass_user_rating_update: trakt_user
 
+#
+# Define movie and TV playlists
+#
 playlist_files:
   - file: config/playlists/playlists.yml
   - default: playlist
   - playlist_sync_to_users: all
 
+#
+# Define global settings
+#
 settings:
   cache: true
   cache_expiration: 30
@@ -327,6 +416,9 @@ settings:
     - collections
     - overlays
 
+#
+# Define service connections
+#
 plex:
   url: http://localhost:32400
   token: abc123

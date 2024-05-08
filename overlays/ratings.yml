@@ -1,5 +1,11 @@
+#
+# Define ratings templates
+#
 templates:
-  IMDb_Rating: # IMDB Rating Logo
+  #
+  # IDMb rating logo
+  #
+  imdb_rating:
     optional:
       - overlay_level
     default:
@@ -7,11 +13,14 @@ templates:
     collection_level: <<overlay_level>>
     overlay:
       name: <<overlay_name>>
-      file: /config/overlays/images/<<overlay>>.png
-      queue: Rating_Queue_Logo
+      file: https://raw.githubusercontent.com/scottgigawatt/kometa-config/main/overlays/images/<<overlay>>.png
+      queue: rating_queue_logo
       weight: <<weight>>
 
-  Audience_Rating: # Audience Rating Text (IMDB Rating)
+  #
+  # Audience rating text (IMDb rating)
+  #
+  audience_rating:
     optional:
       - overlay_level
     default:
@@ -19,13 +28,16 @@ templates:
     collection_level: <<overlay_level>>
     overlay:
       name: text(<<rating_type>>)
-      queue: Rating_Queue_Text
+      queue: rating_queue_text
       weight: <<weight>>
       font: fonts/Inter-Medium.ttf
       font_size: 63
       font_color: "#FFFFFF"
 
-  RT-Crit-Fresh: # Rotten Tomatoes Rating Logo (Fresh)
+  #
+  # Rotten Tomatoes rating logo (Fresh)
+  #
+  rt-crit-fresh:
     optional:
       - overlay_level
     default:
@@ -33,11 +45,14 @@ templates:
     collection_level: <<overlay_level>>
     overlay:
       name: <<overlay_name>>
-      file: /config/overlays/images/<<overlay>>.png
-      queue: Rating_Queue_Logo
+      file: https://raw.githubusercontent.com/scottgigawatt/kometa-config/main/overlays/images/<<overlay>>.png
+      queue: rating_queue_logo
       weight: <<weight>>
 
-  RT-Crit-Rotten: # Rotten Tomatoes Rating Logo (Rotten)
+  #
+  # Rotten Tomatoes rating logo (Rotten)
+  #
+  rt-crit-rotten:
     optional:
       - overlay_level
     default:
@@ -45,11 +60,14 @@ templates:
     collection_level: <<overlay_level>>
     overlay:
       name: <<overlay_name>>
-      file: /config/overlays/images/<<overlay>>.png
-      queue: Rating_Queue_Logo
+      file: https://raw.githubusercontent.com/scottgigawatt/kometa-config/main/overlays/images/<<overlay>>.png
+      queue: rating_queue_logo
       weight: <<weight>>
 
-  Critic_Rating: # Critic Rating Text (Rotten Tomatoes Rating Under 10)
+  #
+  # Critic rating text (Rotten Tomatoes rating under 10)
+  #
+  critic_rating:
     optional:
       - overlay_level
     default:
@@ -57,14 +75,20 @@ templates:
     collection_level: <<overlay_level>>
     overlay:
       name: text(<<rating_type>>0)
-      queue: Rating_Queue_Text
+      queue: rating_queue_text
       weight: <<weight>>
       font: fonts/Inter-Medium.ttf
       font_size: 63
       font_color: "#FFFFFF"
 
+#
+# Define queues section
+#
 queues:
-  Rating_Queue_Logo:
+  #
+  # Rating queue logos
+  #
+  rating_queue_logo:
     - horizontal_offset: 10
       horizontal_align: left
       vertical_offset: 10
@@ -73,7 +97,11 @@ queues:
       horizontal_align: left
       vertical_offset: 10
       vertical_align: bottom
-  Rating_Queue_Text:
+
+  #
+  # Rating queue text
+  #
+  rating_queue_text:
     - horizontal_offset: 189
       horizontal_align: left
       vertical_offset: 41
@@ -83,46 +111,64 @@ queues:
       vertical_offset: 41
       vertical_align: bottom
 
+#
+# Define 'ratings' overlays
+#
 overlays:
-  IMDb_Rating:
+  #
+  # IDMb rating logo
+  #
+  imdb_rating:
     template:
-      - name: IMDb_Rating
+      - name: imdb_rating
         weight: 80
     plex_search:
       all:
         audience_rating.gte: 0.1
         audience_rating.lte: 10
 
+  #
+  # Audience rating text (IMDb rating)
+  #
   audience_rating:
     template:
-      name: Audience_Rating
+      name: audience_rating
       weight: 80
     plex_search:
       all:
         audience_rating.gte: 0.1
         audience_rating.lte: 10
 
-  RT-Crit-Rotten:
+  #
+  # Rotten Tomatoes rating logo (Fresh)
+  #
+  rt-crit-fresh:
     template:
-      - name: RT-Crit-Rotten
-        weight: 90
-    plex_search:
-      all:
-        critic_rating.gte: 0.1
-        critic_rating.lte: 6.0
-
-  RT-Crit-Fresh:
-    template:
-      - name: RT-Crit-Fresh
+      - name: rt-crit-fresh
         weight: 90
     plex_search:
       all:
         critic_rating.gte: 6.1
         critic_rating.lte: 10
 
+  #
+  # Rotten Tomatoes rating logo (Rotten)
+  #
+  rt-crit-rotten:
+    template:
+      - name: rt-crit-rotten
+        weight: 90
+    plex_search:
+      all:
+        critic_rating.gte: 0.1
+        critic_rating.lte: 6.0
+
+  #
+  # Critic rating text (Rotten Tomatoes rating under 10)
+  #
   critic_rating:
     template:
-      name: Critic_Rating
+      name: critic_rating
       weight: 90
     plex_search:
       all:

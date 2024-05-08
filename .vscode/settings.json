@@ -3,9 +3,11 @@
     "https://raw.githubusercontent.com/Kometa-Team/Kometa/nightly/json-schema/config-schema.json": "{*config*.yml}",
   },
   "cSpell.words": [
+    "anidb",
     "apikey",
     "Battlestar",
     "Britbox",
+    "dvhdrplus",
     "Emmys",
     "Epix",
     "Galactica",
@@ -13,6 +15,7 @@
     "Ghostbusters",
     "imagemaid",
     "imdb",
+    "imdbtop",
     "Kometa",
     "kometateam",
     "Kylie's",
@@ -20,7 +23,9 @@
     "linebreak",
     "Liotta",
     "mdblist",
+    "mediastinger",
     "meisnate",
+    "metacritic",
     "mindbender",
     "mindfuck",
     "Mockumentary",
@@ -31,8 +36,10 @@
     "preroll",
     "prerolls",
     "pterisaur",
+    "Razzie",
     "reciperr",
     "Starz",
+    "stevenlu",
     "Syfy",
     "tautulli",
     "tmdb",
@@ -40,6 +47,7 @@
     "unconfigured",
     "unmanaged",
     "Weezer's",
+    "Wizarding",
     "xmen"
   ]
 }
