@@ -127,11 +127,12 @@ libraries:
           # These default collections are defined in the seasonal.yml config
           exclude:
             - christmas
-            - halloween
             - easter
-            - valentine
+            - halloween
+            - mother
             - patrick
             - thanksgiving
+            - valentine
             - years
 
       # Collections based on Tautulli/Plex charts

@@ -42,6 +42,18 @@ collections:
     trakt_list: https://trakt.tv/users/scottgigawatt/lists/easter
     schedule: range(03/22-04/25)
 
+  Mother's Day Movies:
+    template:
+      name: seasonal
+      holiday: "Mother's Day"
+      poster_id: mother
+    letterboxd_list:
+      - https://letterboxd.com/horrorville/list/call-your-mother-then-watch-these-horror/by/rating/
+      - https://letterboxd.com/patrickb15/list/mothers-day/by/rating/
+      - https://letterboxd.com/zoltarak/list/happy-mothers-day/by/rating/
+    trakt_list: https://trakt.tv/users/sympli/lists/mothers-day-movies
+    schedule: range(05/01-05/15)
+
   Halloween and Horror Movies:
     template:
       name: seasonal
