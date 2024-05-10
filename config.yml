@@ -320,7 +320,7 @@ libraries:
           order_popular: 4
           order_trending: 4
     #
-    # Define 'Movies' library overlays
+    # Define 'TV Shows' library overlays
     #
     schedule_overlays: hourly(06-07)
     remove_overlays: false

@@ -52,7 +52,7 @@ collections:
       - https://letterboxd.com/patrickb15/list/mothers-day/by/rating/
       - https://letterboxd.com/zoltarak/list/happy-mothers-day/by/rating/
     trakt_list: https://trakt.tv/users/sympli/lists/mothers-day-movies
-    schedule: range(05/01-05/15)
+    schedule: range(05/01-05/25)
 
   Halloween and Horror Movies:
     template:
