@@ -115,6 +115,16 @@ libraries:
           visible_home_popular: true
           visible_shared_popular: true
 
+      # Collections based on lists from Letterboxd
+      - default: letterboxd
+        template_variables:
+          use_imdb_top_250: true
+          use_oscars: true
+          use_cannes: true
+          visible_library_top_250: true
+          visible_home_top_250: true
+          visible_shared_top_250: true
+
       # Dynamic seasonal collections based on holidays
       - default: seasonal
         template_variables:

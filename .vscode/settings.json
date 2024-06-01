@@ -1,6 +1,6 @@
 {
   "yaml.schemas": {
-    "https://raw.githubusercontent.com/Kometa-Team/Kometa/nightly/json-schema/config-schema.json": "{*config*.yml}",
+    "https://raw.githubusercontent.com/Kometa-Team/Kometa/master/json-schema/config-schema.json": "{*config*.yml}",
   },
   "cSpell.words": [
     "anidb",
