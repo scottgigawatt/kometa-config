@@ -275,7 +275,7 @@ libraries:
       - file: config/scheduled/emmy.yml
 
       #
-      # Define 'Movies' library default collections
+      # Define 'TV Shows' library default collections
       #
 
       # Dynamic collections based on the content ratings available in your library
