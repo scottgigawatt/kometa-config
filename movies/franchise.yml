@@ -9,6 +9,16 @@ templates:
       - weekly(thursday)
 
 collections:
+  After Collection:
+    template:
+      name: Franchise
+      poster_id: After
+    plex_search:
+      all:
+        title.begins: After
+        actor: Josephine Langford
+    summary: "The After film series consists of American romantic-dramas based on the Anna Todd authored After novels. The plot centers around the positive and negative experiences of a romantic relationship between a young couple named Tessa and Hardin. Over the events of their courtship, the pair overcome their various differences, all while strengthening the plans of building a future together."
+
   Jurassic Park Collection:
     template:
       name: franchise
@@ -89,7 +99,6 @@ collections:
     template:
       name: franchise
       poster_id: Dune
-    # url_poster: https://theposterdb.com/api/assets/186478
     trakt_list:
       - https://trakt.tv/lists/official/dune-collection
       - https://trakt.tv/users/kodi-c881832b-f962-4cc7-b587-ed15aed31a9c/lists/dune-movies
