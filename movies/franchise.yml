@@ -11,7 +11,7 @@ templates:
 collections:
   After Collection:
     template:
-      name: Franchise
+      name: franchise
       poster_id: After
     plex_search:
       all:
