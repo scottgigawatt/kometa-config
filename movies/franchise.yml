@@ -183,7 +183,7 @@ collections:
     plex_search:
       all:
         title: John Wick
-    summary: "John Wick is an American neo-noir action thriller media franchise created by Derek Kolstad and centered on John Wick, a former hitman who is forced back into the criminal underworld he had previously abandoned."
+    summary: "John Wick is an American neo-noir action thriller media franchise created by Derek Kolstad and centered on John Wick, a former hit man who is forced back into the criminal underworld he had previously abandoned."
 
   Kung Fu Panda Collection:
     template:
