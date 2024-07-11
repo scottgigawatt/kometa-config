@@ -7,6 +7,14 @@ playlists:
     trakt_list: https://trakt.tv/users/pedrohcramos/lists/battlestar-galactica
     summary: Battlestar Galactica in chronological order.
 
+  Dragon Ball (Timeline order):
+    sync_mode: sync
+    libraries: Movies, TV Shows
+    sync_to_users: all
+    file_poster: "config/assets/posters/playlist/Dragon Ball (Timeline Order).png"
+    trakt_list: https://trakt.tv/users/venoxiaz/lists/dragon-ball-release-order-full
+    summary: Dragon Ball in chronological order.
+
   Adult Animation:
     sync_mode: sync
     libraries: Movies, TV Shows
