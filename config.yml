@@ -371,6 +371,11 @@ libraries:
 playlist_files:
   - file: config/playlists/playlists.yml
   - default: playlist
+    template_variables:
+      # These default playlists are defined in the playlist.yml config
+      exclude:
+        - dragonball
+        - xmen
   - playlist_sync_to_users: all
 
 #
