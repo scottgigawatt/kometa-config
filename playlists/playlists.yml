@@ -4,7 +4,7 @@ playlists:
     libraries: Movies, TV Shows
     sync_to_users: all
     file_poster: "config/assets/posters/playlist/Battlestar Galactica (Timeline Order).png"
-    trakt_list: https://trakt.tv/users/pedrohcramos/lists/battlestar-galactica
+    trakt_list: https://trakt.tv/users/markmckee/lists/battlestar-galactica-chrono-order
     summary: Battlestar Galactica in chronological order.
 
   Dragon Ball (Timeline order):
