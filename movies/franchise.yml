@@ -249,6 +249,14 @@ collections:
         title: Ocean's
     summary: "Ocean's Eleven is a 2001 American heist comedy film directed by Steven Soderbergh from a screenplay by Ted Griffin. The first installment in the Ocean's film trilogy, it is a remake of the 1960 Rat Pack film of the same name. The film features an ensemble cast including George Clooney, Matt Damon, Andy García, Brad Pitt, Julia Roberts, Casey Affleck, Scott Caan, Elliott Gould, Bernie Mac, Qin Shaobo, and Carl Reiner. The story follows friends Danny Ocean (Clooney) and Rusty Ryan (Pitt), who plan a heist of $160 million from casino owner Terry Benedict (García), the lover of Ocean's ex-wife Tess (Roberts). Ocean's Eleven was theatrically released in the United States on December 7, 2001, by Warner Bros. Pictures. The film received positive reviews from critics and was a box-office hit, grossing $450.7 million worldwide and becoming the fifth-highest-grossing film of 2001. Soderbergh directed two sequels, Ocean's Twelve in 2004 and Ocean's Thirteen in 2007. Ocean's 8, a spin-off with an all-female lead cast, was released in 2018."
 
+  Planet of the Apes:
+    template:
+      name: franchise
+      poster_id: Planet of the Apes
+    trakt_list:
+      - https://trakt.tv/users/yoru14/lists/planet-of-the-apes
+    summary: "The Planet of the Apes franchise, based on Pierre Boulle's 1963 novel, explores a world where intelligent apes dominate humans. The 1968 original film stars Charlton Heston as astronaut George Taylor, leading to sequels on evolution and dystopia. A 2001 reboot by Tim Burton precedes the acclaimed 2011-2017 trilogy, beginning with "Rise of the Planet of the Apes." This reboot focuses on Caesar, an intelligent ape who leads his kind against a collapsing human society."
+
   Pirates of the Caribbean:
     template:
       name: franchise
