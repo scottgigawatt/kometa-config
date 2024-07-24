@@ -22,7 +22,7 @@ Special thanks to contributors:
 
 ### Subgenre Posters
 
-Custom subgenre posters to enhance Plex libraries. View [here](./assets/posters/subgenre_top/).
+Custom subgenre posters to enhance Plex libraries. View the configuration file [here](movies/subgenre-top.yml).
 
 ![subgenre-posters](https://github.com/scottgigawatt/kometa-config/assets/16313565/091fc37c-e9d4-4f8e-8e2c-0b537f46e8c0 "Subgenre Posters")
 
