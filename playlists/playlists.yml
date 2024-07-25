@@ -3,7 +3,7 @@ playlists:
     sync_mode: sync
     libraries: Movies, TV Shows
     sync_to_users: all
-    file_poster: "config/assets/posters/playlist/X-Men (Timeline Order).png"
+    file_poster: "config/assets/posters/playlist/X-Men (Timeline Order).jpg"
     trakt_list: https://trakt.tv/users/veej/lists/x-men-timeline-order
     summary: X-Men in chronological order.
 
@@ -19,7 +19,7 @@ playlists:
     sync_mode: sync
     libraries: Movies, TV Shows
     sync_to_users: all
-    file_poster: "config/assets/posters/playlist/Dragon Ball (Timeline Order).png"
+    file_poster: "config/assets/posters/playlist/Dragon Ball (Timeline Order).jpg"
     trakt_list: https://trakt.tv/users/venoxiaz/lists/dragon-ball-release-order-full
     summary: Dragon Ball in chronological order.
 
