@@ -1,11 +1,11 @@
 playlists:
-  X-Men (Timeline Order):
-    sync_mode: sync
-    libraries: Movies, TV Shows
-    sync_to_users: all
-    file_poster: "config/assets/posters/playlist/X-Men (Timeline Order).jpg"
-    trakt_list: https://trakt.tv/users/veej/lists/x-men-timeline-order
-    summary: X-Men in chronological order.
+  # X-Men (Timeline Order):
+  #   sync_mode: sync
+  #   libraries: Movies, TV Shows
+  #   sync_to_users: all
+  #   file_poster: "config/assets/posters/playlist/X-Men (Timeline Order).jpg"
+  #   trakt_list: https://trakt.tv/users/veej/lists/x-men-timeline-order
+  #   summary: X-Men in chronological order.
 
   Battlestar Galactica (Timeline Order):
     sync_mode: sync
@@ -15,13 +15,13 @@ playlists:
     trakt_list: https://trakt.tv/users/markmckee/lists/battlestar-galactica-chrono-order
     summary: Battlestar Galactica in chronological order.
 
-  Dragon Ball (Timeline order):
-    sync_mode: sync
-    libraries: Movies, TV Shows
-    sync_to_users: all
-    file_poster: "config/assets/posters/playlist/Dragon Ball (Timeline Order).jpg"
-    trakt_list: https://trakt.tv/users/venoxiaz/lists/dragon-ball-release-order-full
-    summary: Dragon Ball in chronological order.
+  # Dragon Ball (Timeline order):
+  #   sync_mode: sync
+  #   libraries: Movies, TV Shows
+  #   sync_to_users: all
+  #   file_poster: "config/assets/posters/playlist/Dragon Ball (Timeline Order).jpg"
+  #   trakt_list: https://trakt.tv/users/venoxiaz/lists/dragon-ball-release-order-full
+  #   summary: Dragon Ball in chronological order.
 
   Adult Animation:
     sync_mode: sync

@@ -8,6 +8,6 @@ overlays:
   background:
     overlay:
       name: top-left-313-wide
-      url: https://raw.githubusercontent.com/scottgigawatt/kometa-config/main/overlays/background/top-left-313-wide.png
+      file: config/overlays/background/top-left-313-wide.png
       weight: 2
     plex_all: true
