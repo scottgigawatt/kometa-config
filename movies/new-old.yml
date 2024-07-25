@@ -11,7 +11,7 @@ collections:
     visible_home: true
     visible_shared: true
     sort_title: "!008_New_Releases"
-    file_poster: config/assets/posters/new-releases/new_movie_releases.png
+    file_poster: config/assets/posters/new-releases/new-movie-releases.png
 
   Old Movies Just Added: # Smart collection
     smart_filter:
@@ -25,4 +25,4 @@ collections:
     visible_home: true
     visible_shared: true
     sort_title: "!009_Old_Movies_Just_Added"
-    file_poster: config/assets/posters/new-releases/old_movies_just_added.png
+    file_poster: config/assets/posters/new-releases/old-movies-just-added.png

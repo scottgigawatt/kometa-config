@@ -12,7 +12,7 @@ collections:
     visible_home: true
     visible_shared: true
     sort_title: "!008_New_Releases"
-    file_poster: config/assets/posters/new-releases/new_tv_show_releases.png
+    file_poster: config/assets/posters/new-releases/new-tv-show-releases.png
 
   Old TV Shows Just Added:
     smart_filter:
@@ -28,4 +28,4 @@ collections:
     visible_home: true
     visible_shared: true
     sort_title: "!009_Old_Movies_Just_Added"
-    file_poster: config/assets/posters/new-releases/old_shows_just_added.png
+    file_poster: config/assets/posters/new-releases/old-shows-just-added.png
