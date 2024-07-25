@@ -72,7 +72,7 @@ libraries:
           summary_book: Films based on or inspired by a book.
           summary_video_game: Films based on or inspired by a video game.
           summary_comic: Films based on or inspired by a comic.
-          schedule: all[weekly(sunday), hourly(06-07)]
+          schedule: all[weekly(sunday), hourly(05-07)]
 
       # Dynamic collections based on the studios available in your library
       - default: studio
@@ -194,7 +194,7 @@ libraries:
     #
     # Define 'Movies' library overlays
     #
-    schedule_overlays: hourly(06-07)
+    schedule_overlays: hourly(05-07)
     remove_overlays: false
     overlay_files:
       - file: config/overlays/top.yml
@@ -246,7 +246,7 @@ libraries:
     # Define 'Movies' library operations
     #
     operations:
-      schedule: all[weekly(monday|thursday|saturday), hourly(06-07)]
+      schedule: all[weekly(monday|thursday|saturday), hourly(05-07)]
       mass_genre_update: tmdb
       mass_audience_rating_update: imdb
       mass_critic_rating_update: mdb_tomatoes
@@ -332,7 +332,7 @@ libraries:
     #
     # Define 'TV Shows' library overlays
     #
-    schedule_overlays: hourly(06-07)
+    schedule_overlays: hourly(05-07)
     remove_overlays: false
     overlay_files:
       - file: config/overlays/top.yml
@@ -359,7 +359,7 @@ libraries:
     # Define 'TV Shows' library operations
     #
     operations:
-      schedule: all[weekly(monday|thursday|saturday), hourly(06-07)]
+      schedule: all[weekly(monday|thursday|saturday), hourly(05-07)]
       mass_genre_update: tmdb
       mass_audience_rating_update: imdb
       mass_critic_rating_update: mdb_tomatoes
