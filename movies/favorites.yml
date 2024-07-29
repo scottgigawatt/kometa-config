@@ -5,6 +5,8 @@ templates:
     collection_order: alpha
     content_rating: R
     sync_mode: sync
+    radarr_add_missing: true
+    radarr_search: true
 
 collections:
   Edward's Favorite Movies:

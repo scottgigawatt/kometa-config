@@ -480,6 +480,39 @@ tmdb:
   language: en
   cache_expiration: 60
   region: US
+radarr:
+  url: http://localhost:32788
+  token: abc123
+  add_missing: false
+  add_existing: false
+  upgrade_existing: false
+  monitor_existing: false
+  root_folder_path: /movies
+  monitor: false
+  availability: announced
+  quality_profile: HD-1080p
+  tag: kometa
+  search: false
+  radarr_path: /movies
+  plex_path: /volume1/movies
+sonarr:
+  url: http://localhost:32789
+  token: abc123
+  add_missing: false
+  add_existing: false
+  upgrade_existing: false
+  monitor_existing: false
+  root_folder_path: /tv
+  monitor: all
+  quality_profile: HD-1080p
+  language_profile: English
+  series_type: standard
+  season_folder: true
+  tag: kometa
+  search: false
+  cutoff_search: false
+  sonarr_path: /tv
+  plex_path: /volume1/tv
 trakt:
   client_id: abc123
   client_secret: abc123
