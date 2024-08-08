@@ -6,7 +6,7 @@ This repository contains configuration files tailored for enhancing Plex media l
 
 ## Description
 
-Customized configuration files optimized for my specific setup and needs, diverging from the original fork by [TheChrisK](https://github.com/TheChrisK/PMM).
+Configuration files for my specific setup and needs, diverging from the original fork by [TheChrisK](https://github.com/TheChrisK/PMM).
 
 ## Credits
 
@@ -22,7 +22,7 @@ Special thanks to contributors:
 
 ### Subgenre Posters
 
-Custom subgenre posters to enhance Plex libraries. View the configuration file [here](movies/subgenre-top.yml).
+Custom [subgenre posters](assets/posters/subgenre_top/) to enhance Plex libraries. View the configuration file [here](movies/subgenre-top.yml).
 
 ![subgenre-posters](https://github.com/scottgigawatt/kometa-config/assets/16313565/091fc37c-e9d4-4f8e-8e2c-0b537f46e8c0 "Subgenre Posters")
 

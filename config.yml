@@ -172,6 +172,7 @@ libraries:
           trakt_list_dcu: https://trakt.tv/users/lampshadetricky/lists/dc-extended-universe
           trakt_list_trek: https://trakt.tv/users/rzepkowski/lists/star-trek-movies
           trakt_list_avp: https://trakt.tv/users/liudvikas/lists/aliens-predators-movies
+          trakt_list_xmen: https://trakt.tv/users/negricaroll/lists/xmen
           minimum_items: 3
           append_data:
             star: Star Wars Saga
@@ -456,6 +457,8 @@ settings:
 #
 # Define service connections
 #
+
+# Plex Media Server connection
 plex:
   url: http://localhost:32400
   token: abc123
@@ -464,22 +467,32 @@ plex:
   clean_bundles: false
   empty_trash: false
   optimize: false
+
+# Tautulli connection
 tautulli:
   url: http://localhost:8181
   apikey: abc123
+
+# Notifiarr connection
 notifiarr:
   apikey: abc123
+
+# Custom webhooks connection
 webhooks:
   error:
   version:
   run_start:
   run_end:
   changes:
+
+# The Movie Database connection
 tmdb:
   apikey: abc123
   language: en
   cache_expiration: 60
   region: US
+
+# Radarr connection
 radarr:
   url: http://localhost:32788
   token: abc123
@@ -495,6 +508,8 @@ radarr:
   search: false
   radarr_path: /movies
   plex_path: /volume1/movies
+
+# Sonarr connection
 sonarr:
   url: http://localhost:32789
   token: abc123
@@ -513,6 +528,8 @@ sonarr:
   cutoff_search: false
   sonarr_path: /tv
   plex_path: /volume1/tv
+
+# Trakt connection
 trakt:
   client_id: abc123
   client_secret: abc123
@@ -524,14 +541,22 @@ trakt:
     scope: public
     created_at: 101010
   pin:
+
+# MDb List connection
 mdblist:
   apikey: abc123
   cache_expiration: 60
+
+# Open Movie Database connection
 omdb:
   apikey: abc123
   cache_expiration: 60
+
+# GitHub connection
 github:
   token: abc123
+
+# MyAnimeList connection
 mal:
   client_id: abc123
   client_secret: abc123

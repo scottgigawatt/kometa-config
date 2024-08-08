@@ -50,7 +50,7 @@ collections:
       poster_id: Batman
     trakt_list:
       - https://trakt.tv/lists/official/batman-collection
-    summary: "This collection contains the Batman films directed by Tim Burton and Joel Schumacher between 1989 and 1997. Batman and Bruce Wayne are portayed by Michael Keaton in the first two installments, Val Kilmer in Batman Forever and George Clooney in Batman & Robin."
+    summary: "This collection contains the Batman films directed by Tim Burton and Joel Schumacher between 1989 and 1997. Batman and Bruce Wayne are portrayed by Michael Keaton in the first two installments, Val Kilmer in Batman Forever and George Clooney in Batman & Robin."
 
 #   Beverly Hills Cop Collection:
 #     template:
