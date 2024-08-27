@@ -191,7 +191,6 @@ collections:
       votes.gte: 100
       language: "en"
       letterboxd_list: "theme-boxing"
-      imdb_extra_1: "https://www.imdb.com/search/keyword/?title_type=movie,tv_movie&user_rating=2.0,10.0&num_votes=100,&keywords=boxing-champion&languages=en&sort=user_rating,desc"
 
   "Top Rated in Bugs":
     summary: "Top rated movies in Bugs"
