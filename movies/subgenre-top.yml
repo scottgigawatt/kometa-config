@@ -243,8 +243,8 @@ collections:
       votes.gte: 100
       language: "en"
       letterboxd_list: "theme-chick-flick"
-      letterboxd_extra_1: "https://letterboxd.com/akookieforyou/list/chick-flicks/"
-      letterboxd_extra_2: "https://letterboxd.com/marialuisacctc/list/women-have-superior-taste-that-is-why-these/"
+      letterboxd_extra_1: "https://letterboxd.com/akookieforyou/list/chick-flicks/by/rating/"
+      letterboxd_extra_2: "https://letterboxd.com/marialuisacctc/list/women-have-superior-taste-that-is-why-these/by/rating/"
 
   "Top Rated in Comics":
     summary: "Top rated movies in Comics"
@@ -573,7 +573,7 @@ collections:
       votes.gte: 1000
       language: "en"
       letterboxd_list: "theme-hostage"
-      imdb_extra_1: "https://www.imdb.com/search/keyword/?title_type=movie,tv_movie&user_rating=5.0,10.0&num_votes=1000,&keywords=hostage,kidnapping&languages=en&sort=user_rating,desc"
+      letterboxd_extra_1: "https://letterboxd.com/ceejay1/list/hostage-kidnap-captivity-movies/by/rating/"
 
   "Top Rated in Hustle":
     summary: "Top rated movies in Hustle"
@@ -883,7 +883,7 @@ collections:
       votes.gte: 1000
       language: "en"
       letterboxd_list: "theme-prehistoric"
-      letterboxd_extra_1: "https://letterboxd.com/mikkelhh/list/before-civilization-prehistoric-films/"
+      letterboxd_extra_1: "https://letterboxd.com/mikkelhh/list/before-civilization-prehistoric-films/by/rating/"
 
   "Top Rated in Prison":
     summary: "Top rated movies in Prison"
@@ -949,7 +949,7 @@ collections:
       votes.gte: 100
       language: "en"
       letterboxd_list: "theme-remake"
-      letterboxd_extra_1: "https://letterboxd.com/l_shelby/list/remakes/"
+      letterboxd_extra_1: "https://letterboxd.com/l_shelby/list/remakes/by/rating/"
 
   "Top Rated in Revenge":
     summary: "Top rated movies in Revenge"
@@ -1021,7 +1021,7 @@ collections:
       votes.gte: 100
       language: "en"
       letterboxd_list: "theme-samurai"
-      letterboxd_extra_1: "https://letterboxd.com/jhcrotinger/list/samurai/"
+      letterboxd_extra_1: "https://letterboxd.com/jhcrotinger/list/samurai/by/rating/"
 
   "Top Rated in Satire":
     summary: "Top rated movies in Satire"
@@ -1145,7 +1145,7 @@ collections:
       votes.gte: 100
       language: "en"
       letterboxd_list: "theme-stop-motion"
-      letterboxd_extra_1: "https://letterboxd.com/savage_/list/stop-motion/"
+      letterboxd_extra_1: "https://letterboxd.com/savage_/list/stop-motion/by/rating/"
 
   "Top Rated in Superhero":
     summary: "Top rated movies in Superhero"
