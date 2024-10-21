@@ -165,19 +165,19 @@ collections:
       language: "en"
       letterboxd_list: "theme-betrayal"
 
-  "Top Rated in Black Comedy":
-    summary: "Top rated movies in Black Comedy"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_black-comedy.png
+  "Top Rated in Dark Comedy":
+    summary: "Top rated movies in Dark Comedy"
+    file_poster: config/assets/posters/subgenre_top/subgenre_top_dark-comedy.png
     schedule: weekly(monday)
     template:
       name: sub_genre
-      keyword: "black-comedy"
+      keyword: "dark-comedy"
       genre: "comedy"
       type: "movie,tv_movie"
       rating.gte: 5
       votes.gte: 1000
       language: "en"
-      letterboxd_list: "theme-black-comedy"
+      letterboxd_list: "theme-dark-comedy"
 
   "Top Rated in Boxing":
     summary: "Top rated movies in Boxing"
