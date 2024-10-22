@@ -49,7 +49,10 @@ collections:
       poster_id: Sport
     letterboxd_list:
       - https://letterboxd.com/vanfo/list/sports/
-    reciperr_list: https://reciperr.com/api/recipe/list/params?recipeMetadataId=654e862a78250cfc782dacae
+    trakt_list:
+      - https://trakt.tv/users/maxtrontv/lists/sports-movies
+      - https://trakt.tv/users/shedman214/lists/sports-movies
+      - https://trakt.tv/users/blazin887/lists/sports-movies
     schedule: weekly(tuesday)
     summary: "A collection of sports films, themes and sporting related titles."
     sync_to_trakt_list: sports
