@@ -1,8 +1,3 @@
-external_templates:
-  default: templates
-  template_variables:
-    collection_section: "009"
-
 collections:
   New TV Show Releases:
     item_label: New Release
@@ -36,8 +31,6 @@ collections:
     file_poster: config/assets/posters/new-releases/old-shows-just-added.png
 
   TV Shows In Progress:
-    variables:
-      key: progress_shows
     smart_filter:
       sort_by: viewed.desc
       all:
