@@ -29,19 +29,3 @@ collections:
     visible_shared: true
     sort_title: "!009_Old_Shows_Just_Added"
     file_poster: config/assets/posters/new-releases/old-shows-just-added.png
-
-  TV Shows In Progress:
-    smart_filter:
-      sort_by: viewed.desc
-      all:
-        unplayed_episodes: true
-        episode_plays.gt: 0
-    template:
-      - name: shared
-    collection_filtering: user
-    summary: TV shows that have been started but not finished. Sorted by Date Viewed.
-    visible_library: true
-    visible_home: true
-    visible_shared: true
-    sort_title: "!009_In_Progress_TV_Shows"
-    url_poster: config/assets/posters/new-releases/tv-shows-in-progress.png
