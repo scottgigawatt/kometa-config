@@ -19,5 +19,5 @@ collections:
     visible_library: true
     visible_home: true
     visible_shared: true
-    sort_title: "!009_In_Progress_TV_Shows"
-    url_poster: config/assets/posters/new-releases/tv-shows-in-progress.png
+    sort_title: "!007_In_Progress_TV_Shows"
+    file_poster: config/assets/posters/new-releases/tv-shows-in-progress.png
