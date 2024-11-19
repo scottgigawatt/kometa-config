@@ -169,7 +169,7 @@ libraries:
         template_variables:
           collection_section: "106"
           trakt_list_mcu: https://trakt.tv/users/donxy/lists/marvel-cinematic-universe
-          trakt_list_dcu: https://trakt.tv/users/lampshadetricky/lists/dc-extended-universe
+          trakt_list_dcu: https://trakt.tv/users/oblogdamari/lists/dceu-dc-extended-universe
           trakt_list_trek: https://trakt.tv/users/rzepkowski/lists/star-trek-movies
           trakt_list_avp: https://trakt.tv/users/liudvikas/lists/aliens-predators-movies
           trakt_list_xmen: https://trakt.tv/users/negricaroll/lists/xmen
