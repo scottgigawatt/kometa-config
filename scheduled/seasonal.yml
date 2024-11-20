@@ -82,12 +82,15 @@ collections:
       name: seasonal
       holiday: "Christmas"
       poster_id: christmas
+    radarr_add_missing: true
+    radarr_search: true
     reciperr_list: https://reciperr.com/api/recipe/list/params?recipeMetadataId=655666f7f5d2acfadaa0a530
     trakt_list:
       - https://trakt.tv/users/littlestella3/lists/christmas
       - https://trakt.tv/users/triadcool/lists/christmas
       - https://trakt.tv/users/pterisaur/lists/christmas
       - https://trakt.tv/users/oldmankestis/lists/christmas
+      - https://trakt.tv/users/scottgigawatt/lists/every-christmas-movie-ever-made
     filters:
       title.not:
         - Lethal Weapon
