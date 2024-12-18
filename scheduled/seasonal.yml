@@ -102,7 +102,31 @@ collections:
         - Iron Man 3
         - Planes, Trains & Automobiles
         - Kiss Kiss Bang Bang
-    schedule: range(11/01-12/30)
+    schedule: range(11/01-01/10)
+
+  Hallmark Christmas Movies:
+    template:
+      name: seasonal
+      holiday: "Hallmark Christmas"
+      poster_id: hallmark
+    radarr_add_missing: true
+    radarr_search: true
+    trakt_list: https://trakt.tv/users/ad76/lists/hallmark-christmas
+    letterboxd_list: https://letterboxd.com/juliec/list/hallmark-christmas/
+    schedule: range(11/01-01/10)
+
+  Lifetime Christmas Movies:
+    template:
+      name: seasonal
+      holiday: "Lifetime Christmas"
+      poster_id: lifetime
+    radarr_add_missing: true
+    radarr_search: true
+    trakt_list:
+      - https://trakt.tv/users/mzdiobolik/lists/lifetime-christmas-movies
+      - https://trakt.tv/users/vectrexgamer/lists/lifetime-original-christmas-movies
+    letterboxd_list: https://letterboxd.com/shelbyec13/list/lifetime-christmas-movies/
+    schedule: range(11/01-01/10)
 
   New Year's Eve Movies:
     template:
@@ -110,4 +134,4 @@ collections:
       holiday: "New Year's Eve"
       poster_id: years
     letterboxd_list: https://letterboxd.com/v5ehbpt6zltbbu0/list/theme-new-years-eve/by/rating/
-    schedule: range(12/26-01/02)
+    schedule: range(12/26-01/10)
