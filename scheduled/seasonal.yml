@@ -16,7 +16,7 @@ collections:
       name: seasonal
       holiday: "Valentine's Day"
       poster_id: valentine
-    letterboxd_list: https://letterboxd.com/v5ehbpt6zltbbu0/list/theme-valentines/by/rating/
+    letterboxd_list: https://letterboxd.com/chazlarson/list/theme-valentines/by/rating/
     plex_search:
       - all:
           genre: Romance, Comedy
@@ -38,7 +38,7 @@ collections:
       name: seasonal
       holiday: "Easter"
       poster_id: easter
-    letterboxd_list: https://letterboxd.com/v5ehbpt6zltbbu0/list/theme-easter/by/rating/
+    letterboxd_list: https://letterboxd.com/chazlarson/list/theme-easter/by/rating/
     trakt_list: https://trakt.tv/users/scottgigawatt/lists/easter
     schedule: range(03/22-04/25)
 
@@ -74,7 +74,7 @@ collections:
       name: seasonal
       holiday: "Thanksgiving"
       poster_id: thanksgiving
-    letterboxd_list: https://letterboxd.com/v5ehbpt6zltbbu0/list/theme-thanksgiving/by/rating/
+    letterboxd_list: https://letterboxd.com/chazlarson/list/theme-thanksgiving/by/rating/
     schedule: range(11/01-12/30)
 
   Christmas Movies:
@@ -133,5 +133,5 @@ collections:
       name: seasonal
       holiday: "New Year's Eve"
       poster_id: years
-    letterboxd_list: https://letterboxd.com/v5ehbpt6zltbbu0/list/theme-new-years-eve/by/rating/
+    letterboxd_list: https://letterboxd.com/chazlarson/list/theme-new-years-eve/by/rating/
     schedule: range(12/26-01/10)
