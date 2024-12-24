@@ -108,7 +108,7 @@ collections:
     template:
       name: seasonal
       holiday: "Hallmark Christmas"
-      poster_id: hallmark
+      poster_id: christmas_hallmark
     radarr_add_missing: true
     radarr_search: true
     trakt_list: https://trakt.tv/users/ad76/lists/hallmark-christmas
@@ -119,13 +119,58 @@ collections:
     template:
       name: seasonal
       holiday: "Lifetime Christmas"
-      poster_id: lifetime
+      poster_id: christmas_lifetime
     radarr_add_missing: true
     radarr_search: true
     trakt_list:
       - https://trakt.tv/users/mzdiobolik/lists/lifetime-christmas-movies
       - https://trakt.tv/users/vectrexgamer/lists/lifetime-original-christmas-movies
     letterboxd_list: https://letterboxd.com/shelbyec13/list/lifetime-christmas-movies/
+    schedule: range(11/01-01/10)
+
+  Rankin/Bass Christmas Movies:
+    template:
+      name: seasonal
+      holiday: "Rankin/Bass Christmas"
+      poster_id: christmas_rankin-bass
+    radarr_add_missing: true
+    radarr_search: true
+    trakt_list:
+      - https://trakt.tv/users/circle909/lists/rankin-bass-christmas-classics
+      - https://trakt.tv/users/goape/lists/rankin-bass-christmas-classics
+      - https://trakt.tv/users/nexpose95/lists/rankin-bass-christmas-tv
+      - https://trakt.tv/users/gristlemctough/lists/rankin-bass-christmas
+    letterboxd_list: https://letterboxd.com/saih86/list/rankin-bass-christmas-collection/
+    schedule: range(11/01-01/10)
+
+  Vintage Christmas Movies:
+    template:
+      name: seasonal
+      holiday: "Vintage Christmas"
+      poster_id: christmas_vintage
+    radarr_add_missing: true
+    radarr_search: true
+    trakt_list: https://trakt.tv/users/scottgigawatt/lists/christmas-vintage
+    letterboxd_list:
+      - https://letterboxd.com/screendrafts/list/vintage-christmas/
+      - https://letterboxd.com/zgkap/list/vintage-christmas/
+      - https://letterboxd.com/angry_yara/list/vintage-christmas-winter-magic-of-old-cinema/
+    schedule: range(11/01-01/10)
+
+  Horror Christmas Movies:
+    template:
+      name: seasonal
+      holiday: "Horror Christmas"
+      poster_id: christmas_horror
+    radarr_add_missing: true
+    radarr_search: true
+    trakt_list:
+      - https://trakt.tv/users/rudehorror90/lists/christmas-horror
+      - https://trakt.tv/users/japhyryder81/lists/christmas-horror
+    letterboxd_list:
+      - https://letterboxd.com/theweirdling/list/christmas-horror/
+      - https://letterboxd.com/toshio/list/christmas-horror/
+      - https://letterboxd.com/atriptopluto/list/christmas-horror/
     schedule: range(11/01-01/10)
 
   New Year's Eve Movies:
