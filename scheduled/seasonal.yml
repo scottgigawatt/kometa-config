@@ -75,7 +75,7 @@ collections:
       holiday: "Thanksgiving"
       poster_id: thanksgiving
     letterboxd_list: https://letterboxd.com/chazlarson/list/theme-thanksgiving/by/rating/
-    schedule: range(11/01-12/30)
+    schedule: range(11/01-12/15)
 
   Christmas Movies:
     template:
