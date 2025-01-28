@@ -468,7 +468,8 @@ collections:
       rating.gte: 2
       votes.gte: 1000
       language: "en"
-      letterboxd_list: "theme-found-footage"
+      # letterboxd_list: "theme-found-footage"
+      letterboxd_extra_1: "https://letterboxd.com/mehrmantraut/list/theme-found-footage/by/rating"
 
   "Top Rated in Fugitives":
     summary: "Top rated movies in Fugitives"
