@@ -27,7 +27,8 @@ templates:
       - <<imdb_extra_4>>
       - <<imdb_extra_5>>
     letterboxd_list:
-      - https://letterboxd.com/chazlarson/list/<<letterboxd_list>>/by/rating/
+      - https://letterboxd.com/mehrmantraut/list/<<letterboxd_list>>/by/rating/
+      # - https://letterboxd.com/chazlarson/list/<<letterboxd_list>>/by/rating/
       - <<letterboxd_extra_1>>
       - <<letterboxd_extra_2>>
       - <<letterboxd_extra_3>>
@@ -469,7 +470,7 @@ collections:
       votes.gte: 1000
       language: "en"
       letterboxd_list: "theme-found-footage"
-      letterboxd_extra_1: "https://letterboxd.com/mehrmantraut/list/theme-found-footage/by/rating"
+      # letterboxd_extra_1: "https://letterboxd.com/mehrmantraut/list/theme-found-footage/by/rating"
 
   "Top Rated in Fugitives":
     summary: "Top rated movies in Fugitives"
@@ -603,7 +604,7 @@ collections:
       votes.gte: 1000
       language: "en"
       letterboxd_list: "theme-martial-arts"
-      letterboxd_extra_1: "https://letterboxd.com/mehrmantraut/list/theme-martial-arts/by/rating"
+      # letterboxd_extra_1: "https://letterboxd.com/mehrmantraut/list/theme-martial-arts/by/rating"
       imdb_extra_1: "https://www.imdb.com/list/ls000099643"
       imdb_extra_2: "https://www.imdb.com/list/ls068611186"
       imdb_extra_3: "https://www.imdb.com/list/ls068378513"
@@ -1009,7 +1010,7 @@ collections:
       votes.gte: 1000
       language: "en"
       letterboxd_list: "theme-romantic-drama"
-      letterboxd_extra_1: "https://letterboxd.com/mehrmantraut/list/theme-romantic-drama/by/rating"
+      # letterboxd_extra_1: "https://letterboxd.com/mehrmantraut/list/theme-romantic-drama/by/rating"
     filters:
       genre: Drama
       year.gte: 1960
