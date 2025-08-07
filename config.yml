@@ -7,7 +7,7 @@
 #
 libraries:
   #
-  # Define scheduled movie collections
+  # Define 'Scheduled' movie collections
   #
   Scheduled:
     # Define target Plex library
@@ -37,7 +37,7 @@ libraries:
           collection_section: "010"
           schedule: range(01/01-04/01)
 
-    # Define scheduled 'Movies' library settings
+    # Define 'Scheduled' movies library settings
     settings:
       delete_not_scheduled: true
       asset_directory: config/assets
@@ -92,7 +92,8 @@ libraries:
       - default: genre
         template_variables:
           sort_by: title.asc
-          exclude: # In genre.yml config
+          # In genre.yml config
+          exclude:
             - Horror
             - War
             - Western
@@ -255,7 +256,7 @@ libraries:
       assets_for_all: true
 
   #
-  # Define TV show collections
+  # Define 'TV Shows' library collections
   #
   TV Shows:
     # Define where to store missing TV shows report
