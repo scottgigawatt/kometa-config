@@ -1030,7 +1030,7 @@ collections:
       votes.gte: 100
       language: "en"
       letterboxd_list: "theme-samurai"
-      letterboxd_extra_1: "https://letterboxd.com/jhcrotinger/list/samurai/by/rating/"
+      letterboxd_extra_1: "https://letterboxd.com/_jacobhayden_/list/samurai/by/rating/"
 
   "Top Rated in Satire":
     summary: "Top rated movies in Satire"
