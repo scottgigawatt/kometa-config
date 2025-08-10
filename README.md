@@ -1,3 +1,29 @@
+<hr />
+
+<p align="center">
+  <em>💫 Star this repo — could this BE any more organized?</em>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/github/license/scottgigawatt/kometa-config?label=Streaming%20Rights&color=blue" alt="License" />
+  <img src="https://img.shields.io/github/last-commit/scottgigawatt/kometa-config?label=Last%20Rerun&logo=git&color=green" alt="Last Commit" />
+  <img src="https://img.shields.io/github/repo-size/scottgigawatt/kometa-config?label=Box%20Set%20Size&color=orange" alt="Repo Size" />
+</p>
+
+<p align="center">─── ⛧ ───</p>
+
+<p align="center">
+    <em>📺 Got messy metadata or stubborn seasons? We’ll be there for you… in <strong>🔥HADES🔥</strong>.</em>
+</p>
+
+<p align="center">
+  <a href="https://discord.gg/BpEGzWwGYf">
+    <img src="https://img.shields.io/discord/1403601106315116626?label=%F0%9F%94%A5HADES%F0%9F%94%A5&logo=discord&logoColor=white&color=5865F2" alt="🔥HADES🔥 Discord" />
+  </a>
+</p>
+
+<hr />
+
 # Kometa Configuration
 
 This repository contains configuration files tailored for enhancing Plex media libraries using Kometa.
