@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.28.0
+    rev: v8.29.0
     hooks:
       - id: gitleaks
   - repo: https://github.com/Yelp/detect-secrets
@@ -10,7 +10,7 @@ repos:
         args: ["--baseline", ".secrets.baseline"]
         exclude: package.lock.json
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-yaml
       - id: end-of-file-fixer
