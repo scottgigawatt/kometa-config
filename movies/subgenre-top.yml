@@ -155,6 +155,21 @@ collections:
       language: "en"
       letterboxd_list: "theme-betrayal"
 
+  "Top Rated in Bigfoot":
+    summary: "Top rated movies in Bigfoot"
+    file_poster: config/assets/posters/subgenre_top/subgenre_top_bigfoot.png
+    schedule: weekly(monday)
+    template:
+      name: sub_genre
+      keyword: "bigfoot"
+      type: "movie,tv_movie"
+      rating.gte: 5
+      votes.gte: 500
+      language: "en"
+      letterboxd_list: "theme-bigfoot"
+      letterboxd_extra_1: "https://letterboxd.com/ednagrinch/list/theme-bigfoot/by/rating"
+      letterboxd_extra_2: "https://letterboxd.com/ednagrinch/list/bigfoot/by/rating"
+
   "Top Rated in Dark Comedy":
     summary: "Top rated movies in Dark Comedy"
     file_poster: config/assets/posters/subgenre_top/subgenre_top_dark-comedy.png
