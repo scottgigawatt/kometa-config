@@ -166,7 +166,7 @@ collections:
       rating.gte: 5
       votes.gte: 500
       language: "en"
-      letterboxd_list: "theme-bigfoot"
+      # letterboxd_list: "theme-bigfoot"
       letterboxd_extra_1: "https://letterboxd.com/ednagrinch/list/theme-bigfoot/by/rating"
       letterboxd_extra_2: "https://letterboxd.com/ednagrinch/list/bigfoot/by/rating"
 

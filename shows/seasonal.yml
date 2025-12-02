@@ -2,7 +2,7 @@ templates:
   seasonal:
     file_poster: /config/assets/posters/seasonal/<<poster_id>>.jpg
     sort_title: "!00_<<collection_name>>"
-    collection_order: critic_rating.desc
+    # collection_order: critic_rating.desc
     sync_mode: sync
     builder_level: episode
     visible_library: true
