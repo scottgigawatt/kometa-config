@@ -1,0 +1,58 @@
+//
+// Copyright 2025-2026 Scott Gigawatt
+//
+// Licensed under the Apache License, Version 2.0.
+//
+// renovate.json5: Automated dependency update policy for repository tooling
+//                 and the pinned Kometa validator image.
+//
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:recommended",
+        "helpers:pinGitHubActionDigests",
+        ":enablePreCommit"
+    ],
+    "timezone": "America/New_York",
+    "schedule": ["before 8am on monday"],
+    "dependencyDashboard": true,
+    "labels": ["dependencies"],
+    "assignees": ["scottgigawatt"],
+    "reviewers": ["scottgigawatt"],
+    "enabledManagers": [
+        "custom.regex",
+        "github-actions",
+        "pip_requirements",
+        "pre-commit"
+    ],
+    "customManagers": [
+        {
+            "customType": "regex",
+            "managerFilePatterns": ["/^Makefile$/"],
+            "matchStrings": [
+                "KOMETA_IMAGE \\?= (?<depName>kometateam/kometa):(?<currentValue>[^@\\s]+)@(?<currentDigest>sha256:[a-f0-9]+)"
+            ],
+            "datasourceTemplate": "docker",
+            "versioningTemplate": "docker"
+        }
+    ],
+    "packageRules": [
+        {
+            "groupName": "GitHub Actions",
+            "matchManagers": ["github-actions"]
+        },
+        {
+            "groupName": "pre-commit hooks",
+            "matchManagers": ["pre-commit"]
+        },
+        {
+            "groupName": "Kometa validator",
+            "matchDepNames": ["kometateam/kometa"],
+            "pinDigests": true
+        },
+        {
+            "matchManagers": ["pip_requirements"],
+            "rangeStrategy": "pin"
+        }
+    ]
+}

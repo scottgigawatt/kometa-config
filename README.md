@@ -32,7 +32,7 @@ This repository contains configuration files tailored for enhancing Plex media l
 
 ## Description
 
-Configuration files for my specific setup and needs, diverging from the original fork by [TheChrisK](https://github.com/TheChrisK/PMM).
+Configuration, artwork, and validation tooling for my Kometa-managed Plex libraries. The Git checkout is the source of truth for human-authored files; credentials, logs, caches, reports, and helper-generated runtime files remain private and untracked.
 
 ## Credits
 
@@ -48,13 +48,57 @@ Special thanks to contributors:
 
 ### Subgenre Posters
 
-Custom [subgenre posters](assets/posters/subgenre_top/) to enhance Plex libraries. View the configuration file [here](movies/subgenre-top.yml).
+Custom [subgenre posters](assets/posters/subgenre_top/) to enhance Plex libraries. View the [subgenre collection configuration](movies/subgenre-top.yml).
 
 ![subgenre-posters](https://github.com/scottgigawatt/kometa-config/assets/16313565/091fc37c-e9d4-4f8e-8e2c-0b537f46e8c0 "Subgenre Posters")
 
 ## Usage
 
-Clone or download the repository and follow [Kometa documentation](https://kometa.wiki/en/latest/).
+Clone the repository, install the pinned local checks, and validate it before connecting Kometa to Plex:
+
+```sh
+git clone https://github.com/scottgigawatt/kometa-config.git
+cd kometa-config
+python3 -m pip install -r requirements-dev.txt
+make check
+```
+
+Real credentials belong under the ignored `.secrets/` directory or in the private deployment environment. The obvious values in `config.yml` are placeholders.
+
+The production Duplex deployment mounts this checkout as Kometa's writable `/config` directory. PATTRMM shares that mount and generates `*-in-history.yml`, `*-by-size.yml`, `*-returning-soon-metadata.yml`, and `*-returning-soon-overlay.yml` runtime inputs. Those generated files are ignored and must not be committed.
+
+See the [Kometa documentation](https://kometa.wiki/en/latest/) for application behavior and the [testing guide](docs/testing.md) for the isolated Plex fixture-library workflow.
+
+## Validation
+
+The default Make target lists the supported commands:
+
+```sh
+make
+```
+
+Run the complete local gate with:
+
+```sh
+make check
+```
+
+The pull-request workflow performs the same configuration and lint checks from a text-only sparse checkout, avoiding a multi-gigabyte artwork download.
+
+## Test libraries
+
+Kometa recommends small fixture libraries for fast collection and overlay iteration. This repository includes a safe test configuration for the upstream `test_movie_lib` and `test_tv_lib` fixtures:
+
+```sh
+cp example.test.env .secrets/test.env
+make test-library
+```
+
+Complete the private values and Plex library setup described in [the testing guide](docs/testing.md) before running the command. The test configuration never names the production `Movies` or `TV Shows` libraries.
+
+## Generated files
+
+PATTRMM intentionally writes changing YAML into the mounted runtime checkout. Repository checks reject those filenames if they are accidentally staged, while `.gitignore` keeps normal regeneration quiet. Change their behavior through PATTRMM preferences rather than editing the generated output.
 
 ## License
 

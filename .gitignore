@@ -5,3 +5,18 @@ logs/
 .DS_Store
 .secrets/
 auth.yml
+
+# Local Kometa sandbox state.
+.kometa-test/
+
+# Private environment files; checked-in examples remain allowed.
+.env
+.env.*
+*.env
+!example*.env
+
+# PATTRMM writes these inputs into the mounted Kometa configuration tree.
+**/*-by-size.yml
+**/*-in-history.yml
+**/*-returning-soon-metadata.yml
+**/*-returning-soon-overlay.yml

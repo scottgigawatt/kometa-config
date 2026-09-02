@@ -1,0 +1,24 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# .markdownlint-cli2.yaml: Markdown style and file selection for repository
+#                          documentation and guidance.
+#
+
+globs:
+  - "**/*.md"
+  - "#.git/**"
+
+gitignore: true
+
+config:
+  default: true
+  line-length: false
+  no-inline-html: false
+  first-line-h1: false
+  code-block-style: false
+  table-column-style: false
+  no-duplicate-heading:
+    siblings_only: true
