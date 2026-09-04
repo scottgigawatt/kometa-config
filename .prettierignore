@@ -1,0 +1,23 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# .prettierignore: Keep artwork and application-generated state outside
+#                  explicit editor formatting.
+#
+
+# Keep artwork and private or generated runtime state outside formatting.
+assets/
+logs/
+.kometa-test/
+.secrets/
+
+# Preserve binary artwork and Plex poster formats exactly as authored.
+*.gif
+*.jpeg
+*.jpg
+*.png
+*.psd
+*.tbn
+*.webp

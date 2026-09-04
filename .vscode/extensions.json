@@ -1,0 +1,25 @@
+{
+    //
+    // Copyright 2025-2026 Scott Gigawatt
+    //
+    // Licensed under the Apache License, Version 2.0.
+    //
+    // extensions.json: Recommend focused workspace editing and validation
+    //                  tools for Kometa configuration and documentation.
+    //
+
+    //
+    // Keep recommendations focused on file types and checks owned by this
+    // repository. End-of-line notes distinguish formatters from validators.
+    //
+    "recommendations": [
+        "davidanson.vscode-markdownlint",             // Lint Markdown structure and style.
+        "EditorConfig.EditorConfig",                  // Apply portable repository whitespace rules.
+        "esbenp.prettier-vscode",                     // Format supported languages on explicit request.
+        "github.vscode-github-actions",               // Validate and navigate GitHub Actions workflows.
+        "ms-vscode.makefile-tools",                   // Discover and run documented Make targets.
+        "redhat.vscode-yaml",                         // Validate YAML with Kometa-specific schemas.
+        "streetsidesoftware.code-spell-checker",      // Check prose and identifiers for spelling errors.
+        "timonwong.shellcheck"                        // Surface ShellCheck diagnostics in shell scripts.
+    ]
+}

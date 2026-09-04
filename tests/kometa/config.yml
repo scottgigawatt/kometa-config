@@ -1,0 +1,81 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# config.yml: Isolated configuration for the upstream Plex fixture libraries.
+#
+
+libraries:
+  #
+  # Exercise maintained movie overlays and one smoke collection only against
+  # the upstream fixture library.
+  #
+  test_movie_lib:
+    collection_files:
+      - file: /workspace/tests/kometa/collections.yml
+    overlay_files:
+      - default: resolution
+      - default: audio_codec
+      - default: mediastinger
+    operations:
+      assets_for_all: false
+
+  #
+  # Exercise maintained show overlays and the same smoke collection only
+  # against the upstream fixture library.
+  #
+  test_tv_lib:
+    collection_files:
+      - file: /workspace/tests/kometa/collections.yml
+    overlay_files:
+      - default: network
+      - default: streaming
+      - default: studio
+    operations:
+      assets_for_all: false
+
+#
+# Keep the test deterministic, preserve Plex state outside these definitions,
+# and retain logs plus reports for inspection after each run.
+#
+settings:
+  cache: true
+  cache_expiration: 60
+  asset_directory: /workspace/assets
+  asset_folders: false
+  prioritize_assets: false
+  download_url_assets: false
+  sync_mode: sync
+  minimum_items: 1
+  delete_below_minimum: false
+  delete_not_scheduled: false
+  save_report: true
+  show_unmanaged: false
+  show_unconfigured: false
+  playlist_report: false
+  verify_ssl: true
+  run_order:
+    - collections
+    - overlays
+
+#
+# Disable every Plex-wide maintenance action so the fixture run can change only
+# collection and overlay metadata in the two named test libraries.
+#
+plex:
+  url: <<plexurl>>
+  token: <<plextoken>>
+  timeout: 60
+  clean_bundles: false
+  empty_trash: false
+  optimize: false
+
+#
+# Use TMDb only for metadata required by the fixture collection and overlays.
+#
+tmdb:
+  apikey: <<tmdbapikey>>
+  language: en
+  cache_expiration: 60
+  region: US

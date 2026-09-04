@@ -1,3 +1,15 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# .gitleaks.toml: Keep the reviewed detect-secrets baseline out of Gitleaks
+#                 findings while scanning every source-controlled file.
+#
+
+#
+# Ignore only the generated secret baseline; repository source remains scanned.
+#
 [[paths]]
   path = "**/.secrets.baseline"
   ignore = true

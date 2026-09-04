@@ -1,61 +1,292 @@
 {
-  "yaml.schemas": {
-    "https://raw.githubusercontent.com/Kometa-Team/Kometa/master/json-schema/config-schema.json": "{*config*.yml}",
-  },
-  "cSpell.words": [
-    "anidb",
-    "apikey",
-    "Arrakis",
-    "Atreides",
-    "Battlestar",
-    "Britbox",
-    "Cornetto",
-    "dvhdrplus",
-    "Emmys",
-    "Epix",
-    "Galactica",
-    "Galitzine",
-    "Ghostbusters",
-    "gitleaks",
-    "HGTV",
-    "imagemaid",
-    "imdb",
-    "imdbtop",
-    "Kometa",
-    "kometateam",
-    "Kylie's",
-    "LGBTQ",
-    "linebreak",
-    "Liotta",
-    "mdblist",
-    "mediastinger",
-    "meisnate",
-    "metacritic",
-    "mindbender",
-    "mindfuck",
-    "Mockumentaries",
-    "Mockumentary",
-    "Nanno's",
-    "Nemah's",
-    "notifiarr",
-    "omdb",
-    "preroll",
-    "prerolls",
-    "pterisaur",
-    "radarr",
-    "Razzie",
-    "reciperr",
-    "sonarr",
-    "Starz",
-    "stevenlu",
-    "Syfy",
-    "tautulli",
-    "tmdb",
-    "tvdb",
-    "unconfigured",
-    "unmanaged",
-    "Weezer's",
-    "Wizarding",
-    "xmen"
-]
+    //
+    // Copyright 2025-2026 Scott Gigawatt
+    //
+    // Licensed under the Apache License, Version 2.0.
+    //
+    // settings.json: Keep the Kometa workspace aligned with repository
+    //                formatting, spelling, schema, and validation rules.
+    //
+
+    //
+    // Accept project names, media terminology, external identifiers, proper
+    // names, and intentional wording used by the Kometa configuration.
+    //
+    "cSpell.words": [
+        "Acuña",
+        "Affleck",
+        "Aleksandar",
+        "Amblin",
+        "anidb",
+        "apikey",
+        "Arrakis",
+        "Atreides",
+        "Aykroyd",
+        "Battlestar",
+        "Bettinelli",
+        "bioweapons",
+        "Blumhouse",
+        "Bogomil",
+        "Boulle's",
+        "Britbox",
+        "Bruckheimer",
+        "BTTF",
+        "Busick",
+        "bussin",
+        "buzzworthy",
+        "Caan",
+        "Capcom",
+        "Caple",
+        "Chewbacca",
+        "Clane",
+        "Clooney",
+        "Connor's",
+        "Constantin",
+        "Cornetto",
+        "Danilo",
+        "davidanson",
+        "dragonball",
+        "dvhdrplus",
+        "Ehren",
+        "Emmys",
+        "Epix",
+        "esbenp",
+        "Everdeen",
+        "Faltermeyer",
+        "Feig",
+        "Fingaz",
+        "Flickerman",
+        "freshred",
+        "Freshred",
+        "Galactica",
+        "Galitzine",
+        "García",
+        "Ghehey",
+        "Ghostbusters",
+        "Gillett",
+        "gitleaks",
+        "Goyer",
+        "Harrelson",
+        "Haymitch",
+        "Hemon",
+        "Hemsworth",
+        "HGTV",
+        "Hutcherson",
+        "imagemaid",
+        "imdb",
+        "IMDB",
+        "imdbtop",
+        "Jonze",
+        "Jovovich",
+        "Katniss",
+        "Kilik",
+        "Kilmer",
+        "Kolstad",
+        "Kometa",
+        "Kometa's",
+        "kometateam",
+        "Kylie's",
+        "Lalo",
+        "Langford",
+        "LAPD",
+        "LGBTQ",
+        "Lionsgate",
+        "Liotta",
+        "Lorean",
+        "Ludlum",
+        "Margera",
+        "mdblist",
+        "mediastinger",
+        "Mediastingers",
+        "meisnate",
+        "Mellark",
+        "metacritic",
+        "Mikey",
+        "Milla",
+        "mindbender",
+        "mindfuck",
+        "Mockumentaries",
+        "Mockumentary",
+        "Morrell",
+        "Murtaugh",
+        "Nanno's",
+        "Nemah's",
+        "Neufeld",
+        "Nighy",
+        "Nira",
+        "Niven",
+        "Norrington",
+        "nosuid",
+        "notifiarr",
+        "Notifiarr",
+        "Olivera",
+        "Olpin",
+        "omdb",
+        "outerspace",
+        "Outerspace",
+        "Parkes",
+        "PATTRMM",
+        "Peeta",
+        "Pegg",
+        "plextoken",
+        "PLEXTOKEN",
+        "plexurl",
+        "PLEXURL",
+        "precommit",
+        "preroll",
+        "prerolls",
+        "pterisaur",
+        "radarr",
+        "Radarr",
+        "Rafe",
+        "Ramis",
+        "Razzie",
+        "reciperr",
+        "Redfield",
+        "Rehme",
+        "Reiner",
+        "religous",
+        "Riddick",
+        "Robocop",
+        "Royale",
+        "Schifrin",
+        "scottgigawatt",
+        "Shaobo",
+        "shellcheck",
+        "Skrein",
+        "Skynet's",
+        "Soderbergh",
+        "sonarr",
+        "Sonarr",
+        "Sonnenfeld",
+        "Starz",
+        "Statham",
+        "Stephenie",
+        "stevenlu",
+        "Syfy",
+        "Taggart",
+        "tautulli",
+        "Tautulli",
+        "Teigue",
+        "Thunderball",
+        "timonwong",
+        "tmdb",
+        "tmdbapikey",
+        "TMDBAPIKEY",
+        "tmpfs",
+        "Tremaine",
+        "Tucci",
+        "tvdb",
+        "Twohy",
+        "unconfigured",
+        "unmanaged",
+        "vorite",
+        "Wachowski",
+        "Wachowskis",
+        "webp",
+        "Weezer's",
+        "Wesker",
+        "Wizarding",
+        "worktree",
+        "xmen",
+        "Yuen",
+        "Zemeckis"
+    ],
+
+    //
+    // Keep Makefile Tools from inventing a configure step for this project.
+    //
+    "makefile.configureOnOpen": false,
+
+    //
+    // Associate special repository files with their correct language modes.
+    //
+    "files.associations": {
+        ".prettierrc.json5": "jsonc",
+        ".secrets.baseline": "jsonc",
+        "**/CODEOWNERS": "plaintext"
+    },
+
+    //
+    // Mirror EditorConfig indentation while disabling YAML format-on-save so
+    // Kometa key ordering and nearby explanatory comments remain deliberate.
+    //
+    "[yaml]": {
+        "editor.detectIndentation": false,
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.formatOnSave": false
+    },
+    "[github-actions-workflow]": {
+        "editor.detectIndentation": false,
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.formatOnSave": false
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.detectIndentation": false,
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true,
+        "editor.formatOnSave": false
+    },
+    "[jsonc]": {
+        "editor.detectIndentation": false,
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true,
+        "editor.formatOnSave": false
+    },
+    "[makefile]": {
+        "editor.detectIndentation": false,
+        "editor.tabSize": 4,
+        "editor.insertSpaces": false
+    },
+    "[markdown]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.detectIndentation": false,
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.formatOnSave": false
+    },
+    "[shellscript]": {
+        "editor.detectIndentation": false,
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true
+    },
+
+    //
+    // Use the checked-in Prettier configuration only for supported languages.
+    // Keep global module discovery disabled so formatting stays workspace-safe.
+    //
+    "prettier.requireConfig": true,
+    "prettier.resolveGlobalModules": false,
+    "prettier.useEditorConfig": true,
+
+    //
+    // Validate each Kometa YAML family against the schema for the same pinned
+    // release used by repository validation and the test-library workflow.
+    //
+    "yaml.format.enable": true,
+    "yaml.schemaStore.enable": true,
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": [
+            "**/.github/workflows/*.yml",
+            "**/.github/workflows/*.yaml"
+        ],
+        "https://json.schemastore.org/pre-commit-config.json": ".pre-commit-config.yaml",
+        "https://raw.githubusercontent.com/Kometa-Team/Kometa/v2.4.8/json-schema/config-schema.json": [
+            "config.yml",
+            "tests/kometa/config.yml"
+        ],
+        "https://raw.githubusercontent.com/Kometa-Team/Kometa/v2.4.8/json-schema/collection-schema.json": [
+            "movies/**/*.yml",
+            "scheduled/**/*.yml",
+            "shows/**/*.yml",
+            "tests/kometa/collections.yml"
+        ],
+        "https://raw.githubusercontent.com/Kometa-Team/Kometa/v2.4.8/json-schema/overlay-schema.json": "overlays/**/*.yml",
+        "https://raw.githubusercontent.com/Kometa-Team/Kometa/v2.4.8/json-schema/playlist-schema.json": "playlists/**/*.yml"
+    },
+    "yaml.validate": true,
+    "yaml.yamlVersion": "1.2"
 }
