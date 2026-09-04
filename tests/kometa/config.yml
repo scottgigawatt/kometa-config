@@ -7,6 +7,10 @@
 #
 
 libraries:
+  #
+  # Exercise maintained movie overlays and one smoke collection only against
+  # the upstream fixture library.
+  #
   test_movie_lib:
     collection_files:
       - file: /workspace/tests/kometa/collections.yml
@@ -17,6 +21,10 @@ libraries:
     operations:
       assets_for_all: false
 
+  #
+  # Exercise maintained show overlays and the same smoke collection only
+  # against the upstream fixture library.
+  #
   test_tv_lib:
     collection_files:
       - file: /workspace/tests/kometa/collections.yml
@@ -27,6 +35,10 @@ libraries:
     operations:
       assets_for_all: false
 
+#
+# Keep the test deterministic, preserve Plex state outside these definitions,
+# and retain logs plus reports for inspection after each run.
+#
 settings:
   cache: true
   cache_expiration: 60
@@ -47,6 +59,10 @@ settings:
     - collections
     - overlays
 
+#
+# Disable every Plex-wide maintenance action so the fixture run can change only
+# collection and overlay metadata in the two named test libraries.
+#
 plex:
   url: <<plexurl>>
   token: <<plextoken>>
@@ -55,6 +71,9 @@ plex:
   empty_trash: false
   optimize: false
 
+#
+# Use TMDb only for metadata required by the fixture collection and overlays.
+#
 tmdb:
   apikey: <<tmdbapikey>>
   language: en

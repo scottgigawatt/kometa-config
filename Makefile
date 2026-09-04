@@ -7,12 +7,21 @@
 #           isolated Plex test-library workflow.
 #
 
+#
+# Pinned Kometa runtime and private test-library environment settings.
+#
 KOMETA_IMAGE ?= kometateam/kometa:v2.4.8@sha256:c58f6d4af511613f218b6dafbfc84078af4e5a6089790c1fdba58fd7c5dad70a
 TEST_ENV ?= .secrets/test.env
 
+#
+# Export runtime settings for the repository's shell helpers.
+#
 export KOMETA_IMAGE
 export TEST_ENV
 
+#
+# Default target and complete public target inventory.
+#
 .DEFAULT_GOAL := help
 
 .PHONY: check check-generated format help lint lint-ci test-library validate

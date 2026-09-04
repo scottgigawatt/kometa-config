@@ -8,6 +8,10 @@
 
 name: "Screen the Kometa Schedule 📺"
 
+#
+# Run the complete text-only validation gate for pull requests, main-branch
+# updates, and explicit maintainer dispatches.
+#
 on:
   pull_request:
     branches:
@@ -20,11 +24,18 @@ on:
 permissions:
   contents: read
 
+#
+# Cancel superseded runs for the same branch without conflating separate refs.
+#
 concurrency:
   group: "${{ github.workflow }}-${{ github.ref }}"
   cancel-in-progress: true
 
 jobs:
+  #
+  # Validate configuration, repository hygiene, secrets, shell helpers, and
+  # workflow syntax without granting write access or downloading artwork.
+  #
   validate:
     name: "Validate the Configuration Reels 🎞️"
     runs-on: ubuntu-latest
@@ -32,6 +43,10 @@ jobs:
       contents: read
 
     steps:
+      #
+      # Check out only project text and validation inputs without retaining
+      # credentials on the runner.
+      #
       - name: "Check Out the Text Reels 📼"
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
@@ -63,6 +78,10 @@ jobs:
             /shows/*.yml
             /tests/
 
+      #
+      # Install the exact Python runtime used by the repository's pinned
+      # development dependencies.
+      #
       - name: "Ready the Validation Projector 🎥"
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97  # v7
         with:
@@ -70,8 +89,15 @@ jobs:
           cache: pip
           cache-dependency-path: requirements-dev.txt
 
+      #
+      # Install only the version-pinned validation dependency set.
+      #
       - name: "Install the Checked Reels 🧰"
         run: python -m pip install --requirement requirements-dev.txt
 
+      #
+      # Run Kometa schema validation, generated-file policy, and every
+      # repository lint hook through the contributor-facing Make targets.
+      #
       - name: "Run the Repository Credits ✅"
         run: make validate check-generated lint-ci

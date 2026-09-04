@@ -7,6 +7,10 @@
 #
 
 collections:
+  #
+  # Build a deliberately small collection that remains hidden from Plex home,
+  # library, and shared-user surfaces while proving search and sync behavior.
+  #
   Kometa Smoke Test - Recent Comedies:
     plex_search:
       all:

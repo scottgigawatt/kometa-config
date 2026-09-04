@@ -8,6 +8,9 @@
     //                    repository file types supported by Prettier.
     //
 
+    //
+    // Match repository-wide line endings, indentation, and conservative prose.
+    //
     "$schema": "https://json.schemastore.org/prettierrc",
     "endOfLine": "lf",
     "printWidth": 100,
@@ -16,6 +19,10 @@
     "tabWidth": 2,
     "trailingComma": "none",
     "useTabs": false,
+
+    //
+    // Preserve the repository's four-space JSON and JSON-with-comments style.
+    //
     "overrides": [
         {
             "files": ["*.json", "*.jsonc", "*.json5"],

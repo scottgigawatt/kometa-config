@@ -8,20 +8,27 @@
 #
 
 repos:
-  # Scan changed content for credentials before it can be committed.
+  #
+  # Scan changed content for hardcoded secrets before it can be committed.
+  #
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.30.1
     hooks:
       - id: gitleaks
 
-  # Compare possible secrets against the reviewed repository baseline.
+  #
+  # Compare detected secrets against the reviewed repository baseline.
+  #
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.5.0
     hooks:
       - id: detect-secrets
         args: ["--baseline", ".secrets.baseline"]
 
-  # Enforce portable syntax and whitespace without rewriting YAML semantics.
+  #
+  # Run general file hygiene, syntax, shebang, and whitespace checks without
+  # rewriting Kometa YAML semantics or artwork.
+  #
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
@@ -44,14 +51,18 @@ repos:
         args: ["--markdown-linebreak-ext=md"]
         exclude: ^assets/
 
-  # Validate Markdown structure while preserving the repository's HTML header.
+  #
+  # Validate every Markdown document with the shared repository configuration.
+  #
   - repo: https://github.com/DavidAnson/markdownlint-cli2
     rev: v0.23.2
     hooks:
       - id: markdownlint-cli2
         pass_filenames: false
 
+  #
   # Enforce the two-space YAML style used by Kometa and GitHub Actions.
+  #
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.38.0
     hooks:
@@ -61,19 +72,25 @@ repos:
           - "-d"
           - "{extends: default, rules: {comments: {min-spaces-from-content: 1}, comments-indentation: disable, document-start: disable, indentation: {spaces: 2, indent-sequences: true}, line-length: disable, truthy: disable}}"
 
-  # Validate the repository's GitHub Actions workflow.
+  #
+  # Validate GitHub Actions expressions, permissions, and shell fragments.
+  #
   - repo: https://github.com/rhysd/actionlint
     rev: v1.7.12
     hooks:
       - id: actionlint
 
-  # Check project-owned POSIX shell helpers.
+  #
+  # Check project-owned shell scripts for correctness and portability issues.
+  #
   - repo: https://github.com/shellcheck-py/shellcheck-py
     rev: v0.11.0.1
     hooks:
       - id: shellcheck
 
+  #
   # Keep PATTRMM-owned generated YAML out of Git history.
+  #
   - repo: local
     hooks:
       - id: check-generated-files

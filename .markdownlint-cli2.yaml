@@ -7,12 +7,23 @@
 #                          documentation and guidance.
 #
 
+#
+# Check every project-owned Markdown document while excluding Git-owned files.
+# Markdownlint CLI2 uses a leading hash to negate matching glob patterns.
+#
 globs:
   - "**/*.md"
   - "#.git/**"
 
+#
+# Honor repository ignore rules so generated and local-only content stays out.
+#
 gitignore: true
 
+#
+# Start with the complete standard rule set, then document only intentional
+# exceptions required by the established repository content.
+#
 config:
   default: true
   line-length: false
@@ -20,5 +31,9 @@ config:
   first-line-h1: false
   code-block-style: false
   table-column-style: false
+
+  #
+  # Repeated section names are acceptable when they belong to separate topics.
+  #
   no-duplicate-heading:
     siblings_only: true

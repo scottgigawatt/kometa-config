@@ -7,10 +7,13 @@
 #                  explicit editor formatting.
 #
 
+# Keep artwork and private or generated runtime state outside formatting.
 assets/
 logs/
 .kometa-test/
 .secrets/
+
+# Preserve binary artwork and Plex poster formats exactly as authored.
 *.gif
 *.jpeg
 *.jpg

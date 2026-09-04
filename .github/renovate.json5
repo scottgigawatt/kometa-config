@@ -7,24 +7,39 @@
 //                 and the pinned Kometa validator image.
 //
 {
+    //
+    // Renovate schema and shared safe defaults.
+    //
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
         "config:recommended",
         "helpers:pinGitHubActionDigests",
         ":enablePreCommit"
     ],
+
+    //
+    // Keep dependency work predictable for a single-maintainer repository.
+    //
     "timezone": "America/New_York",
     "schedule": ["before 8am on monday"],
     "dependencyDashboard": true,
     "labels": ["dependencies"],
     "assignees": ["scottgigawatt"],
     "reviewers": ["scottgigawatt"],
+
+    //
+    // Renovate owns each dependency surface currently used by this repository.
+    //
     "enabledManagers": [
         "custom.regex",
         "github-actions",
         "pip_requirements",
         "pre-commit"
     ],
+
+    //
+    // Track the digest-pinned Kometa image declared in the Makefile.
+    //
     "customManagers": [
         {
             "customType": "regex",
@@ -36,6 +51,10 @@
             "versioningTemplate": "docker"
         }
     ],
+
+    //
+    // Group related tooling updates and keep the Kometa image immutable.
+    //
     "packageRules": [
         {
             "groupName": "GitHub Actions",
