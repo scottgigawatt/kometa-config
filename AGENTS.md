@@ -25,7 +25,9 @@ Logs, caches, missing-item reports, `.kometa-test/`, and `.secrets/` are private
 
 ## Secrets
 
-Never commit real Plex tokens, API keys, OAuth state, webhook URLs, passwords, private environment files, or generated authentication data. Checked-in configuration uses obvious placeholders or Kometa secret substitutions. Private values belong under the ignored `.secrets/` directory or the deployment's private environment.
+Never commit real Plex tokens, API keys, OAuth state, webhook URLs, passwords, private server URLs or hostnames, private environment files, or generated authentication data. Checked-in configuration uses obvious placeholders or Kometa secret substitutions. Private values belong under the ignored `.secrets/` directory or the deployment's private environment.
+
+Treat Plex server addresses as confidential even when publicly reachable. Never reproduce them in source, documentation, commit messages, pull requests, issues, or shared tool output. Runtime logs can contain connection details; keep them private and report only reviewed, sanitized results.
 
 Do not read, print, diff, or stage `.secrets/` content while performing unrelated work. Always inspect staged files before committing.
 

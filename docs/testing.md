@@ -47,7 +47,7 @@ mkdir -p .secrets
 cp -n example.test.env .secrets/test.env
 ```
 
-Edit `.secrets/test.env` with a direct Plex server URL, a Plex token that can manage the two fixture libraries, and a TMDb API key. Use Hera's LAN address, such as `http://HERA_LAN_IP:32400`, rather than `localhost`, which points inside the Kometa container. Never commit that file.
+Edit `.secrets/test.env` with a direct Plex server URL, a Plex token that can manage the two fixture libraries, and a TMDb API key. Use Hera's LAN address, such as `http://HERA_LAN_IP:32400`, rather than `localhost`, which points inside the Kometa container. Never commit that file. Every value in it is private, including a publicly reachable Plex URL; do not copy those values into tracked files, commits, pull requests, or issues.
 
 ## Render the sandbox
 
@@ -58,6 +58,8 @@ make test-library
 ```
 
 The container connects to Hera through the Plex API; only native Plex needs filesystem access to the fixture media. The container mounts the repository read-only and stores runtime output, including logs, cache, reports, and overlay backups, under ignored `.kometa-test/`. The sandbox creates one hidden smoke collection and applies maintained Kometa default overlays to the fixture media. It does not load production playlists, mass-update operations, PATTRMM output, or production library names.
+
+Console output and runtime logs may contain private server addresses or credentials. Keep the original output local and review any diagnostic excerpt for private values before sharing it.
 
 Review both Plex libraries after the run:
 
