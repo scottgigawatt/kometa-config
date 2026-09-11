@@ -200,43 +200,14 @@ libraries:
     remove_overlays: false
     overlay_files:
       - file: config/overlays/top.yml
-      - file: config/overlays/background.yml
-      - default: mediastinger
-        template_variables:
-          file: config/overlays/bottom-left/mediastinger-bottom-left.png
-          vertical_align: bottom
-          vertical_offset: 0
-          horizontal_align: right
-          horizontal_offset: 0
-          back_width: 1000
-          back_height: 1500
-          back_color: "#0000"
 
-      # Resolution in the upper left corner in 45 degree format
+      #
+      # Let Kometa maintain artwork, sizing, and placement for dynamic movie
+      # badges, including new resolution and audio variants.
+      #
       - default: resolution
-        template_variables:
-          file: config/overlays/resolution-top-left-45deg/<<overlay_name>>.png
-          horizontal_align: left
-          horizontal_offset: 0
-          vertical_offset: 0
-          vertical_align: top
-          final_horizontal_offset: 0
-          final_vertical_offset: 0
-          back_width: 1000
-          back_height: 1500
-          back_color: "#0000"
-
-      # Audio in the upper left corner in 45 degree format
       - default: audio_codec
-        template_variables:
-          file: config/overlays/audio-top-left-45deg/<<key>>.png
-          horizontal_align: left
-          horizontal_offset: 0
-          vertical_offset: 0
-          vertical_align: top
-          back_width: 1000
-          back_height: 1500
-          back_color: "#0000"
+      - default: mediastinger
 
     #
     # Define 'Movies' library settings
@@ -339,37 +310,14 @@ libraries:
     overlay_files:
       - file: config/overlays/top.yml
       - file: config/overlays/status.yml
-      - file: config/overlays/network-fallback.yml
-      - default: streaming
-        template_variables:
-          horizontal_align: left
-          horizontal_offset: 0
-          vertical_offset: 0
-          vertical_align: top
-          back_width: 1000
-          back_height: 1500
-          file: config/overlays/streaming-top-left/<<key>>.png
-          back_color: "#0000"
-      - default: studio
-        template_variables:
-          horizontal_align: left
-          horizontal_offset: 0
-          vertical_align: top
-          vertical_offset: 0
-          back_width: 1000
-          back_height: 1500
-          file: config/overlays/studio-top-left/<<key>>.png
-          back_color: "#0000"
+
+      #
+      # Use maintained provider artwork and separate default badge positions.
+      # New or renamed providers no longer require matching local PNG files.
+      #
       - default: network
-        template_variables:
-          horizontal_align: left
-          horizontal_offset: 0
-          vertical_offset: 0
-          vertical_align: top
-          back_width: 1000
-          back_height: 1500
-          file: config/overlays/network-top-left/<<key>>.png
-          back_color: "#0000"
+      - default: streaming
+      - default: studio
 
     #
     # Define 'TV Shows' library settings

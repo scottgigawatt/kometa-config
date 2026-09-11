@@ -66,6 +66,10 @@ Review both Plex libraries after the run:
 - Confirm network, streaming, and studio overlays render legibly on shows.
 - Review `.kometa-test/logs/meta.log` for failures and unexpected warnings.
 
+The preview uses the same dynamic defaults as the production configuration: `resolution`, `audio_codec`, and `mediastinger` for movies, plus `network`, `streaming`, and `studio` for shows. Their artwork, backgrounds, and positions come from [Kometa Defaults](https://kometa.wiki/en/latest/defaults/overlays/). Custom chart ribbons and show-status artwork remain outside this focused preview.
+
+Not every fixture matches every overlay. Resolution follows Plex media information, audio badges depend on filenames and audio-track titles, and provider badges depend on the show's metadata and current streaming availability. Check the run log for actual matches before interpreting an absent badge as a rendering failure.
+
 ## Test a future configuration change
 
 Add only the candidate collection or overlay block to `tests/kometa/config.yml`, or temporarily point that file at the changed source file. Keep production operations and playlists disabled. Run `make validate`, then `make test-library`, and inspect the result before changing Hera.

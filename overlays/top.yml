@@ -141,6 +141,7 @@ templates:
   imdb-lowest:
     optional:
       - overlay_level
+    run_definition: movie
     collection_level: <<overlay_level>>
     imdb_chart: lowest_rated
     overlay:

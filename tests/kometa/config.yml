@@ -8,8 +8,8 @@
 
 libraries:
   #
-  # Exercise maintained movie overlays and one smoke collection only against
-  # the upstream fixture library.
+  # Preview the same dynamic badges selected by the Movies configuration.
+  # Keep custom chart ribbons out of this focused artwork review.
   #
   test_movie_lib:
     collection_files:
@@ -22,8 +22,8 @@ libraries:
       assets_for_all: false
 
   #
-  # Exercise maintained show overlays and the same smoke collection only
-  # against the upstream fixture library.
+  # Preview the same provider badges selected by the TV Shows configuration.
+  # Keep custom chart ribbons and status artwork out of this focused review.
   #
   test_tv_lib:
     collection_files:
