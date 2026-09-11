@@ -8,8 +8,8 @@ overlays:
     plex_all: true
   crave:
     plex_search:
-        all:
-          network: Crave
+      all:
+        network: Crave
     overlay:
       name: crave
       file: config/overlays/network-top-left/Crave.png

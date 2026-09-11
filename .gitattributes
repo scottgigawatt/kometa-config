@@ -1,0 +1,23 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# .gitattributes: Normalize repository text while treating artwork as binary.
+#
+
+#
+# Normalize repository text to portable LF line endings.
+#
+* text=auto eol=lf
+
+#
+# Keep artwork byte-for-byte intact instead of applying text normalization.
+#
+*.gif binary
+*.jpeg binary
+*.jpg binary
+*.png binary
+*.psd binary
+*.tbn binary
+*.webp binary

@@ -1,3 +1,22 @@
-[[paths]]
-  path = "**/.secrets.baseline"
-  ignore = true
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# .gitleaks.toml: Keep the reviewed detect-secrets baseline out of Gitleaks
+#                 findings while scanning every source-controlled file.
+#
+
+#
+# Extend the built-in detectors so a local configuration never disables the
+# standard credential rules.
+#
+[extend]
+  useDefault = true
+
+#
+# Exclude only the generated detect-secrets baseline at the repository root.
+#
+[[allowlists]]
+  description = "Generated detect-secrets baseline"
+  paths = ['''^(\./)?\.secrets\.baseline$''']

@@ -1,0 +1,24 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# collections.yml: Non-destructive smoke collection for both Plex fixtures.
+#
+
+collections:
+  #
+  # Build a deliberately small collection that remains hidden from Plex home,
+  # library, and shared-user surfaces while proving search and sync behavior.
+  #
+  Kometa Smoke Test - Recent Comedies:
+    plex_search:
+      all:
+        genre: Comedy
+        year.gte: 2012
+    collection_mode: hide
+    collection_order: alpha
+    sync_mode: sync
+    visible_home: false
+    visible_library: false
+    visible_shared: false

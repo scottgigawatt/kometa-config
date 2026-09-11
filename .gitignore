@@ -1,7 +1,42 @@
-*.bak
-*.cache
-UUID
-logs/
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# .gitignore: Exclude private credentials, Kometa runtime state, generated
+#             PATTRMM inputs, and local workstation artifacts.
+#
+
+#
+# Local workstation metadata and disposable editor backups.
+#
 .DS_Store
+*.bak
+
+#
+# Private credentials and environment files; checked-in examples remain
+# available as safe templates.
+#
 .secrets/
 auth.yml
+.env
+.env.*
+*.env
+!example*.env
+
+#
+# Kometa logs, caches, identifiers, and isolated test-library state.
+#
+logs/
+*.cache
+UUID
+.kometa-test/
+
+#
+# PATTRMM writes these runtime inputs into the mounted Kometa configuration
+# tree; the generator remains their source of truth.
+#
+**/*-by-size.yml
+**/*-in-history.yml
+**/*-returning-soon-metadata.yml
+**/*-returning-soon-overlay.yml
