@@ -12,8 +12,8 @@
 # Usage: Run through make validate inside the pinned Kometa image.
 #
 
-from pathlib import Path
 import re
+from pathlib import Path
 
 from ruamel.yaml import YAML
 
@@ -51,9 +51,10 @@ def check_assets(source, defaults, tracked):
                 values = overlay.get("variables", {})
                 key = str(values.get("key", overlay_name))
                 alt = str(values.get("alt", ""))
-                if any(variables.get(flag) is False for flag in (
-                    f"use_{key}", f"use_{alt}", f"use_{key}_{alt}"
-                )):
+                if any(
+                    variables.get(flag) is False
+                    for flag in (f"use_{key}", f"use_{alt}", f"use_{key}_{alt}")
+                ):
                     continue
                 artwork = variables.get(f"file_{key}", variables["file"])
                 artwork = artwork.replace("<<overlay_name>>", str(overlay_name))
@@ -67,12 +68,15 @@ def check_assets(source, defaults, tracked):
     #
     for name in ("top", "background", "status", "network-fallback"):
         text = (source / f"overlays/{name}.yml").read_text()
-        for reference in re.findall(r"^\s+file: (config/overlays/[^\n]+)", text, re.MULTILINE):
+        for reference in re.findall(
+            r"^\s+file: (config/overlays/[^\n]+)", text, re.MULTILINE
+        ):
             paths = [reference]
             if "<<status>>" in reference:
-                paths = [reference.replace("<<status>>", status) for status in (
-                    "airing", "returning", "ended", "cancelled"
-                )]
+                paths = [
+                    reference.replace("<<status>>", status)
+                    for status in ("airing", "returning", "ended", "cancelled")
+                ]
             for artwork in paths:
                 if artwork.removeprefix("config/") not in tracked:
                     errors.append(f"{name}: missing {artwork}")
@@ -81,7 +85,9 @@ def check_assets(source, defaults, tracked):
 
 if __name__ == "__main__":
     tracked_files = set(Path("/config/overlay-files").read_text().split("\0"))
-    failures = check_assets(Path("/workspace"), Path("/defaults/overlays"), tracked_files)
+    failures = check_assets(
+        Path("/workspace"), Path("/defaults/overlays"), tracked_files
+    )
     for failure in failures:
         print(f"Overlay check: {failure}")
     if failures:
