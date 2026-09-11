@@ -90,7 +90,8 @@ The pull-request workflow performs the same configuration and lint checks from a
 Kometa recommends small fixture libraries for fast collection and overlay iteration. This repository includes a safe test configuration for the upstream `test_movie_lib` and `test_tv_lib` fixtures:
 
 ```sh
-cp example.test.env .secrets/test.env
+mkdir -p .secrets
+cp -n example.test.env .secrets/test.env
 make test-library
 ```
 

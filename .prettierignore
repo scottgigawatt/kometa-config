@@ -13,6 +13,13 @@ logs/
 .kometa-test/
 .secrets/
 
+# Preserve intentionally aligned explanatory comments in workspace JSONC files.
+.vscode/*.json
+
+# Preserve two spaces before pinned-action comments and other aligned YAML notes.
+**/*.yaml
+**/*.yml
+
 # Preserve binary artwork and Plex poster formats exactly as authored.
 *.gif
 *.jpeg

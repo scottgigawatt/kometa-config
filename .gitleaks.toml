@@ -8,8 +8,15 @@
 #
 
 #
-# Ignore only the generated secret baseline; repository source remains scanned.
+# Extend the built-in detectors so a local configuration never disables the
+# standard credential rules.
 #
-[[paths]]
-  path = "**/.secrets.baseline"
-  ignore = true
+[extend]
+  useDefault = true
+
+#
+# Exclude only the generated detect-secrets baseline at the repository root.
+#
+[[allowlists]]
+  description = "Generated detect-secrets baseline"
+  paths = ['''^(\./)?\.secrets\.baseline$''']

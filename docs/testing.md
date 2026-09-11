@@ -4,6 +4,12 @@ The repository has two validation layers. Offline checks catch syntax, schema, f
 
 ## Run offline validation
 
+Run the repository commands on the Mac from the local checkout, with Docker Desktop running:
+
+```sh
+cd /Users/edward/Documents/Workspace/kometa-config
+```
+
 Install the pinned development tool and run all checks:
 
 ```sh
@@ -15,39 +21,43 @@ make check
 
 ## Prepare Plex fixture libraries
 
-Kometa recommends the [`plex-test-libraries`](https://github.com/chazlarson/plex-test-libraries) fixtures for fast iteration. Clone that repository outside this checkout and make the two fixture directories available to Plex:
+Kometa recommends the [`plex-test-libraries`](https://github.com/chazlarson/plex-test-libraries) fixtures for fast iteration. Plex runs natively on Hera and reads media from `/volume1/plex`. Create `/volume1/plex/test` in Synology File Station, then run these commands in an SSH session on Hera:
 
 ```sh
+cd /volume1/plex/test
 git clone https://github.com/chazlarson/plex-test-libraries.git
 ```
 
-Create two Plex libraries with these exact names:
+If Git is unavailable on Hera, mount the `plex` share on the Mac and clone into `/Volumes/plex/test` instead. The fixtures already include tiny media files; no production movies or episodes need to be copied. Confirm that the `PlexMediaServer` system internal user inherits read access to the test folder, its subfolders, and files.
 
-- `test_movie_lib`, pointed at the fixture repository's `test_movie_lib` directory.
-- `test_tv_lib`, pointed at the fixture repository's `test_tv_lib` directory.
+In Plex Web, open **Settings → Manage → Libraries → Add Library** and create these libraries:
 
-Keep both libraries private, unpinned, and separate from production media. The checked-in test configuration names only these libraries; a typo therefore fails safely instead of falling back to `Movies` or `TV Shows`.
+- **Movies**, named `test_movie_lib`, pointed at `/volume1/plex/test/plex-test-libraries/test_movie_lib`.
+- **TV Shows**, named `test_tv_lib`, pointed at `/volume1/plex/test/plex-test-libraries/test_tv_lib`.
+
+Use the current Plex Movie and Plex Series agents. Keep both libraries private and unpinned, and wait for Plex to scan and match the fixture titles. Point each library at its specific fixture directory, not at `/volume1/plex` or `/volume1/plex/test`. The checked-in test configuration names only these libraries; a typo therefore fails safely instead of falling back to `Movies` or `TV Shows`.
 
 ## Configure private test access
 
-Copy the environment template into the ignored secrets directory:
+Back on the Mac, copy the environment template into the ignored secrets directory. Create it once; preserve any existing private values:
 
 ```sh
+cd /Users/edward/Documents/Workspace/kometa-config
 mkdir -p .secrets
-cp example.test.env .secrets/test.env
+cp -n example.test.env .secrets/test.env
 ```
 
-Edit `.secrets/test.env` with a direct Plex server URL, a Plex token that can manage the two fixture libraries, and a TMDb API key. Never commit that file.
+Edit `.secrets/test.env` with a direct Plex server URL, a Plex token that can manage the two fixture libraries, and a TMDb API key. Use Hera's LAN address, such as `http://HERA_LAN_IP:32400`, rather than `localhost`, which points inside the Kometa container. Never commit that file.
 
 ## Render the sandbox
 
-Run the isolated configuration:
+Run the isolated configuration from the Mac checkout with Docker Desktop running:
 
 ```sh
 make test-library
 ```
 
-The container mounts the repository read-only and writes only logs and cache data under ignored `.kometa-test/`. The sandbox creates one hidden smoke collection and applies maintained Kometa default overlays to the fixture media. It does not load production playlists, mass-update operations, PATTRMM output, or production library names.
+The container connects to Hera through the Plex API; only native Plex needs filesystem access to the fixture media. The container mounts the repository read-only and stores runtime output, including logs, cache, reports, and overlay backups, under ignored `.kometa-test/`. The sandbox creates one hidden smoke collection and applies maintained Kometa default overlays to the fixture media. It does not load production playlists, mass-update operations, PATTRMM output, or production library names.
 
 Review both Plex libraries after the run:
 

@@ -66,6 +66,7 @@ jobs:
             /.secrets.baseline
             /Makefile
             /requirements-dev.txt
+            /example*.env
             /.github/
             /.vscode/
             /docs/
