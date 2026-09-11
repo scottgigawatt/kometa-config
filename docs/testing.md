@@ -61,6 +61,8 @@ The container connects to Hera through the Plex API; only native Plex needs file
 
 Console output and runtime logs may contain private server addresses or credentials. Keep the original output local and review any diagnostic excerpt for private values before sharing it.
 
+The test runner uses `--no-missing` to skip reports about titles absent from the fixture libraries. Those lookups can dwarf the actual artwork work; skipping them does not change matching or overlays for titles present in Plex.
+
 Review both Plex libraries after the run:
 
 - Confirm the smoke collection contains expected comedy titles.

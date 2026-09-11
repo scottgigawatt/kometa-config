@@ -76,6 +76,7 @@ cp "$repository_root/tests/kometa/config.yml" "$runtime_directory/config.yml"
 #
 # Run Kometa without privileges or repository write access, while allowing its
 # disposable logs and cache to persist for inspection after the test.
+# Skip missing-item lookups because fixtures intentionally omit most titles.
 #
 docker run --rm \
     --read-only \
@@ -89,4 +90,5 @@ docker run --rm \
     "$KOMETA_IMAGE" \
     --config /config/config.yml \
     --read-only-config \
+    --no-missing \
     --run
