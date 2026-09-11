@@ -20,9 +20,12 @@ overlays:
 
   #
   # Preserve the local Crave corner when Plex supplies that network metadata.
+  # Libraries without Crave shows should skip this optional fallback quietly.
   #
   crave:
+    ignore_blank_results: true
     plex_search:
+      validate: false
       all:
         network: Crave
     overlay:
