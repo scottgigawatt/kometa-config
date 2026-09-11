@@ -17,7 +17,7 @@ python3 -m pip install -r requirements-dev.txt
 make check
 ```
 
-`make validate` runs the official Kometa 2.4.8 directory validator in an immutable container with no secrets or Plex access and a read-only repository mount. Kometa performs its normal upstream version check, but the directory validator does not initialize the configured services or modify the repository.
+`make validate` runs the official Kometa 2.4.8 directory validator in an immutable container with no secrets or Plex access. Its read-only source snapshot contains only Git-tracked YAML, including working-tree edits; stage new YAML files before validation. Ignored credentials and runtime output are not mounted. Kometa performs its normal upstream version check, but the directory validator does not initialize the configured services or modify the repository.
 
 ## Prepare Plex fixture libraries
 
@@ -57,7 +57,7 @@ Run the isolated configuration from the Mac checkout with Docker Desktop running
 make test-library
 ```
 
-The container connects to Hera through the Plex API; only native Plex needs filesystem access to the fixture media. The container mounts the repository read-only and stores runtime output, including logs, cache, reports, and overlay backups, under ignored `.kometa-test/`. The sandbox creates one hidden smoke collection and applies maintained Kometa default overlays to the fixture media. It does not load production playlists, mass-update operations, PATTRMM output, or production library names.
+The container connects to Hera through the Plex API; only native Plex needs filesystem access to the fixture media. The helper copies the test configuration into ignored `.kometa-test/` so Kometa writes adjacent logs, cache, reports, and overlay backups there. Edit the source under `tests/kometa/`, not the disposable runtime copy. The container mounts the repository read-only and disables configuration rewriting. The sandbox creates one hidden smoke collection and applies maintained Kometa default overlays to the fixture media. It does not load production playlists, mass-update operations, PATTRMM output, or production library names.
 
 Console output and runtime logs may contain private server addresses or credentials. Keep the original output local and review any diagnostic excerpt for private values before sharing it.
 

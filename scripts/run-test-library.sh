@@ -18,6 +18,11 @@
 set -eu
 
 #
+# Keep newly created runtime directories and copied configuration private.
+#
+umask 077
+
+#
 # Require the immutable Kometa image exported by the Makefile.
 #
 if [ -z "${KOMETA_IMAGE:-}" ]; then
@@ -63,6 +68,12 @@ fi
 mkdir -p "$runtime_directory"
 
 #
+# Place the selected test configuration beside its writable runtime output.
+# Kometa creates logs and cache files relative to the configuration path.
+#
+cp "$repository_root/tests/kometa/config.yml" "$runtime_directory/config.yml"
+
+#
 # Run Kometa without privileges or repository write access, while allowing its
 # disposable logs and cache to persist for inspection after the test.
 #
@@ -76,5 +87,6 @@ docker run --rm \
     --mount "type=bind,src=$repository_root,dst=/workspace,readonly" \
     --mount "type=bind,src=$runtime_directory,dst=/config" \
     "$KOMETA_IMAGE" \
-    --config /workspace/tests/kometa/config.yml \
+    --config /config/config.yml \
+    --read-only-config \
     --run

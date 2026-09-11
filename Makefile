@@ -44,7 +44,7 @@ check: validate check-generated lint  # Run all repository checks.
 #
 # validate: Validate repository YAML with Kometa's pinned schema validator.
 #
-# Dependencies: Docker.
+# Dependencies: Docker, Git.
 #
 validate:  # Validate Kometa YAML without connecting to Plex or external APIs.
 	@scripts/validate-kometa.sh
