@@ -19,6 +19,8 @@ make check
 
 `make validate` runs the official Kometa 2.4.8 directory validator in an immutable container with no secrets or Plex access. Its read-only source snapshot contains only Git-tracked YAML, including working-tree edits; stage new YAML files before validation. Ignored credentials and runtime output are not mounted. Kometa performs its normal upstream version check, but the directory validator does not initialize the configured services or modify the repository.
 
+The same command checks enabled custom artwork against the pinned Defaults catalog and case-sensitive Git filenames. It also requires both test overlay sets to match their production definitions. These checks use Git's file inventory, so continuous integration does not need to download the artwork.
+
 ## Prepare Plex fixture libraries
 
 Kometa recommends the [`plex-test-libraries`](https://github.com/chazlarson/plex-test-libraries) fixtures for fast iteration. Plex runs natively on Hera and reads media from `/volume1/plex`. Create `/volume1/plex/test` in Synology File Station, then run these commands in an SSH session on Hera:
@@ -47,7 +49,7 @@ mkdir -p .secrets
 cp -n example.test.env .secrets/test.env
 ```
 
-Edit `.secrets/test.env` with a direct Plex server URL, a Plex token that can manage the two fixture libraries, and a TMDb API key. Use Hera's LAN address, such as `http://HERA_LAN_IP:32400`, rather than `localhost`, which points inside the Kometa container. Never commit that file. Every value in it is private, including a publicly reachable Plex URL; do not copy those values into tracked files, commits, pull requests, or issues.
+Edit `.secrets/test.env` with a direct Plex server URL, a Plex token that can manage the two fixture libraries, a TMDb API key, and an MDBList API key for the custom rating ribbons. Use Hera's LAN address, such as `http://HERA_LAN_IP:32400`, rather than `localhost`, which points inside the Kometa container. Never commit that file. Every value in it is private, including a publicly reachable Plex URL; do not copy those values into tracked files, commits, pull requests, or issues.
 
 ## Render the sandbox
 
@@ -57,26 +59,30 @@ Run the isolated configuration from the Mac checkout with Docker Desktop running
 make test-library
 ```
 
-The container connects to Hera through the Plex API; only native Plex needs filesystem access to the fixture media. The helper copies the test configuration into ignored `.kometa-test/` so Kometa writes adjacent logs, cache, reports, and overlay backups there. Edit the source under `tests/kometa/`, not the disposable runtime copy. The container mounts the repository read-only and disables configuration rewriting. The sandbox creates one hidden smoke collection and applies maintained Kometa default overlays to the fixture media. It does not load production playlists, mass-update operations, PATTRMM output, or production library names.
+The container connects to Hera through the Plex API; only native Plex needs filesystem access to the fixture media. The helper copies the test configuration into ignored `.kometa-test/` so Kometa writes adjacent logs, cache, reports, and overlay backups there. Edit the source under `tests/kometa/`, not the disposable runtime copy. The container mounts only the required test definitions and artwork read-only, keeps the secrets directory unmounted, and disables configuration rewriting. The sandbox creates one hidden smoke collection and applies the complete custom overlay sets to the fixture media. It does not load production playlists, mass-update operations, PATTRMM output, or production library names.
 
 Console output and runtime logs may contain private server addresses or credentials. Keep the original output local and review any diagnostic excerpt for private values before sharing it.
 
 The test runner uses `--no-missing` to skip reports about titles absent from the fixture libraries. Those lookups can dwarf the actual artwork work; skipping them does not change matching or overlays for titles present in Plex.
 
+Chart and streaming builders still fetch their source lists and translate external IDs before matching the fixtures. A cold-cache run can therefore take substantially longer than rendering the small library. Preserve `.kometa-test/` between previews, including its cache and original-poster backups.
+
 Review both Plex libraries after the run:
 
 - Confirm the smoke collection contains expected comedy titles.
-- Confirm resolution, audio, and Mediastingers render legibly on movies.
-- Confirm network, streaming, and studio overlays render legibly on shows.
+- Confirm the angled resolution and audio artwork, background, Mediastingers, and matching chart ribbons render legibly on movies.
+- Confirm the provider corners, status ribbons, and matching chart ribbons render legibly on shows.
 - Review `.kometa-test/logs/meta.log` for failures and unexpected warnings.
 
-The preview uses the same dynamic defaults as the production configuration: `resolution`, `audio_codec`, and `mediastinger` for movies, plus `network`, `streaming`, and `studio` for shows. Their artwork, backgrounds, and positions come from [Kometa Defaults](https://kometa.wiki/en/latest/defaults/overlays/). Custom chart ribbons and show-status artwork remain outside this focused preview.
+The preview uses [Kometa Defaults](https://kometa.wiki/en/latest/defaults/overlays/) for the dynamic builders, with repository-owned artwork and placement overrides. Movie and TV chart ribbons, movie backgrounds, TV status ribbons, and provider fallbacks come from local overlay definitions. Local file references ensure that a branch preview uses its own artwork, without fetching those images from the main branch on GitHub.
+
+Provider aliases map renamed or differently capitalized upstream keys to existing custom graphics. Categories without matching artwork are explicitly disabled; movie resolution falls back to a supported base badge, and TV retains the existing provider fallback. The original file order and placement remain intentional: provider graphics share the upper-left corner, with later files layered above earlier ones. See [Kometa's overlay ordering and groups](https://kometa.wiki/en/latest/files/overlays/) before changing their precedence.
 
 Not every fixture matches every overlay. Resolution follows Plex media information, audio badges depend on filenames and audio-track titles, and provider badges depend on the show's metadata and current streaming availability. Check the run log for actual matches before interpreting an absent badge as a rendering failure.
 
 ## Test a future configuration change
 
-Add only the candidate collection or overlay block to `tests/kometa/config.yml`, or temporarily point that file at the changed source file. Keep production operations and playlists disabled. Run `make validate`, then `make test-library`, and inspect the result before changing Hera.
+Update an overlay block in both `config.yml` and `tests/kometa/config.yml`; the parity check prevents a partial preview. Shared definitions under `overlays/` are mounted directly into the test runtime and need only one edit. Keep production operations and playlists disabled. Run `make validate`, then `make test-library`, and inspect the result before changing Hera.
 
 Kometa's `--run-files` option may narrow collection and playlist runs, but it must not be used for overlays because overlay files are designed to run as one set.
 

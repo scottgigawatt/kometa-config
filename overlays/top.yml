@@ -1,4 +1,12 @@
 #
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# top.yml: Custom chart and award ribbons for movie and show posters.
+#
+
+#
 # Define top ratings templates
 #
 templates:
@@ -11,7 +19,7 @@ templates:
     imdb_chart: top_<<library_type>>s
     overlay:
       name: <<overlay_name>>
-      url: https://raw.githubusercontent.com/scottgigawatt/kometa-config/main/overlays/bottom-right/imdb-ribbon.png
+      file: config/overlays/bottom-right/imdb-ribbon.png
       group: logo
       weight: <<weight>>
       horizontal_offset: 0
@@ -30,7 +38,7 @@ templates:
     letterboxd_list: https://letterboxd.com/prof_ratigan/list/top-1000-films-of-all-time-calculated/
     overlay:
       name: <<overlay_name>>
-      url: https://raw.githubusercontent.com/scottgigawatt/kometa-config/main/overlays/bottom-right/letterboxd-ribbon.png
+      file: config/overlays/bottom-right/letterboxd-ribbon.png
       group: logo
       weight: <<weight>>
       horizontal_offset: 0
@@ -49,7 +57,7 @@ templates:
     mdblist_list: https://mdblist.com/lists/k0meta/certifiedfreshmovies
     overlay:
       name: <<overlay_name>>
-      url: https://raw.githubusercontent.com/scottgigawatt/kometa-config/main/overlays/bottom-right/rotten-ribbon.png
+      file: config/overlays/bottom-right/rotten-ribbon.png
       group: logo
       weight: <<weight>>
       horizontal_offset: 0
@@ -68,7 +76,7 @@ templates:
     mdblist_list: https://mdblist.com/lists/k0meta/certifiedfreshshows
     overlay:
       name: <<overlay_name>>
-      url: https://raw.githubusercontent.com/scottgigawatt/kometa-config/main/overlays/bottom-right/rotten-ribbon.png
+      file: config/overlays/bottom-right/rotten-ribbon.png
       group: logo
       weight: <<weight>>
       horizontal_offset: 0
@@ -87,7 +95,7 @@ templates:
     mdblist_list: https://mdblist.com/lists/k0meta/metacriticmustseemovies
     overlay:
       name: <<overlay_name>>
-      url: https://raw.githubusercontent.com/scottgigawatt/kometa-config/main/overlays/bottom-right/metacritic-ribbon.png
+      file: config/overlays/bottom-right/metacritic-ribbon.png
       group: logo
       weight: <<weight>>
       horizontal_offset: 0
@@ -120,6 +128,7 @@ templates:
   razzie:
     optional:
       - overlay_level
+    run_definition: movie
     collection_level: <<overlay_level>>
     imdb_award:
       event_id: ev0000558
@@ -127,7 +136,7 @@ templates:
       winning: true
     overlay:
       name: <<overlay_name>>
-      url: https://raw.githubusercontent.com/scottgigawatt/kometa-config/main/overlays/bottom-right/razzie-ribbon.png
+      file: config/overlays/bottom-right/razzie-ribbon.png
       group: logo
       weight: <<weight>>
       horizontal_offset: 0
@@ -146,7 +155,7 @@ templates:
     imdb_chart: lowest_rated
     overlay:
       name: <<overlay_name>>
-      url: https://raw.githubusercontent.com/scottgigawatt/kometa-config/main/overlays/bottom-right/imdb-lowest-ribbon.png
+      file: config/overlays/bottom-right/imdb-lowest-ribbon.png
       group: logo
       weight: <<weight>>
       horizontal_offset: 0

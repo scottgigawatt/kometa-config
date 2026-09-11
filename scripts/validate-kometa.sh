@@ -84,6 +84,23 @@ xargs -0 sh -c '
 cp "$repository_root/tests/kometa/config.yml" "$runtime_directory/config.yml"
 
 #
+# Check every enabled custom artwork mapping against the pinned Defaults using
+# Git paths, so sparse CI checkouts do not need to download the artwork itself.
+#
+git -C "$repository_root" ls-files -z -- overlays/ > "$runtime_directory/overlay-files"
+docker run --rm \
+    --network none \
+    --read-only \
+    --cap-drop ALL \
+    --security-opt no-new-privileges \
+    --user "$(id -u):$(id -g)" \
+    --mount "type=bind,src=$source_directory,dst=/workspace,readonly" \
+    --mount "type=bind,src=$runtime_directory,dst=/config,readonly" \
+    --mount "type=bind,src=$repository_root/scripts/check-overlay-assets.py,dst=/check-overlay-assets.py,readonly" \
+    --entrypoint python \
+    "$KOMETA_IMAGE" /check-overlay-assets.py
+
+#
 # Validate the complete repository without privileges, secrets, network-bound
 # services, or writable access to source-controlled files.
 #

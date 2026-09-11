@@ -8,35 +8,163 @@
 
 libraries:
   #
-  # Preview the same dynamic badges selected by the Movies configuration.
-  # Keep custom chart ribbons out of this focused artwork review.
+  # Preview the complete custom movie overlay set, including chart ribbons.
   #
   test_movie_lib:
     collection_files:
       - file: /workspace/tests/kometa/collections.yml
     overlay_files:
-      - default: resolution
-      - default: audio_codec
+      - file: config/overlays/top.yml
+      - file: config/overlays/background.yml
       - default: mediastinger
+        template_variables:
+          file: config/overlays/bottom-left/mediastinger-bottom-left.png
+          vertical_align: bottom
+          vertical_offset: 0
+          horizontal_align: right
+          horizontal_offset: 0
+          back_width: 1000
+          back_height: 1500
+          back_color: "#0000"
+      - default: resolution
+        template_variables:
+          file: config/overlays/resolution-top-left-45deg/<<overlay_name>>.png
+          horizontal_align: left
+          horizontal_offset: 0
+          vertical_offset: 0
+          vertical_align: top
+          final_horizontal_offset: 0
+          final_vertical_offset: 0
+          back_width: 1000
+          back_height: 1500
+          back_color: "#0000"
+
+          #
+          # Keep the base resolution badge when no matching custom variant exists.
+          #
+          use_hlg: false
+          use_openmatte: false
+          use_producers: false
+      - default: audio_codec
+        template_variables:
+          file: config/overlays/audio-top-left-45deg/<<key>>.png
+          horizontal_align: left
+          horizontal_offset: 0
+          vertical_offset: 0
+          vertical_align: top
+          back_width: 1000
+          back_height: 1500
+          back_color: "#0000"
     operations:
       assets_for_all: false
 
   #
-  # Preview the same provider badges selected by the TV Shows configuration.
-  # Keep custom chart ribbons and status artwork out of this focused review.
+  # Preview the complete custom TV overlay set, including status ribbons.
   #
   test_tv_lib:
     collection_files:
       - file: /workspace/tests/kometa/collections.yml
     overlay_files:
-      - default: network
+      - file: config/overlays/top.yml
+      - file: config/overlays/status.yml
+      - file: config/overlays/network-fallback.yml
       - default: streaming
+        template_variables:
+          horizontal_align: left
+          horizontal_offset: 0
+          vertical_offset: 0
+          vertical_align: top
+          back_width: 1000
+          back_height: 1500
+          file: config/overlays/streaming-top-left/<<key>>.png
+          back_color: "#0000"
+
+          #
+          # Map current provider keys to the existing custom corner artwork.
+          #
+          file_hbomax: config/overlays/streaming-top-left/max.png
+          file_crunchyroll: config/overlays/streaming-top-left/Crunchyroll.png
+          file_movistar: config/overlays/network-top-left/Movistar Plus+.png
+          file_atresplayer: config/overlays/network-top-left/Atresplayer Premium.png
+          file_amc: config/overlays/network-top-left/AMC+.png
+          file_discovery: config/overlays/streaming-top-left/discovery+.png
+          file_crave: config/overlays/streaming-top-left/Crave.png
+          file_now: config/overlays/streaming-top-left/NOW.png
+          file_channel4: config/overlays/streaming-top-left/All 4.png
+          file_itvx: config/overlays/network-top-left/ITVX.png
+          file_bet: config/overlays/network-top-left/BET+.png
+
+          #
+          # Skip providers without matching custom artwork; keep the fallback.
+          #
+          use_hayu: false
+          use_tubi: false
+          use_filmin: false
       - default: studio
+        template_variables:
+          horizontal_align: left
+          horizontal_offset: 0
+          vertical_align: top
+          vertical_offset: 0
+          back_width: 1000
+          back_height: 1500
+          file: config/overlays/studio-top-left/<<key>>.png
+          back_color: "#0000"
+
+          #
+          # Reuse the matching corner graphic for this renamed studio.
+          #
+          file_Max: config/overlays/network-top-left/Max.png
+
+          #
+          # Skip studios without matching custom artwork; keep the fallback.
+          #
+          use_Disney Television Animation: false
+          use_DisneyToon Studios: false
+          use_Dynamic Planning: false
+          use_Film4 Productions: false
+          use_Golden Harvest: false
+          use_Hungry Man: false
+          use_Screen Gems: false
+          use_Shaw Brothers: false
+          use_Studio Live: false
+          use_The Stone Quarry: false
+      - default: network
+        template_variables:
+          horizontal_align: left
+          horizontal_offset: 0
+          vertical_offset: 0
+          vertical_align: top
+          back_width: 1000
+          back_height: 1500
+          file: config/overlays/network-top-left/<<key>>.png
+          back_color: "#0000"
+
+          #
+          # Preserve existing branding while following current network names.
+          #
+          file_5: config/overlays/network-top-left/Channel 5.png
+          file_Apple TV: config/overlays/network-top-left/Apple TV+.png
+          file_Atres Player: config/overlays/network-top-left/Atresplayer Premium.png
+          file_HBO Max: config/overlays/network-top-left/Max.png
+          file_U: config/overlays/network-top-left/UKTV.png
+          file_U&Alibi: config/overlays/network-top-left/Alibi.png
+          file_U&Dave: config/overlays/network-top-left/Dave.png
+          file_U&Eden: config/overlays/network-top-left/Eden.png
+          file_U&W: config/overlays/network-top-left/W.png
+
+          #
+          # Skip networks without matching custom artwork; keep the fallback.
+          #
+          use_tubi: false
+          use_U&Drama: false
+          use_U&Gold: false
+          use_U&Yesterday: false
     operations:
       assets_for_all: false
 
 #
-# Keep the test deterministic, preserve Plex state outside these definitions,
+# Keep the test isolated, preserve Plex state outside these definitions,
 # and retain logs plus reports for inspection after each run.
 #
 settings:
@@ -79,3 +207,10 @@ tmdb:
   language: en
   cache_expiration: 60
   region: US
+
+#
+# Authenticate the curated lists used by custom rating ribbons.
+#
+mdblist:
+  apikey: <<mdblistapikey>>
+  cache_expiration: 60

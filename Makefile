@@ -88,5 +88,5 @@ format:  # Apply safe repository whitespace fixes.
 #
 # Dependencies: Docker, TEST_ENV, and the two documented Plex test libraries.
 #
-test-library:  # Render smoke collections and default overlays in test libraries.
+test-library:  # Render smoke collections and custom overlays in test libraries.
 	@scripts/run-test-library.sh
