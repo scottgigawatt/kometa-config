@@ -21,6 +21,8 @@ make check
 
 The same command checks enabled custom artwork against the pinned Defaults catalog and case-sensitive Git filenames. It also requires both test overlay sets to match their production definitions. These checks use Git's file inventory, so continuous integration does not need to download the artwork.
 
+Validation also checks native franchise ID comments and collection-preview isolation, with offline regression tests for unsafe libraries, connections, maintenance, download settings, and external list writers. Ruff enforces Python lint, import ordering, and formatting through pre-commit and CI.
+
 ## Prepare Plex fixture libraries
 
 Kometa recommends the [`plex-test-libraries`](https://github.com/chazlarson/plex-test-libraries) fixtures for fast iteration. Plex runs natively on Hera and reads media from `/volume1/plex`. Create `/volume1/plex/test` in Synology File Station, then run these commands in an SSH session on Hera:
@@ -87,3 +89,19 @@ Update an overlay block in both `config.yml` and `tests/kometa/config.yml`; the 
 Kometa's `--run-files` option may narrow collection and playlist runs, but it must not be used for overlays because overlay files are designed to run as one set.
 
 Once the fixture result is acceptable, deploy one clean commit and run the smallest affected production scope before allowing the next full schedule.
+
+## Preview native franchise collections
+
+Run the collection-only preview when testing native franchise membership and posters:
+
+```sh
+make test-collections
+```
+
+This uses the same private `TEST_ENV` as the overlay preview but requires only Plex and TMDb credentials. Its separate configuration loads `movies/franchise.yml` directly, selects every `tmdb_collection` definition, and ignores their production schedules for this explicit test run. It also runs the smoke collection in both fixtures. No membership IDs are duplicated in test YAML.
+
+The runner checks the fixture names, loaded files, source template, and selected definition attributes before starting Kometa. It has no overlay, playlist, Trakt, Radarr, Sonarr, or production-operation configuration. Existing overlay artwork is left untouched. Logs, cache, and reports remain private under `.kometa-test/collections/`.
+
+In `test_movie_lib`, review the native franchise collections for their custom posters and release ordering, including The Purge when matching fixture media is present. A collection with no matching fixture media may be skipped below the minimum of one item; it must not trigger downloads or deletion. In `test_tv_lib`, confirm the smoke collection still works. Compare membership with the intersection of the configured TMDb collections and the fixture's matched movie IDs, rather than expecting every upstream title to be in the tiny library.
+
+See [collection sources](collection-sources.md) for upstream membership policy and current collection mappings. The command does not deploy configuration to Hera's production checkout.

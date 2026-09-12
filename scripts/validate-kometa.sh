@@ -101,6 +101,23 @@ docker run --rm \
     "$KOMETA_IMAGE" /check-overlay-assets.py
 
 #
+# Check native collection selection, readable ID comments, and preview isolation.
+# Exercise regression tests offline with the same pinned YAML implementation.
+#
+docker run --rm \
+    --network none \
+    --read-only \
+    --cap-drop ALL \
+    --security-opt no-new-privileges \
+    --user "$(id -u):$(id -g)" \
+    --env PYTHONDONTWRITEBYTECODE=1 \
+    --mount "type=bind,src=$source_directory,dst=/workspace,readonly" \
+    --mount "type=bind,src=$repository_root/scripts,dst=/scripts,readonly" \
+    --mount "type=bind,src=$repository_root/tests/unit,dst=/tests,readonly" \
+    --entrypoint sh \
+    "$KOMETA_IMAGE" -c 'python /scripts/collection-preview.py && python -m unittest discover -s /tests -v'
+
+#
 # Validate the complete repository without privileges, secrets, network-bound
 # services, or writable access to source-controlled files.
 #

@@ -1,3 +1,11 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# favorites.yml: Owner-controlled favorites and disabled shared-list definitions.
+#
+
 templates:
   favorites:
     file_poster: /config/assets/posters/favorites/<<poster_id>>.png
@@ -17,34 +25,37 @@ collections:
       - https://trakt.tv/users/scottgigawatt/lists/plex-favorite-movies
     summary: "A collection of Edward's impeccable favorite movies."
 
-  Nanno's Favorite Movies:
-    template:
-      name: favorites
-      poster_id: Nanno's Favorites
-    trakt_list:
-      - https://trakt.tv/users/nannobotts/lists/plex-favorite-movies
-    summary: "A collection of Nanno's captivating favorite movies."
-
-  Nemah's Favorite Movies:
-    template:
-      name: favorites
-      poster_id: Nemah's Favorites
-    trakt_list:
-      - https://trakt.tv/users/nemahroothes/lists/plex-requests
-    summary: "A collection of Nemah's fa-eh-eh-eh-vorite movies."
-
-  Kylie's Favorite Movies:
-    template:
-      name: favorites
-      poster_id: Kylie's Favorites
-    trakt_list:
-      - https://trakt.tv/users/kfarley121/lists/plex-movies
-    summary: "A collection of Kylie's buzzworthy favorite movies."
-
-  Weezer's Favorite Movies:
-    template:
-      name: favorites
-      poster_id: Weezer's Favorites
-    trakt_list:
-      - https://trakt.tv/users/m-louise-allen/lists/plex-favorite-movies
-    summary: "A collection of Weezer's bussin favorite movies."
+  #
+  # Non-owner favorites are disabled; existing Plex collections are not deleted.
+  #
+  # Nanno's Favorite Movies:
+  #   template:
+  #     name: favorites
+  #     poster_id: Nanno's Favorites
+  #   trakt_list:
+  #     - https://trakt.tv/users/nannobotts/lists/plex-favorite-movies
+  #   summary: "A collection of Nanno's captivating favorite movies."
+  #
+  # Nemah's Favorite Movies:
+  #   template:
+  #     name: favorites
+  #     poster_id: Nemah's Favorites
+  #   trakt_list:
+  #     - https://trakt.tv/users/nemahroothes/lists/plex-requests
+  #   summary: "A collection of Nemah's fa-eh-eh-eh-vorite movies."
+  #
+  # Kylie's Favorite Movies:
+  #   template:
+  #     name: favorites
+  #     poster_id: Kylie's Favorites
+  #   trakt_list:
+  #     - https://trakt.tv/users/kfarley121/lists/plex-movies
+  #   summary: "A collection of Kylie's buzzworthy favorite movies."
+  #
+  # Weezer's Favorite Movies:
+  #   template:
+  #     name: favorites
+  #     poster_id: Weezer's Favorites
+  #   trakt_list:
+  #     - https://trakt.tv/users/m-louise-allen/lists/plex-favorite-movies
+  #   summary: "A collection of Weezer's bussin favorite movies."

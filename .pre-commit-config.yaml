@@ -56,6 +56,17 @@ repos:
         exclude: ^assets/
 
   #
+  # Enforce Python correctness, import ordering, and formatting without auto-fixes.
+  #
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.6
+    hooks:
+      - id: ruff-check
+        args: ["--extend-select", "I"]
+      - id: ruff-format
+        args: ["--check"]
+
+  #
   # Validate every Markdown document with the shared repository configuration.
   #
   - repo: https://github.com/DavidAnson/markdownlint-cli2
