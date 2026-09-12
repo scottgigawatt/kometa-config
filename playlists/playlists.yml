@@ -1,12 +1,15 @@
-playlists:
-  # X-Men (Timeline Order):
-  #   sync_mode: sync
-  #   libraries: Movies, TV Shows
-  #   sync_to_users: all
-  #   file_poster: "config/assets/posters/playlist/X-Men (Timeline Order).jpg"
-  #   trakt_list: https://trakt.tv/users/veej/lists/x-men-timeline-order
-  #   summary: X-Men in chronological order.
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# playlists.yml: Mixed-media playlists that require explicit episode ordering.
+#
 
+#
+# Preserve Battlestar Galactica's chronological movie and episode sequence.
+#
+playlists:
   Battlestar Galactica (Timeline Order):
     sync_mode: sync
     libraries: Movies, TV Shows
@@ -14,43 +17,3 @@ playlists:
     file_poster: "config/assets/posters/playlist/Battlestar Galactica (Timeline Order).png"
     trakt_list: https://trakt.tv/users/markmckee/lists/battlestar-galactica-chrono-order
     summary: Battlestar Galactica in chronological order.
-
-  # Dragon Ball (Timeline order):
-  #   sync_mode: sync
-  #   libraries: Movies, TV Shows
-  #   sync_to_users: all
-  #   file_poster: "config/assets/posters/playlist/Dragon Ball (Timeline Order).jpg"
-  #   trakt_list: https://trakt.tv/users/venoxiaz/lists/dragon-ball-release-order-full
-  #   summary: Dragon Ball in chronological order.
-
-  Adult Animation:
-    sync_mode: sync
-    libraries: Movies, TV Shows
-    sync_to_users: all
-    file_poster: "config/assets/posters/playlist/Adult Animation.png"
-    trakt_list: https://trakt.tv/users/scottgigawatt/lists/adult-animation
-    summary: "Just because it's animated doesn't mean it's for kids! These cool cartoon movies and TV shows run the gamut from funny to dark and everything in between."
-
-  Saturday Morning Cartoons:
-    sync_mode: sync
-    libraries: Movies, TV Shows
-    sync_to_users: all
-    file_poster: "config/assets/posters/playlist/Saturday Morning Cartoons.png"
-    trakt_list: https://trakt.tv/users/scottgigawatt/lists/saturday-morning-cartoons
-    summary: "Indulge in pure nostalgia with Saturday Morning Cartoons — a lineup of timeless animated classics for a trip down memory lane. Relive the joy of iconic characters and catchy tunes."
-
-  Classic Sitcoms:
-    sync_mode: sync
-    libraries: Movies, TV Shows
-    sync_to_users: all
-    file_poster: "config/assets/posters/playlist/Classic Sitcoms.png"
-    trakt_list: https://trakt.tv/users/scottgigawatt/lists/classic-sitcoms
-    summary: "Enjoy timeless laughs with our Classic Sitcoms playlist. Dive into the humor and charm of iconic shows that have stood the test of time. From witty one-liners to unforgettable characters, this collection is your ticket to a laughter-filled trip through television history."
-
-  Modern Sitcoms:
-    sync_mode: sync
-    libraries: Movies, TV Shows
-    sync_to_users: all
-    file_poster: "config/assets/posters/playlist/Modern Sitcoms.png"
-    trakt_list: https://trakt.tv/users/scottgigawatt/lists/modern-sitcoms
-    summary: "Experience the best of contemporary comedy with our Modern Sitcoms playlist. Bursting with laughter, relatable characters, and witty humor, it's your go-to for a quick dose of today's comedic brilliance."

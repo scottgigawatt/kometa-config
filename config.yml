@@ -189,6 +189,14 @@ libraries:
           visible_library_pirated: true
           visible_home_pirated: true
           visible_shared_pirated: true
+
+          #
+          # Add missing weekly chart movies to Radarr and search for downloads.
+          # Keep other charts on the global download-client defaults.
+          #
+          radarr_add_missing_pirated: true
+          radarr_search_pirated: true
+
           use_anidb: false
           use_commonsense: false
           use_stevenlu: false

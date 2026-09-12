@@ -1,0 +1,50 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# shuffle.yml: Curated TV collections with shared artwork for shuffle viewing.
+#
+
+#
+# Build whole-series collections in the TV library; movie list entries do not
+# belong to this library. Read owner-controlled lists without writing to Trakt.
+#
+templates:
+  shuffle:
+    builder_level: show
+    trakt_list: https://trakt.tv/users/scottgigawatt/lists/<<list_slug>>
+    file_poster: /config/assets/posters/playlist/<<collection_name>>.png
+    collection_order: alpha
+    sync_mode: sync
+    sonarr_add_missing: false
+    sonarr_add_existing: false
+    sonarr_search: false
+
+#
+# Keep the existing collection names and artwork available to shared TV users.
+#
+collections:
+  Adult Animation:
+    template:
+      name: shuffle
+      list_slug: adult-animation
+    summary: "Just because it's animated doesn't mean it's for kids! These cartoon TV shows run the gamut from funny to dark and everything in between."
+
+  Saturday Morning Cartoons:
+    template:
+      name: shuffle
+      list_slug: saturday-morning-cartoons
+    summary: "Indulge in pure nostalgia with Saturday Morning Cartoons — a lineup of timeless animated classics for a trip down memory lane. Relive the joy of iconic characters and catchy tunes."
+
+  Classic Sitcoms:
+    template:
+      name: shuffle
+      list_slug: classic-sitcoms
+    summary: "Enjoy timeless laughs with our Classic Sitcoms collection. Dive into the humor and charm of iconic shows that have stood the test of time. From witty one-liners to unforgettable characters, this collection is your ticket to a laughter-filled trip through television history."
+
+  Modern Sitcoms:
+    template:
+      name: shuffle
+      list_slug: modern-sitcoms
+    summary: "Experience the best of contemporary comedy with our Modern Sitcoms collection. Bursting with laughter, relatable characters, and witty humor, it's your go-to for a quick dose of today's comedic brilliance."

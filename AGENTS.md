@@ -67,7 +67,7 @@ For changes affecting collection membership or rendered artwork, use the isolate
 make test-library
 ```
 
-Use `make test-collections` for the native franchise preview without rerunning overlays. It reuses `movies/franchise.yml`, selects its TMDb builders, and runs smoke collections in both fixtures. The runtime remains isolated under `.kometa-test/collections/`; production favorites and external list writers are not loaded.
+Use `make test-collections` for collection previews without rerunning overlays. It reuses the TMDb builders from `movies/franchise.yml`, the show-only collections from `shows/shuffle.yml`, and smoke collections in both fixtures. TV membership reads owner-controlled Trakt lists in public mode without account credentials. The runtime remains isolated under `.kometa-test/collections/`; production favorites, download clients, and external list writers are not loaded.
 
 Never point the test configuration at production library names. Overlay files must be evaluated together; do not use Kometa's `--run-files` option for overlays.
 

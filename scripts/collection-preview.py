@@ -5,7 +5,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# collection-preview.py: Validate and run native franchise collection previews.
+# collection-preview.py: Validate and run movie and TV collection previews.
 #
 # Purpose: Select actual source builders and reject unsafe preview configuration.
 # Usage: Run inside the pinned image through make validate or test-collections.
@@ -18,7 +18,7 @@ from pathlib import Path
 from ruamel.yaml import YAML
 
 
-def preview_names(franchises, config, smoke):
+def preview_names(franchises, config, smoke, shows):
     """Return selected names after checking fixture isolation and source safety."""
     if set(franchises) != {"templates", "collections"} or set(
         franchises["templates"]
@@ -36,7 +36,10 @@ def preview_names(franchises, config, smoke):
             ]
         },
         "test_tv_lib": {
-            "collection_files": [{"file": "/workspace/tests/kometa/collections.yml"}]
+            "collection_files": [
+                {"file": "/workspace/shows/shuffle.yml"},
+                {"file": "/workspace/tests/kometa/collections.yml"},
+            ]
         },
     }
     if config["libraries"] != expected:
@@ -109,6 +112,41 @@ def preview_names(franchises, config, smoke):
         raise ValueError("No native franchise builders selected.")
 
     #
+    # Public owner-controlled TV lists need no Trakt credentials or account writes.
+    # Fix the template contract so movie expansion and download settings cannot
+    # enter the preview through a later template change.
+    #
+    expected_show_template = {
+        "builder_level": "show",
+        "trakt_list": "https://trakt.tv/users/scottgigawatt/lists/<<list_slug>>",
+        "file_poster": "/config/assets/posters/playlist/<<collection_name>>.png",
+        "collection_order": "alpha",
+        "sync_mode": "sync",
+        "sonarr_add_missing": False,
+        "sonarr_add_existing": False,
+        "sonarr_search": False,
+    }
+    if set(shows) != {"templates", "collections"} or shows["templates"] != {
+        "shuffle": expected_show_template
+    }:
+        raise ValueError("TV preview must use the safe show-only template.")
+    expected_shows = {
+        "Adult Animation": "adult-animation",
+        "Saturday Morning Cartoons": "saturday-morning-cartoons",
+        "Classic Sitcoms": "classic-sitcoms",
+        "Modern Sitcoms": "modern-sitcoms",
+    }
+    if set(shows["collections"]) != set(expected_shows):
+        raise ValueError("TV preview must contain the four curated collections.")
+    for name, definition in shows["collections"].items():
+        if set(definition) != {"template", "summary"} or definition["template"] != {
+            "name": "shuffle",
+            "list_slug": expected_shows[name],
+        }:
+            raise ValueError("Unexpected TV collection source or writer behavior.")
+        names.append(name)
+
+    #
     # Validate smoke definitions too, since the same run touches both fixtures.
     #
     if set(smoke) != {"collections"}:
@@ -146,7 +184,8 @@ def load_preview(source):
                 )
     config = yaml.load((source / "tests/kometa/collections-config.yml").read_text())
     smoke = yaml.load((source / "tests/kometa/collections.yml").read_text())
-    return preview_names(franchises, config, smoke), config
+    shows = yaml.load((source / "shows/shuffle.yml").read_text())
+    return preview_names(franchises, config, smoke, shows), config
 
 
 if __name__ == "__main__":

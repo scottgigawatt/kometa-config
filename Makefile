@@ -92,9 +92,9 @@ test-library:  # Render smoke collections and custom overlays in test libraries.
 	@scripts/run-test-library.sh
 
 #
-# test-collections: Preview native franchises without rerunning artwork builders.
+# test-collections: Preview movie franchises and curated TV collections.
 #
 # Dependencies: Docker, TEST_ENV, and the two documented Plex test libraries.
 #
-test-collections:  # Preview TMDb franchises and smoke collections, without overlays.
+test-collections:  # Preview movie and TV collections, without overlays or downloads.
 	@scripts/run-collection-tests.sh
