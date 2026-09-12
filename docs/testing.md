@@ -104,4 +104,4 @@ The runner checks the fixture names, loaded files, source template, and selected
 
 In `test_movie_lib`, review the native franchise collections for their custom posters and release ordering, including The Purge when matching fixture media is present. A collection with no matching fixture media may be skipped below the minimum of one item; it must not trigger downloads or deletion. In `test_tv_lib`, confirm the smoke collection still works. Compare membership with the intersection of the configured TMDb collections and the fixture's matched movie IDs, rather than expecting every upstream title to be in the tiny library.
 
-See [collection sources](collection-sources.md) for upstream membership policy and current collection mappings. The command does not deploy configuration to Hera's production checkout.
+The command does not deploy configuration to Hera's production checkout.

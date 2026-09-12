@@ -229,8 +229,7 @@
     "files.associations": {
         ".prettierrc.json5": "jsonc",
         ".secrets.baseline": "jsonc",
-        "**/CODEOWNERS": "plaintext",
-        "*.yml.disabled": "yaml"
+        "**/CODEOWNERS": "plaintext"
     },
 
     //

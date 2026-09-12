@@ -77,7 +77,6 @@ jobs:
             /scheduled/*.yml
             /scripts/
             /shows/*.yml
-            /shows/*.yml.disabled
             /tests/
 
       #

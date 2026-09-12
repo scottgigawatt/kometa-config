@@ -16,7 +16,7 @@ libraries:
       - file: /workspace/tests/kometa/collections.yml
 
   #
-  # Keep a TV smoke check without loading disabled favorites or production files.
+  # Keep a TV smoke check without loading production collection files.
   #
   test_tv_lib:
     collection_files:
@@ -56,6 +56,9 @@ plex:
   empty_trash: false
   optimize: false
 
+#
+# Resolve TMDb metadata for the native collection builders using a private key.
+#
 tmdb:
   apikey: <<tmdbapikey>>
   language: en
