@@ -69,6 +69,8 @@ The production Duplex deployment mounts this checkout as Kometa's writable `/con
 
 See the [Kometa documentation](https://kometa.wiki/en/latest/) for application behavior and the [testing guide](docs/testing.md) for the isolated Plex fixture-library workflow.
 
+Use `make test-collections` to preview native TMDb franchise definitions without rerunning overlays.
+
 ## Validation
 
 The default Make target lists the supported commands:

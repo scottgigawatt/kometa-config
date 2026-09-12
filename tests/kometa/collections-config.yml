@@ -1,0 +1,66 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# collections-config.yml: Collection-only preview with no external list writers.
+#
+
+libraries:
+  #
+  # Load the real franchise definitions; the runner selects only TMDb builders.
+  #
+  test_movie_lib:
+    collection_files:
+      - file: /workspace/movies/franchise.yml
+      - file: /workspace/tests/kometa/collections.yml
+
+  #
+  # Keep a TV smoke check without loading production collection files.
+  #
+  test_tv_lib:
+    collection_files:
+      - file: /workspace/tests/kometa/collections.yml
+
+#
+# Preview collections without deleting unrelated collections or updating media.
+# No overlay, playlist, download-client, or library-operation files are loaded.
+#
+settings:
+  cache: true
+  cache_expiration: 60
+  asset_directory: /config/assets
+  asset_folders: false
+  prioritize_assets: false
+  download_url_assets: false
+  sync_mode: sync
+  minimum_items: 1
+  delete_below_minimum: false
+  delete_not_scheduled: false
+  save_report: true
+  show_unmanaged: false
+  show_unconfigured: false
+  playlist_report: false
+  verify_ssl: true
+  run_order:
+    - collections
+
+#
+# Resolve private values from the ignored test environment, never from source.
+#
+plex:
+  url: <<plexurl>>
+  token: <<plextoken>>
+  timeout: 60
+  clean_bundles: false
+  empty_trash: false
+  optimize: false
+
+#
+# Resolve TMDb metadata for the native collection builders using a private key.
+#
+tmdb:
+  apikey: <<tmdbapikey>>
+  language: en
+  cache_expiration: 60
+  region: US

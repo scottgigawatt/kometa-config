@@ -40,6 +40,7 @@
         "Caan",
         "Capcom",
         "Caple",
+        "CDPATH",
         "Chewbacca",
         "Clane",
         "Clooney",
@@ -55,6 +56,7 @@
         "Ehren",
         "Emmys",
         "Epix",
+        "esac",
         "esbenp",
         "Everdeen",
         "Faltermeyer",
@@ -118,6 +120,7 @@
         "Milla",
         "mindbender",
         "mindfuck",
+        "mktemp",
         "Mockumentaries",
         "Mockumentary",
         "Morrell",
@@ -130,6 +133,7 @@
         "Nighy",
         "Nira",
         "Niven",
+        "noexec",
         "Norrington",
         "nosuid",
         "notifiarr",
@@ -152,6 +156,7 @@
         "preroll",
         "prerolls",
         "pterisaur",
+        "PYTHONDONTWRITEBYTECODE",
         "radarr",
         "Radarr",
         "Rafe",
@@ -296,7 +301,8 @@
         "https://json.schemastore.org/pre-commit-config.json": ".pre-commit-config.yaml",
         "https://raw.githubusercontent.com/Kometa-Team/Kometa/v2.4.8/json-schema/config-schema.json": [
             "config.yml",
-            "tests/kometa/config.yml"
+            "tests/kometa/config.yml",
+            "tests/kometa/collections-config.yml"
         ],
         "https://raw.githubusercontent.com/Kometa-Team/Kometa/v2.4.8/json-schema/collection-schema.json": [
             "movies/**/*.yml",

@@ -24,7 +24,7 @@ export TEST_ENV
 #
 .DEFAULT_GOAL := help
 
-.PHONY: check check-generated format help lint lint-ci test-library validate
+.PHONY: check check-generated format help lint lint-ci test-collections test-library validate
 
 #
 # help: List the supported repository commands.
@@ -90,3 +90,11 @@ format:  # Apply safe repository whitespace fixes.
 #
 test-library:  # Render smoke collections and custom overlays in test libraries.
 	@scripts/run-test-library.sh
+
+#
+# test-collections: Preview native franchises without rerunning artwork builders.
+#
+# Dependencies: Docker, TEST_ENV, and the two documented Plex test libraries.
+#
+test-collections:  # Preview TMDb franchises and smoke collections, without overlays.
+	@scripts/run-collection-tests.sh

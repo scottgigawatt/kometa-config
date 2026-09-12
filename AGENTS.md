@@ -37,6 +37,8 @@ Use two-space YAML indentation, UTF-8, LF line endings, a final newline, and no 
 
 Comments use concise plain English and explain intent, ownership, scheduling, external-source choices, or Plex side effects. Do not comment obvious syntax. New project-owned configuration, scripts, and workflow files begin with the established copyright, Apache-2.0, filename, and purpose header.
 
+Write explicit TMDb IDs one per YAML list line with two spaces before a descriptive inline comment. Movie IDs identify the movie title and year; collection IDs identify the TMDb collection name, not an individual movie. Follow native TMDb collection membership without adding standalone films to recreate a broader franchise.
+
 Use the established framed block style for standalone comments: a `#` line before and after the explanatory text. Put a blank line before a standalone comment that introduces the next logical block. GitHub Actions workflows comment every job and step with its operational purpose or safety constraint. Shell helpers comment setup, validation, state preparation, and consequential commands as logical blocks; keep error messages literal and corrective.
 
 Use lowercase kebab-case for human-authored filenames. Generated PATTRMM names are controlled by the upstream application and are exempt.
@@ -64,6 +66,8 @@ For changes affecting collection membership or rendered artwork, use the isolate
 ```sh
 make test-library
 ```
+
+Use `make test-collections` for the native franchise preview without rerunning overlays. It reuses `movies/franchise.yml`, selects its TMDb builders, and runs smoke collections in both fixtures. The runtime remains isolated under `.kometa-test/collections/`; production favorites and external list writers are not loaded.
 
 Never point the test configuration at production library names. Overlay files must be evaluated together; do not use Kometa's `--run-files` option for overlays.
 

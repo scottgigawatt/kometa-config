@@ -1,3 +1,15 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# franchise.yml: Release-ordered film collections with custom franchise artwork.
+#
+
+#
+# TMDb collection IDs follow upstream membership without extra movie overrides.
+# Keep the adjacent collection names readable when reviewing numeric IDs.
+#
 templates:
   franchise:
     file_poster: /config/assets/posters/franchise/<<poster_id>>.jpg
@@ -23,17 +35,17 @@ collections:
     template:
       name: franchise
       poster_id: Jurassic Park
-    trakt_list:
-      - https://trakt.tv/users/iamgabriel/lists/jurassic
+    tmdb_collection:
+      - 328  # Jurassic Park Collection
     summary: "Jurassic Park, later also referred to as Jurassic World, is an American science fiction media franchise centered on a disastrous attempt to create a theme park of cloned dinosaurs."
 
   American Pie Collection:
     template:
       name: franchise
       poster_id: American Pie
-    trakt_list:
-      - https://trakt.tv/users/jes-wan/lists/american-pie
-    summary: "American Pie is a film series consisting of four sex comedy films. American Pie, the first film in the series, was released by Universal Pictures in 1999. The film became a worldwide pop culture phenomenon and gained a cult following among young people. Following American Pie, the second and third films in the series, American Pie 2 (2001) and American Wedding (2003), were released; the fourth, American Reunion, was released in 2012. A spin-off film series entitled American Pie Presents consists of five direct-to-video films that were released from 2005 to 2020. "
+    tmdb_collection:
+      - 2806  # American Pie Collection
+    summary: "The American Pie films following Jim, Michelle, and their friends, using TMDb's main collection."
 
   Back to the Future Trilogy:
     template:
@@ -48,8 +60,8 @@ collections:
     template:
       name: franchise
       poster_id: Batman
-    trakt_list:
-      - https://trakt.tv/lists/official/batman-collection
+    tmdb_collection:
+      - 120794  # Batman Collection
     summary: "This collection contains the Batman films directed by Tim Burton and Joel Schumacher between 1989 and 1997. Batman and Bruce Wayne are portrayed by Michael Keaton in the first two installments, Val Kilmer in Batman Forever and George Clooney in Batman & Robin."
 
 #   Beverly Hills Cop Collection:
@@ -99,10 +111,9 @@ collections:
     template:
       name: franchise
       poster_id: Dune
-    trakt_list:
-      - https://trakt.tv/lists/official/dune-collection
-      - https://trakt.tv/users/hriday-80ce1824-23e8-4fee-99e5-8edc661aed32/lists/dune
-    summary: "The saga of Paul Atreides and his rise to power on the deadly planet Arrakis."
+    tmdb_collection:
+      - 726871  # Dune Collection
+    summary: "Denis Villeneuve's Dune film series, following Paul Atreides on Arrakis."
 
   Ghostbusters Collection:
     template:
@@ -137,8 +148,8 @@ collections:
     template:
       name: franchise
       poster_id: Indiana Jones
-    trakt_list:
-      - https://trakt.tv/users/rygo92/lists/indiana-jones
+    tmdb_collection:
+      - 84  # Indiana Jones Collection
     summary: "Indiana Jones is an American media franchise that began in 1981 with the film Raiders of the Lost Ark. Consisting of five films and a prequel television series, along with games, comics, and tie-in novels, the series depicts the adventures of Dr. Henry Walton 'Indiana' Jones, Jr., a fictional professor of archaeology."
 
   Jackass Collection:
@@ -156,24 +167,24 @@ collections:
     template:
       name: franchise
       poster_id: Jack Ryan
-    trakt_list:
-      - https://trakt.tv/users/jes-wan/lists/jack-ryan
-    summary: "The Jack Ryan franchise consists of American action-thriller installments, based on the fictional titular character from a series of novels written by Tom Clancy. Various actors have portrayed the role. Despite inconsistency with its lead actors and crew members, the series has been distributed solely by Paramount Pictures since its inception. Mace Neufeld has produced every film in the series, with producing partner Robert Rehme co-producing Patriot Games and Clear and Present Danger, and Lorenzo di Bonaventura co-producing Shadow Recruit. With a combined unadjusted worldwide gross of $788.4 million to date, the films constitute the 57th highest-grossing film series. The films have been nominated for four Academy Awards, winning one for Sound Effects (now Sound Editing) in The Hunt for Red October (at the 63rd Awards)."
+    tmdb_collection:
+      - 192492  # The Jack Ryan Collection
+    summary: "The Hunt for Red October, Patriot Games, and Clear and Present Danger, using TMDb's Jack Ryan collection."
 
   James Bond Collection:
     template:
       name: franchise
       poster_id: James Bond 007
-    trakt_list:
-      - https://trakt.tv/users/michaeldibben/lists/james-bond
+    tmdb_collection:
+      - 645  # James Bond Collection
     summary: "The James Bond series focuses on James Bond, a fictional British Secret Service agent created in 1953 by writer Ian Fleming. The character—also known by the code number 007 (pronounced 'double-oh-seven')—has also been adapted for television, radio, comic strip, video games and film. The films are one of the longest continually running film series and have grossed over US$7.04 billion in total at the box office, making it the fifth-highest-grossing film series to date, which started in 1962 with Dr. No, starring Sean Connery as Bond. As of 2021, there have been twenty-five films in the Eon Productions series. The most recent Bond film, No Time to Die (2021), stars Daniel Craig in his fifth portrayal of Bond; he is the sixth actor to play Bond in the Eon series. There have also been two independent Bond film productions: Casino Royale (a 1967 spoof starring David Niven) and Never Say Never Again (a 1983 remake of an earlier Eon-produced film, 1965's Thunderball, both starring Connery). In 2015, the series was estimated to be worth $19.9 billion in total (based on box-office grosses, DVD sales and merchandise tie-ins), making James Bond one of the highest-grossing media franchises of all time. Casino Royale has also been adapted for television, as a one-hour show in 1954 as part of the CBS series Climax!."
 
   Jason Bourne Collection:
     template:
       name: franchise
       poster_id: Bourne
-    trakt_list:
-      - https://trakt.tv/users/jjmalpz/lists/bourne
+    tmdb_collection:
+      - 31562  # The Bourne Collection
     summary: "The Bourne franchise consists of action-thriller installments based on the character Jason Bourne, created by author Robert Ludlum. The franchise includes five films and a spin-off prequel/sequel television series. The overall plot centers around Jason Bourne, a CIA assassin suffering from dissociative amnesia, portrayed by Matt Damon."
 
   John Wick Collection:
@@ -189,8 +200,8 @@ collections:
     template:
       name: franchise
       poster_id: Kung Fu Panda
-    trakt_list:
-      - https://trakt.tv/lists/official/kung-fu-panda-collection
+    tmdb_collection:
+      - 77816  # Kung Fu Panda Collection
     summary: "The Kung Fu Panda series are computer-animated action comedy films set in a version of China populated by humanoid talking animals, the plot revolves around a bumbling humanoid panda named Po who aspires to be a kung fu master."
 
   Lethal Weapon Collection:
@@ -253,25 +264,25 @@ collections:
     template:
       name: franchise
       poster_id: Planet of the Apes
-    trakt_list:
-      - https://trakt.tv/users/yoru14/lists/planet-of-the-apes
-    summary: "The \"Planet of the Apes franchise\", based on Pierre Boulle's 1963 novel, explores a world where intelligent apes dominate humans. The 1968 original film stars Charlton Heston as astronaut George Taylor, leading to sequels on evolution and dystopia. A 2001 reboot by Tim Burton precedes the acclaimed 2011-2017 trilogy, beginning with \"Rise of the Planet of the Apes.\" This reboot focuses on Caesar, an intelligent ape who leads his kind against a collapsing human society."
+    tmdb_collection:
+      - 1709  # Planet of the Apes (Original) Collection
+      - 173710  # Planet of the Apes (Reboot) Collection
+    summary: "The original and reboot Planet of the Apes film series, using TMDb's two collections."
 
   Pirates of the Caribbean:
     template:
       name: franchise
       poster_id: Pirates of the Caribbean
-    trakt_list:
-      - https://trakt.tv/users/bertjj/lists/pirates-of-the-caribbean
+    tmdb_collection:
+      - 295  # Pirates of the Caribbean Collection
     summary: "Pirates of the Caribbean is an American fantasy supernatural swashbuckler film series produced by Jerry Bruckheimer and based on Walt Disney's theme park attraction of the same name. The film series serves as a major component of the eponymous media franchise."
 
   The Purge Collection:
     template:
       name: franchise
       poster_id: Purge
-    collection_order: custom
-    trakt_list:
-      - https://trakt.tv/users/mythicalsensai/lists/the-purge
+    tmdb_collection:
+      - 256322  # The Purge Collection
     summary: "The Purge is an American anthology media franchise centered on a series of dystopian action horror films distributed by Universal Pictures and produced by Blumhouse Productions and Platinum Dunes, which are written and in some cases also directed by James DeMonaco, who was inspired by a Star Trek: The Original Series episode, 'The Return of the Archons'. The films present a seemingly normal, crime-free America in the near-future. However, the country is a dystopia which observes an annual event known as 'the Purge', in which all crime, including murder, is decriminalized for a 12-hour period."
 
   Rambo Collection:
@@ -338,9 +349,9 @@ collections:
     template:
       name: franchise
       poster_id: Transformers
-    trakt_list:
-      - https://trakt.tv/users/strangerer/lists/transformers
-    summary: "Transformers is a series of science fiction action films based on the Transformers franchise of the 1980s. Michael Bay directed the first five films: Transformers (2007), Revenge of the Fallen (2009), Dark of the Moon (2011), Age of Extinction (2014), and The Last Knight (2017), and has served as a producer for subsequent films. A sixth film Bumblebee, directed by Travis Knight, was released in December 2018, while a seventh film, Rise of the Beasts, directed by Steven Caple Jr. was released in June 2023."
+    tmdb_collection:
+      - 8650  # Transformers Collection
+    summary: "Michael Bay's Transformers film series, using TMDb's main collection."
 
   The Transporter Trilogy:
     template:
