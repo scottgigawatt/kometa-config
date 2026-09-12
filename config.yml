@@ -211,8 +211,6 @@ libraries:
           back_width: 1000
           back_height: 1500
           back_color: "#0000"
-
-      # Resolution in the upper left corner in 45 degree format
       - default: resolution
         template_variables:
           file: config/overlays/resolution-top-left-45deg/<<overlay_name>>.png
@@ -226,7 +224,12 @@ libraries:
           back_height: 1500
           back_color: "#0000"
 
-      # Audio in the upper left corner in 45 degree format
+          #
+          # Keep the base resolution badge when no matching custom variant exists.
+          #
+          use_hlg: false
+          use_openmatte: false
+          use_producers: false
       - default: audio_codec
         template_variables:
           file: config/overlays/audio-top-left-45deg/<<key>>.png
@@ -350,6 +353,28 @@ libraries:
           back_height: 1500
           file: config/overlays/streaming-top-left/<<key>>.png
           back_color: "#0000"
+
+          #
+          # Map current provider keys to the existing custom corner artwork.
+          #
+          file_hbomax: config/overlays/streaming-top-left/max.png
+          file_crunchyroll: config/overlays/streaming-top-left/Crunchyroll.png
+          file_movistar: config/overlays/network-top-left/Movistar Plus+.png
+          file_atresplayer: config/overlays/network-top-left/Atresplayer Premium.png
+          file_amc: config/overlays/network-top-left/AMC+.png
+          file_discovery: config/overlays/streaming-top-left/discovery+.png
+          file_crave: config/overlays/streaming-top-left/Crave.png
+          file_now: config/overlays/streaming-top-left/NOW.png
+          file_channel4: config/overlays/streaming-top-left/All 4.png
+          file_itvx: config/overlays/network-top-left/ITVX.png
+          file_bet: config/overlays/network-top-left/BET+.png
+
+          #
+          # Skip providers without matching custom artwork; keep the fallback.
+          #
+          use_hayu: false
+          use_tubi: false
+          use_filmin: false
       - default: studio
         template_variables:
           horizontal_align: left
@@ -360,6 +385,25 @@ libraries:
           back_height: 1500
           file: config/overlays/studio-top-left/<<key>>.png
           back_color: "#0000"
+
+          #
+          # Reuse the matching corner graphic for this renamed studio.
+          #
+          file_Max: config/overlays/network-top-left/Max.png
+
+          #
+          # Skip studios without matching custom artwork; keep the fallback.
+          #
+          use_Disney Television Animation: false
+          use_DisneyToon Studios: false
+          use_Dynamic Planning: false
+          use_Film4 Productions: false
+          use_Golden Harvest: false
+          use_Hungry Man: false
+          use_Screen Gems: false
+          use_Shaw Brothers: false
+          use_Studio Live: false
+          use_The Stone Quarry: false
       - default: network
         template_variables:
           horizontal_align: left
@@ -370,6 +414,27 @@ libraries:
           back_height: 1500
           file: config/overlays/network-top-left/<<key>>.png
           back_color: "#0000"
+
+          #
+          # Preserve existing branding while following current network names.
+          #
+          file_5: config/overlays/network-top-left/Channel 5.png
+          file_Apple TV: config/overlays/network-top-left/Apple TV+.png
+          file_Atres Player: config/overlays/network-top-left/Atresplayer Premium.png
+          file_HBO Max: config/overlays/network-top-left/Max.png
+          file_U: config/overlays/network-top-left/UKTV.png
+          file_U&Alibi: config/overlays/network-top-left/Alibi.png
+          file_U&Dave: config/overlays/network-top-left/Dave.png
+          file_U&Eden: config/overlays/network-top-left/Eden.png
+          file_U&W: config/overlays/network-top-left/W.png
+
+          #
+          # Skip networks without matching custom artwork; keep the fallback.
+          #
+          use_tubi: false
+          use_U&Drama: false
+          use_U&Gold: false
+          use_U&Yesterday: false
 
     #
     # Define 'TV Shows' library settings

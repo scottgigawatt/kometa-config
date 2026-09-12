@@ -44,7 +44,7 @@ check: validate check-generated lint  # Run all repository checks.
 #
 # validate: Validate repository YAML with Kometa's pinned schema validator.
 #
-# Dependencies: Docker.
+# Dependencies: Docker, Git.
 #
 validate:  # Validate Kometa YAML without connecting to Plex or external APIs.
 	@scripts/validate-kometa.sh
@@ -88,5 +88,5 @@ format:  # Apply safe repository whitespace fixes.
 #
 # Dependencies: Docker, TEST_ENV, and the two documented Plex test libraries.
 #
-test-library:  # Render smoke collections and default overlays in test libraries.
+test-library:  # Render smoke collections and custom overlays in test libraries.
 	@scripts/run-test-library.sh

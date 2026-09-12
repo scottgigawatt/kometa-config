@@ -1,4 +1,15 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# network-fallback.yml: Provider corner artwork when no later provider overlay matches.
+#
+
 overlays:
+  #
+  # Keep a generic corner beneath matching streaming, studio, or network art.
+  #
   plex:
     overlay:
       name: plex
@@ -6,8 +17,15 @@ overlays:
       group: ICONS
       weight: 100
     plex_all: true
+
+  #
+  # Preserve the local Crave corner when Plex supplies that network metadata.
+  # Libraries without Crave shows should skip this optional fallback quietly.
+  #
   crave:
+    ignore_blank_results: true
     plex_search:
+      validate: false
       all:
         network: Crave
     overlay:

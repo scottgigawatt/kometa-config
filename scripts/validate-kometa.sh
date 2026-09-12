@@ -34,6 +34,14 @@ if ! command -v docker >/dev/null 2>&1; then
 fi
 
 #
+# Require Git to identify source files without including private runtime state.
+#
+if ! command -v git >/dev/null 2>&1; then
+    echo "Git is required to select source-controlled Kometa YAML." >&2
+    exit 1
+fi
+
+#
 # Resolve the checkout and create an isolated writable Kometa runtime directory.
 #
 repository_root=$(CDPATH='' cd -- "$(dirname "$0")/.." && pwd)
@@ -45,10 +53,52 @@ runtime_directory=$(mktemp -d "${TMPDIR:-/tmp}/kometa-validation.XXXXXX")
 trap 'rm -rf "$runtime_directory"' EXIT HUP INT TERM
 
 #
+# Snapshot tracked YAML from the working tree, preserving paths and local edits.
+# Null-delimited paths keep filenames intact while excluding ignored secrets,
+# logs, caches, and generated test or deployment configuration.
+#
+source_directory="$runtime_directory/source"
+mkdir -p "$source_directory"
+git -C "$repository_root" ls-files -z -- '*.yml' '*.yaml' > "$runtime_directory/yaml-files"
+
+#
+# Expand snapshot variables in the child shell, not the calling shell.
+#
+# shellcheck disable=SC2016
+xargs -0 sh -c '
+    set -eu
+    repository_root=$1
+    source_directory=$2
+    shift 2
+
+    for source_file do
+        mkdir -p "$source_directory/$(dirname "$source_file")"
+        cp "$repository_root/$source_file" "$source_directory/$source_file"
+    done
+' sh "$repository_root" "$source_directory" < "$runtime_directory/yaml-files"
+
+#
 # Seed the local base configuration required by Kometa's entrypoint. The
 # sandbox template contains placeholders instead of real credentials.
 #
 cp "$repository_root/tests/kometa/config.yml" "$runtime_directory/config.yml"
+
+#
+# Check every enabled custom artwork mapping against the pinned Defaults using
+# Git paths, so sparse CI checkouts do not need to download the artwork itself.
+#
+git -C "$repository_root" ls-files -z -- overlays/ > "$runtime_directory/overlay-files"
+docker run --rm \
+    --network none \
+    --read-only \
+    --cap-drop ALL \
+    --security-opt no-new-privileges \
+    --user "$(id -u):$(id -g)" \
+    --mount "type=bind,src=$source_directory,dst=/workspace,readonly" \
+    --mount "type=bind,src=$runtime_directory,dst=/config,readonly" \
+    --mount "type=bind,src=$repository_root/scripts/check-overlay-assets.py,dst=/check-overlay-assets.py,readonly" \
+    --entrypoint python \
+    "$KOMETA_IMAGE" /check-overlay-assets.py
 
 #
 # Validate the complete repository without privileges, secrets, network-bound
@@ -60,7 +110,7 @@ docker run --rm \
     --security-opt no-new-privileges \
     --user "$(id -u):$(id -g)" \
     --tmpfs /tmp:rw,noexec,nosuid,size=64m \
-    --mount "type=bind,src=$repository_root,dst=/workspace,readonly" \
+    --mount "type=bind,src=$source_directory,dst=/workspace,readonly" \
     --mount "type=bind,src=$runtime_directory,dst=/config" \
     "$KOMETA_IMAGE" \
     --validate-dir /workspace

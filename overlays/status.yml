@@ -1,4 +1,12 @@
 #
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# status.yml: Custom status ribbons for TV show posters.
+#
+
+#
 # Define TV show templates
 #
 templates:
@@ -11,7 +19,7 @@ templates:
     run_definition: show
     overlay:
       name: <<overlay_name>>
-      url: https://raw.githubusercontent.com/scottgigawatt/kometa-config/main/overlays/status-top-left/<<status>>.png
+      file: config/overlays/status-top-left/<<status>>.png
       group: status
       weight: <<weight>>
       horizontal_offset: 0

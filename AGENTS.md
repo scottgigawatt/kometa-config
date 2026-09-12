@@ -25,7 +25,9 @@ Logs, caches, missing-item reports, `.kometa-test/`, and `.secrets/` are private
 
 ## Secrets
 
-Never commit real Plex tokens, API keys, OAuth state, webhook URLs, passwords, private environment files, or generated authentication data. Checked-in configuration uses obvious placeholders or Kometa secret substitutions. Private values belong under the ignored `.secrets/` directory or the deployment's private environment.
+Never commit real Plex tokens, API keys, OAuth state, webhook URLs, passwords, private server URLs or hostnames, private environment files, or generated authentication data. Checked-in configuration uses obvious placeholders or Kometa secret substitutions. Private values belong under the ignored `.secrets/` directory or the deployment's private environment.
+
+Treat Plex server addresses as confidential even when publicly reachable. Never reproduce them in source, documentation, commit messages, pull requests, issues, or shared tool output. Runtime logs can contain connection details; keep them private and report only reviewed, sanitized results.
 
 Do not read, print, diff, or stage `.secrets/` content while performing unrelated work. Always inspect staged files before committing.
 
@@ -55,7 +57,7 @@ make check-generated
 make lint
 ```
 
-`make validate` uses the immutable Kometa image configured in `Makefile`, with no secrets or Plex access and a read-only repository mount. Kometa performs its normal upstream version check, but the directory validator does not initialize the configured services. Schema gaps reported by upstream Kometa are warnings; syntax, type, and required-field errors must fail.
+`make validate` uses the immutable Kometa image configured in `Makefile`, with no secrets or Plex access and a read-only snapshot of Git-tracked YAML from the working tree. Stage new YAML files before validation; ignored credentials and runtime output are not mounted. Kometa performs its normal upstream version check, but the directory validator does not initialize the configured services. Schema gaps reported by upstream Kometa are warnings; syntax, type, and required-field errors must fail.
 
 For changes affecting collection membership or rendered artwork, use the isolated Plex fixtures documented in `docs/testing.md` before running against production:
 

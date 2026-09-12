@@ -7,7 +7,7 @@
 #
 # run-test-library.sh: Run the isolated Kometa Plex test-library configuration.
 #
-# Purpose: Render smoke collections and maintained default overlays against the
+# Purpose: Render smoke collections and the complete custom overlays against the
 #          tiny upstream Plex fixture libraries before production rollout.
 # Usage: KOMETA_IMAGE=<image> TEST_ENV=<path> scripts/run-test-library.sh
 #
@@ -16,6 +16,11 @@
 # Exit immediately when a command fails or an unset variable is referenced.
 #
 set -eu
+
+#
+# Keep newly created runtime directories and copied configuration private.
+#
+umask 077
 
 #
 # Require the immutable Kometa image exported by the Makefile.
@@ -63,8 +68,39 @@ fi
 mkdir -p "$runtime_directory"
 
 #
+# Place the selected test configuration beside its writable runtime output.
+# Kometa creates logs and cache files relative to the configuration path.
+#
+cp "$repository_root/tests/kometa/config.yml" "$runtime_directory/config.yml"
+
+#
+# Mount only the source inputs needed by this preview, never the secrets folder.
+# Individual artwork mounts leave the parent overlay cache writable for Kometa.
+#
+set -- \
+    --mount "type=bind,src=$repository_root/assets,dst=/workspace/assets,readonly" \
+    --mount "type=bind,src=$repository_root/tests/kometa,dst=/workspace/tests/kometa,readonly"
+
+for overlay_source in \
+    top.yml background.yml status.yml network-fallback.yml \
+    background bottom-left bottom-right resolution-top-left-45deg \
+    audio-top-left-45deg status-top-left streaming-top-left studio-top-left network-top-left
+do
+    set -- "$@" --mount "type=bind,src=$repository_root/overlays/$overlay_source,dst=/config/overlays/$overlay_source,readonly"
+done
+
+#
+# Allow an existing private MDBList credential to be supplied by the caller.
+# Docker reads its value from the environment, never from command arguments.
+#
+if [ -n "${KOMETA_MDBLISTAPIKEY:-}" ]; then
+    set -- "$@" --env KOMETA_MDBLISTAPIKEY
+fi
+
+#
 # Run Kometa without privileges or repository write access, while allowing its
 # disposable logs and cache to persist for inspection after the test.
+# Skip missing-item lookups because fixtures intentionally omit most titles.
 #
 docker run --rm \
     --read-only \
@@ -73,8 +109,10 @@ docker run --rm \
     --user "$(id -u):$(id -g)" \
     --tmpfs /tmp:rw,noexec,nosuid,size=128m \
     --env-file "$test_environment" \
-    --mount "type=bind,src=$repository_root,dst=/workspace,readonly" \
     --mount "type=bind,src=$runtime_directory,dst=/config" \
+    "$@" \
     "$KOMETA_IMAGE" \
-    --config /workspace/tests/kometa/config.yml \
+    --config /config/config.yml \
+    --read-only-config \
+    --no-missing \
     --run
