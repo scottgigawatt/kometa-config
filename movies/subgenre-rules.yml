@@ -42,7 +42,7 @@ collections:
   # This is a keyword search, not an external user's curated list.
   #
   Top Rated in Mindfuck:
-    summary: "Highly rated English-language movies matching IMDb's mindbender keyword, with at least 1,000 votes."
+    summary: "Mind-bending stories that blur reality and reward a second watch."
     file_poster: /config/assets/posters/subgenre_top/subgenre_top_mindfuck.png
     schedule: weekly(thursday)
     template:
@@ -57,25 +57,25 @@ collections:
       limit: 1000
 
   Top Rated in Outerspace:
-    summary: "Highly rated English-language movies about outer space or space travel, with at least 1,000 TMDb votes."
+    summary: "Journeys beyond Earth, from distant worlds to the depths of space."
     file_poster: /config/assets/posters/subgenre_top/subgenre_top_outerspace.png
     schedule: weekly(thursday)
     template:
       - name: ranked_theme
       - name: tmdb_theme
-        keywords: "252634|3801"  # Outer space | Space travel
+        keywords: "252634|3801"   # Outer space | Space travel
 
   Top Rated in Philosophical:
-    summary: "Highly rated English-language movies tagged with philosophy, with at least 1,000 TMDb votes."
+    summary: "Stories exploring existence, morality, and what it means to be human."
     file_poster: /config/assets/posters/subgenre_top/subgenre_top_philosophical.png
     schedule: weekly(friday)
     template:
       - name: ranked_theme
       - name: tmdb_theme
-        keywords: "490"  # Philosophy
+        keywords: "490"           # Philosophy
 
   Top Rated in Survival:
-    summary: "Highly rated English-language movies about survival or survivors, with at least 1,000 TMDb votes."
+    summary: "People pushed to their limits in the struggle to stay alive."
     file_poster: /config/assets/posters/subgenre_top/subgenre_top_survival.png
     schedule: weekly(saturday)
     template:
@@ -84,19 +84,19 @@ collections:
         keywords: "10349|298724"  # Survival | Survivor
 
   Top Rated in Time Travel:
-    summary: "Highly rated English-language movies tagged with time travel, with at least 1,000 TMDb votes."
+    summary: "Journeys through time, tangled timelines, and the consequences of changing the past."
     file_poster: /config/assets/posters/subgenre_top/subgenre_top_time-travel.png
     schedule: weekly(sunday)
     template:
       - name: ranked_theme
       - name: tmdb_theme
-        keywords: "4379"  # Time travel
+        keywords: "4379"          # Time travel
 
   Top Rated in True Story:
-    summary: "Highly rated English-language movies tagged as based on a true story, with at least 1,000 TMDb votes."
+    summary: "Remarkable lives and real events brought to the screen."
     file_poster: /config/assets/posters/subgenre_top/subgenre_top_true-story.png
     schedule: weekly(sunday)
     template:
       - name: ranked_theme
       - name: tmdb_theme
-        keywords: "9672"  # Based on true story
+        keywords: "9672"          # Based on true story

@@ -37,7 +37,9 @@ Use two-space YAML indentation, UTF-8, LF line endings, a final newline, and no 
 
 Comments use concise plain English and explain intent, ownership, scheduling, external-source choices, or Plex side effects. Do not comment obvious syntax. New project-owned configuration, scripts, and workflow files begin with the established copyright, Apache-2.0, filename, and purpose header.
 
-Write explicit TMDb IDs one per YAML list line with two spaces before a descriptive inline comment. Movie and show IDs identify the title and premiere year; collection IDs identify the TMDb collection name, not an individual movie. Follow native TMDb collection membership without adding standalone films to recreate a broader franchise.
+Write explicit TMDb IDs one per YAML list line with at least two spaces before a descriptive inline comment. Align end-of-line comments within logical groups where practical. Movie and show IDs identify the title and premiere year; collection IDs identify the TMDb collection name, not an individual movie. Follow native TMDb collection membership without adding standalone films to recreate a broader franchise.
+
+Collection summaries describe the films and their themes for viewers. Avoid references to the library, metadata providers, keyword matching, vote thresholds, or how the collection is assembled. Keep those operational details in source comments and documentation.
 
 Use the established framed block style for standalone comments: a `#` line before and after the explanatory text. Put a blank line before a standalone comment that introduces the next logical block. GitHub Actions workflows comment every job and step with its operational purpose or safety constraint. Shell helpers comment setup, validation, state preparation, and consequential commands as logical blocks; keep error messages literal and corrective.
 
