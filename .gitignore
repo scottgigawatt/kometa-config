@@ -12,6 +12,7 @@
 #
 .DS_Store
 *.bak
+.ruff_cache/
 
 #
 # Private credentials and environment files; checked-in examples remain

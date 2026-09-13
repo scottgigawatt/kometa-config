@@ -16,10 +16,11 @@ libraries:
       - file: /workspace/tests/kometa/collections.yml
 
   #
-  # Keep a TV smoke check without loading production collection files.
+  # Preview the same curated TV collections without loading other TV files.
   #
   test_tv_lib:
     collection_files:
+      - file: /workspace/shows/shuffle.yml
       - file: /workspace/tests/kometa/collections.yml
 
 #

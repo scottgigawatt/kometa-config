@@ -90,18 +90,24 @@ Kometa's `--run-files` option may narrow collection and playlist runs, but it mu
 
 Once the fixture result is acceptable, deploy one clean commit and run the smallest affected production scope before allowing the next full schedule.
 
-## Preview native franchise collections
+## Preview movie and TV collections
 
-Run the collection-only preview when testing native franchise membership and posters:
+Run the collection-only preview when testing native movie franchises and curated TV collections:
 
 ```sh
 make test-collections
 ```
 
-This uses the same private `TEST_ENV` as the overlay preview but requires only Plex and TMDb credentials. Its separate configuration loads `movies/franchise.yml` directly, selects every `tmdb_collection` definition, and ignores their production schedules for this explicit test run. It also runs the smoke collection in both fixtures. No membership IDs are duplicated in test YAML.
+This uses the same private `TEST_ENV` as the overlay preview but requires only Plex and TMDb credentials. Its separate configuration loads `movies/franchise.yml` directly, selects every `tmdb_collection` definition, and ignores their production schedules for this explicit test run. It loads the four TV collections from `shows/shuffle.yml` and runs the smoke collection in both fixtures. No membership IDs are duplicated in test YAML.
 
-The runner checks the fixture names, loaded files, source template, and selected definition attributes before starting Kometa. It has no overlay, playlist, Trakt, Radarr, Sonarr, or production-operation configuration. Existing overlay artwork is left untouched. Logs, cache, and reports remain private under `.kometa-test/collections/`.
+The runner checks the fixture names, loaded files, source templates, and selected definition attributes before starting Kometa. It has no overlay, playlist, Radarr, Sonarr, or production-operation configuration. The TV builders use repository-owned [`tmdb_show` lists](https://kometa.wiki/en/latest/files/builders/tmdb/standard/show/), with each ID commented by title and year. No Trakt list or account credentials are needed for these four collections. Existing overlay artwork is left untouched. Logs, cache, and reports remain private under `.kometa-test/collections/`.
 
-In `test_movie_lib`, review the native franchise collections for their custom posters and release ordering, including The Purge when matching fixture media is present. A collection with no matching fixture media may be skipped below the minimum of one item; it must not trigger downloads or deletion. In `test_tv_lib`, confirm the smoke collection still works. Compare membership with the intersection of the configured TMDb collections and the fixture's matched movie IDs, rather than expecting every upstream title to be in the tiny library.
+In `test_movie_lib`, review the native franchise collections for their custom posters and release ordering, including The Purge when matching fixture media is present. In `test_tv_lib`, review Adult Animation, Saturday Morning Cartoons, Classic Sitcoms, and Modern Sitcoms for whole-series membership and their custom posters. Only show IDs are included. Collections use alphabetical browsing order; use Plex's Shuffle action to play episodes. Plex groups the original and revived Will & Grace into eleven seasons under the original series, so Classic Sitcoms needs only that series ID to include both runs.
+
+A collection with no matching fixture media may be skipped below the minimum of one item; it must not trigger downloads or deletion. Compare membership with the intersection of each configured source and the fixture's matched IDs, rather than expecting every title in the tiny library. Empty fixture results do not validate artwork: add small test episodes for selected shows and scan the test library before accepting the visual preview. The collection runner rejects failed or incomplete run summaries even when Kometa exits successfully.
+
+The TV preview fixtures include Rick and Morty, Spider-Man (1994), Will & Grace (1998), and The Office (2005). One tiny episode per show covers all four collections; a second Will & Grace episode from season nine checks revival coverage. These black, silent clips are disposable test media, not copies of production episodes.
+
+The production `other_chart` configuration enables both `radarr_add_missing_pirated` and `radarr_search_pirated` only for Top 10 Pirated Movies of the Week. The preview never loads that chart or connects to Radarr. Offline regression tests verify its collection-specific variables against the pinned Defaults; actual Radarr additions and download searches require a separately approved production run with working private Radarr settings.
 
 The command does not deploy configuration to Hera's production checkout.

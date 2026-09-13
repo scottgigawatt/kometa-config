@@ -1,0 +1,100 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# shuffle.yml: Curated TV collections with shared artwork for shuffle viewing.
+#
+
+#
+# Keep curated membership in this repository and match whole series through TMDb.
+# Plex includes every available episode of each selected show for shuffle viewing.
+#
+templates:
+  shuffle:
+    builder_level: show
+    file_poster: /config/assets/posters/playlist/<<collection_name>>.png
+    collection_order: alpha
+    sync_mode: sync
+
+#
+# Keep the existing collection names and artwork available to shared TV users.
+#
+collections:
+  Adult Animation:
+    template:
+      name: shuffle
+    tmdb_show:
+      - 60625  # Rick and Morty (2013)
+      - 15260  # Adventure Time (2010)
+      - 2190  # South Park (1997)
+      - 653  # Metalocalypse (2006)
+      - 32351  # Ugly Americans (2010)
+      - 1434  # Family Guy (1999)
+      - 1433  # American Dad! (2005)
+      - 539  # Squidbillies (2005)
+      - 49008  # Axe Cop (2013)
+    summary: "Just because it's animated doesn't mean it's for kids! These cartoon TV shows run the gamut from funny to dark and everything in between."
+
+  Saturday Morning Cartoons:
+    template:
+      name: shuffle
+    tmdb_show:
+      - 888  # Spider-Man (1994)
+      - 4574  # X-Men (1992)
+      - 2085  # Courage the Cowardly Dog (1999)
+      - 2121  # ReBoot (1994)
+      - 720  # DuckTales (1987)
+      - 926  # Scooby-Doo, Where Are You! (1969)
+      - 387  # SpongeBob SquarePants (1999)
+      - 4229  # Dexter's Laboratory (1996)
+      - 1615  # Chip 'n' Dale Rescue Rangers (1989)
+      - 606  # Ed, Edd n Eddy (1999)
+      - 1931  # Disney's Adventures of the Gummi Bears (1985)
+      - 3319  # Darkwing Duck (1991)
+      - 2720  # TaleSpin (1990)
+      - 4630  # The Fairly OddParents (2001)
+      - 384  # Doug (1991)
+      - 4288  # Beetlejuice (1989)
+      - 7248  # The Magic School Bus (1994)
+      - 2429  # Aaahh!!! Real Monsters (1994)
+      - 478  # Captain Planet and the Planeteers (1990)
+      - 2567  # Hercules (1998)
+      - 3611  # Cow and Chicken (1997)
+    summary: "Indulge in pure nostalgia with Saturday Morning Cartoons — a lineup of timeless animated classics for a trip down memory lane. Relive the joy of iconic characters and catchy tunes."
+
+  Classic Sitcoms:
+    template:
+      name: shuffle
+
+    #
+    # Plex groups both Will & Grace runs under the original show's eleven seasons.
+    # That single series match includes the revival without a separate builder.
+    #
+    tmdb_show:
+      - 1668  # Friends (1994)
+      - 105  # Sex and the City (1998)
+      - 2004  # Malcolm in the Middle (2000)
+      - 1678  # The Golden Girls (1985)
+      - 3068  # The Golden Palace (1992)
+      - 2352  # The Nanny (1993)
+      - 4454  # Will & Grace (1998), including the revival seasons in Plex
+      - 654  # Reba (2001)
+      - 2706  # Roseanne (1988)
+    summary: "Enjoy timeless laughs with our Classic Sitcoms collection. Dive into the humor and charm of iconic shows that have stood the test of time. From witty one-liners to unforgettable characters, this collection is your ticket to a laughter-filled trip through television history."
+
+  Modern Sitcoms:
+    template:
+      name: shuffle
+    tmdb_show:
+      - 2316  # The Office (2005)
+      - 8592  # Parks and Recreation (2009)
+      - 48891  # Brooklyn Nine-Nine (2013)
+      - 1421  # Modern Family (2009)
+      - 83631  # What We Do in the Shadows (2019)
+      - 7777  # Better Off Ted (2009)
+      - 1418  # The Big Bang Theory (2007)
+      - 61662  # Schitt's Creek (2015)
+      - 71728  # Young Sheldon (2017)
+      - 62649  # Superstore (2015)
+    summary: "Experience the best of contemporary comedy with our Modern Sitcoms collection. Bursting with laughter, relatable characters, and witty humor, it's your go-to for a quick dose of today's comedic brilliance."
