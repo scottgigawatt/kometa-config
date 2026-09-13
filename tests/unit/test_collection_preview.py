@@ -167,19 +167,85 @@ class CollectionPreviewTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.check()
 
-    def test_tv_unowned_source_rejected(self):
+    def test_tv_external_source_rejected(self):
         self.shows["templates"]["shuffle"]["trakt_list"] = (
             "https://trakt.tv/users/example/lists/<<list_slug>>"
         )
         with self.assertRaises(ValueError):
             self.check()
 
-    def test_tv_source_override_rejected(self):
+    def test_tv_template_override_rejected(self):
         self.shows["collections"]["Adult Animation"]["template"]["list_slug"] = (
             "classic-sitcoms"
         )
         with self.assertRaises(ValueError):
             self.check()
+
+    def test_tv_invalid_ids_rejected(self):
+        for ids in ([True], [0], [-1], ["60625"], [], [60625, 60625]):
+            with self.subTest(ids=ids):
+                self.shows["collections"]["Adult Animation"]["tmdb_show"] = ids
+                with self.assertRaises(ValueError):
+                    self.check()
+
+    def test_tv_membership_counts(self):
+        self.assertEqual(
+            {
+                name: len(definition["tmdb_show"])
+                for name, definition in self.shows["collections"].items()
+            },
+            {
+                "Adult Animation": 9,
+                "Saturday Morning Cartoons": 21,
+                "Classic Sitcoms": 9,
+                "Modern Sitcoms": 10,
+            },
+        )
+
+    def test_will_and_grace_combined_series(self):
+        ids = self.shows["collections"]["Classic Sitcoms"]["tmdb_show"]
+        self.assertIn(4454, ids)
+        self.assertNotIn(74321, ids)
+
+    def test_tv_id_comment_required(self):
+        yaml = YAML()
+        shows = yaml.load(Path("/workspace/shows/shuffle.yml").read_text())
+        shows["collections"]["Adult Animation"]["tmdb_show"].ca.items.clear()
+        with self.assertRaises(ValueError):
+            preview.check_id_comments(shows["collections"], "tmdb_show")
+
+    def test_successful_run_summary(self):
+        for status in (
+            "Created",
+            "Unchanged",
+            "Modified and Updated Image",
+            "Created and Updated Metadata, Image",
+            "Ignored",
+            "Minimum 1 Not Met",
+        ):
+            with self.subTest(status=status):
+                preview.check_run_summary(
+                    f"| Adult Animation | 1 | 0 | 0 | 0:00:01 | {status} |",
+                    ["Adult Animation"],
+                )
+
+    def test_failed_run_summary(self):
+        for status in (
+            "Service Error",
+            "Kometa Failure",
+            "Mapping/Conversion Error",
+            "Unknown Error",
+            "Not Scheduled",
+        ):
+            with self.subTest(status=status), self.assertRaises(ValueError):
+                preview.check_run_summary(
+                    f"| Adult Animation | 0 | 0 | 0 | 0:00:01 | {status} |",
+                    ["Adult Animation"],
+                )
+
+    def test_incomplete_run_summary(self):
+        with self.assertRaises(ValueError):
+            preview.check_run_summary("No summary rows", ["Adult Animation"])
 
     def test_tv_movie_builder_rejected(self):
         self.shows["collections"]["Adult Animation"]["tmdb_movie"] = [1]
@@ -189,6 +255,8 @@ class CollectionPreviewTests(unittest.TestCase):
     def test_tv_sources_only_wired_to_tv(self):
         yaml = YAML(typ="safe")
         config = yaml.load(Path("/workspace/config.yml").read_text())
+        for setting in ("add_missing", "add_existing", "search"):
+            self.assertIs(config["sonarr"][setting], False)
         self.assertIn(
             {"folder": "config/shows/"},
             config["libraries"]["TV Shows"]["collection_files"],

@@ -12,7 +12,8 @@
 #
 
 import argparse
-import os
+import re
+import subprocess
 from pathlib import Path
 
 from ruamel.yaml import YAML
@@ -112,38 +113,43 @@ def preview_names(franchises, config, smoke, shows):
         raise ValueError("No native franchise builders selected.")
 
     #
-    # Public owner-controlled TV lists need no Trakt credentials or account writes.
-    # Fix the template contract so movie expansion and download settings cannot
+    # Keep TV membership in named TMDb show IDs with no external curated lists.
+    # Fix the template contract so episode expansion and download settings cannot
     # enter the preview through a later template change.
     #
     expected_show_template = {
         "builder_level": "show",
-        "trakt_list": "https://trakt.tv/users/scottgigawatt/lists/<<list_slug>>",
         "file_poster": "/config/assets/posters/playlist/<<collection_name>>.png",
         "collection_order": "alpha",
         "sync_mode": "sync",
-        "sonarr_add_missing": False,
-        "sonarr_add_existing": False,
-        "sonarr_search": False,
     }
     if set(shows) != {"templates", "collections"} or shows["templates"] != {
         "shuffle": expected_show_template
     }:
         raise ValueError("TV preview must use the safe show-only template.")
     expected_shows = {
-        "Adult Animation": "adult-animation",
-        "Saturday Morning Cartoons": "saturday-morning-cartoons",
-        "Classic Sitcoms": "classic-sitcoms",
-        "Modern Sitcoms": "modern-sitcoms",
+        "Adult Animation",
+        "Saturday Morning Cartoons",
+        "Classic Sitcoms",
+        "Modern Sitcoms",
     }
-    if set(shows["collections"]) != set(expected_shows):
+    if set(shows["collections"]) != expected_shows:
         raise ValueError("TV preview must contain the four curated collections.")
     for name, definition in shows["collections"].items():
-        if set(definition) != {"template", "summary"} or definition["template"] != {
+        if set(definition) != {"template", "summary", "tmdb_show"} or definition[
+            "template"
+        ] != {
             "name": "shuffle",
-            "list_slug": expected_shows[name],
         }:
             raise ValueError("Unexpected TV collection source or writer behavior.")
+        ids = definition["tmdb_show"]
+        if (
+            not isinstance(ids, list)
+            or not ids
+            or any(type(i) is not int or i <= 0 for i in ids)
+            or len(ids) != len(set(ids))
+        ):
+            raise ValueError("TMDb show IDs must be unique positive integers.")
         names.append(name)
 
     #
@@ -167,25 +173,53 @@ def preview_names(franchises, config, smoke, shows):
     return names
 
 
-def load_preview(source):
-    """Load tracked source files and verify every collection ID has a name comment."""
-    yaml = YAML()
-    path = source / "movies/franchise.yml"
-    franchises = yaml.load(path.read_text())
-    for definition in franchises["collections"].values():
-        ids = definition.get("tmdb_collection")
+def check_id_comments(definitions, builder):
+    """Require readable inline names beside each explicit TMDb ID."""
+    for definition in definitions.values():
+        ids = definition.get(builder)
         if ids is None:
             continue
         for index in range(len(ids)):
             comment = ids.ca.items.get(index)
             if not comment or not comment[0] or not comment[0].value.strip("# \n"):
                 raise ValueError(
-                    "Every TMDb collection ID needs its collection name comment."
+                    "Every TMDb ID needs its title or collection name comment."
                 )
+
+
+def load_preview(source):
+    """Load tracked source files and verify collection and show ID comments."""
+    yaml = YAML()
+    path = source / "movies/franchise.yml"
+    franchises = yaml.load(path.read_text())
     config = yaml.load((source / "tests/kometa/collections-config.yml").read_text())
     smoke = yaml.load((source / "tests/kometa/collections.yml").read_text())
     shows = yaml.load((source / "shows/shuffle.yml").read_text())
-    return preview_names(franchises, config, smoke, shows), config
+    names = preview_names(franchises, config, smoke, shows)
+    check_id_comments(franchises["collections"], "tmdb_collection")
+    check_id_comments(shows["collections"], "tmdb_show")
+    return names, config
+
+
+def check_run_summary(log, names):
+    """Reject failed or missing collection results even when Kometa exits zero."""
+    remaining = set(names)
+    for line in log.splitlines():
+        cells = [cell.strip() for cell in line.split("|")[1:-1]]
+        if len(cells) != 6 or cells[0] not in names:
+            continue
+        if not re.fullmatch(
+            r"(?:Unchanged|Created|Modified)(?: and Updated .+)?|Updated .+|Ignored|Minimum [1-9]\d* Not Met",
+            cells[-1],
+        ):
+            raise ValueError(
+                "Collection preview failed; inspect the private runtime log."
+            )
+        remaining.discard(cells[0])
+    if remaining:
+        raise ValueError(
+            "Collection preview summary is incomplete; inspect the private runtime log."
+        )
 
 
 if __name__ == "__main__":
@@ -196,14 +230,15 @@ if __name__ == "__main__":
     if args.run:
         #
         # Check the copied runtime as well as source before enabling Plex writes.
-        # Use exec so Kometa receives signals and owns the container exit status.
+        # Check the fresh run summary because Kometa can report errors and exit zero.
         #
         if YAML(typ="safe").load(Path("/config/config.yml").read_text()) != preview:
             raise ValueError(
                 "Runtime configuration does not match the checked preview."
             )
-        os.execvp(
-            "python",
+        log_path = Path("/config/logs/meta.log")
+        previous = log_path.stat().st_mtime_ns if log_path.exists() else None
+        subprocess.run(
             [
                 "python",
                 "/kometa.py",
@@ -217,7 +252,11 @@ if __name__ == "__main__":
                 "|".join(selected),
                 "--run",
             ],
+            check=True,
         )
+        if not log_path.exists() or log_path.stat().st_mtime_ns == previous:
+            raise ValueError("Collection preview did not produce a fresh runtime log.")
+        check_run_summary(log_path.read_text(), selected)
     print(
         f"Collection preview isolation and ID comments passed ({len(selected)} definitions)."
     )
