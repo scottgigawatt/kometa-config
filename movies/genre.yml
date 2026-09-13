@@ -1,4 +1,15 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# genre.yml: Build movie genres from Plex tags and named TMDb keywords.
+#
+
 templates:
+  #
+  # Keep custom posters and alphabetical browsing while synchronizing membership.
+  #
   genre:
     file_poster: /config/assets/posters/genre/<<poster_id>>.jpg
     sort_title: "!060_<<collection_name>>"
@@ -6,131 +17,84 @@ templates:
     sync_mode: sync
 
 collections:
+  #
+  # Native genres use library tags without external curated additions.
+  # The seasonal Halloween collection is maintained separately.
+  #
   Horror Movies:
     template:
       name: genre
       poster_id: Horror
-    trakt_list:
-      - https://trakt.tv/users/movistapp/lists/horror
-      - https://trakt.tv/users/g0g0/lists/horror
-      - https://trakt.tv/users/oldmankestis/lists/horror
-    imdb_list:
-      - list_id: ls079318228  # Top 200 Horror Movies
-        limit: 0
-        sort_by: rating.asc
-      - list_id: ls025783055  # Family Halloween Movies
-        limit: 0
-        sort_by: rating.asc
-      - list_id: ls063988425  # Halloween Movies That Aren't Too Scary or Gory
-        limit: 0
-        sort_by: rating.asc
-      - list_id: ls059633855  # Top 240 Horror Movies 2000-2018
-        limit: 0
-        sort_by: rating.asc
-      - list_id: ls009129354  # Horror - More than 300 Horror Movies To Watch Late at Night
-        limit: 0
-        sort_by: rating.asc
     plex_search:
-      any:
+      all:
         genre: Horror
     schedule: range(11/01-09/14)
-    summary: "This collection includes Horror films, themes, and Halloween based titles."
-    sync_to_trakt_list: horror
-    sync_missing_to_trakt_list: true
+    summary: "Movies tagged Horror in this Plex library."
 
+  #
+  # Each keyword contributes movies independently; matches are combined.
+  # Coverage follows TMDb tagging, not a manually maintained title list.
+  #
   LGBTQ+ Movies:
     template:
       name: genre
       poster_id: LGBTQ+
-    imdb_list:
-      - list_id: ls062688328  # LGBTQ+ films
-        limit: 0
-        sort_by: rating.asc
-    trakt_list:
-      - https://trakt.tv/users/gus210/lists/gay-movies-and-tv-shows
-      - https://trakt.tv/users/sele_nap/lists/lgbt
-      - https://trakt.tv/users/eragos/lists/gay-movies-tv-shows
-      - https://trakt.tv/users/jmmeler/lists/gay
+    tmdb_keyword:
+      - 158718  # LGBT
+      - 380747  # LGBT+
+      - 363345  # Gay
+      - 264386  # Lesbian
+      - 329968  # Bisexual
+      - 290527  # Transgender
+      - 240109  # Intersex
     schedule: weekly(tuesday)
-    summary: "LGBTQ+ is a genre of films where the characters depict lesbian, gay, bisexual, transgender, queer and intersex people."
-    sync_to_trakt_list: lgbtq
-    sync_missing_to_trakt_list: true
+    summary: "Movies with LGBTQ+ themes identified by TMDb's LGBT, gay, lesbian, bisexual, transgender, or intersex keywords."
 
   Sports Movies:
     template:
       name: genre
       poster_id: Sport
-    letterboxd_list:
-      - https://letterboxd.com/vanfo/list/sports/
-    trakt_list:
-      - https://trakt.tv/users/maxtrontv/lists/sports-movies
-      - https://trakt.tv/users/shedman214/lists/sports-movies
-      - https://trakt.tv/users/blazin887/lists/sports-movies
+    tmdb_keyword:
+      - 6075  # Sports
+      - 333328  # Sport
     schedule: weekly(tuesday)
-    summary: "A collection of sports films, themes and sporting related titles."
-    sync_to_trakt_list: sports
-    sync_missing_to_trakt_list: true
+    summary: "Movies tagged with sports themes on TMDb."
 
   Spy Movies:
     template:
       name: genre
       poster_id: Spy
-    imdb_search:
-      list.any:
-        - ls050515402  # Best CIA, NSA, Secret Service Movies
-        - ls068127872  # Spies: Best Spy Movies:The Ultimate List
-      limit: 200
-    trakt_list:
-      - https://trakt.tv/users/votifex/lists/espionage
-      - https://trakt.tv/users/oldmankestis/lists/espionage
+    tmdb_keyword:
+      - 470  # Spy
+      - 5265  # Espionage
     schedule: weekly(tuesday)
-    summary: "This collection includes Spy films, themes and government intelligence based titles."
-    sync_to_trakt_list: espionage
-    sync_missing_to_trakt_list: true
+    summary: "Movies tagged with spy or espionage themes on TMDb."
 
   Stand-up Comedy:
     template:
       name: genre
       poster_id: Stand-Up Comedy
-    imdb_search:
-      keyword.any: stand-up-comedy,stand-up-comedy-special
-      type: tv_special
-      genre: comedy
-      sort_by: release.desc
-      limit: 200
-    trakt_list:
-      - https://trakt.tv/users/oldmankestis/lists/stand-up-comedy
+    tmdb_keyword:
+      - 9716  # Stand-up comedy
     schedule: weekly(tuesday)
-    summary: "A collection of stand-up comedy specials."
-    sync_to_trakt_list: stand-up-comedy
-    sync_missing_to_trakt_list: true
+    summary: "Stand-up comedy films and specials identified by TMDb's stand-up comedy keyword."
 
   War Movies:
     template:
       name: genre
       poster_id: War
-    trakt_list:
-      - https://trakt.tv/users/oldmankestis/lists/war
-      - https://trakt.tv/users/movistapp/lists/war
     plex_search:
       all:
         genre: War
     schedule: weekly(tuesday)
-    summary: "This collection includes War films, themes and military based titles."
-    sync_to_trakt_list: war
-    sync_missing_to_trakt_list: true
+    summary: "Movies tagged War in this Plex library."
 
   Western Movies:
     template:
       name: genre
       poster_id: Western
-    trakt_list:
-      - https://trakt.tv/users/movistapp/lists/western
-      - https://trakt.tv/users/oldmankestis/lists/western
     plex_search:
       all:
         genre: Western
     schedule: weekly(tuesday)
-    summary: "A collection of Western films, themes and cowboy related titles."
-    sync_to_trakt_list: western
-    sync_missing_to_trakt_list: true
+    summary: "Movies tagged Western in this Plex library."

@@ -34,6 +34,97 @@ class CollectionPreviewTests(unittest.TestCase):
             Path("/workspace/tests/kometa/collections.yml").read_text()
         )
         self.shows = yaml.load(Path("/workspace/shows/shuffle.yml").read_text())
+        self.genres = yaml.load(Path("/workspace/movies/genre.yml").read_text())
+        self.themes = yaml.load(
+            Path("/workspace/movies/subgenre-rules.yml").read_text()
+        )
+
+    def test_genre_and_theme_selection(self):
+        names = preview.rule_names(self.genres, self.themes)
+        self.assertEqual(len(names), 13)
+        self.assertIn("LGBTQ+ Movies", names)
+        self.assertIn("Top Rated in Mindfuck", names)
+
+    def test_provider_error_cannot_hide_behind_success_summary(self):
+        log = "[ERROR] TMDb lookup failed\n| Example | 1 | 0 | 0 | 0:00:01 | Created |"
+        with self.assertRaises(ValueError):
+            preview.check_run_summary(log, ["Example"])
+
+    def test_rule_source_writers_rejected(self):
+        for source in (self.genres, self.themes):
+            for key in (
+                "radarr_add_missing",
+                "sync_to_trakt_list",
+                "trakt_list",
+                "tmdb_movie",
+            ):
+                with self.subTest(source=source is self.genres, key=key):
+                    changed = copy.deepcopy(source)
+                    next(iter(changed["collections"].values()))[key] = True
+                    with self.assertRaises(ValueError):
+                        preview.rule_names(
+                            changed if source is self.genres else self.genres,
+                            changed if source is self.themes else self.themes,
+                        )
+
+    def test_rule_template_writers_rejected(self):
+        for key in ("radarr_search", "sync_to_trakt_list", "item_label"):
+            with self.subTest(key=key):
+                changed = copy.deepcopy(self.themes)
+                changed["templates"]["ranked_theme"][key] = True
+                with self.assertRaises(ValueError):
+                    preview.rule_names(self.genres, changed)
+
+    def test_keyword_ids_rejected(self):
+        for ids in ([True], [0], [], [470, 470], ["470"]):
+            with self.subTest(ids=ids):
+                self.genres["collections"]["Spy Movies"]["tmdb_keyword"] = ids
+                with self.assertRaises(ValueError):
+                    preview.rule_names(self.genres, self.themes)
+
+    def test_genre_search_cannot_escape(self):
+        self.genres["collections"]["Horror Movies"]["plex_search"] = {
+            "all": {"year": 2025}
+        }
+        with self.assertRaises(ValueError):
+            preview.rule_names(self.genres, self.themes)
+
+    def test_theme_keywords_rejected(self):
+        for keywords in ("490,4379", "<<arbitrary>>", "0", True):
+            with self.subTest(keywords=keywords):
+                self.themes["collections"]["Top Rated in Philosophical"]["template"][1][
+                    "keywords"
+                ] = keywords
+                with self.assertRaises(ValueError):
+                    preview.rule_names(self.genres, self.themes)
+
+    def test_theme_external_poster_rejected(self):
+        self.themes["collections"]["Top Rated in Mindfuck"]["file_poster"] = (
+            "https://example.com/poster.png"
+        )
+        with self.assertRaises(ValueError):
+            preview.rule_names(self.genres, self.themes)
+
+    def test_imdb_curated_list_rejected(self):
+        self.themes["collections"]["Top Rated in Mindfuck"]["imdb_search"][
+            "list.any"
+        ] = "ls12345"
+        with self.assertRaises(ValueError):
+            preview.rule_names(self.genres, self.themes)
+
+    def test_genre_and_subgenre_sources_have_no_trakt(self):
+        for name in ("genre.yml", "subgenre-rules.yml", "subgenre-top.yml"):
+            self.assertNotIn(
+                "trakt", Path("/workspace/movies", name).read_text().lower()
+            )
+
+    def test_theme_names_are_not_duplicated(self):
+        remaining = YAML(typ="safe").load(
+            Path("/workspace/movies/subgenre-top.yml").read_text()
+        )
+        self.assertFalse(
+            set(remaining["collections"]) & set(self.themes["collections"])
+        )
 
     def check(self):
         """Evaluate the same guard used by the live preview entrypoint."""
@@ -43,7 +134,7 @@ class CollectionPreviewTests(unittest.TestCase):
 
     def test_native_selection(self):
         selected, _ = preview.load_preview(Path("/workspace"))
-        self.assertEqual(len(selected), 18)
+        self.assertEqual(len(selected), 31)
         self.assertIn("The Purge Collection", selected)
         self.assertIn("Adult Animation", selected)
         self.assertNotIn("After Collection", selected)

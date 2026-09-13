@@ -64,6 +64,8 @@ docker run --rm \
     --mount "type=bind,src=$runtime_directory,dst=/config" \
     --mount "type=bind,src=$repository_root/assets,dst=/config/assets,readonly" \
     --mount "type=bind,src=$repository_root/movies/franchise.yml,dst=/workspace/movies/franchise.yml,readonly" \
+    --mount "type=bind,src=$repository_root/movies/genre.yml,dst=/workspace/movies/genre.yml,readonly" \
+    --mount "type=bind,src=$repository_root/movies/subgenre-rules.yml,dst=/workspace/movies/subgenre-rules.yml,readonly" \
     --mount "type=bind,src=$repository_root/shows/shuffle.yml,dst=/workspace/shows/shuffle.yml,readonly" \
     --mount "type=bind,src=$repository_root/tests/kometa,dst=/workspace/tests/kometa,readonly" \
     --mount "type=bind,src=$repository_root/scripts/collection-preview.py,dst=/collection-preview.py,readonly" \

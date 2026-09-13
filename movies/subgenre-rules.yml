@@ -1,0 +1,102 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# subgenre-rules.yml: Select themed movies with provider-owned search rules.
+#
+
+templates:
+  #
+  # Select up to 250 matching library movies while retaining release browsing.
+  # Keep these collections hidden from home and shared recommendation rows.
+  #
+  ranked_theme:
+    collection_mode: hide
+    collection_order: release
+    delete_not_scheduled: false
+    limit: 250
+    sort_title: "!061_<<collection_name>>"
+    sync_mode: sync
+    visible_home: false
+    visible_library: false
+    visible_shared: false
+
+  #
+  # Rank English-language movies rated at least 5 with at least 1,000 TMDb votes.
+  # Search up to 1,000 candidates before intersecting with this Plex library.
+  # Pipe-separated keyword IDs match any keyword, not all keywords together.
+  #
+  tmdb_theme:
+    tmdb_discover:
+      with_keywords: <<keywords>>
+      with_original_language: en
+      vote_average.gte: 5
+      vote_count.gte: 1000
+      sort_by: vote_average.desc
+      limit: 1000
+
+collections:
+  #
+  # IMDb maintains the mindbender keyword; TMDb has no populated equivalent.
+  # This is a keyword search, not an external user's curated list.
+  #
+  Top Rated in Mindfuck:
+    summary: "Highly rated English-language movies matching IMDb's mindbender keyword, with at least 1,000 votes."
+    file_poster: /config/assets/posters/subgenre_top/subgenre_top_mindfuck.png
+    schedule: weekly(thursday)
+    template:
+      - name: ranked_theme
+    imdb_search:
+      keyword: mindbender
+      type: movie,tv_movie
+      rating.gte: 5
+      votes.gte: 1000
+      language: en
+      sort_by: rating.desc
+      limit: 1000
+
+  Top Rated in Outerspace:
+    summary: "Highly rated English-language movies about outer space or space travel, with at least 1,000 TMDb votes."
+    file_poster: /config/assets/posters/subgenre_top/subgenre_top_outerspace.png
+    schedule: weekly(thursday)
+    template:
+      - name: ranked_theme
+      - name: tmdb_theme
+        keywords: "252634|3801"  # Outer space | Space travel
+
+  Top Rated in Philosophical:
+    summary: "Highly rated English-language movies tagged with philosophy, with at least 1,000 TMDb votes."
+    file_poster: /config/assets/posters/subgenre_top/subgenre_top_philosophical.png
+    schedule: weekly(friday)
+    template:
+      - name: ranked_theme
+      - name: tmdb_theme
+        keywords: "490"  # Philosophy
+
+  Top Rated in Survival:
+    summary: "Highly rated English-language movies about survival or survivors, with at least 1,000 TMDb votes."
+    file_poster: /config/assets/posters/subgenre_top/subgenre_top_survival.png
+    schedule: weekly(saturday)
+    template:
+      - name: ranked_theme
+      - name: tmdb_theme
+        keywords: "10349|298724"  # Survival | Survivor
+
+  Top Rated in Time Travel:
+    summary: "Highly rated English-language movies tagged with time travel, with at least 1,000 TMDb votes."
+    file_poster: /config/assets/posters/subgenre_top/subgenre_top_time-travel.png
+    schedule: weekly(sunday)
+    template:
+      - name: ranked_theme
+      - name: tmdb_theme
+        keywords: "4379"  # Time travel
+
+  Top Rated in True Story:
+    summary: "Highly rated English-language movies tagged as based on a true story, with at least 1,000 TMDb votes."
+    file_poster: /config/assets/posters/subgenre_top/subgenre_top_true-story.png
+    schedule: weekly(sunday)
+    template:
+      - name: ranked_theme
+      - name: tmdb_theme
+        keywords: "9672"  # Based on true story
