@@ -92,13 +92,17 @@ Once the fixture result is acceptable, deploy one clean commit and run the small
 
 ## Preview movie and TV collections
 
-Run the collection-only preview when testing native movie franchises and curated TV collections:
+Run the collection-only preview when testing native movie franchises, genre and theme rules, and curated TV collections:
 
 ```sh
 make test-collections
 ```
 
 This uses the same private `TEST_ENV` as the overlay preview but requires only Plex and TMDb credentials. Its separate configuration loads `movies/franchise.yml` directly, selects every `tmdb_collection` definition, and ignores their production schedules for this explicit test run. It loads the four TV collections from `shows/shuffle.yml` and runs the smoke collection in both fixtures. No membership IDs are duplicated in test YAML.
+
+The movie preview also loads all seven collections in `movies/genre.yml` and the six searches in `movies/subgenre-rules.yml`. Horror, War, and Western follow Plex genre tags. LGBTQ+, Sports, Spy, and Stand-up Comedy combine movies from the named [TMDb keywords](https://kometa.wiki/en/latest/files/builders/tmdb/standard/keyword/) commented in source. These genres have no curated additions or external list synchronization. Genre browsing remains alphabetical and the custom posters remain local.
+
+The six rule-based themes retain custom posters, production schedules, hidden visibility, a 250-item library limit, and release-order browsing. Five use [TMDb Discover](https://kometa.wiki/en/latest/files/builders/tmdb/discover/movie/), ordered by rating when selecting up to 1,000 candidates with an original language of English, a rating of at least 5, and at least 1,000 votes. Pipe-separated keyword IDs mean OR. Mindfuck uses IMDb's `mindbender` keyword search with the same rating and vote thresholds, English-language matching, and movie or TV-movie types; it requires no IMDb account credentials. Provider metadata determines membership, so a film can leave a collection when its tags or qualifying scores change. Other themed collections remain in `movies/subgenre-top.yml` and are not loaded by this preview.
 
 The runner checks the fixture names, loaded files, source templates, and selected definition attributes before starting Kometa. It has no overlay, playlist, Radarr, Sonarr, or production-operation configuration. The TV builders use repository-owned [`tmdb_show` lists](https://kometa.wiki/en/latest/files/builders/tmdb/standard/show/), with each ID commented by title and year. No Trakt list or account credentials are needed for these four collections. Existing overlay artwork is left untouched. Logs, cache, and reports remain private under `.kometa-test/collections/`.
 
@@ -107,6 +111,8 @@ In `test_movie_lib`, review the native franchise collections for their custom po
 A collection with no matching fixture media may be skipped below the minimum of one item; it must not trigger downloads or deletion. Compare membership with the intersection of each configured source and the fixture's matched IDs, rather than expecting every title in the tiny library. Empty fixture results do not validate artwork: add small test episodes for selected shows and scan the test library before accepting the visual preview. The collection runner rejects failed or incomplete run summaries even when Kometa exits successfully.
 
 The TV preview fixtures include Rick and Morty, Spider-Man (1994), Will & Grace (1998), and The Office (2005). One tiny episode per show covers all four collections; a second Will & Grace episode from season nine checks revival coverage. These black, silent clips are disposable test media, not copies of production episodes.
+
+The movie fixtures include a two-second black, silent clip matched to Bo Burnham: Make Happy (2016) for Stand-up Comedy. It supplies a matching test item without copying a production movie. Review all seven genre posters and six rule-based theme posters in `test_movie_lib`; a successful empty result is not an artwork test.
 
 The production `other_chart` configuration enables both `radarr_add_missing_pirated` and `radarr_search_pirated` only for Top 10 Pirated Movies of the Week. The preview never loads that chart or connects to Radarr. Offline regression tests verify its collection-specific variables against the pinned Defaults; actual Radarr additions and download searches require a separately approved production run with working private Radarr settings.
 

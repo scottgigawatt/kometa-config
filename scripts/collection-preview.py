@@ -33,6 +33,8 @@ def preview_names(franchises, config, smoke, shows):
         "test_movie_lib": {
             "collection_files": [
                 {"file": "/workspace/movies/franchise.yml"},
+                {"file": "/workspace/movies/genre.yml"},
+                {"file": "/workspace/movies/subgenre-rules.yml"},
                 {"file": "/workspace/tests/kometa/collections.yml"},
             ]
         },
@@ -187,6 +189,133 @@ def check_id_comments(definitions, builder):
                 )
 
 
+def rule_names(genres, themes):
+    """Allow only the seven genre rules and six isolated ranked theme searches."""
+    genre_template = {
+        "file_poster": "/config/assets/posters/genre/<<poster_id>>.jpg",
+        "sort_title": "!060_<<collection_name>>",
+        "collection_order": "title.asc",
+        "sync_mode": "sync",
+    }
+    if set(genres) != {"templates", "collections"} or genres["templates"] != {
+        "genre": genre_template
+    }:
+        raise ValueError("Genre preview must use the safe artwork template.")
+    expected_genres = {
+        "Horror Movies": "Horror",
+        "LGBTQ+ Movies": "LGBTQ+",
+        "Sports Movies": "Sport",
+        "Spy Movies": "Spy",
+        "Stand-up Comedy": "Stand-Up Comedy",
+        "War Movies": "War",
+        "Western Movies": "Western",
+    }
+    if set(genres["collections"]) != set(expected_genres):
+        raise ValueError("Genre preview must contain the seven supported genres.")
+    for name, definition in genres["collections"].items():
+        native = name in {"Horror Movies", "War Movies", "Western Movies"}
+        builder = "plex_search" if native else "tmdb_keyword"
+        if set(definition) != {"template", "summary", "schedule", builder}:
+            raise ValueError("Unexpected genre source or writer behavior.")
+        if definition["template"] != {
+            "name": "genre",
+            "poster_id": expected_genres[name],
+        }:
+            raise ValueError("Unexpected genre template variables.")
+        if native:
+            if definition[builder] != {"all": {"genre": expected_genres[name]}}:
+                raise ValueError("Native genre previews must use only genre tags.")
+        else:
+            ids = definition[builder]
+            if (
+                not isinstance(ids, list)
+                or not ids
+                or any(type(i) is not int or i <= 0 for i in ids)
+                or len(ids) != len(set(ids))
+            ):
+                raise ValueError("TMDb keyword IDs must be unique positive integers.")
+
+    #
+    # Keep only provider search rules in the selected file, with no list writers,
+    # external templates, arbitrary search overrides, or static movie additions.
+    #
+    expected_templates = {
+        "ranked_theme": {
+            "collection_mode": "hide",
+            "collection_order": "release",
+            "delete_not_scheduled": False,
+            "limit": 250,
+            "sort_title": "!061_<<collection_name>>",
+            "sync_mode": "sync",
+            "visible_home": False,
+            "visible_library": False,
+            "visible_shared": False,
+        },
+        "tmdb_theme": {
+            "tmdb_discover": {
+                "with_keywords": "<<keywords>>",
+                "with_original_language": "en",
+                "vote_average.gte": 5,
+                "vote_count.gte": 1000,
+                "sort_by": "vote_average.desc",
+                "limit": 1000,
+            }
+        },
+    }
+    if (
+        set(themes) != {"templates", "collections"}
+        or themes["templates"] != expected_templates
+    ):
+        raise ValueError("Theme preview must use the safe ranked search templates.")
+    expected_themes = {
+        "Top Rated in Mindfuck",
+        "Top Rated in Outerspace",
+        "Top Rated in Philosophical",
+        "Top Rated in Survival",
+        "Top Rated in Time Travel",
+        "Top Rated in True Story",
+    }
+    if set(themes["collections"]) != expected_themes:
+        raise ValueError("Theme preview must contain the six supported themes.")
+    for name, definition in themes["collections"].items():
+        allowed = {"template", "summary", "schedule", "file_poster"}
+        if name == "Top Rated in Mindfuck":
+            allowed.add("imdb_search")
+            if definition.get("imdb_search") != {
+                "keyword": "mindbender",
+                "type": "movie,tv_movie",
+                "rating.gte": 5,
+                "votes.gte": 1000,
+                "language": "en",
+                "sort_by": "rating.desc",
+                "limit": 1000,
+            } or definition["template"] != [{"name": "ranked_theme"}]:
+                raise ValueError("Mindfuck preview must use the IMDb keyword rule.")
+        else:
+            templates = definition.get("template", [])
+            if (
+                len(templates) != 2
+                or templates[0] != {"name": "ranked_theme"}
+                or set(templates[1]) != {"name", "keywords"}
+                or templates[1]["name"] != "tmdb_theme"
+                or not isinstance(templates[1]["keywords"], str)
+                or not re.fullmatch(
+                    r"[1-9]\d*(?:\|[1-9]\d*)*", templates[1]["keywords"]
+                )
+            ):
+                raise ValueError(
+                    "Theme keywords must be explicit OR-separated TMDb IDs."
+                )
+        if set(definition) != allowed:
+            raise ValueError("Unexpected theme source or writer behavior.")
+        if not re.fullmatch(
+            r"/config/assets/posters/subgenre_top/subgenre_top_[a-z-]+\.png",
+            definition["file_poster"],
+        ):
+            raise ValueError("Theme posters must use local subgenre artwork.")
+    return list(genres["collections"]) + list(themes["collections"])
+
+
 def load_preview(source):
     """Load tracked source files and verify collection and show ID comments."""
     yaml = YAML()
@@ -195,14 +324,30 @@ def load_preview(source):
     config = yaml.load((source / "tests/kometa/collections-config.yml").read_text())
     smoke = yaml.load((source / "tests/kometa/collections.yml").read_text())
     shows = yaml.load((source / "shows/shuffle.yml").read_text())
+    genres = yaml.load((source / "movies/genre.yml").read_text())
+    themes = yaml.load((source / "movies/subgenre-rules.yml").read_text())
     names = preview_names(franchises, config, smoke, shows)
+    names.extend(rule_names(genres, themes))
     check_id_comments(franchises["collections"], "tmdb_collection")
     check_id_comments(shows["collections"], "tmdb_show")
+    check_id_comments(genres["collections"], "tmdb_keyword")
+    for definition in themes["collections"].values():
+        for template in definition["template"]:
+            if "keywords" in template:
+                comment = template.ca.items.get("keywords")
+                if not comment or not comment[2] or not comment[2].value.strip("# \n"):
+                    raise ValueError(
+                        "Every TMDb keyword query needs a descriptive comment."
+                    )
     return names, config
 
 
 def check_run_summary(log, names):
     """Reject failed or missing collection results even when Kometa exits zero."""
+    if "[ERROR]" in log or "[CRITICAL]" in log:
+        raise ValueError(
+            "Collection preview logged errors; inspect the private runtime log."
+        )
     remaining = set(names)
     for line in log.splitlines():
         cells = [cell.strip() for cell in line.split("|")[1:-1]]
