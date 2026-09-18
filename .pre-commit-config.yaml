@@ -59,7 +59,7 @@ repos:
   # Enforce Python correctness, import ordering, and formatting without auto-fixes.
   #
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.16.6
+    rev: v0.16.8
     hooks:
       - id: ruff-check
         args: ["--extend-select", "I"]
