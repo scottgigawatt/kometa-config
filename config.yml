@@ -146,14 +146,21 @@ libraries:
             - valentine
             - years
 
-      # Collections based on Tautulli/Plex charts
-      - default: tautulli
+      # Collections based on Tracearr watch history
+      - default: tracearr
         template_variables:
           collection_section: "020_1"
           list_days: 30
           list_size: 25
           list_minimum: 0
           summary_popular: A collection of the most watched movies on this Plex server.
+          name_popular: Plex Popular
+          name_watched: Plex Watched
+          use_trending: false
+          use_rewatched: false
+          use_completed: false
+          use_binged: false
+          use_transcoded: false
 
       # Collections based on Trakt charts
       - default: trakt
@@ -325,14 +332,21 @@ libraries:
           visible_home_popular: true
           visible_shared_popular: true
 
-      # Collections based on Tautulli/Plex charts
-      - default: tautulli
+      # Collections based on Tracearr watch history
+      - default: tracearr
         template_variables:
           list_days: 30
           list_size: 25
           list_minimum: 0
           summary_popular: A collection of the most watched movies on this Plex server.
           collection_section: "020_1"
+          name_popular: Plex Popular
+          name_watched: Plex Watched
+          use_trending: false
+          use_rewatched: false
+          use_completed: false
+          use_binged: false
+          use_transcoded: false
 
       # Collections based on Trakt charts
       - default: trakt
@@ -542,10 +556,11 @@ plex:
   empty_trash: false
   optimize: false
 
-# Tautulli connection
-tautulli:
-  url: http://localhost:8181
+# Tracearr connection
+tracearr:
+  url: http://localhost:3080
   apikey: abc123
+  server_id:
 
 # Notifiarr connection
 notifiarr:
