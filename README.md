@@ -63,11 +63,7 @@ python3 -m pip install -r requirements-dev.txt
 make check
 ```
 
-Real credentials belong under the ignored `.secrets/` directory or in the private deployment environment. The obvious values in `config.yml` are placeholders.
-
-The movie and TV watch-history collections use [Tracearr](https://kometa.wiki/en/latest/config/tracearr/), with a 30-day window and up to 25 items. They retain the `Plex Popular` and `Plex Watched` names; additional Tracearr charts are disabled. Set the Tracearr URL and Public API key in the private live configuration. Leave `server_id` blank for automatic Plex-server matching, or set its Tracearr UUID when names are ambiguous. When moving from Tautulli, [import its history](https://docs.tracearr.com/getting-started/import) before running these collections.
-
-The production Duplex deployment mounts this checkout as Kometa's writable `/config` directory. PATTRMM shares that mount and generates `*-in-history.yml`, `*-by-size.yml`, `*-returning-soon-metadata.yml`, and `*-returning-soon-overlay.yml` runtime inputs. Those generated files are ignored and must not be committed.
+The checked-in `config.yml` uses placeholders. Configure only the deployment copy with live credentials, and keep those values out of commits. See [service connections](docs/service-connections.md) for Tracearr and the shared Kometa/PATTRMM configuration.
 
 See the [Kometa documentation](https://kometa.wiki/en/latest/) for application behavior and the [testing guide](docs/testing.md) for the isolated Plex fixture-library workflow.
 

@@ -535,6 +535,8 @@ settings:
   overlay_artwork_quality: 75
   check_nightly: true
   show_unconfigured: true
+  show_unfiltered: false
+  auto_sort_hubs:
   playlist_exclude_users:
   run_order:
     - operations
@@ -546,7 +548,9 @@ settings:
 # Define service connections
 #
 
+#
 # Plex Media Server connection
+#
 plex:
   url: http://localhost:32400
   token: abc123
@@ -555,34 +559,47 @@ plex:
   clean_bundles: false
   empty_trash: false
   optimize: false
+  verify_ssl:
 
+#
 # Tracearr connection
+#
 tracearr:
   url: http://localhost:3080
-  apikey: abc123
+  apikey:
   server_id:
 
+#
 # Notifiarr connection
+#
 notifiarr:
   apikey: abc123
 
+#
 # Custom webhooks connection
+#
 webhooks:
   error:
   version:
   run_start:
   run_end:
   changes:
+  delete:
 
+#
 # The Movie Database connection
+#
 tmdb:
   apikey: abc123
   language: en
   cache_expiration: 60
   region: US
 
+#
 # Radarr connection
+#
 radarr:
+  ignore_cache: false
   url: http://localhost:32788
   token: abc123
   add_missing: false
@@ -598,8 +615,11 @@ radarr:
   radarr_path: /movies
   plex_path: /volume1/movies
 
+#
 # Sonarr connection
+#
 sonarr:
+  ignore_cache: false
   url: http://localhost:32789
   token: abc123
   add_missing: false
@@ -618,7 +638,9 @@ sonarr:
   sonarr_path: /tv
   plex_path: /volume1/tv
 
+#
 # Trakt connection
+#
 trakt:
   client_id: abc123
   client_secret: abc123
@@ -631,21 +653,29 @@ trakt:
     created_at: 101010
   pin:
 
+#
 # MDb List connection
+#
 mdblist:
   apikey: abc123
   cache_expiration: 60
 
+#
 # Open Movie Database connection
+#
 omdb:
   apikey: abc123
   cache_expiration: 60
 
+#
 # GitHub connection
+#
 github:
   token: abc123
 
+#
 # MyAnimeList connection
+#
 mal:
   client_id: abc123
   client_secret: abc123
