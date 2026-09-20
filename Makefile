@@ -24,7 +24,7 @@ export TEST_ENV
 #
 .DEFAULT_GOAL := help
 
-.PHONY: check check-generated format help lint lint-ci test-collections test-library test-seasonal validate
+.PHONY: check check-generated format help lint lint-ci test-collections test-library test-seasonal test-tv-seasonal validate
 
 #
 # help: List the supported repository commands.
@@ -106,3 +106,11 @@ test-collections:  # Preview movie and TV collections, without overlays or downl
 #
 test-seasonal:  # Preview holiday movies without downloads or scheduled deletion.
 	@scripts/run-collection-tests.sh --seasonal-only
+
+#
+# test-tv-seasonal: Preview individual TV holiday episodes in the TV fixture.
+#
+# Dependencies: Docker, TEST_ENV, and the documented TV test library.
+#
+test-tv-seasonal:  # Preview holiday episodes without downloads or scheduled deletion.
+	@scripts/run-collection-tests.sh --tv-seasonal-only

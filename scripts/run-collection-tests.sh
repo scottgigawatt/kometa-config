@@ -8,7 +8,7 @@
 # run-collection-tests.sh: Preview movie and TV collection builders in Plex fixtures.
 #
 # Purpose: Reuse production definitions without overlays, downloads, or list writes.
-# Usage: KOMETA_IMAGE=<image> TEST_ENV=<path> scripts/run-collection-tests.sh [--seasonal-only]
+# Usage: KOMETA_IMAGE=<image> TEST_ENV=<path> scripts/run-collection-tests.sh [--seasonal-only | --tv-seasonal-only]
 #
 
 #
@@ -70,6 +70,7 @@ docker run --rm \
     --mount "type=bind,src=$repository_root/movies/universes.yml,dst=/workspace/movies/universes.yml,readonly" \
     --mount "type=bind,src=$repository_root/scheduled/seasonal.yml,dst=/workspace/scheduled/seasonal.yml,readonly" \
     --mount "type=bind,src=$repository_root/shows/shuffle.yml,dst=/workspace/shows/shuffle.yml,readonly" \
+    --mount "type=bind,src=$repository_root/shows/seasonal.yml,dst=/workspace/shows/seasonal.yml,readonly" \
     --mount "type=bind,src=$repository_root/tests/kometa,dst=/workspace/tests/kometa,readonly" \
     --mount "type=bind,src=$repository_root/scripts/collection-preview.py,dst=/collection-preview.py,readonly" \
     --entrypoint python \

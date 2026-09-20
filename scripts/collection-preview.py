@@ -64,6 +64,7 @@ def preview_names(franchises, config, smoke, shows) -> list[str]:
         "test_tv_lib": {
             "collection_files": [
                 {"file": "/workspace/shows/shuffle.yml"},
+                {"file": "/config/tv-seasonal.yml"},
                 {"file": "/workspace/tests/kometa/collections.yml"},
             ]
         },
@@ -627,6 +628,102 @@ def seasonal_preview(seasonal) -> dict:
     return result
 
 
+def tv_seasonal_names(seasonal) -> list[str]:
+    """Validate episode-only holiday rules and their no-download template.
+
+    Args:
+        seasonal: Parsed TV holiday source with local title and summary filters.
+
+    Returns:
+        The three TV holiday collection names permitted in the preview.
+
+    Raises:
+        ValueError: If sources, episode scope, patterns, or side effects are unsafe.
+    """
+    expected_template = {
+        "file_poster": "/config/assets/posters/seasonal/<<poster_id>>.jpg",
+        "sort_title": "!00_<<collection_name>>",
+        "sync_mode": "sync",
+        "builder_level": "episode",
+        "plex_all": True,
+        "filters": [
+            {"title.regex": "<<holiday_pattern>>"},
+            {"summary.regex": "<<holiday_pattern>>"},
+        ],
+        "visible_library": True,
+        "visible_home": True,
+        "visible_shared": True,
+        "delete_not_scheduled": True,
+    }
+    if set(seasonal) != {"templates", "collections"} or seasonal["templates"] != {
+        "seasonal": expected_template
+    }:
+        raise ValueError("TV holidays require the safe episode-only template.")
+    expected = {
+        "Halloween Episodes": ("halloween", "09/15-10/31"),
+        "Thanksgiving Episodes": ("thanksgiving", "11/01-12/15"),
+        "Christmas Episodes": ("christmas", "11/20-12/28"),
+    }
+    if set(seasonal["collections"]) != set(expected):
+        raise ValueError("TV holidays must contain exactly three episode collections.")
+
+    #
+    # Keep patterns editable while rejecting extra builders, writers, and variables.
+    # Test representative matches separately so regex syntax alone is not the gate.
+    #
+    for name, definition in seasonal["collections"].items():
+        poster, dates = expected[name]
+        if set(definition) != {"template", "schedule", "summary"}:
+            raise ValueError("Unexpected TV holiday source or writer behavior.")
+        template = definition["template"]
+        if (
+            set(template) != {"name", "poster_id", "holiday_pattern"}
+            or template["name"] != "seasonal"
+            or template["poster_id"] != poster
+            or definition["schedule"] != f"range({dates})"
+        ):
+            raise ValueError("Unexpected TV holiday artwork, schedule, or variables.")
+        if (
+            not isinstance(definition["summary"], str)
+            or not definition["summary"].strip()
+        ):
+            raise ValueError("TV holidays need viewer-facing summaries.")
+        pattern = template["holiday_pattern"]
+        if not isinstance(pattern, str) or not pattern.strip() or "<<" in pattern:
+            raise ValueError("TV holidays require explicit nonempty regex patterns.")
+        try:
+            compiled = re.compile(pattern)
+        except re.error as error:
+            raise ValueError("TV holiday regex pattern is invalid.") from error
+        if compiled.search(""):
+            raise ValueError("TV holiday patterns must not match empty metadata.")
+    return list(seasonal["collections"])
+
+
+def tv_seasonal_preview(seasonal) -> dict:
+    """Copy validated TV holidays with scheduled deletion disabled for fixtures.
+
+    Args:
+        seasonal: Episode-only holiday source without download-client attributes.
+
+    Returns:
+        A separate copy with unchanged episode rules, posters, and schedules.
+
+    Raises:
+        ValueError: If source validation fails before rendering the fixture copy.
+    """
+    tv_seasonal_names(seasonal)
+    result = copy.deepcopy(seasonal)
+    template = result["templates"]["seasonal"]
+
+    #
+    # Episode collections do not support Sonarr attributes, even when false.
+    # Keep the same local builders and change only scheduled deletion for tests.
+    #
+    template["delete_not_scheduled"] = False
+    return result
+
+
 def load_preview(source: Path) -> tuple[list[str], dict]:
     """Load preview sources and validate their behavior and readable ID comments.
 
@@ -655,10 +752,12 @@ def load_preview(source: Path) -> tuple[list[str], dict]:
     cities = yaml.load((source / "movies/cities.yml").read_text())
     universes = yaml.load((source / "movies/universes.yml").read_text())
     seasonal = yaml.load((source / "scheduled/seasonal.yml").read_text())
+    tv_seasonal = yaml.load((source / "shows/seasonal.yml").read_text())
     names = preview_names(franchises, config, smoke, shows)
     names.extend(rule_names(genres, themes))
     names.extend(location_universe_names(cities, universes))
     names.extend(seasonal_names(seasonal))
+    names.extend(tv_seasonal_names(tv_seasonal))
     check_id_comments(franchises["collections"], "tmdb_collection")
     check_id_comments(shows["collections"], "tmdb_show")
     check_id_comments(genres["collections"], "tmdb_keyword")
@@ -722,13 +821,22 @@ def main() -> None:
     #
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run", action="store_true")
-    parser.add_argument("--seasonal-only", action="store_true")
+    scope = parser.add_mutually_exclusive_group()
+    scope.add_argument("--seasonal-only", action="store_true")
+    scope.add_argument("--tv-seasonal-only", action="store_true")
     args = parser.parse_args()
     selected, preview = load_preview(Path("/workspace"))
+    library_args = []
     if args.seasonal_only:
         selected = seasonal_names(
             YAML().load(Path("/workspace/scheduled/seasonal.yml").read_text())
         )
+        library_args = ["--libraries", "test_movie_lib"]
+    elif args.tv_seasonal_only:
+        selected = tv_seasonal_names(
+            YAML().load(Path("/workspace/shows/seasonal.yml").read_text())
+        )
+        library_args = ["--libraries", "test_tv_lib"]
     if args.run:
         #
         # Check the copied runtime as well as source before enabling Plex writes.
@@ -746,6 +854,8 @@ def main() -> None:
         yaml = YAML()
         seasonal = yaml.load(Path("/workspace/scheduled/seasonal.yml").read_text())
         yaml.dump(seasonal_preview(seasonal), Path("/config/seasonal.yml"))
+        tv_seasonal = yaml.load(Path("/workspace/shows/seasonal.yml").read_text())
+        yaml.dump(tv_seasonal_preview(tv_seasonal), Path("/config/tv-seasonal.yml"))
         log_path = Path("/config/logs/meta.log")
         previous = log_path.stat().st_mtime_ns if log_path.exists() else None
         subprocess.run(
@@ -762,7 +872,7 @@ def main() -> None:
                 "|".join(selected),
                 "--run",
             ]
-            + (["--libraries", "test_movie_lib"] if args.seasonal_only else []),
+            + library_args,
             check=True,
         )
         if not log_path.exists() or log_path.stat().st_mtime_ns == previous:

@@ -30,6 +30,11 @@ libraries:
   test_tv_lib:
     collection_files:
       - file: /workspace/shows/shuffle.yml
+
+      #
+      # Preview individual holiday episodes without Sonarr or scheduled deletion.
+      #
+      - file: /config/tv-seasonal.yml
       - file: /workspace/tests/kometa/collections.yml
 
 #
