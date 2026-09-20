@@ -10,11 +10,15 @@
 
 """Check repository YAML conventions and the movie shuffle's selection policy."""
 
+import copy
+import importlib
 import re
 import unittest
+from collections import defaultdict
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from types import SimpleNamespace
+from unittest.mock import Mock, patch
 
 from modules import util
 from modules.tmdb import TMDb
@@ -62,6 +66,108 @@ class YamlPolicyTests(unittest.TestCase):
         for service in ("radarr", "sonarr"):
             with self.subTest(service=service):
                 self.assertIs(config[service]["monitor_existing"], False)
+
+    #
+    # Scheduled movie files share the Movies library; TV titles have a separate scope.
+    # Upstream dynamic names still require log review because they depend on library data.
+    #
+    def test_static_collection_names_unique(self) -> None:
+        """Reject duplicate explicit names across files targeting the same library."""
+        groups = {"Movies": ("movies", "scheduled"), "TV Shows": ("shows",)}
+        for library, folders in groups.items():
+            names = defaultdict(list)
+            for folder in folders:
+                for path in sorted((self.root / folder).rglob("*.yml")):
+                    source = self.yaml.load(path.read_text())
+                    for name, definition in source.get("collections", {}).items():
+                        title = str(definition.get("name", name)).casefold()
+                        names[title].append(str(path.relative_to(self.root)))
+            duplicates = {
+                name: paths for name, paths in names.items() if len(paths) > 1
+            }
+            with self.subTest(library=library):
+                self.assertFalse(duplicates, duplicates)
+
+    def test_explicit_actors_excluded_from_dynamic_generation(self) -> None:
+        """Reserve named actor collections before the dynamic actor limit is filled."""
+        source = self.yaml.load((self.root / "movies/top-actors.yml").read_text())
+        actors = source["dynamic_collections"]["Top Actors"]
+        self.assertEqual(actors["type"], "actor")
+        self.assertEqual(actors["title_format"], "<<title>> Collection")
+        self.assertEqual(actors["data"], {"depth": 5, "minimum": 10, "limit": 200})
+        reserved = set()
+        for title, definition in source["collections"].items():
+            call = definition["template"]
+            self.assertEqual(call["name"], "Person")
+            self.assertEqual(title, f"{call['actor']} Collection")
+            reserved.add(call["actor"])
+        self.assertEqual(set(actors["exclude"]), reserved)
+        self.assertEqual(len(actors["exclude"]), len(reserved))
+
+    def test_kometa_actor_collision_and_limit(self) -> None:
+        """Reproduce the collision and prove exclusions leave room for another actor."""
+        #
+        # Match Kometa's startup order to resolve the builder/Plex import cycle.
+        #
+        importlib.import_module("modules.builder")
+        meta = importlib.import_module("modules.meta")
+        source = self.yaml.load((self.root / "movies/top-actors.yml").read_text())
+        actor_names = [
+            definition["template"]["actor"]
+            for definition in source["collections"].values()
+        ] + ["Tom Hanks"]
+        movie = SimpleNamespace(
+            title="Fixture movie",
+            actors=[
+                SimpleNamespace(id=index, tag=name)
+                for index, name in enumerate(actor_names)
+            ],
+        )
+        library = SimpleNamespace(
+            type="Movie",
+            collections=[],
+            get_all=lambda: [movie] * 10,
+            reload=lambda item: item,
+        )
+        config = SimpleNamespace(Cache=None, requested_files=[])
+
+        #
+        # Exercise the pinned loader with synthetic credits and a one-slot dynamic limit.
+        # External templates are irrelevant to local actor templates and stay offline.
+        #
+        for exclude_reserved in (False, True):
+            with self.subTest(exclude_reserved=exclude_reserved):
+                fixture = copy.deepcopy(source)
+                fixture.pop("external_templates")
+                actors = fixture["dynamic_collections"]["Top Actors"]
+                actors["data"]["limit"] = 1
+                if not exclude_reserved:
+                    actors.pop("exclude")
+                fixture["dynamic_collections"] = {"Top Actors": actors}
+                logger = Mock()
+                with (
+                    patch.object(meta, "logger", logger),
+                    patch.object(util, "logger", logger),
+                    patch.object(meta.DataFile, "load_file", return_value=fixture),
+                ):
+                    loaded = meta.MetadataFile(
+                        config, library, "File", "fixture.yml", {}, None, "collection"
+                    )
+                logger.error.assert_not_called()
+                self.assertEqual(
+                    "Tom Hanks Collection" in loaded.collections, exclude_reserved
+                )
+                for name, definition in source["collections"].items():
+                    self.assertEqual(loaded.collections[name], definition)
+                if exclude_reserved:
+                    logger.warning.assert_not_called()
+                else:
+                    self.assertTrue(
+                        any(
+                            "Skipping duplicate collection" in str(call)
+                            for call in logger.warning.call_args_list
+                        )
+                    )
 
     #
     # Pre-rolls change a server-wide preference, so validate them without Plex access.

@@ -67,6 +67,15 @@ dynamic_collections:
     template:
       - actor_dynamic
     title_format: <<title>> Collection
+
+    #
+    # Keep the explicit actor collections below as the only definitions for these names.
+    # Exclusions are applied before the dynamic collection limit is filled.
+    #
+    exclude:
+      - Nicholas Galitzine
+      - Chris Farley
+      - Ray Liotta
     data:
       depth: 5
       minimum: 10
