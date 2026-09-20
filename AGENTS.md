@@ -81,6 +81,8 @@ The collection preview also loads the thirteen holiday movie collections from `s
 
 Never point the test configuration at production library names. Overlay files must be evaluated together; do not use Kometa's `--run-files` option for overlays.
 
+TV holiday collections in `shows/seasonal.yml` use `builder_level: episode`, `plex_all`, and separate title/summary regex filter sets. Match episode metadata, never parent-show metadata. Avoid generic seasonal words and air-date restrictions. Episode collections do not support Sonarr attributes, including false ones; the preview guard rejects all download-client attributes and external builders. Use `make test-tv-seasonal` for the three holidays in `test_tv_lib`. The private runtime copy changes only scheduled deletion, preserving the production rules and artwork. Keep positive, negative, summary-only, and CLI-isolation regression coverage when changing these rules.
+
 CodeQL uses the checked-in `.github/workflows/codeql-actions.yml` with independent Python and GitHub Actions analyses. Preserve its digest pins, minimal permissions, separate language categories, and framed job/step comments. Keep GitHub Default setup disabled; do not introduce a competing CodeQL workflow or enable separate billable analysis features as part of routine maintenance.
 
 ## Production changes

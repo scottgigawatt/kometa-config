@@ -73,6 +73,8 @@ Use `make test-collections` to preview native TMDb franchise definitions without
 
 Use `make test-seasonal` to preview the holiday movie collections without downloads or scheduled deletion.
 
+Use `make test-tv-seasonal` to preview Halloween, Thanksgiving, and Christmas episodes in the TV test library.
+
 ## Validation
 
 The default Make target lists the supported commands:

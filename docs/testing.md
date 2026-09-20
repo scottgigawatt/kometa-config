@@ -157,3 +157,23 @@ Christmas discovery has no popularity cutoff. Hallmark, Lifetime, and Rankin/Bas
 All seasonal movie collections explicitly disable Radarr additions, searches, upgrades, and monitoring changes, including every Christmas collection. These flags override global defaults. The test configuration has no download-client connection at all. Because Kometa requires Radarr even for false Radarr attributes, the guarded runtime copy omits only those five already-disabled flags. It preserves every builder, poster, summary, and schedule, and rejects enabled writers instead of silently removing them. Existing Radarr entries and queued downloads are not removed by this configuration.
 
 Review each collection's membership, existing local poster, critic-rating order, and viewer-facing summary. The fixture clips cover general Irish themes and St. Patrick's Day separately, Easter, the three Christmas companies, vintage Christmas, and Christmas horror. They are tiny synthetic clips, not copies of production media. Offline tests protect the schedules, artwork mappings, Christmas exclusions, named IDs, uncapped discovery, and no-download/no-deletion preview boundaries.
+
+## Preview TV holiday episodes
+
+Run only Halloween, Thanksgiving, and Christmas episode collections in `test_tv_lib`:
+
+```sh
+make test-tv-seasonal
+```
+
+The command uses the private environment configured for collection previews, ignores schedules, and selects only the TV fixture. The full `make test-collections` preview also includes these three collections. Movie-only `make test-seasonal` remains separate; the two scope flags cannot be combined.
+
+The production definitions in `shows/seasonal.yml` use local Plex episode metadata, with no Trakt lists or remote membership lookups. Each collection scans episodes with `plex_all` at `builder_level: episode`. Separate [Kometa filter sets](https://kometa.wiki/en/latest/files/filters/#using-filters) accept a match in either the episode title or its summary. A matching show's title or description never adds all of its episodes.
+
+Case-insensitive expressions use word boundaries. Halloween recognizes the named holiday, All Hallows Eve, trick-or-treating, and Treehouse of Horror. Thanksgiving requires its holiday name. Christmas recognizes Christmas, Xmas variants, Yuletide, and Santa Claus. Generic parties, turkey dinners, winter weather, and places such as Santa Barbara do not qualify by themselves. Episodes without recognizable holiday metadata can be missed; incidental mentions can still produce false positives, so review the results rather than assuming exact curated-list membership. No air-date cutoff excludes specials aired outside the holiday season.
+
+Summary matching requires checking local episode metadata rather than only a server-side title search. Large libraries can take longer to evaluate; the rules use no per-episode external provider queries. The preview preserves names, posters, summaries, visibility, and schedule windows. Its guarded runtime copy changes only `delete_not_scheduled` to false so previewing out of season cannot remove these collections. Production retains scheduled deletion.
+
+Episode collections do not support Sonarr attributes, even when false. The source contains none, the guard rejects download-client attributes and additional builders, and the preview configuration has no Radarr or Sonarr connection. Tests cover title-only and summary-only matches, unrelated episode metadata, word boundaries, source immutability, and TV-only command selection.
+
+The TV fixtures include small synthetic clips for The Office's Halloween and Christmas episodes, Friends' Thanksgiving and Holiday Armadillo episodes, The Simpsons' Treehouse of Horror, and The Office's unrelated Dundies episode. Review the three collections for episode-only membership and the expected local artwork. No production media or configuration is changed by the preview.
