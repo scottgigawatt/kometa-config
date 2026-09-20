@@ -156,7 +156,6 @@ libraries:
           collection_section: "020_1"
           list_days: 30
           list_size: 25
-          list_minimum: 0
           summary_popular: The most widely watched movies of the last 30 days.
           name_popular: Plex Popular
           name_watched: Plex Watched
@@ -269,15 +268,15 @@ libraries:
       show_missing_assets: false
 
     #
-    # Define 'Movies' library operations
+    # Run 'Movies' library operations together within the scheduled window.
     #
     operations:
-      schedule: all[weekly(monday|thursday|saturday), hourly(05-07)]
-      mass_genre_update: tmdb
-      mass_audience_rating_update: imdb
-      mass_critic_rating_update: mdb_tomatoes
-      mass_user_rating_update: trakt_user
-      assets_for_all: true
+      - schedule: all[weekly(monday|thursday|saturday), hourly(05-07)]
+        mass_genre_update: tmdb
+        mass_audience_rating_update: imdb
+        mass_critic_rating_update: mdb_tomatoes
+        mass_user_rating_update: trakt_user
+        assets_for_all: true
 
   #
   # Define 'TV Shows' library collections
@@ -343,7 +342,6 @@ libraries:
         template_variables:
           list_days: 30
           list_size: 25
-          list_minimum: 0
           summary_popular: The most widely watched shows of the last 30 days.
           collection_section: "020_1"
           name_popular: Plex Popular
@@ -472,14 +470,14 @@ libraries:
       asset_directory: config/assets
 
     #
-    # Define 'TV Shows' library operations
+    # Run 'TV Shows' library operations together within the scheduled window.
     #
     operations:
-      schedule: all[weekly(monday|thursday|saturday), hourly(05-07)]
-      mass_genre_update: tmdb
-      mass_audience_rating_update: imdb
-      mass_critic_rating_update: mdb_tomatoes
-      mass_user_rating_update: trakt_user
+      - schedule: all[weekly(monday|thursday|saturday), hourly(05-07)]
+        mass_genre_update: tmdb
+        mass_audience_rating_update: imdb
+        mass_critic_rating_update: mdb_tomatoes
+        mass_user_rating_update: trakt_user
 
 #
 # Define movie and TV playlists
@@ -492,7 +490,6 @@ playlist_files:
     #   exclude:
     #     - dragonball
     #     - xmen
-  - playlist_sync_to_users: all
 
 #
 # Define global settings
@@ -539,7 +536,6 @@ settings:
   custom_repo:
   overlay_artwork_filetype: jpg
   overlay_artwork_quality: 75
-  check_nightly: true
   show_unconfigured: true
   show_unfiltered: false
   auto_sort_hubs:

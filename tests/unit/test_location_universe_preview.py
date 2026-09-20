@@ -161,6 +161,14 @@ class LocationUniverseTests(unittest.TestCase):
 
     def test_tracearr_behavior_preserved(self) -> None:
         """Preserve Tracearr behavior while using media-specific summaries."""
+
+        #
+        # Use the pinned Defaults' zero activity threshold without a redundant override.
+        #
+        defaults = YAML().load(Path("/defaults/chart/tracearr.yml").read_text())
+        self.assertEqual(
+            defaults["templates"]["tracearr"]["default"]["list_minimum"], 0
+        )
         for library, media in (("Movies", "movies"), ("TV Shows", "shows")):
             with self.subTest(library=library):
                 entries = [
@@ -172,7 +180,6 @@ class LocationUniverseTests(unittest.TestCase):
                     "collection_section": "020_1",
                     "list_days": 30,
                     "list_size": 25,
-                    "list_minimum": 0,
                     "summary_popular": f"The most widely watched {media} of the last 30 days.",
                     "name_popular": "Plex Popular",
                     "name_watched": "Plex Watched",

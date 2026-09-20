@@ -68,6 +68,63 @@ class YamlPolicyTests(unittest.TestCase):
                 self.assertIs(config[service]["monitor_existing"], False)
 
     #
+    # Keep file loading separate from global settings and preserve scheduled operations.
+    # These checks need no service connections or production library access.
+    #
+    def test_playlist_file_entries_and_sharing(self) -> None:
+        """Keep sharing enabled globally without treating it as a playlist source."""
+        config = self.yaml.load((self.root / "config.yml").read_text())
+        self.assertEqual(config["settings"]["playlist_sync_to_users"], "all")
+        self.assertEqual(
+            config["playlist_files"],
+            [{"file": "config/playlists/playlists.yml"}, {"default": "playlist"}],
+        )
+
+    def test_unused_nightly_setting_absent(self) -> None:
+        """Reject the obsolete update-check flag ignored by the pinned runtime."""
+        config = self.yaml.load((self.root / "config.yml").read_text())
+        self.assertNotIn("check_nightly", config["settings"])
+
+    def test_operation_blocks_and_schedule(self) -> None:
+        """Preserve operation sources and every allowed day/hour in list form."""
+        config = self.yaml.load((self.root / "config.yml").read_text())
+        for library in ("Movies", "TV Shows"):
+            expected: dict[str, str | bool] = {
+                "schedule": "all[weekly(monday|thursday|saturday), hourly(05-07)]",
+                "mass_genre_update": "tmdb",
+                "mass_audience_rating_update": "imdb",
+                "mass_critic_rating_update": "mdb_tomatoes",
+                "mass_user_rating_update": "trakt_user",
+            }
+            if library == "Movies":
+                expected["assets_for_all"] = True
+            operations = config["libraries"][library]["operations"]
+            with self.subTest(library=library):
+                self.assertEqual(operations, [expected])
+                self.assertEqual(
+                    util.parse("Config", "operations", operations, datatype="listdict"),
+                    util.parse("Config", "operations", expected, datatype="listdict"),
+                )
+
+            #
+            # Exercise Kometa's scheduler across a full week, including hour boundaries.
+            #
+            monday = datetime(2026, 9, 21, tzinfo=UTC)
+            for day_offset in range(7):
+                for hour in range(24):
+                    day = monday + timedelta(days=day_offset, hours=hour)
+                    with self.subTest(library=library, day=day.weekday(), hour=hour):
+                        eligible = day.weekday() in (0, 3, 5) and 5 <= hour <= 7
+                        try:
+                            util.schedule_check(
+                                "schedule", operations[0]["schedule"], day, hour
+                            )
+                            scheduled = True
+                        except util.NotScheduled:
+                            scheduled = False
+                        self.assertEqual(scheduled, eligible)
+
+    #
     # Scheduled movie files share the Movies library; TV titles have a separate scope.
     # Upstream dynamic names still require log review because they depend on library data.
     #
