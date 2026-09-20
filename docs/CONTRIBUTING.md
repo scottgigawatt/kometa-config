@@ -17,7 +17,7 @@ Install Git, GNU Make, Docker with a running engine, and Python 3.14 on your wor
 
    ```sh
    python3.14 -m venv .venv
-   source .venv/bin/activate
+   . .venv/bin/activate
    python -m pip install -r requirements-dev.txt
    pre-commit install
    ```
