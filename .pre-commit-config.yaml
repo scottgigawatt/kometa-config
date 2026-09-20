@@ -56,13 +56,13 @@ repos:
         exclude: ^assets/
 
   #
-  # Enforce Python correctness, import ordering, and formatting without auto-fixes.
+  # Enforce Python correctness, import ordering, docstrings, and formatting.
   #
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.16.8
     hooks:
       - id: ruff-check
-        args: ["--extend-select", "I"]
+        args: ["--extend-select", "I,D100,D101,D102,D103"]
       - id: ruff-format
         args: ["--check"]
 

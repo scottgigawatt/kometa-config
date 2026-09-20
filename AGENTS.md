@@ -45,6 +45,12 @@ Use the established framed block style for standalone comments: a `#` line befor
 
 Use lowercase kebab-case for human-authored filenames. Generated PATTRMM names are controlled by the upstream application and are exempt.
 
+## Python helpers and tests
+
+Use four-space indentation, module and callable docstrings, and explicit return annotations. Document nontrivial helpers with `Args`, `Returns`, and `Raises` sections where applicable. Give every test a short behavioral docstring; use framed comments to explain test groups, setup boundaries, and non-obvious safety checks without narrating each assertion.
+
+Keep local editor dependencies in `requirements-dev.txt`, with `ruamel.yaml` matching the pinned Kometa runtime. Use the ignored `.venv` for editor imports and local lint tools. Regression tests still run inside Kometa through `make validate`; do not suppress missing-import diagnostics to hide an unconfigured interpreter.
+
 ## External lists and assets
 
 Prefer native Kometa, Plex, TMDb, or IMDb builders over third-party lists when the membership can be expressed as a rule. Prefer repository-owned text lists or owner-controlled services for static curated membership. Third-party sources need a clear reason and must be verified before merge.
@@ -69,9 +75,11 @@ For changes affecting collection membership or rendered artwork, use the isolate
 make test-library
 ```
 
-Use `make test-collections` for collection previews without rerunning overlays. It reuses the TMDb builders from `movies/franchise.yml`, the genre rules from `movies/genre.yml`, the six searches in `movies/subgenre-rules.yml`, the show-only collections from `shows/shuffle.yml`, and smoke collections in both fixtures. TV membership is maintained as named TMDb show IDs in source, with no external curated-list dependency. The runtime remains isolated under `.kometa-test/collections/`; production favorites, download clients, and external list writers are not loaded.
+Use `make test-collections` for collection previews without rerunning overlays. It reuses the TMDb builders from `movies/franchise.yml`, the genre rules from `movies/genre.yml`, the six searches in `movies/subgenre-rules.yml`, the city keywords from `movies/cities.yml`, the five native sources from `movies/universes.yml`, the show-only collections from `shows/shuffle.yml`, and smoke collections in both fixtures. TV membership is maintained as named TMDb show IDs in source, with no external curated-list dependency. The runtime remains isolated under `.kometa-test/collections/`; production favorites, charts, download clients, and external list writers are not loaded.
 
 Never point the test configuration at production library names. Overlay files must be evaluated together; do not use Kometa's `--run-files` option for overlays.
+
+CodeQL uses the checked-in `.github/workflows/codeql-actions.yml` with independent Python and GitHub Actions analyses. Preserve its digest pins, minimal permissions, separate language categories, and framed job/step comments. Keep GitHub Default setup disabled; do not introduce a competing CodeQL workflow or enable separate billable analysis features as part of routine maintenance.
 
 ## Production changes
 

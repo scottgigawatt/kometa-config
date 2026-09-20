@@ -153,7 +153,7 @@ libraries:
           list_days: 30
           list_size: 25
           list_minimum: 0
-          summary_popular: A collection of the most watched movies on this Plex server.
+          summary_popular: The most widely watched movies of the last 30 days.
           name_popular: Plex Popular
           name_watched: Plex Watched
           use_trending: false
@@ -176,19 +176,21 @@ libraries:
       - default: universe
         template_variables:
           collection_section: "106"
-          trakt_list_mcu: https://trakt.tv/users/donxy/lists/marvel-cinematic-universe
-          trakt_list_dcu: https://trakt.tv/users/oblogdamari/lists/dceu-dc-extended-universe
-          trakt_list_trek: https://trakt.tv/users/rzepkowski/lists/star-trek-movies
-          trakt_list_avp: https://trakt.tv/users/liudvikas/lists/aliens-predators-movies
-          trakt_list_xmen: https://trakt.tv/users/negricaroll/lists/xmen
           minimum_items: 3
           append_data:
             star: Star Wars Saga
-            trek: Star Trek Universe
-            xmen: X-Men Collection
-          # These default collections are defined in the franchise.yml config
+
+          #
+          # Local franchise and universe files own these names and their sources.
+          # Exclude them here to prevent duplicate builders and list fallbacks.
+          #
           exclude:
             - marvel
+            - mcu
+            - dcu
+            - trek
+            - avp
+            - xmen
 
       # Collections based on other charts, e.g. Steven Lu's popular movies and top 10 pirated movies of the week
       - default: other_chart
@@ -338,7 +340,7 @@ libraries:
           list_days: 30
           list_size: 25
           list_minimum: 0
-          summary_popular: A collection of the most watched movies on this Plex server.
+          summary_popular: The most widely watched shows of the last 30 days.
           collection_section: "020_1"
           name_popular: Plex Popular
           name_watched: Plex Watched

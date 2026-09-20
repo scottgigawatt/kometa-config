@@ -1,10 +1,22 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# cities.yml: City-setting collections with local artwork and TMDb keywords.
+#
+
+#
+# Use city-setting keywords, not filming locations or individual users' lists.
+# TMDb keyword membership determines which movies enter or leave each collection.
+#
 templates:
   city:
     file_poster: /config/assets/posters/cities/<<city>>.png
     sort_title: "!105_<<collection_name>>"
     collection_order: title.asc
     content_rating: R
-    summary: "A selection of films where the city of <<city>> plays a character role."
+    summary: "Stories unfolding across the streets and skyline of <<city>>."
     sync_mode: sync
     schedule: weekly(saturday)
 
@@ -13,34 +25,40 @@ collections:
     template:
       name: city
       city: Chicago
-    trakt_list: https://trakt.tv/users/oldmankestis/lists/chicago
+    tmdb_keyword:
+      - 520  # Chicago, Illinois
 
   Detroit Collection:
     template:
       name: city
       city: Detroit
-    trakt_list: https://trakt.tv/users/oldmankestis/lists/detroit
+    tmdb_keyword:
+      - 18021  # Detroit, Michigan
 
   Las Vegas Collection:
     template:
       name: city
       city: Las Vegas
-    trakt_list: https://trakt.tv/users/oldmankestis/lists/las-vegas
+    tmdb_keyword:
+      - 14570  # Las Vegas
 
   Los Angeles Collection:
     template:
       name: city
       city: Los Angeles
-    trakt_list: https://trakt.tv/users/oldmankestis/lists/los-angeles
+    tmdb_keyword:
+      - 12670  # Los Angeles, California
 
   New York Collection:
     template:
       name: city
       city: New York
-    trakt_list: https://trakt.tv/users/oldmankestis/lists/new-york
+    tmdb_keyword:
+      - 242  # New York City
 
   Washington D.C. Collection:
     template:
       name: city
       city: Washington DC
-    trakt_list: https://trakt.tv/users/oldmankestis/lists/washington-dc
+    tmdb_keyword:
+      - 521  # Washington DC, USA

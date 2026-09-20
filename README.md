@@ -59,7 +59,9 @@ Clone the repository, install the pinned local checks, and validate it before co
 ```sh
 git clone https://github.com/scottgigawatt/kometa-config.git
 cd kometa-config
-python3 -m pip install -r requirements-dev.txt
+python3.14 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-dev.txt
 make check
 ```
 

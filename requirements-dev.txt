@@ -1,1 +1,13 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# requirements-dev.txt: Local lint and Python editor dependencies.
+#
+
+#
+# Run repository hooks and match the YAML parser in the pinned Kometa image.
+#
 pre-commit==4.6.2
+ruamel.yaml==0.19.1

@@ -35,6 +35,7 @@
         "Boulle's",
         "Britbox",
         "Bruckheimer",
+        "Bueller's",
         "Burnham",
         "BTTF",
         "Busick",
@@ -44,6 +45,7 @@
         "Capcom",
         "Caple",
         "CDPATH",
+        "charliermarsh",
         "Chewbacca",
         "Clane",
         "Clooney",
@@ -55,6 +57,9 @@
         "Danilo",
         "Darkwing",
         "davidanson",
+        "DCEU",
+        "Deadpool",
+        "docstrings",
         "dragonball",
         "dvhdrplus",
         "Ehren",
@@ -141,6 +146,7 @@
         "Nira",
         "Niven",
         "noexec",
+        "nonpositive",
         "Norrington",
         "nosuid",
         "notifiarr",
@@ -160,9 +166,11 @@
         "PLEXTOKEN",
         "plexurl",
         "PLEXURL",
+        "Plundarr",
         "precommit",
         "preroll",
         "prerolls",
+        "Privateerr",
         "pterisaur",
         "PYTHONDONTWRITEBYTECODE",
         "radarr",
@@ -175,9 +183,11 @@
         "Rehme",
         "Reiner",
         "religous",
+        "rewatched",
         "Riddick",
         "Robocop",
         "Royale",
+        "ruamel",
         "Schifrin",
         "Schitt's",
         "Scooby",
@@ -191,6 +201,7 @@
         "Sonarr",
         "Sonnenfeld",
         "Squidbillies",
+        "Starfleet",
         "Starz",
         "Statham",
         "Stephenie",
@@ -202,6 +213,7 @@
         "Tautulli",
         "Teigue",
         "Thunderball",
+        "Tracearr",
         "timonwong",
         "tmdb",
         "tmdbapikey",
@@ -216,6 +228,7 @@
         "UKTV",
         "unconfigured",
         "unmanaged",
+        "venv",
         "vorite",
         "Wachowski",
         "Wachowskis",
@@ -224,6 +237,7 @@
         "Wesker",
         "Wizarding",
         "worktree",
+        "Xenomorph",
         "xmen",
         "Yuen",
         "Zemeckis"
@@ -233,6 +247,12 @@
     // Keep Makefile Tools from inventing a configure step for this project.
     //
     "makefile.configureOnOpen": false,
+
+    //
+    // Resolve helper imports from the ignored local development environment.
+    // Existing workspaces may need Python: Select Interpreter once after setup.
+    //
+    "python.defaultInterpreterPath": "${workspaceFolder}/.venv",
 
     //
     // Associate special repository files with their correct language modes.
@@ -288,6 +308,13 @@
         "editor.detectIndentation": false,
         "editor.tabSize": 4,
         "editor.insertSpaces": true
+    },
+    "[python]": {
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "editor.detectIndentation": false,
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true,
+        "editor.formatOnSave": false
     },
 
     //

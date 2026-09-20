@@ -12,14 +12,28 @@
 # Usage: Run through make validate inside the pinned Kometa image.
 #
 
+"""Check local overlay coverage using tracked paths and pinned Kometa Defaults."""
+
 import re
 from pathlib import Path
 
 from ruamel.yaml import YAML
 
 
-def check_assets(source, defaults, tracked):
-    """Return coverage errors for source YAML and case-sensitive Git paths."""
+def check_assets(source: Path, defaults: Path, tracked: set[str]) -> list[str]:
+    """Return artwork coverage errors without loading images or private settings.
+
+    Args:
+        source: Root of the tracked YAML snapshot mounted by the validator.
+        defaults: Overlay catalog directory from the pinned Kometa image.
+        tracked: Case-sensitive Git paths available in a complete checkout.
+
+    Returns:
+        Missing-artwork and test/production parity errors; empty on success.
+
+    Raises:
+        OSError: If a required source or Defaults file cannot be read.
+    """
     yaml = YAML(typ="safe")
     config = yaml.load((source / "config.yml").read_text())
     preview = yaml.load((source / "tests/kometa/config.yml").read_text())
@@ -83,7 +97,12 @@ def check_assets(source, defaults, tracked):
     return errors
 
 
-if __name__ == "__main__":
+def main() -> None:
+    """Report artwork errors and exit unsuccessfully when coverage is incomplete."""
+
+    #
+    # Use Git's file inventory so sparse CI checkouts need no artwork downloads.
+    #
     tracked_files = set(Path("/config/overlay-files").read_text().split("\0"))
     failures = check_assets(
         Path("/workspace"), Path("/defaults/overlays"), tracked_files
@@ -93,3 +112,7 @@ if __name__ == "__main__":
     if failures:
         raise SystemExit(1)
     print("Custom overlay artwork and test/production parity checks passed.")
+
+
+if __name__ == "__main__":
+    main()
