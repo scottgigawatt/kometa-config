@@ -1,0 +1,69 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# universes.yml: Release-ordered movie universes from native TMDb metadata.
+#
+
+#
+# Combine native collection groups or universe keywords without standalone films.
+# Keep the same minimum and section as the remaining universe Defaults.
+#
+templates:
+  universe:
+    file_poster: /config/assets/posters/franchise/<<poster_id>>.jpg
+    sort_title: "!106_<<collection_name>>"
+    collection_order: release
+    sync_mode: sync
+    minimum_items: 3
+
+collections:
+  Marvel Cinematic Universe:
+    template:
+      name: universe
+      poster_id: Marvel Cinematic Universe
+    tmdb_keyword:
+      - 180547  # Marvel Cinematic Universe (MCU)
+    summary: "Interconnected adventures of Marvel's heroes, from Iron Man and the Avengers to distant galaxies and the multiverse."
+
+  #
+  # The DCEU keyword defines this universe, not every film based on DC comics.
+  #
+  DC Universe:
+    template:
+      name: universe
+      poster_id: DC Universe
+    tmdb_keyword:
+      - 229266  # DC Extended Universe (DCEU)
+    summary: "Superman, Batman, Wonder Woman, and their allies face world-changing threats across the DC Extended Universe."
+
+  Star Trek Universe:
+    template:
+      name: universe
+      poster_id: Star Trek
+    tmdb_collection:
+      - 151     # Star Trek: The Original Series Collection
+      - 115570  # Star Trek: The Next Generation Collection
+      - 115575  # Star Trek: Alternate Reality Collection
+    summary: "Starfleet crews explore strange new worlds, confront old enemies, and chart the future across generations of the Enterprise."
+
+  Alien / Predator:
+    template:
+      name: universe
+      poster_id: Alien Predator
+    tmdb_collection:
+      - 8091    # Alien Collection
+      - 399     # Predator Collection
+      - 115762  # AVP Collection
+    summary: "Xenomorph terror and Predator hunts bring humanity face to face with ruthless creatures from beyond Earth."
+
+  X-Men Collection:
+    template:
+      name: universe
+      poster_id: X-Men
+    tmdb_collection:
+      - 748     # X-Men Collection
+      - 453993  # The Wolverine Collection
+      - 448150  # Deadpool Collection
+    summary: "Mutants fight for their place in the world through the adventures of the X-Men, Wolverine, and Deadpool."

@@ -134,7 +134,7 @@ class CollectionPreviewTests(unittest.TestCase):
 
     def test_native_selection(self):
         selected, _ = preview.load_preview(Path("/workspace"))
-        self.assertEqual(len(selected), 31)
+        self.assertEqual(len(selected), 42)
         self.assertIn("The Purge Collection", selected)
         self.assertIn("Adult Animation", selected)
         self.assertNotIn("After Collection", selected)

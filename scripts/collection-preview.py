@@ -35,6 +35,8 @@ def preview_names(franchises, config, smoke, shows):
                 {"file": "/workspace/movies/franchise.yml"},
                 {"file": "/workspace/movies/genre.yml"},
                 {"file": "/workspace/movies/subgenre-rules.yml"},
+                {"file": "/workspace/movies/cities.yml"},
+                {"file": "/workspace/movies/universes.yml"},
                 {"file": "/workspace/tests/kometa/collections.yml"},
             ]
         },
@@ -316,6 +318,76 @@ def rule_names(genres, themes):
     return list(genres["collections"]) + list(themes["collections"])
 
 
+def location_universe_names(cities, universes):
+    """Allow city keywords and native universe builders without external writers."""
+    city_template = {
+        "file_poster": "/config/assets/posters/cities/<<city>>.png",
+        "sort_title": "!105_<<collection_name>>",
+        "collection_order": "title.asc",
+        "content_rating": "R",
+        "summary": "Stories unfolding across the streets and skyline of <<city>>.",
+        "sync_mode": "sync",
+        "schedule": "weekly(saturday)",
+    }
+    universe_template = {
+        "file_poster": "/config/assets/posters/franchise/<<poster_id>>.jpg",
+        "sort_title": "!106_<<collection_name>>",
+        "collection_order": "release",
+        "sync_mode": "sync",
+        "minimum_items": 3,
+    }
+    city_sources = {
+        "Chicago Collection": ("Chicago", "tmdb_keyword"),
+        "Detroit Collection": ("Detroit", "tmdb_keyword"),
+        "Las Vegas Collection": ("Las Vegas", "tmdb_keyword"),
+        "Los Angeles Collection": ("Los Angeles", "tmdb_keyword"),
+        "New York Collection": ("New York", "tmdb_keyword"),
+        "Washington D.C. Collection": ("Washington DC", "tmdb_keyword"),
+    }
+    universe_sources = {
+        "Marvel Cinematic Universe": ("Marvel Cinematic Universe", "tmdb_keyword"),
+        "DC Universe": ("DC Universe", "tmdb_keyword"),
+        "Star Trek Universe": ("Star Trek", "tmdb_collection"),
+        "Alien / Predator": ("Alien Predator", "tmdb_collection"),
+        "X-Men Collection": ("X-Men", "tmdb_collection"),
+    }
+    names = []
+    for source, template_name, template, expected, poster_key in (
+        (cities, "city", city_template, city_sources, "city"),
+        (universes, "universe", universe_template, universe_sources, "poster_id"),
+    ):
+        if set(source) != {"templates", "collections"} or source["templates"] != {
+            template_name: template
+        }:
+            raise ValueError(
+                "City and universe previews must use safe local templates."
+            )
+        if set(source["collections"]) != set(expected):
+            raise ValueError("Unexpected city or universe collection names.")
+        for name, definition in source["collections"].items():
+            poster, builder = expected[name]
+            allowed = {"template", builder}
+            if template_name == "universe":
+                allowed.add("summary")
+            if set(definition) != allowed or definition["template"] != {
+                "name": template_name,
+                poster_key: poster,
+            }:
+                raise ValueError(
+                    "Unexpected city or universe source or writer behavior."
+                )
+            ids = definition[builder]
+            if (
+                not isinstance(ids, list)
+                or not ids
+                or any(type(value) is not int or value <= 0 for value in ids)
+                or len(ids) != len(set(ids))
+            ):
+                raise ValueError("TMDb source IDs must be unique positive integers.")
+            names.append(name)
+    return names
+
+
 def load_preview(source):
     """Load tracked source files and verify collection and show ID comments."""
     yaml = YAML()
@@ -326,11 +398,17 @@ def load_preview(source):
     shows = yaml.load((source / "shows/shuffle.yml").read_text())
     genres = yaml.load((source / "movies/genre.yml").read_text())
     themes = yaml.load((source / "movies/subgenre-rules.yml").read_text())
+    cities = yaml.load((source / "movies/cities.yml").read_text())
+    universes = yaml.load((source / "movies/universes.yml").read_text())
     names = preview_names(franchises, config, smoke, shows)
     names.extend(rule_names(genres, themes))
+    names.extend(location_universe_names(cities, universes))
     check_id_comments(franchises["collections"], "tmdb_collection")
     check_id_comments(shows["collections"], "tmdb_show")
     check_id_comments(genres["collections"], "tmdb_keyword")
+    check_id_comments(cities["collections"], "tmdb_keyword")
+    check_id_comments(universes["collections"], "tmdb_keyword")
+    check_id_comments(universes["collections"], "tmdb_collection")
     for definition in themes["collections"].values():
         for template in definition["template"]:
             if "keywords" in template:

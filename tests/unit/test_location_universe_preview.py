@@ -1,0 +1,166 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# test_location_universe_preview.py: Guard native sources and retained charts.
+#
+
+import copy
+import importlib.util
+import unittest
+from pathlib import Path
+
+from ruamel.yaml import YAML
+
+spec = importlib.util.spec_from_file_location(
+    "preview", "/scripts/collection-preview.py"
+)
+preview = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(preview)
+
+
+class LocationUniverseTests(unittest.TestCase):
+    """Keep native city and universe sources isolated from production services."""
+
+    def setUp(self):
+        """Load independent source copies for mutation and wiring checks."""
+        yaml = YAML()
+        self.cities = yaml.load(Path("/workspace/movies/cities.yml").read_text())
+        self.universes = yaml.load(Path("/workspace/movies/universes.yml").read_text())
+        self.config = yaml.load(Path("/workspace/config.yml").read_text())
+
+    def test_native_sources_selected(self):
+        names = preview.location_universe_names(self.cities, self.universes)
+        self.assertEqual(len(names), 11)
+        self.assertIn("Washington D.C. Collection", names)
+        self.assertIn("Star Trek Universe", names)
+
+    def test_writers_and_external_sources_rejected(self):
+        for index in range(2):
+            for key in ("trakt_list", "imdb_list", "radarr_search", "tmdb_movie"):
+                with self.subTest(source=index, key=key):
+                    sources = copy.deepcopy([self.cities, self.universes])
+                    next(iter(sources[index]["collections"].values()))[key] = True
+                    with self.assertRaises(ValueError):
+                        preview.location_universe_names(*sources)
+
+    def test_template_writers_and_overrides_rejected(self):
+        for index in range(2):
+            for target in ("templates", "collections"):
+                with self.subTest(source=index, target=target):
+                    sources = copy.deepcopy([self.cities, self.universes])
+                    definition = next(iter(sources[index][target].values()))
+                    if target == "collections":
+                        definition = definition["template"]
+                    definition["radarr_add_missing"] = True
+                    with self.assertRaises(ValueError):
+                        preview.location_universe_names(*sources)
+
+    def test_invalid_and_duplicate_ids_rejected(self):
+        for source, name, builder in (
+            (0, "Chicago Collection", "tmdb_keyword"),
+            (1, "DC Universe", "tmdb_keyword"),
+            (1, "Star Trek Universe", "tmdb_collection"),
+        ):
+            for ids in ([True], [0], [-1], [], ["151"], [151, 151]):
+                with self.subTest(name=name, ids=ids):
+                    sources = copy.deepcopy([self.cities, self.universes])
+                    sources[source]["collections"][name][builder] = ids
+                    with self.assertRaises(ValueError):
+                        preview.location_universe_names(*sources)
+
+    def test_id_comments_required(self):
+        for source, builder in (
+            (self.cities, "tmdb_keyword"),
+            (self.universes, "tmdb_keyword"),
+            (self.universes, "tmdb_collection"),
+        ):
+            with self.subTest(builder=builder):
+                changed = copy.deepcopy(source["collections"])
+                next(
+                    d[builder] for d in changed.values() if builder in d
+                ).ca.items.clear()
+                with self.assertRaises(ValueError):
+                    preview.check_id_comments(changed, builder)
+
+    def test_universe_defaults_cannot_recreate_local_collections(self):
+        chart = next(
+            entry
+            for entry in self.config["libraries"]["Movies"]["collection_files"]
+            if entry.get("default") == "universe"
+        )["template_variables"]
+        self.assertEqual(
+            set(chart["exclude"]), {"marvel", "mcu", "dcu", "trek", "avp", "xmen"}
+        )
+        self.assertFalse(any(key.startswith("trakt_list") for key in chart))
+        self.assertEqual(chart["append_data"], {"star": "Star Wars Saga"})
+        self.assertFalse(chart.get("sync", False))
+
+        #
+        # Pinned Defaults must not delete excluded dynamic collections by default.
+        # Local names must not also appear in another human-authored movie file.
+        #
+        yaml = YAML(typ="safe")
+        defaults = yaml.load(Path("/defaults/both/universe.yml").read_text())
+        self.assertFalse(
+            defaults["dynamic_collections"]["Universe Collections"].get("sync", False)
+        )
+        local_names = set(self.universes["collections"])
+        for path in Path("/workspace/movies").glob("*.yml"):
+            if path.name != "universes.yml":
+                self.assertFalse(
+                    local_names
+                    & set(yaml.load(path.read_text()).get("collections", {}))
+                )
+
+    def test_trakt_chart_settings_preserved(self):
+        for library in ("Movies", "TV Shows"):
+            with self.subTest(library=library):
+                entries = [
+                    item
+                    for item in self.config["libraries"][library]["collection_files"]
+                    if item.get("default") == "trakt"
+                ]
+                expected = {
+                    "use_collected": False,
+                    "use_recommended": False,
+                    "use_watched": False,
+                    "order_popular": 4,
+                    "order_trending": 4,
+                }
+                if library == "Movies":
+                    expected["schedule"] = "weekly(monday)"
+                self.assertEqual(
+                    entries, [{"default": "trakt", "template_variables": expected}]
+                )
+
+    def test_tracearr_behavior_preserved(self):
+        for library, media in (("Movies", "movies"), ("TV Shows", "shows")):
+            with self.subTest(library=library):
+                entries = [
+                    item
+                    for item in self.config["libraries"][library]["collection_files"]
+                    if item.get("default") == "tracearr"
+                ]
+                expected = {
+                    "collection_section": "020_1",
+                    "list_days": 30,
+                    "list_size": 25,
+                    "list_minimum": 0,
+                    "summary_popular": f"The most widely watched {media} of the last 30 days.",
+                    "name_popular": "Plex Popular",
+                    "name_watched": "Plex Watched",
+                    "use_trending": False,
+                    "use_rewatched": False,
+                    "use_completed": False,
+                    "use_binged": False,
+                    "use_transcoded": False,
+                }
+                self.assertEqual(
+                    entries, [{"default": "tracearr", "template_variables": expected}]
+                )
+
+
+if __name__ == "__main__":
+    unittest.main()

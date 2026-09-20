@@ -8,13 +8,15 @@
 
 libraries:
   #
-  # Load safe franchise, genre, and theme sources without other movie files.
+  # Load safe movie sources without production charts or external list writers.
   #
   test_movie_lib:
     collection_files:
       - file: /workspace/movies/franchise.yml
       - file: /workspace/movies/genre.yml
       - file: /workspace/movies/subgenre-rules.yml
+      - file: /workspace/movies/cities.yml
+      - file: /workspace/movies/universes.yml
       - file: /workspace/tests/kometa/collections.yml
 
   #
