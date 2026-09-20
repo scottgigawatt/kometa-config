@@ -1,3 +1,11 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# top-actors.yml: Build people collections from Plex credits and TMDb metadata.
+#
+
 external_templates:
   git: meisnate12/People
   template_variables:
@@ -51,6 +59,9 @@ templates:
         actor: <<actor>>
 
 dynamic_collections:
+  #
+  # Rank people by their credits in the library, with separate limits for each role.
+  #
   Top Actors:
     type: actor
     template:

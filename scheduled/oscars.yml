@@ -1,3 +1,11 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# oscars.yml: Build Oscar collections from IMDb award searches.
+#
+
 external_templates:
   default: templates
   template_variables:
@@ -57,6 +65,9 @@ collections:
       - name: oscar_award_winner
 
 dynamic_collections:
+  #
+  # Search the preceding release year for each generated awards-year collection.
+  #
   Oscars Winners:
     type: number
     sync: true

@@ -75,6 +75,12 @@ Use `make test-seasonal` to preview the holiday movie collections without downlo
 
 Use `make test-tv-seasonal` to preview Halloween, Thanksgiving, and Christmas episodes in the TV test library.
 
+## Weekly Shuffle
+
+The movie Weekly Shuffle includes watched and unwatched films, with a TMDb rating of at least 6 and at least 250 votes. Each Monday it samples up to 250 random candidates and keeps up to 25 qualifying movies. Christmas and Xmas titles are excluded, along with movies carrying TMDb's Christmas keyword, throughout the year.
+
+The bounded sample keeps metadata lookups manageable. If fewer than 25 candidates qualify, the collection stays smaller rather than relaxing its rules. Keyword coverage depends on TMDb metadata; the title exclusions provide an additional safeguard. The existing poster is preserved, and the TV shuffle collections are separate.
+
 ## Validation
 
 The default Make target lists the supported commands:

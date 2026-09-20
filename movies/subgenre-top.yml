@@ -75,7 +75,7 @@ collections:
         poster: absurdism
         day: monday
       - name: tmdb_theme
-        keywords: "214655"                      # Absurdism
+        keywords: "214655"  # Absurdism
 
   Top Rated in Aliens:
     summary: "Visitors from other worlds, first encounters, and invasions from beyond Earth."
@@ -84,7 +84,7 @@ collections:
         poster: aliens
         day: monday
       - name: tmdb_theme
-        keywords: "9951|14909"                  # Alien OR Alien Invasion
+        keywords: "9951|14909"  # Alien OR Alien Invasion
 
   Top Rated in Alternate History:
     summary: "Familiar history takes a different turn, reshaping the world that follows."
@@ -93,7 +93,7 @@ collections:
         poster: alternate-history
         day: monday
       - name: tmdb_theme
-        keywords: "12026"                       # Alternate History
+        keywords: "12026"  # Alternate History
 
   Top Rated in Anti-Hero:
     summary: "Flawed protagonists who challenge the line between hero and villain."
@@ -102,7 +102,7 @@ collections:
         poster: anti-hero
         day: monday
       - name: tmdb_theme
-        keywords: "2095"                        # Anti Hero
+        keywords: "2095"  # Anti Hero
 
   Top Rated in Apocalypse:
     summary: "Civilization faces catastrophe as the world hurtles toward its end."
@@ -111,7 +111,7 @@ collections:
         poster: apocalypse
         day: monday
       - name: tmdb_theme
-        keywords: "12332|10150"                 # Apocalypse OR End Of The World
+        keywords: "12332|10150"  # Apocalypse OR End Of The World
 
   Top Rated in Artificial Intelligence:
     summary: "Thinking machines, artificial minds, and the consequences of creating intelligence."
@@ -120,7 +120,7 @@ collections:
         poster: artificial-intelligence
         day: monday
       - name: tmdb_theme
-        keywords: "310"                         # Artificial Intelligence (A.I.)
+        keywords: "310"  # Artificial Intelligence (A.I.)
 
   Top Rated in Assassins:
     summary: "Contract killers, covert operatives, and dangerous lives built around a target."
@@ -129,7 +129,7 @@ collections:
         poster: assassins
         day: monday
       - name: tmdb_theme
-        keywords: "782|2708"                    # Assassin OR Hitman
+        keywords: "782|2708"  # Assassin OR Hitman
 
   Top Rated in Betrayal:
     summary: "Trust unravels through deception, divided loyalties, and devastating double crosses."
@@ -138,7 +138,7 @@ collections:
         poster: betrayal
         day: monday
       - name: tmdb_theme
-        keywords: "10085"                       # Betrayal
+        keywords: "10085"  # Betrayal
 
   Top Rated in Bigfoot:
     summary: "Encounters with elusive creatures hiding deep in the wilderness."
@@ -147,7 +147,7 @@ collections:
         poster: bigfoot
         day: monday
       - name: tmdb_theme
-        keywords: "2597"                        # Bigfoot
+        keywords: "2597"  # Bigfoot
         minimum_votes: 500
 
   Top Rated in Boxing:
@@ -157,7 +157,7 @@ collections:
         poster: boxing
         day: monday
       - name: tmdb_theme
-        keywords: "209476"                      # Boxing
+        keywords: "209476"  # Boxing
         minimum_rating: 2
         minimum_votes: 100
 
@@ -168,7 +168,7 @@ collections:
         poster: bugs
         day: monday
       - name: tmdb_theme
-        keywords: "7035"                        # Giant Insect
+        keywords: "7035"  # Giant Insect
         minimum_rating: 2
         minimum_votes: 100
 
@@ -179,7 +179,7 @@ collections:
         poster: cannibals
         day: monday
       - name: tmdb_theme
-        keywords: "14895|278235"                # Cannibal OR Cannibalism
+        keywords: "14895|278235"  # Cannibal OR Cannibalism
         minimum_rating: 2
         minimum_votes: 100
 
@@ -190,7 +190,7 @@ collections:
         poster: caper
         day: monday
       - name: tmdb_theme
-        keywords: "9728"                        # Caper
+        keywords: "9728"  # Caper
         minimum_votes: 100
 
   Top Rated in Chick-flick:
@@ -210,7 +210,7 @@ collections:
         poster: comics
         day: tuesday
       - name: tmdb_theme
-        keywords: "9717"                        # Based On Comic
+        keywords: "9717"  # Based On Comic
 
   Top Rated in Coming of Age:
     summary: "Young people find their identities while navigating the complicated road to adulthood."
@@ -219,7 +219,7 @@ collections:
         poster: coming-of-age
         day: tuesday
       - name: tmdb_theme
-        keywords: "10683"                       # Coming Of Age
+        keywords: "10683"  # Coming Of Age
 
   Top Rated in Con-Artists:
     summary: "Smooth talkers, elaborate deceptions, and fortunes built on someone else's trust."
@@ -228,7 +228,7 @@ collections:
         poster: con-artists
         day: tuesday
       - name: tmdb_theme
-        keywords: "10453|3202"                  # Con Artist OR Con Man
+        keywords: "10453|3202"  # Con Artist OR Con Man
         minimum_rating: 2
 
   Top Rated in Cop:
@@ -238,7 +238,7 @@ collections:
         poster: cop
         day: tuesday
       - name: tmdb_theme
-        keywords: "6149|15090|15167"            # Police OR Police Officer OR Police Detective
+        keywords: "6149|15090|15167"  # Police OR Police Officer OR Police Detective
         minimum_rating: 2
 
   Top Rated in Costume Drama:
@@ -248,7 +248,7 @@ collections:
         poster: costume-drama
         day: tuesday
       - name: tmdb_theme
-        keywords: "195013"                      # Costume Drama
+        keywords: "195013"  # Costume Drama
 
   Top Rated in Courtroom:
     summary: "Trials, testimony, and legal battles put justice on the line."
@@ -257,7 +257,7 @@ collections:
         poster: courtroom
         day: tuesday
       - name: tmdb_theme
-        keywords: "33519|214780"                # Courtroom OR Courtroom Drama
+        keywords: "33519|214780"  # Courtroom OR Courtroom Drama
 
   Top Rated in Cyberpunk:
     summary: "High technology collides with fractured societies and life on the margins."
@@ -266,7 +266,7 @@ collections:
         poster: cyberpunk
         day: tuesday
       - name: tmdb_theme
-        keywords: "12190"                       # Cyberpunk
+        keywords: "12190"  # Cyberpunk
 
   Top Rated in Dark Comedy:
     summary: "Grim situations and uncomfortable truths with a wicked sense of humor."
@@ -275,8 +275,8 @@ collections:
         poster: dark-comedy
         day: monday
       - name: tmdb_theme
-        keywords: "10123"                       # Dark Comedy
-        genres: "35"                            # Comedy
+        keywords: "10123"  # Dark Comedy
+        genres: "35"  # Comedy
 
   Top Rated in Dark Fantasy:
     summary: "Magic and myth take sinister turns in dangerous, unsettling worlds."
@@ -285,7 +285,7 @@ collections:
         poster: dark-fantasy
         day: tuesday
       - name: tmdb_theme
-        keywords: "177895"                      # Dark Fantasy
+        keywords: "177895"  # Dark Fantasy
 
   Top Rated in Detective:
     summary: "Investigators follow clues, untangle motives, and uncover dangerous secrets."
@@ -294,7 +294,7 @@ collections:
         poster: detective
         day: tuesday
       - name: tmdb_theme
-        keywords: "703|15167"                   # Detective OR Police Detective
+        keywords: "703|15167"  # Detective OR Police Detective
 
   Top Rated in Disaster:
     summary: "Ordinary lives are thrown into chaos by catastrophic events."
@@ -303,7 +303,7 @@ collections:
         poster: disaster
         day: tuesday
       - name: tmdb_theme
-        keywords: "10617|5096"                  # Disaster OR Natural Disaster
+        keywords: "10617|5096"  # Disaster OR Natural Disaster
 
   Top Rated in Dragons:
     summary: "Fire-breathing legends, unlikely companions, and adventures among dragons."
@@ -312,7 +312,7 @@ collections:
         poster: dragons
         day: tuesday
       - name: tmdb_theme
-        keywords: "12554"                       # Dragon
+        keywords: "12554"  # Dragon
         minimum_rating: 3
 
   Top Rated in Dystopian:
@@ -322,7 +322,7 @@ collections:
         poster: dystopian
         day: tuesday
       - name: tmdb_theme
-        keywords: "4565"                        # Dystopia
+        keywords: "4565"  # Dystopia
 
   Top Rated in Epics:
     summary: "Sweeping stories of ambition, conflict, and extraordinary journeys."
@@ -340,7 +340,7 @@ collections:
         poster: espionage
         day: tuesday
       - name: tmdb_theme
-        keywords: "5265"                        # Espionage
+        keywords: "5265"  # Espionage
 
   Top Rated in Experimental:
     summary: "Unconventional films explore new forms, perspectives, and ways of telling a story."
@@ -359,7 +359,7 @@ collections:
         poster: fairytales
         day: wednesday
       - name: tmdb_theme
-        keywords: "179411|3205"                 # Based On Fairy Tale OR Fairy Tale
+        keywords: "179411|3205"  # Based On Fairy Tale OR Fairy Tale
 
   Top Rated in Found Footage:
     summary: "Recovered recordings reveal horrors that their filmmakers could not escape."
@@ -368,8 +368,8 @@ collections:
         poster: found-footage
         day: wednesday
       - name: tmdb_theme
-        keywords: "163053"                      # Found Footage
-        genres: "27"                            # Horror
+        keywords: "163053"  # Found Footage
+        genres: "27"  # Horror
         minimum_rating: 2
 
   Top Rated in Fugitives:
@@ -379,7 +379,7 @@ collections:
         poster: fugitives
         day: wednesday
       - name: tmdb_theme
-        keywords: "10718|10562"                 # Fugitive OR On The Run
+        keywords: "10718|10562"  # Fugitive OR On The Run
 
   Top Rated in Gangster:
     summary: "Criminal empires rise and fall through ambition, loyalty, and violence."
@@ -388,7 +388,7 @@ collections:
         poster: gangster
         day: wednesday
       - name: tmdb_theme
-        keywords: "3149"                        # Gangster
+        keywords: "3149"  # Gangster
 
   Top Rated in Ghosts:
     summary: "Restless spirits haunt the living and refuse to let the past stay buried."
@@ -397,8 +397,8 @@ collections:
         poster: ghosts
         day: wednesday
       - name: tmdb_theme
-        keywords: "162846"                      # Ghost
-        genres: "27"                            # Horror
+        keywords: "162846"  # Ghost
+        genres: "27"  # Horror
 
   Top Rated in Gothic:
     summary: "Brooding settings and buried secrets give way to haunting terror."
@@ -407,8 +407,8 @@ collections:
         poster: gothic
         day: wednesday
       - name: tmdb_theme
-        keywords: "33505"                       # Gothic
-        genres: "27"                            # Horror
+        keywords: "33505"  # Gothic
+        genres: "27"  # Horror
         minimum_rating: 2
         minimum_votes: 100
 
@@ -419,7 +419,7 @@ collections:
         poster: heartbreak
         day: wednesday
       - name: tmdb_theme
-        keywords: "192394"                      # Broken Heart
+        keywords: "192394"  # Broken Heart
         minimum_rating: 1
         minimum_votes: 10
 
@@ -430,7 +430,7 @@ collections:
         poster: heists
         day: wednesday
       - name: tmdb_theme
-        keywords: "10051|642"                   # Heist OR Robbery
+        keywords: "10051|642"  # Heist OR Robbery
 
   Top Rated in Historical Event:
     summary: "Dramatic accounts of the events that shaped history."
@@ -448,7 +448,7 @@ collections:
         poster: hostage
         day: wednesday
       - name: tmdb_theme
-        keywords: "1562|18233"                  # Hostage OR Hostage Situation
+        keywords: "1562|18233"  # Hostage OR Hostage Situation
 
   Top Rated in Hustle:
     summary: "Gamblers and hustlers chase the next score, testing luck against skill."
@@ -457,7 +457,7 @@ collections:
         poster: hustle
         day: wednesday
       - name: tmdb_theme
-        keywords: "2348|395"                    # Hustler OR Gambling
+        keywords: "2348|395"  # Hustler OR Gambling
 
   Top Rated in Martial-Arts:
     summary: "Disciplined fighters test their skills through training, rivalry, and spectacular combat."
@@ -466,7 +466,7 @@ collections:
         poster: martial-arts
         day: wednesday
       - name: tmdb_theme
-        keywords: "779|14941|14731"             # Martial Arts OR Martial Artist OR Martial Arts Master
+        keywords: "779|14941|14731"  # Martial Arts OR Martial Artist OR Martial Arts Master
 
   Top Rated in Medical:
     summary: "Illness, treatment, and medical dilemmas challenge patients and caregivers."
@@ -486,7 +486,7 @@ collections:
         poster: medieval
         day: wednesday
       - name: tmdb_theme
-        keywords: "41406|290807"                # Middle Ages (476-1453) OR Medieval Times
+        keywords: "41406|290807"  # Middle Ages (476-1453) OR Medieval Times
 
   Top Rated in Melodrama:
     summary: "Heightened emotions and tangled relationships drive stories of love and sacrifice."
@@ -504,7 +504,7 @@ collections:
         poster: military
         day: thursday
       - name: tmdb_theme
-        keywords: "162365|13065"                # Military OR Soldier
+        keywords: "162365|13065"  # Military OR Soldier
         minimum_rating: 2
 
   Top Rated in Mindfuck:
@@ -523,7 +523,7 @@ collections:
         poster: mockumentary
         day: thursday
       - name: tmdb_theme
-        keywords: "11800|160517"                # Mockumentary OR Fake Documentary
+        keywords: "11800|160517"  # Mockumentary OR Fake Documentary
         minimum_rating: 2
 
   Top Rated in Monsters:
@@ -533,8 +533,8 @@ collections:
         poster: monsters
         day: thursday
       - name: tmdb_theme
-        keywords: "1299|13031|158126"           # Monster OR Creature OR Creature Feature
-        genres: "27"                            # Horror
+        keywords: "1299|13031|158126"  # Monster OR Creature OR Creature Feature
+        genres: "27"  # Horror
 
   Top Rated in Mythology:
     summary: "Gods, heroes, and legendary creatures bring ancient myths to life."
@@ -543,7 +543,7 @@ collections:
         poster: mythology
         day: thursday
       - name: tmdb_theme
-        keywords: "2035"                        # Mythology
+        keywords: "2035"  # Mythology
 
   Top Rated in Naval:
     summary: "Crews face enemy fleets and perilous combat at sea."
@@ -552,7 +552,7 @@ collections:
         poster: naval
         day: thursday
       - name: tmdb_theme
-        keywords: "226475|195862"               # Naval Battle OR Naval Warfare
+        keywords: "226475|195862"  # Naval Battle OR Naval Warfare
         minimum_rating: 2
 
   Top Rated in Ninjas:
@@ -562,7 +562,7 @@ collections:
         poster: ninjas
         day: thursday
       - name: tmdb_theme
-        keywords: "10278"                       # Ninja
+        keywords: "10278"  # Ninja
 
   Top Rated in Novel:
     summary: "Memorable stories make the journey from books to the screen."
@@ -571,7 +571,7 @@ collections:
         poster: novel
         day: thursday
       - name: tmdb_theme
-        keywords: "818"                         # Based On Novel Or Book
+        keywords: "818"  # Based On Novel Or Book
 
   Top Rated in Occult:
     summary: "Forbidden knowledge, secret rituals, and forces beyond understanding."
@@ -580,7 +580,7 @@ collections:
         poster: occult
         day: thursday
       - name: tmdb_theme
-        keywords: "156174"                      # Occult
+        keywords: "156174"  # Occult
 
   Top Rated in Outerspace:
     summary: "Journeys beyond Earth, from distant worlds to the depths of space."
@@ -589,7 +589,7 @@ collections:
         poster: outerspace
         day: thursday
       - name: tmdb_theme
-        keywords: "252634|3801"                 # Outer Space OR Space Travel
+        keywords: "252634|3801"  # Outer Space OR Space Travel
 
   Top Rated in Outlaw:
     summary: "Life beyond the law brings freedom, danger, and a price on survival."
@@ -598,7 +598,7 @@ collections:
         poster: outlaw
         day: thursday
       - name: tmdb_theme
-        keywords: "9503"                        # Outlaw
+        keywords: "9503"  # Outlaw
         minimum_rating: 2
         minimum_votes: 100
 
@@ -609,7 +609,7 @@ collections:
         poster: pandemic
         day: thursday
       - name: tmdb_theme
-        keywords: "188973|17995"                # Pandemic OR Epidemic
+        keywords: "188973|17995"  # Pandemic OR Epidemic
         minimum_rating: 2
 
   Top Rated in Paranormal:
@@ -619,7 +619,7 @@ collections:
         poster: paranormal
         day: thursday
       - name: tmdb_theme
-        keywords: "9853|11627"                  # Paranormal OR Paranormal Phenomena
+        keywords: "9853|11627"  # Paranormal OR Paranormal Phenomena
 
   Top Rated in Period Drama:
     summary: "Personal lives and social conflicts unfold against the customs of another era."
@@ -628,7 +628,7 @@ collections:
         poster: period-drama
         day: friday
       - name: tmdb_theme
-        keywords: "15060"                       # Period Drama
+        keywords: "15060"  # Period Drama
 
   Top Rated in Philosophical:
     summary: "Stories exploring existence, morality, and what it means to be human."
@@ -637,7 +637,7 @@ collections:
         poster: philosophical
         day: friday
       - name: tmdb_theme
-        keywords: "490"                         # Philosophy
+        keywords: "490"  # Philosophy
 
   Top Rated in Political:
     summary: "Power, public ambition, and political struggles shape lives and nations."
@@ -646,7 +646,7 @@ collections:
         poster: political
         day: friday
       - name: tmdb_theme
-        keywords: "6078|6083"                   # Politics OR Politician
+        keywords: "6078|6083"  # Politics OR Politician
 
   Top Rated in Post-Apocalyptic:
     summary: "Survivors build new lives among the ruins of a fallen world."
@@ -655,7 +655,7 @@ collections:
         poster: post-apocalyptic
         day: friday
       - name: tmdb_theme
-        keywords: "4458"                        # Post-Apocalyptic Future
+        keywords: "4458"  # Post-Apocalyptic Future
 
   Top Rated in Prehistoric:
     summary: "Early humans and ancient creatures inhabit worlds long before recorded history."
@@ -664,7 +664,7 @@ collections:
         poster: prehistoric
         day: friday
       - name: tmdb_theme
-        keywords: "192918|10789"                # Prehistoric Man OR Prehistoric Creature
+        keywords: "192918|10789"  # Prehistoric Man OR Prehistoric Creature
         minimum_rating: 2
 
   Top Rated in Prison:
@@ -674,7 +674,7 @@ collections:
         poster: prison
         day: friday
       - name: tmdb_theme
-        keywords: "378|1563|9774"               # Prison OR Prisoner OR Prison Guard
+        keywords: "378|1563|9774"  # Prison OR Prisoner OR Prison Guard
         minimum_rating: 2
         minimum_votes: 100
 
@@ -695,7 +695,7 @@ collections:
         poster: psychological
         day: friday
       - name: tmdb_theme
-        keywords: "272553|12565"                # Psychological OR Psychological Thriller
+        keywords: "272553|12565"  # Psychological OR Psychological Thriller
         minimum_rating: 2
 
   Top Rated in Religion:
@@ -705,7 +705,7 @@ collections:
         poster: religion
         day: friday
       - name: tmdb_theme
-        keywords: "11001|6150|6157"             # Religion OR Faith OR Prayer
+        keywords: "11001|6150|6157"  # Religion OR Faith OR Prayer
         minimum_rating: 2
         minimum_votes: 100
 
@@ -716,7 +716,7 @@ collections:
         poster: remake
         day: friday
       - name: tmdb_theme
-        keywords: "9714"                        # Remake
+        keywords: "9714"  # Remake
         minimum_votes: 100
 
   Top Rated in Revenge:
@@ -726,7 +726,7 @@ collections:
         poster: revenge
         day: friday
       - name: tmdb_theme
-        keywords: "9748|197088"                 # Revenge OR Revenge Plot
+        keywords: "9748|197088"  # Revenge OR Revenge Plot
         minimum_rating: 3
 
   Top Rated in Robots:
@@ -736,7 +736,7 @@ collections:
         poster: robots
         day: friday
       - name: tmdb_theme
-        keywords: "14544|10891"                 # Robot OR Giant Robot
+        keywords: "14544|10891"  # Robot OR Giant Robot
         minimum_rating: 3
 
   Top Rated in Romantic Comedy:
@@ -746,7 +746,7 @@ collections:
         poster: romantic-comedy
         day: friday
       - name: tmdb_theme
-        genres: "10749,35"                      # Romance AND Comedy
+        genres: "10749,35"  # Romance AND Comedy
 
   Top Rated in Romantic Drama:
     summary: "Passionate relationships face difficult choices, loss, and the tests of time."
@@ -755,7 +755,7 @@ collections:
         poster: romantic-drama
         day: friday
       - name: tmdb_theme
-        genres: "10749,18"                      # Romance AND Drama
+        genres: "10749,18"  # Romance AND Drama
 
   Top Rated in Samurai:
     summary: "Warriors navigate honor, loyalty, and conflict in the way of the sword."
@@ -764,7 +764,7 @@ collections:
         poster: samurai
         day: friday
       - name: tmdb_theme
-        keywords: "1462"                        # Samurai
+        keywords: "1462"  # Samurai
         minimum_rating: 2
         minimum_votes: 100
 
@@ -775,8 +775,8 @@ collections:
         poster: satire
         day: friday
       - name: tmdb_theme
-        keywords: "8201"                        # Satire
-        genres: "35"                            # Comedy
+        keywords: "8201"  # Satire
+        genres: "35"  # Comedy
 
   Top Rated in Serial Killers:
     summary: "Predators strike repeatedly as investigators race to uncover the pattern."
@@ -785,7 +785,7 @@ collections:
         poster: serial-killers
         day: saturday
       - name: tmdb_theme
-        keywords: "10714"                       # Serial Killer
+        keywords: "10714"  # Serial Killer
 
   Top Rated in Slasher:
     summary: "Relentless killers stalk their victims through escalating terror."
@@ -794,7 +794,7 @@ collections:
         poster: slasher
         day: saturday
       - name: tmdb_theme
-        keywords: "12339"                       # Slasher
+        keywords: "12339"  # Slasher
 
   Top Rated in Space Opera:
     summary: "Interstellar conflicts and grand adventures unfold across the stars."
@@ -803,7 +803,7 @@ collections:
         poster: space-opera
         day: saturday
       - name: tmdb_theme
-        keywords: "161176"                      # Space Opera
+        keywords: "161176"  # Space Opera
         minimum_rating: 2
 
   #
@@ -838,7 +838,7 @@ collections:
         poster: steampunk
         day: saturday
       - name: tmdb_theme
-        keywords: "10028"                       # Steampunk
+        keywords: "10028"  # Steampunk
 
   Top Rated in Stoner:
     summary: "Laid-back adventures and cannabis-fueled misadventures take unexpected turns."
@@ -847,7 +847,7 @@ collections:
         poster: stoner
         day: saturday
       - name: tmdb_theme
-        keywords: "54169|10776"                 # Stoner OR Marijuana
+        keywords: "54169|10776"  # Stoner OR Marijuana
         minimum_rating: 1
 
   Top Rated in Stop-Motion:
@@ -857,7 +857,7 @@ collections:
         poster: stop-motion
         day: saturday
       - name: tmdb_theme
-        keywords: "10121"                       # Stop Motion
+        keywords: "10121"  # Stop Motion
         minimum_votes: 100
 
   Top Rated in Superhero:
@@ -867,7 +867,7 @@ collections:
         poster: superhero
         day: saturday
       - name: tmdb_theme
-        keywords: "9715"                        # Superhero
+        keywords: "9715"  # Superhero
 
   Top Rated in Supernatural:
     summary: "Powers beyond the natural world transform lives and defy explanation."
@@ -876,7 +876,7 @@ collections:
         poster: supernatural
         day: saturday
       - name: tmdb_theme
-        keywords: "251513"                      # Supernatural Power
+        keywords: "251513"  # Supernatural Power
 
   Top Rated in Surrealism:
     summary: "Dreamlike images and strange connections turn reality inside out."
@@ -885,7 +885,7 @@ collections:
         poster: surrealism
         day: saturday
       - name: tmdb_theme
-        keywords: "9887"                        # Surrealism
+        keywords: "9887"  # Surrealism
 
   Top Rated in Survival:
     summary: "People pushed to their limits in the struggle to stay alive."
@@ -894,7 +894,7 @@ collections:
         poster: survival
         day: saturday
       - name: tmdb_theme
-        keywords: "10349|298724"                # Survival OR Survivor
+        keywords: "10349|298724"  # Survival OR Survivor
 
   Top Rated in Swashbuckler:
     summary: "Dashing adventurers cross swords in tales of daring and romance."
@@ -903,7 +903,7 @@ collections:
         poster: swashbuckler
         day: saturday
       - name: tmdb_theme
-        keywords: "157186"                      # Swashbuckler
+        keywords: "157186"  # Swashbuckler
         minimum_rating: 2
         minimum_votes: 100
 
@@ -914,7 +914,7 @@ collections:
         poster: sword-sandal
         day: saturday
       - name: tmdb_theme
-        keywords: "317728"                      # Sword And Sandal
+        keywords: "317728"  # Sword And Sandal
         minimum_rating: 3
 
   Top Rated in Sword & Sorcery:
@@ -924,7 +924,7 @@ collections:
         poster: sword-sorcery
         day: saturday
       - name: tmdb_theme
-        keywords: "234213"                      # Sword And Sorcery
+        keywords: "234213"  # Sword And Sorcery
         minimum_rating: 3
 
   Top Rated in Time Travel:
@@ -934,7 +934,7 @@ collections:
         poster: time-travel
         day: sunday
       - name: tmdb_theme
-        keywords: "4379"                        # Time Travel
+        keywords: "4379"  # Time Travel
 
   Top Rated in Treasure Hunt:
     summary: "Hidden clues and dangerous journeys lead adventurers toward a coveted prize."
@@ -943,7 +943,7 @@ collections:
         poster: treasure-hunt
         day: sunday
       - name: tmdb_theme
-        keywords: "6956"                        # Treasure Hunt
+        keywords: "6956"  # Treasure Hunt
         minimum_rating: 2
         minimum_votes: 100
 
@@ -954,7 +954,7 @@ collections:
         poster: true-story
         day: sunday
       - name: tmdb_theme
-        keywords: "9672"                        # Based On True Story
+        keywords: "9672"  # Based On True Story
 
   Top Rated in Urban Fantasy:
     summary: "Magic and mythical forces hide within the streets of the modern world."
@@ -975,8 +975,8 @@ collections:
         poster: utopian
         day: sunday
       - name: tmdb_theme
-        keywords: "3469"                        # Utopia
-        excluded_keywords: "4565"               # Dystopia
+        keywords: "3469"  # Utopia
+        excluded_keywords: "4565"  # Dystopia
 
   Top Rated in Vampires:
     summary: "Bloodthirsty immortals, nocturnal hunters, and the lure of eternal life."
@@ -985,7 +985,7 @@ collections:
         poster: vampires
         day: sunday
       - name: tmdb_theme
-        keywords: "3133"                        # Vampire
+        keywords: "3133"  # Vampire
 
   Top Rated in Video Game:
     summary: "Video game worlds and characters brought to the screen."
@@ -994,7 +994,7 @@ collections:
         poster: video-game
         day: sunday
       - name: tmdb_theme
-        keywords: "41645"                       # Based On Video Game
+        keywords: "41645"  # Based On Video Game
 
   Top Rated in Werewolves:
     summary: "Full moons, monstrous transformations, and the beast within."
@@ -1003,7 +1003,7 @@ collections:
         poster: werewolves
         day: sunday
       - name: tmdb_theme
-        keywords: "12564"                       # Werewolf
+        keywords: "12564"  # Werewolf
 
   Top Rated in Whodunit?:
     summary: "A crime, a cast of suspects, and clues that keep you guessing until the reveal."
@@ -1012,7 +1012,7 @@ collections:
         poster: whodunit
         day: sunday
       - name: tmdb_theme
-        keywords: "12570"                       # Whodunit
+        keywords: "12570"  # Whodunit
         minimum_rating: 2
         minimum_votes: 100
 
@@ -1023,7 +1023,7 @@ collections:
         poster: wizardry-witchcraft
         day: sunday
       - name: tmdb_theme
-        keywords: "616|177912"                  # Witch OR Wizard
+        keywords: "616|177912"  # Witch OR Wizard
 
   Top Rated in World War:
     summary: "Lives on the front lines and home fronts of the First and Second World Wars."
@@ -1032,7 +1032,7 @@ collections:
         poster: world-war
         day: sunday
       - name: tmdb_theme
-        keywords: "2504|1956"                   # World War I OR World War II
+        keywords: "2504|1956"  # World War I OR World War II
 
   Top Rated in Zombies:
     summary: "The dead rise, society unravels, and survivors fight to see another day."
@@ -1041,4 +1041,4 @@ collections:
         poster: zombies
         day: sunday
       - name: tmdb_theme
-        keywords: "12377"                       # Zombie
+        keywords: "12377"  # Zombie

@@ -1,4 +1,15 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# new-old.yml: Separate new episodes from older shows recently added.
+#
+
 collections:
+  #
+  # Episode dates distinguish newly released television from older catalog additions.
+  #
   New TV Show Releases:
     item_label: New Release
     smart_filter:

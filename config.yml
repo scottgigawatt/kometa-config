@@ -1,5 +1,9 @@
 #
-# config.yml: Main configuration file for Kometa.
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# config.yml: Configure libraries, shared services, overlays, and playlists.
 #
 
 #

@@ -1,4 +1,15 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# duration.yml: Select shorter movies using Plex runtime metadata.
+#
+
 templates:
+  #
+  # Reuse the weekly presentation for runtime-based movie selections.
+  #
   duration:
     file_poster: /config/assets/posters/duration/<<collection_name>>.png
     sort_title: "!099_<<collection_name>>"
