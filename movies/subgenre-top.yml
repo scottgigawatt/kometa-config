@@ -1,7 +1,20 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# subgenre-top.yml: Build ranked movie themes from native provider searches.
+#
+
 templates:
-  sub_genre:
+  #
+  # Keep theme collections hidden, capped at 250 items, and browsable by release.
+  #
+  ranked_theme:
+    file_poster: /config/assets/posters/subgenre_top/subgenre_top_<<poster>>.png
+    schedule: weekly(<<day>>)
     collection_mode: hide
-    # collection_order: critic_rating.desc
+    collection_order: release
     delete_not_scheduled: false
     limit: 250
     sort_title: "!061_<<collection_name>>"
@@ -9,1342 +22,1023 @@ templates:
     visible_home: false
     visible_library: false
     visible_shared: false
-    imdb_search:
-      genre.any: <<genre.any>>
-      genre: <<genre>>
-      keyword.any: <<keyword.any>>
-      keyword: <<keyword>>
-      language: <<language>>
-      limit: 1000
-      rating.gte: <<rating.gte>>
-      sort_by: rating.desc
-      type: <<type>>
-      votes.gte: <<votes.gte>>
-    letterboxd_list:
-      - https://letterboxd.com/mehrmantraut/list/<<letterboxd_list>>/by/rating/
-      # - https://letterboxd.com/chazlarson/list/<<letterboxd_list>>/by/rating/
-      - <<letterboxd_extra_1>>
-      - <<letterboxd_extra_2>>
-      - <<letterboxd_extra_3>>
-      - <<letterboxd_extra_4>>
-      - <<letterboxd_extra_5>>
+
+  #
+  # Rank up to 1,000 English-original candidates before matching local movies.
+  # Pipe-separated keywords mean OR; comma-separated genres mean AND.
+  #
+  tmdb_theme:
+    default:
+      minimum_rating: 5
+      minimum_votes: 1000
     optional:
-      - letterboxd_extra_1
-      - letterboxd_extra_2
-      - letterboxd_extra_3
-      - letterboxd_extra_4
-      - letterboxd_extra_5
+      - keywords
+      - genres
+      - excluded_keywords
+    tmdb_discover:
+      with_keywords: <<keywords>>
+      with_genres: <<genres>>
+      without_keywords: <<excluded_keywords>>
+      with_original_language: en
+      vote_average.gte: <<minimum_rating>>
+      vote_count.gte: <<minimum_votes>>
+      sort_by: vote_average.desc
+      limit: 1000
+
+  #
+  # Use native IMDb keyword searches where TMDb theme coverage is inadequate.
+  # English-language matching also includes multilingual films, unlike TMDb's
+  # original-language filter. These searches never reference curated lists.
+  #
+  imdb_theme:
+    default:
+      minimum_rating: 5
+      minimum_votes: 1000
+    optional:
       - genre
-      - genre.any
-      - keyword
-      - keyword.any
+    imdb_search:
+      keyword: <<keyword>>
+      genre: <<genre>>
+      language: en
+      type: movie,tv_movie
+      rating.gte: <<minimum_rating>>
+      votes.gte: <<minimum_votes>>
+      sort_by: rating.desc
+      limit: 1000
 
 collections:
-  "Top Rated in Absurdism":
-    summary: "Top rated movies in Absurdism"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_absurdism.png
-    schedule: weekly(monday)
-    template:
-      name: sub_genre
-      keyword: "absurdism"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-absurdism"
-
-  "Top Rated in Aliens":
-    summary: "Top rated movies in Aliens"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_aliens.png
-    schedule: weekly(monday)
-    template:
-      name: sub_genre
-      keyword: "alien,alien-invasion"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-aliens"
-
-  "Top Rated in Alternate History":
-    summary: "Top rated movies in Alternate History"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_alternate-history.png
-    schedule: weekly(monday)
-    template:
-      name: sub_genre
-      keyword: "alternate-history"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-alternate-history"
-
-  "Top Rated in Anti-Hero":
-    summary: "Top rated movies in Anti-Hero"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_anti-hero.png
-    schedule: weekly(monday)
-    template:
-      name: sub_genre
-      keyword: "anti-hero,superhero"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-anti-hero"
-
-  "Top Rated in Apocalypse":
-    summary: "Top rated movies in Apocalypse"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_apocalypse.png
-    schedule: weekly(monday)
-    template:
-      name: sub_genre
-      keyword: "apocalypse,end-of-the-world"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-apocalypse"
-
-  "Top Rated in Artificial Intelligence":
-    summary: "Top rated movies in Artificial Intelligence"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_artificial-intelligence.png
-    schedule: weekly(monday)
-    template:
-      name: sub_genre
-      keyword: "artificial-intelligence"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-artificial-intelligence"
-
-  "Top Rated in Assassins":
-    summary: "Top rated movies in Assassins"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_assassins.png
-    schedule: weekly(monday)
-    template:
-      name: sub_genre
-      keyword: "assassination-attempt"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-assassins"
-
-  "Top Rated in Betrayal":
-    summary: "Top rated movies in Betrayal"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_betrayal.png
-    schedule: weekly(monday)
-    template:
-      name: sub_genre
-      keyword: "betrayal"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-betrayal"
-
-  "Top Rated in Bigfoot":
-    summary: "Top rated movies in Bigfoot"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_bigfoot.png
-    schedule: weekly(monday)
-    template:
-      name: sub_genre
-      keyword: "bigfoot"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 500
-      language: "en"
-      # letterboxd_list: "theme-bigfoot"
-      letterboxd_extra_1: "https://letterboxd.com/ednagrinch/list/theme-bigfoot/by/rating"
-      letterboxd_extra_2: "https://letterboxd.com/ednagrinch/list/bigfoot/by/rating"
-
-  "Top Rated in Dark Comedy":
-    summary: "Top rated movies in Dark Comedy"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_dark-comedy.png
-    schedule: weekly(monday)
-    template:
-      name: sub_genre
-      keyword: "dark-comedy"
-      genre: "comedy"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-dark-comedy"
-
-  "Top Rated in Boxing":
-    summary: "Top rated movies in Boxing"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_boxing.png
-    schedule: weekly(monday)
-    template:
-      name: sub_genre
-      keyword: "boxing"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 100
-      language: "en"
-      letterboxd_list: "theme-boxing"
-
-  "Top Rated in Bugs":
-    summary: "Top rated movies in Bugs"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_bugs.png
-    schedule: weekly(monday)
-    template:
-      name: sub_genre
-      keyword: "giant-insect"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 100
-      language: "en"
-      letterboxd_list: "theme-bugs"
-
-  "Top Rated in Cannibals":
-    summary: "Top rated movies in Cannibals"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_cannibals.png
-    schedule: weekly(monday)
-    template:
-      name: sub_genre
-      keyword: "cannibalism,cannibal"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 100
-      language: "en"
-      letterboxd_list: "theme-cannibalism"
-
-  "Top Rated in Caper":
-    summary: "Top rated movies in Caper"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_caper.png
-    schedule: weekly(monday)
-    template:
-      name: sub_genre
-      keyword: "caper"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 100
-      language: "en"
-      letterboxd_list: "theme-caper"
-
-  "Top Rated in Chick-flick":
-    summary: "Top rated movies in Chick-flick"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_chick-flick.png
-    schedule: weekly(monday)
-    template:
-      name: sub_genre
-      keyword: "chick-flick"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 100
-      language: "en"
-      letterboxd_list: "theme-chick-flick"
-      letterboxd_extra_1: "https://letterboxd.com/rattledlady/list/chic-flicks/by/rating"
-      letterboxd_extra_2: "https://letterboxd.com/marialuisacctc/list/women-have-superior-taste-that-is-why-these/by/rating/"
-      letterboxd_extra_3: "https://letterboxd.com/hc06/list/ladies-night/by/rating"
-      letterboxd_extra_4: "https://letterboxd.com/annaluucasa/list/chic-flicks/by/rating"
-
-  "Top Rated in Comics":
-    summary: "Top rated movies in Comics"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_comics.png
-    schedule: weekly(tuesday)
-    template:
-      name: sub_genre
-      keyword: "based-on-comic"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-comics"
-
-  "Top Rated in Coming of Age":
-    summary: "Top rated movies in Coming of Age"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_coming-of-age.png
-    schedule: weekly(tuesday)
-    template:
-      name: sub_genre
-      keyword: "coming-of-age,friendship,teenage-boy,teenage-girl"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-coming-of-age"
-
-  "Top Rated in Con-Artists":
-    summary: "Top rated movies in Con-Artists"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_con-artists.png
-    schedule: weekly(tuesday)
-    template:
-      name: sub_genre
-      keyword: "con-artist,con-man"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-con-artists"
-
-  "Top Rated in Cop":
-    summary: "Top rated movies in Cop"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_cop.png
-    schedule: weekly(tuesday)
-    template:
-      name: sub_genre
-      keyword: "detective,police-car,police-detective,police-officer,police-station,police"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-cop"
-
-  "Top Rated in Costume Drama":
-    summary: "Top rated movies in Costume Drama"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_costume-drama.png
-    schedule: weekly(tuesday)
-    template:
-      name: sub_genre
-      keyword: "costume-drama"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-costume-drama"
-
-  "Top Rated in Courtroom":
-    summary: "Top rated movies in Courtroom"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_courtroom.png
-    schedule: weekly(tuesday)
-    template:
-      name: sub_genre
-      keyword: "courtroom,judge,lawyer"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-courtroom"
-
-  "Top Rated in Cyberpunk":
-    summary: "Top rated movies in Cyberpunk"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_cyberpunk.png
-    schedule: weekly(tuesday)
-    template:
-      name: sub_genre
-      keyword: "cyberpunk,future"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-cyberpunk"
-
-  "Top Rated in Dark Fantasy":
-    summary: "Top rated movies in Dark Fantasy"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_dark-fantasy.png
-    schedule: weekly(tuesday)
-    template:
-      name: sub_genre
-      keyword: "dark-fantasy"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-dark-fantasy"
-
-  "Top Rated in Detective":
-    summary: "Top rated movies in Detective"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_detective.png
-    schedule: weekly(tuesday)
-    template:
-      name: sub_genre
-      keyword: "detective,police-detective"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-detective"
-
-  "Top Rated in Disaster":
-    summary: "Top rated movies in Disaster"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_disaster.png
-    schedule: weekly(tuesday)
-    template:
-      name: sub_genre
-      keyword: "disaster,disaster-film"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-disaster"
-
-  "Top Rated in Dragons":
-    summary: "Top rated movies in Dragons"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_dragons.png
-    schedule: weekly(tuesday)
-    template:
-      name: sub_genre
-      keyword: "dragon"
-      type: "movie,tv_movie"
-      rating.gte: 3
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-dragons"
-
-  "Top Rated in Dystopian":
-    summary: "Top rated movies in Dystopian"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_dystopian.png
-    schedule: weekly(tuesday)
-    template:
-      name: sub_genre
-      keyword: "dystopia"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-dystopian"
-
-  "Top Rated in Epics":
-    summary: "Top rated movies in Epics"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_epics.png
-    schedule: weekly(tuesday)
-    template:
-      name: sub_genre
-      keyword: "epic"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-epics"
-
-  "Top Rated in Espionage":
-    summary: "Top rated movies in Espionage"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_espionage.png
-    schedule: weekly(tuesday)
-    template:
-      name: sub_genre
-      keyword: "espionage"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-espionage"
-
-  "Top Rated in Experimental":
-    summary: "Top rated movies in Experimental"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_experimental.png
-    schedule: weekly(wednesday)
-    template:
-      name: sub_genre
-      keyword: "experimental-film"
-      type: "movie,tv_movie"
-      rating.gte: 3
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-experimental"
-
-  "Top Rated in Fairytales":
-    summary: "Top rated movies in Fairytales"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_fairytales.png
-    schedule: weekly(wednesday)
-    template:
-      name: sub_genre
-      keyword: "based-on-fairy-tale"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-fairytale"
-
-  "Top Rated in Found Footage":
-    summary: "Top rated movies in Found Footage"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_found-footage.png
-    schedule: weekly(wednesday)
-    template:
-      name: sub_genre
-      keyword: "found-footage"
-      genre: "horror"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-found-footage"
-      # letterboxd_extra_1: "https://letterboxd.com/mehrmantraut/list/theme-found-footage/by/rating"
-
-  "Top Rated in Fugitives":
-    summary: "Top rated movies in Fugitives"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_fugitives.png
-    schedule: weekly(wednesday)
-    template:
-      name: sub_genre
-      keyword: "fugitive,on-the-run"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-fugitives"
-
-  "Top Rated in Gangster":
-    summary: "Top rated movies in Gangster"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_gangster.png
-    schedule: weekly(wednesday)
-    template:
-      name: sub_genre
-      keyword: "gangster"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-gangster"
-
-  "Top Rated in Ghosts":
-    summary: "Top rated movies in Ghosts"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_ghosts.png
-    schedule: weekly(wednesday)
-    template:
-      name: sub_genre
-      keyword: "ghost"
-      genre: "horror"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-ghosts"
-
-  "Top Rated in Gothic":
-    summary: "Top rated movies in Gothic"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_gothic.png
-    schedule: weekly(wednesday)
-    template:
-      name: sub_genre
-      keyword: "gothic"
-      genre: "horror"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 100
-      language: "en"
-      letterboxd_list: "theme-gothic"
-
-  "Top Rated in Heartbreak":
-    summary: "Top rated movies in Heartbreak"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_heartbreak.png
-    schedule: weekly(wednesday)
-    template:
-      name: sub_genre
-      keyword: "broken-heart"
-      type: "movie,tv_movie"
-      rating.gte: 1
-      votes.gte: 10
-      language: "en"
-      letterboxd_list: "theme-heartbreak"
-
-  "Top Rated in Heists":
-    summary: "Top rated movies in Heists"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_heists.png
-    schedule: weekly(wednesday)
-    template:
-      name: sub_genre
-      keyword: "heist,robbery"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-heists"
-
-  "Top Rated in Historical Event":
-    summary: "Top rated movies in Historical Event"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_historical-event.png
-    schedule: weekly(wednesday)
-    template:
-      name: sub_genre
-      keyword: "historical-event"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-historical-event"
-
-  "Top Rated in Hostage":
-    summary: "Top rated movies in Hostage"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_hostage.png
-    schedule: weekly(wednesday)
-    template:
-      name: sub_genre
-      keyword: "hostage-situation"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-hostage"
-      letterboxd_extra_1: "https://letterboxd.com/ceejay1/list/hostage-kidnap-captivity-movies/by/rating/"
-
-  "Top Rated in Hustle":
-    summary: "Top rated movies in Hustle"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_hustle.png
-    schedule: weekly(wednesday)
-    template:
-      name: sub_genre
-      keyword: "hustler,gambling"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-hustle"
-
-  "Top Rated in Martial-Arts":
-    summary: "Top rated movies in Martial-Arts"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_martial-arts.png
-    schedule: weekly(wednesday)
-    template:
-      name: sub_genre
-      keyword: "martial-artist,martial-arts-master,martial-arts"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-martial-arts"
-    imdb_list:
-      - list_id: ls000099643  # The Top 250 Greatest Martial Arts Movies of All-Time
-        sort_by: rating.asc
-        limit: 0
-      - list_id: ls068611186  # Martial Arts: The Top 250 Greatest Martial Arts Movies of All-Time
-        sort_by: rating.asc
-        limit: 0
-      - list_id: ls068378513  # Martial Arts: Awesome Martial Arts Movies!
-        sort_by: rating.asc
-        limit: 0
-      - list_id: ls090404120  # Martial Arts
-        sort_by: rating.asc
-        limit: 0
-
-  "Top Rated in Medical":
-    summary: "Top rated movies in Medical"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_medical.png
-    schedule: weekly(wednesday)
-    template:
-      name: sub_genre
-      keyword: "medical"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 100
-      language: "en"
-      letterboxd_list: "theme-medical"
-
-  "Top Rated in Medieval":
-    summary: "Top rated movies in Medieval"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_medieval.png
-    schedule: weekly(wednesday)
-    template:
-      name: sub_genre
-      keyword: "medieval-times"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-medieval"
-
-  "Top Rated in Melodrama":
-    summary: "Top rated movies in Melodrama"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_melodrama.png
-    schedule: weekly(thursday)
-    template:
-      name: sub_genre
-      keyword: "melodrama"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-melodrama"
-
-  "Top Rated in Military":
-    summary: "Top rated movies in Military"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_military.png
-    schedule: weekly(thursday)
-    template:
-      name: sub_genre
-      keyword: "military,soldier"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-military"
-
-  "Top Rated in Mockumentary":
-    summary: "Top rated movies in Mockumentary"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_mockumentary.png
-    schedule: weekly(thursday)
-    template:
-      name: sub_genre
-      keyword: "mockumentary,fake-documentary"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-mockumentary"
-    imdb_list:
-      - list_id: ls027069047  # Memorable Mockumentaries
-        sort_by: rating.asc
-        limit: 0
-
-  "Top Rated in Monsters":
-    summary: "Top rated movies in Monsters"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_monsters.png
-    schedule: weekly(thursday)
-    template:
-      name: sub_genre
-      keyword: "creature,monster,creature-feature"
-      genre: "horror"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-monsters"
-
-  "Top Rated in Mythology":
-    summary: "Top rated movies in Mythology"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_mythology.png
-    schedule: weekly(thursday)
-    template:
-      name: sub_genre
-      keyword: "mythology"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-mythology"
-
-  "Top Rated in Naval":
-    summary: "Top rated movies in Naval"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_naval.png
-    schedule: weekly(thursday)
-    template:
-      name: sub_genre
-      keyword: "naval-battle"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-naval"
-
-  "Top Rated in Ninjas":
-    summary: "Top rated movies in Ninjas"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_ninjas.png
-    schedule: weekly(thursday)
-    template:
-      name: sub_genre
-      keyword: "ninja"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-ninjas"
-
-  "Top Rated in Novel":
-    summary: "Top rated movies in Novel"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_novel.png
-    schedule: weekly(thursday)
-    template:
-      name: sub_genre
-      keyword: "based-on-book,based-on-novel"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-novel"
-
-  "Top Rated in Occult":
-    summary: "Top rated movies in Occult"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_occult.png
-    schedule: weekly(thursday)
-    template:
-      name: sub_genre
-      keyword: "occult"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-occult"
-
-  "Top Rated in Outlaw":
-    summary: "Top rated movies in Outlaw"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_outlaw.png
-    schedule: weekly(thursday)
-    template:
-      name: sub_genre
-      keyword: "outlaw"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 100
-      language: "en"
-      letterboxd_list: "theme-outlaw"
-
-  "Top Rated in Pandemic":
-    summary: "Top rated movies in Pandemic"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_pandemic.png
-    schedule: weekly(thursday)
-    template:
-      name: sub_genre
-      keyword: "pandemic"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-pandemic"
-
-  "Top Rated in Paranormal":
-    summary: "Top rated movies in Paranormal"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_paranormal.png
-    schedule: weekly(thursday)
-    template:
-      name: sub_genre
-      keyword: "paranormal-phenomenon"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-paranormal"
-
-  "Top Rated in Period Drama":
-    summary: "Top rated movies in Period Drama"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_period-drama.png
-    schedule: weekly(friday)
-    template:
-      name: sub_genre
-      keyword: "period-drama"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-period-drama"
-
-  "Top Rated in Political":
-    summary: "Top rated movies in Political"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_political.png
-    schedule: weekly(friday)
-    template:
-      name: sub_genre
-      keyword: "politics,politician"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-political"
-
-  "Top Rated in Post-Apocalyptic":
-    summary: "Top rated movies in Post-Apocalyptic"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_post-apocalyptic.png
-    schedule: weekly(friday)
-    template:
-      name: sub_genre
-      keyword: "post-apocalypse"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-post-apocalyptic"
-
-  "Top Rated in Prehistoric":
-    summary: "Top rated movies in Prehistoric"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_prehistoric.png
-    schedule: weekly(friday)
-    template:
-      name: sub_genre
-      keyword: "prehistoric-times"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-prehistoric"
-      letterboxd_extra_1: "https://letterboxd.com/mikkelhh/list/before-civilization-prehistoric-films/by/rating/"
-
-  "Top Rated in Prison":
-    summary: "Top rated movies in Prison"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_prison.png
-    schedule: weekly(friday)
-    template:
-      name: sub_genre
-      keyword: "prison,prisoner,prison-guard"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 100
-      language: "en"
-      letterboxd_list: "theme-prison"
-
-  "Top Rated in Psychedelic":
-    summary: "Top rated movies in Psychedelic"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_psychedelic.png
-    schedule: weekly(friday)
-    template:
-      name: sub_genre
-      keyword: "psychedelic"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-psychological"
-
-  "Top Rated in Psychological":
-    summary: "Top rated movies in Psychological"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_psychological.png
-    schedule: weekly(friday)
-    template:
-      name: sub_genre
-      keyword: "psychological"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-psychological"
-
-  "Top Rated in Religion":
-    summary: "Top rated movies in Religion"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_religion.png
-    schedule: weekly(friday)
-    template:
-      name: sub_genre
-      keyword: "faith,religion,prayer"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 100
-      language: "en"
-      letterboxd_list: "theme-religous"
-
-  "Top Rated in Remake":
-    summary: "Top rated movies in Remake"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_remake.png
-    schedule: weekly(friday)
-    template:
-      name: sub_genre
-      keyword: "remake"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 100
-      language: "en"
-      letterboxd_list: "theme-remake"
-      letterboxd_extra_1: "https://letterboxd.com/l_shelby/list/remakes/by/rating/"
-
-  "Top Rated in Revenge":
-    summary: "Top rated movies in Revenge"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_revenge.png
-    schedule: weekly(friday)
-    template:
-      name: sub_genre
-      keyword: "revenge-plot"
-      type: "movie,tv_movie"
-      rating.gte: 3
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-revenge"
-
-  "Top Rated in Robots":
-    summary: "Top rated movies in Robots"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_robots.png
-    schedule: weekly(friday)
-    template:
-      name: sub_genre
-      keyword: "giant-robot"
-      type: "movie,tv_movie"
-      rating.gte: 3
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-robots"
-
-  "Top Rated in Romantic Comedy":
-    summary: "Top rated movies in Romantic Comedy"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_romantic-comedy.png
-    schedule: weekly(friday)
-    template:
-      name: sub_genre
-      genre: "romance,comedy"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-romantic-comedy"
-    filters:
-      genre: Comedy
-      year.gte: 1960
-
-  "Top Rated in Romantic Drama":
-    summary: "Top rated movies in Romantic Drama"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_romantic-drama.png
-    schedule: weekly(friday)
-    template:
-      name: sub_genre
-      genre: "romance,drama"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-romantic-drama"
-      # letterboxd_extra_1: "https://letterboxd.com/mehrmantraut/list/theme-romantic-drama/by/rating"
-    filters:
-      genre: Drama
-      year.gte: 1960
-
-  "Top Rated in Samurai":
-    summary: "Top rated movies in Samurai"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_samurai.png
-    schedule: weekly(friday)
-    template:
-      name: sub_genre
-      keyword: "samurai,sword-fight"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 100
-      language: "en"
-      letterboxd_list: "theme-samurai"
-      letterboxd_extra_1: "https://letterboxd.com/_jacobhayden_/list/samurai/by/rating/"
-
-  "Top Rated in Satire":
-    summary: "Top rated movies in Satire"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_satire.png
-    schedule: weekly(friday)
-    template:
-      name: sub_genre
-      keyword: "satire"
-      genre: "comedy"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-satire"
-
-  "Top Rated in Serial Killers":
-    summary: "Top rated movies in Serial Killers"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_serial-killers.png
-    schedule: weekly(saturday)
-    template:
-      name: sub_genre
-      keyword: "serial-killer,murder"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-serial-killers"
-
-  "Top Rated in Slasher":
-    summary: "Top rated movies in Slasher"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_slasher.png
-    schedule: weekly(saturday)
-    template:
-      name: sub_genre
-      keyword: "slasher"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-slasher"
-    imdb_list:
-      - list_id: ls053988992  # HORROR:The Ultimate List of Slasher Films
-        sort_by: rating.asc
-        limit: 0
-      - list_id: ls029703473  # Top 200 Slasher Movies Of All Time!
-        sort_by: rating.asc
-        limit: 0
-      - list_id: ls002540370  # The Ultimate Slasher List
-        sort_by: rating.asc
-        limit: 0
-      - list_id: ls062357250  # Top Tier Slasher/Survival Horror Movies
-        sort_by: rating.asc
-        limit: 0
-
-  "Top Rated in Space Opera":
-    summary: "Top rated movies in Space Opera"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_space-opera.png
-    schedule: weekly(saturday)
-    template:
-      name: sub_genre
-      keyword: "space-opera"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-space-opera"
-
-  "Top Rated in Spaghetti Western":
-    summary: "Top rated movies in Spaghetti Western"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_spaghetti-western.png
-    schedule: weekly(saturday)
-    template:
-      name: sub_genre
-      keyword: "spaghetti-western"
-      type: "movie,tv_movie"
-      rating.gte: 1
-      votes.gte: 10
-      language: "en"
-      letterboxd_list: "theme-spaghetti-western"
-
-  "Top Rated in Splatter":
-    summary: "Top rated movies in Splatter"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_splatter.png
-    schedule: weekly(saturday)
-    template:
-      name: sub_genre
-      keyword: "splatter"
-      genre: "horror"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-splatter"
-
-  "Top Rated in Steampunk":
-    summary: "Top rated movies in Steampunk"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_steampunk.png
-    schedule: weekly(saturday)
-    template:
-      name: sub_genre
-      keyword: "steampunk"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-steampunk"
-
-  "Top Rated in Stoner":
-    summary: "Top rated movies in Stoner"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_stoner.png
-    schedule: weekly(saturday)
-    template:
-      name: sub_genre
-      keyword: "stoner,marijuana"
-      type: "movie,tv_movie"
-      rating.gte: 1
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-stoner"
-
-  "Top Rated in Stop-Motion":
-    summary: "Top rated movies in Stop-Motion"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_stop-motion.png
-    schedule: weekly(saturday)
-    template:
-      name: sub_genre
-      keyword: "stop-motion"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 100
-      language: "en"
-      letterboxd_list: "theme-stop-motion"
-      letterboxd_extra_1: "https://letterboxd.com/savage_/list/stop-motion/by/rating/"
-
-  "Top Rated in Superhero":
-    summary: "Top rated movies in Superhero"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_superhero.png
-    schedule: weekly(saturday)
-    template:
-      name: sub_genre
-      keyword: "superhero"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-superhero"
-
-  "Top Rated in Supernatural":
-    summary: "Top rated movies in Supernatural"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_supernatural.png
-    schedule: weekly(saturday)
-    template:
-      name: sub_genre
-      keyword: "supernatural-power"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-supernatural"
-
-  "Top Rated in Surrealism":
-    summary: "Top rated movies in Surrealism"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_surrealism.png
-    schedule: weekly(saturday)
-    template:
-      name: sub_genre
-      keyword: "surrealism"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-surrealism"
-
-  "Top Rated in Swashbuckler":
-    summary: "Top rated movies in Swashbuckler"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_swashbuckler.png
-    schedule: weekly(saturday)
-    template:
-      name: sub_genre
-      keyword: "swashbuckler"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 100
-      language: "en"
-      letterboxd_list: "theme-swashbuckler"
-
-  "Top Rated in Sword & Sandal":
-    summary: "Top rated movies in Sword & Sandal"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_sword-sandal.png
-    schedule: weekly(saturday)
-    template:
-      name: sub_genre
-      keyword: "sword-and-sandal"
-      type: "movie,tv_movie"
-      rating.gte: 3
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-sword-sandal"
-    imdb_list:
-      - list_id: ls043130664  # TOP 200 SWORD AND SANDAL // PEPLUM FILMS/SERIES OF ALL TIME
-        sort_by: rating.asc
-        limit: 0
-
-  "Top Rated in Sword & Sorcery":
-    summary: "Top rated movies in Sword & Sorcery"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_sword-sorcery.png
-    schedule: weekly(saturday)
-    template:
-      name: sub_genre
-      keyword: "sword-and-sorcery"
-      type: "movie,tv_movie"
-      rating.gte: 3
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-sword-sorcery"
-    imdb_list:
-      - list_id: ls022909805  # Sword and Sorcery movies
-        sort_by: rating.asc
-        limit: 0
-
-  "Top Rated in Treasure Hunt":
-    summary: "Top rated movies in Treasure Hunt"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_treasure-hunt.png
-    schedule: weekly(sunday)
-    template:
-      name: sub_genre
-      keyword: "treasure-hunt"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 100
-      language: "en"
-      letterboxd_list: "theme-treasure-hunt"
-
-  "Top Rated in Urban Fantasy":
-    summary: "Top rated movies in Urban Fantasy"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_urban-fantasy.png
-    schedule: weekly(sunday)
-    template:
-      name: sub_genre
-      keyword: "urban-fantasy"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-urban-fantasy"
-
-  "Top Rated in Utopian":
-    summary: "Top rated movies in Utopian"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_utopian.png
-    schedule: weekly(sunday)
-    template:
-      name: sub_genre
-      keyword: "utopia"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-utopian"
-    imdb_list:
-      - list_id: ls041227401  # Utopian movies: Positive future, NOT dystopian
-        sort_by: rating.asc
-        limit: 0
-
-  "Top Rated in Vampires":
-    summary: "Top rated movies in Vampires"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_vampires.png
-    schedule: weekly(sunday)
-    template:
-      name: sub_genre
-      keyword: "vampire"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-vampires"
-
-  "Top Rated in Video Game":
-    summary: "Top rated movies in Video Game"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_video-game.png
-    schedule: weekly(sunday)
-    template:
-      name: sub_genre
-      keyword: "based-on-video-game"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-video-game"
-
-  "Top Rated in Werewolves":
-    summary: "Top rated movies in Werewolves"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_werewolves.png
-    schedule: weekly(sunday)
-    template:
-      name: sub_genre
-      keyword.any:
-        - "werewolf"
-        - "werewolves"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-werewolves"
-
-  "Top Rated in Whodunit?":
-    summary: "Top rated movies in Whodunit?"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_whodunit.png
-    schedule: weekly(sunday)
-    template:
-      name: sub_genre
-      keyword: "whodunit"
-      type: "movie,tv_movie"
-      rating.gte: 2
-      votes.gte: 100
-      language: "en"
-      letterboxd_list: "theme-whodunit"
-
-  "Top Rated in Wizardry & Witchcraft":
-    summary: "Top rated movies in Wizardry & Witchcraft"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_wizardry-witchcraft.png
-    schedule: weekly(sunday)
-    template:
-      name: sub_genre
-      keyword.any:
-        - "witch"
-        - "wizard"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-wizardry-witchcraft"
-
-  "Top Rated in World War":
-    summary: "Top rated movies in World War"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_world-war.png
-    schedule: weekly(sunday)
-    template:
-      name: sub_genre
-      keyword.any:
-        - "world-war-one"
-        - "world-war-two"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-world-war"
-
-  "Top Rated in Zombies":
-    summary: "Top rated movies in Zombies"
-    file_poster: config/assets/posters/subgenre_top/subgenre_top_zombies.png
-    schedule: weekly(sunday)
-    template:
-      name: sub_genre
-      keyword: "zombie"
-      type: "movie,tv_movie"
-      rating.gte: 5
-      votes.gte: 1000
-      language: "en"
-      letterboxd_list: "theme-zombie"
+
+  Top Rated in Absurdism:
+    summary: "Strange predicaments and irrational worlds where ordinary logic breaks down."
+    template:
+      - name: ranked_theme
+        poster: absurdism
+        day: monday
+      - name: tmdb_theme
+        keywords: "214655"                      # Absurdism
+
+  Top Rated in Aliens:
+    summary: "Visitors from other worlds, first encounters, and invasions from beyond Earth."
+    template:
+      - name: ranked_theme
+        poster: aliens
+        day: monday
+      - name: tmdb_theme
+        keywords: "9951|14909"                  # Alien OR Alien Invasion
+
+  Top Rated in Alternate History:
+    summary: "Familiar history takes a different turn, reshaping the world that follows."
+    template:
+      - name: ranked_theme
+        poster: alternate-history
+        day: monday
+      - name: tmdb_theme
+        keywords: "12026"                       # Alternate History
+
+  Top Rated in Anti-Hero:
+    summary: "Flawed protagonists who challenge the line between hero and villain."
+    template:
+      - name: ranked_theme
+        poster: anti-hero
+        day: monday
+      - name: tmdb_theme
+        keywords: "2095"                        # Anti Hero
+
+  Top Rated in Apocalypse:
+    summary: "Civilization faces catastrophe as the world hurtles toward its end."
+    template:
+      - name: ranked_theme
+        poster: apocalypse
+        day: monday
+      - name: tmdb_theme
+        keywords: "12332|10150"                 # Apocalypse OR End Of The World
+
+  Top Rated in Artificial Intelligence:
+    summary: "Thinking machines, artificial minds, and the consequences of creating intelligence."
+    template:
+      - name: ranked_theme
+        poster: artificial-intelligence
+        day: monday
+      - name: tmdb_theme
+        keywords: "310"                         # Artificial Intelligence (A.I.)
+
+  Top Rated in Assassins:
+    summary: "Contract killers, covert operatives, and dangerous lives built around a target."
+    template:
+      - name: ranked_theme
+        poster: assassins
+        day: monday
+      - name: tmdb_theme
+        keywords: "782|2708"                    # Assassin OR Hitman
+
+  Top Rated in Betrayal:
+    summary: "Trust unravels through deception, divided loyalties, and devastating double crosses."
+    template:
+      - name: ranked_theme
+        poster: betrayal
+        day: monday
+      - name: tmdb_theme
+        keywords: "10085"                       # Betrayal
+
+  Top Rated in Bigfoot:
+    summary: "Encounters with elusive creatures hiding deep in the wilderness."
+    template:
+      - name: ranked_theme
+        poster: bigfoot
+        day: monday
+      - name: tmdb_theme
+        keywords: "2597"                        # Bigfoot
+        minimum_votes: 500
+
+  Top Rated in Boxing:
+    summary: "Fighters pursue glory, redemption, and survival inside and outside the ring."
+    template:
+      - name: ranked_theme
+        poster: boxing
+        day: monday
+      - name: tmdb_theme
+        keywords: "209476"                      # Boxing
+        minimum_rating: 2
+        minimum_votes: 100
+
+  Top Rated in Bugs:
+    summary: "Giant insects turn ordinary fears into oversized nightmares."
+    template:
+      - name: ranked_theme
+        poster: bugs
+        day: monday
+      - name: tmdb_theme
+        keywords: "7035"                        # Giant Insect
+        minimum_rating: 2
+        minimum_votes: 100
+
+  Top Rated in Cannibals:
+    summary: "Hunger crosses a horrifying boundary in stories of human predators."
+    template:
+      - name: ranked_theme
+        poster: cannibals
+        day: monday
+      - name: tmdb_theme
+        keywords: "14895|278235"                # Cannibal OR Cannibalism
+        minimum_rating: 2
+        minimum_votes: 100
+
+  Top Rated in Caper:
+    summary: "Elaborate criminal schemes, unlikely crews, and plans that rarely go smoothly."
+    template:
+      - name: ranked_theme
+        poster: caper
+        day: monday
+      - name: tmdb_theme
+        keywords: "9728"                        # Caper
+        minimum_votes: 100
+
+  Top Rated in Chick-flick:
+    summary: "Romance, friendship, and personal reinvention take center stage."
+    template:
+      - name: ranked_theme
+        poster: chick-flick
+        day: monday
+      - name: imdb_theme
+        keyword: chick-flick
+        minimum_votes: 100
+
+  Top Rated in Comics:
+    summary: "Comic-book characters and illustrated worlds leap from the page to the screen."
+    template:
+      - name: ranked_theme
+        poster: comics
+        day: tuesday
+      - name: tmdb_theme
+        keywords: "9717"                        # Based On Comic
+
+  Top Rated in Coming of Age:
+    summary: "Young people find their identities while navigating the complicated road to adulthood."
+    template:
+      - name: ranked_theme
+        poster: coming-of-age
+        day: tuesday
+      - name: tmdb_theme
+        keywords: "10683"                       # Coming Of Age
+
+  Top Rated in Con-Artists:
+    summary: "Smooth talkers, elaborate deceptions, and fortunes built on someone else's trust."
+    template:
+      - name: ranked_theme
+        poster: con-artists
+        day: tuesday
+      - name: tmdb_theme
+        keywords: "10453|3202"                  # Con Artist OR Con Man
+        minimum_rating: 2
+
+  Top Rated in Cop:
+    summary: "Police officers confront crime, corruption, and the pressures of life behind the badge."
+    template:
+      - name: ranked_theme
+        poster: cop
+        day: tuesday
+      - name: tmdb_theme
+        keywords: "6149|15090|15167"            # Police OR Police Officer OR Police Detective
+        minimum_rating: 2
+
+  Top Rated in Costume Drama:
+    summary: "Intrigue, romance, and social ambition unfold beneath the fashions of another age."
+    template:
+      - name: ranked_theme
+        poster: costume-drama
+        day: tuesday
+      - name: tmdb_theme
+        keywords: "195013"                      # Costume Drama
+
+  Top Rated in Courtroom:
+    summary: "Trials, testimony, and legal battles put justice on the line."
+    template:
+      - name: ranked_theme
+        poster: courtroom
+        day: tuesday
+      - name: tmdb_theme
+        keywords: "33519|214780"                # Courtroom OR Courtroom Drama
+
+  Top Rated in Cyberpunk:
+    summary: "High technology collides with fractured societies and life on the margins."
+    template:
+      - name: ranked_theme
+        poster: cyberpunk
+        day: tuesday
+      - name: tmdb_theme
+        keywords: "12190"                       # Cyberpunk
+
+  Top Rated in Dark Comedy:
+    summary: "Grim situations and uncomfortable truths with a wicked sense of humor."
+    template:
+      - name: ranked_theme
+        poster: dark-comedy
+        day: monday
+      - name: tmdb_theme
+        keywords: "10123"                       # Dark Comedy
+        genres: "35"                            # Comedy
+
+  Top Rated in Dark Fantasy:
+    summary: "Magic and myth take sinister turns in dangerous, unsettling worlds."
+    template:
+      - name: ranked_theme
+        poster: dark-fantasy
+        day: tuesday
+      - name: tmdb_theme
+        keywords: "177895"                      # Dark Fantasy
+
+  Top Rated in Detective:
+    summary: "Investigators follow clues, untangle motives, and uncover dangerous secrets."
+    template:
+      - name: ranked_theme
+        poster: detective
+        day: tuesday
+      - name: tmdb_theme
+        keywords: "703|15167"                   # Detective OR Police Detective
+
+  Top Rated in Disaster:
+    summary: "Ordinary lives are thrown into chaos by catastrophic events."
+    template:
+      - name: ranked_theme
+        poster: disaster
+        day: tuesday
+      - name: tmdb_theme
+        keywords: "10617|5096"                  # Disaster OR Natural Disaster
+
+  Top Rated in Dragons:
+    summary: "Fire-breathing legends, unlikely companions, and adventures among dragons."
+    template:
+      - name: ranked_theme
+        poster: dragons
+        day: tuesday
+      - name: tmdb_theme
+        keywords: "12554"                       # Dragon
+        minimum_rating: 3
+
+  Top Rated in Dystopian:
+    summary: "Oppressive societies and broken futures test the people living within them."
+    template:
+      - name: ranked_theme
+        poster: dystopian
+        day: tuesday
+      - name: tmdb_theme
+        keywords: "4565"                        # Dystopia
+
+  Top Rated in Epics:
+    summary: "Sweeping stories of ambition, conflict, and extraordinary journeys."
+    template:
+      - name: ranked_theme
+        poster: epics
+        day: tuesday
+      - name: imdb_theme
+        keyword: epic
+
+  Top Rated in Espionage:
+    summary: "Spies, secret missions, and shifting allegiances behind enemy lines."
+    template:
+      - name: ranked_theme
+        poster: espionage
+        day: tuesday
+      - name: tmdb_theme
+        keywords: "5265"                        # Espionage
+
+  Top Rated in Experimental:
+    summary: "Unconventional films explore new forms, perspectives, and ways of telling a story."
+    template:
+      - name: ranked_theme
+        poster: experimental
+        day: wednesday
+      - name: imdb_theme
+        keyword: experimental-film
+        minimum_rating: 3
+
+  Top Rated in Fairytales:
+    summary: "Enchanted journeys, impossible wishes, and timeless tales of wonder."
+    template:
+      - name: ranked_theme
+        poster: fairytales
+        day: wednesday
+      - name: tmdb_theme
+        keywords: "179411|3205"                 # Based On Fairy Tale OR Fairy Tale
+
+  Top Rated in Found Footage:
+    summary: "Recovered recordings reveal horrors that their filmmakers could not escape."
+    template:
+      - name: ranked_theme
+        poster: found-footage
+        day: wednesday
+      - name: tmdb_theme
+        keywords: "163053"                      # Found Footage
+        genres: "27"                            # Horror
+        minimum_rating: 2
+
+  Top Rated in Fugitives:
+    summary: "People on the run race to escape capture and reckon with their past."
+    template:
+      - name: ranked_theme
+        poster: fugitives
+        day: wednesday
+      - name: tmdb_theme
+        keywords: "10718|10562"                 # Fugitive OR On The Run
+
+  Top Rated in Gangster:
+    summary: "Criminal empires rise and fall through ambition, loyalty, and violence."
+    template:
+      - name: ranked_theme
+        poster: gangster
+        day: wednesday
+      - name: tmdb_theme
+        keywords: "3149"                        # Gangster
+
+  Top Rated in Ghosts:
+    summary: "Restless spirits haunt the living and refuse to let the past stay buried."
+    template:
+      - name: ranked_theme
+        poster: ghosts
+        day: wednesday
+      - name: tmdb_theme
+        keywords: "162846"                      # Ghost
+        genres: "27"                            # Horror
+
+  Top Rated in Gothic:
+    summary: "Brooding settings and buried secrets give way to haunting terror."
+    template:
+      - name: ranked_theme
+        poster: gothic
+        day: wednesday
+      - name: tmdb_theme
+        keywords: "33505"                       # Gothic
+        genres: "27"                            # Horror
+        minimum_rating: 2
+        minimum_votes: 100
+
+  Top Rated in Heartbreak:
+    summary: "Love falls apart, leaving grief, longing, and the possibility of starting again."
+    template:
+      - name: ranked_theme
+        poster: heartbreak
+        day: wednesday
+      - name: tmdb_theme
+        keywords: "192394"                      # Broken Heart
+        minimum_rating: 1
+        minimum_votes: 10
+
+  Top Rated in Heists:
+    summary: "Daring robberies bring together intricate plans, risky alliances, and big stakes."
+    template:
+      - name: ranked_theme
+        poster: heists
+        day: wednesday
+      - name: tmdb_theme
+        keywords: "10051|642"                   # Heist OR Robbery
+
+  Top Rated in Historical Event:
+    summary: "Dramatic accounts of the events that shaped history."
+    template:
+      - name: ranked_theme
+        poster: historical-event
+        day: wednesday
+      - name: imdb_theme
+        keyword: historical-event
+
+  Top Rated in Hostage:
+    summary: "Lives hang in the balance as captors, hostages, and negotiators face off."
+    template:
+      - name: ranked_theme
+        poster: hostage
+        day: wednesday
+      - name: tmdb_theme
+        keywords: "1562|18233"                  # Hostage OR Hostage Situation
+
+  Top Rated in Hustle:
+    summary: "Gamblers and hustlers chase the next score, testing luck against skill."
+    template:
+      - name: ranked_theme
+        poster: hustle
+        day: wednesday
+      - name: tmdb_theme
+        keywords: "2348|395"                    # Hustler OR Gambling
+
+  Top Rated in Martial-Arts:
+    summary: "Disciplined fighters test their skills through training, rivalry, and spectacular combat."
+    template:
+      - name: ranked_theme
+        poster: martial-arts
+        day: wednesday
+      - name: tmdb_theme
+        keywords: "779|14941|14731"             # Martial Arts OR Martial Artist OR Martial Arts Master
+
+  Top Rated in Medical:
+    summary: "Illness, treatment, and medical dilemmas challenge patients and caregivers."
+    template:
+      - name: ranked_theme
+        poster: medical
+        day: wednesday
+      - name: imdb_theme
+        keyword: medical
+        minimum_rating: 2
+        minimum_votes: 100
+
+  Top Rated in Medieval:
+    summary: "Kingdoms, conflicts, and everyday struggles in the medieval world."
+    template:
+      - name: ranked_theme
+        poster: medieval
+        day: wednesday
+      - name: tmdb_theme
+        keywords: "41406|290807"                # Middle Ages (476-1453) OR Medieval Times
+
+  Top Rated in Melodrama:
+    summary: "Heightened emotions and tangled relationships drive stories of love and sacrifice."
+    template:
+      - name: ranked_theme
+        poster: melodrama
+        day: thursday
+      - name: imdb_theme
+        keyword: melodrama
+
+  Top Rated in Military:
+    summary: "Service, duty, and the human costs of life in the armed forces."
+    template:
+      - name: ranked_theme
+        poster: military
+        day: thursday
+      - name: tmdb_theme
+        keywords: "162365|13065"                # Military OR Soldier
+        minimum_rating: 2
+
+  Top Rated in Mindfuck:
+    summary: "Mind-bending stories that blur reality and reward a second watch."
+    template:
+      - name: ranked_theme
+        poster: mindfuck
+        day: thursday
+      - name: imdb_theme
+        keyword: mindbender
+
+  Top Rated in Mockumentary:
+    summary: "Fiction borrows the documentary lens to expose absurd characters and situations."
+    template:
+      - name: ranked_theme
+        poster: mockumentary
+        day: thursday
+      - name: tmdb_theme
+        keywords: "11800|160517"                # Mockumentary OR Fake Documentary
+        minimum_rating: 2
+
+  Top Rated in Monsters:
+    summary: "Terrifying creatures emerge from the shadows to threaten the living."
+    template:
+      - name: ranked_theme
+        poster: monsters
+        day: thursday
+      - name: tmdb_theme
+        keywords: "1299|13031|158126"           # Monster OR Creature OR Creature Feature
+        genres: "27"                            # Horror
+
+  Top Rated in Mythology:
+    summary: "Gods, heroes, and legendary creatures bring ancient myths to life."
+    template:
+      - name: ranked_theme
+        poster: mythology
+        day: thursday
+      - name: tmdb_theme
+        keywords: "2035"                        # Mythology
+
+  Top Rated in Naval:
+    summary: "Crews face enemy fleets and perilous combat at sea."
+    template:
+      - name: ranked_theme
+        poster: naval
+        day: thursday
+      - name: tmdb_theme
+        keywords: "226475|195862"               # Naval Battle OR Naval Warfare
+        minimum_rating: 2
+
+  Top Rated in Ninjas:
+    summary: "Stealth, secret missions, and deadly martial skill collide."
+    template:
+      - name: ranked_theme
+        poster: ninjas
+        day: thursday
+      - name: tmdb_theme
+        keywords: "10278"                       # Ninja
+
+  Top Rated in Novel:
+    summary: "Memorable stories make the journey from books to the screen."
+    template:
+      - name: ranked_theme
+        poster: novel
+        day: thursday
+      - name: tmdb_theme
+        keywords: "818"                         # Based On Novel Or Book
+
+  Top Rated in Occult:
+    summary: "Forbidden knowledge, secret rituals, and forces beyond understanding."
+    template:
+      - name: ranked_theme
+        poster: occult
+        day: thursday
+      - name: tmdb_theme
+        keywords: "156174"                      # Occult
+
+  Top Rated in Outerspace:
+    summary: "Journeys beyond Earth, from distant worlds to the depths of space."
+    template:
+      - name: ranked_theme
+        poster: outerspace
+        day: thursday
+      - name: tmdb_theme
+        keywords: "252634|3801"                 # Outer Space OR Space Travel
+
+  Top Rated in Outlaw:
+    summary: "Life beyond the law brings freedom, danger, and a price on survival."
+    template:
+      - name: ranked_theme
+        poster: outlaw
+        day: thursday
+      - name: tmdb_theme
+        keywords: "9503"                        # Outlaw
+        minimum_rating: 2
+        minimum_votes: 100
+
+  Top Rated in Pandemic:
+    summary: "Outbreaks spread fear and uncertainty as communities struggle to survive."
+    template:
+      - name: ranked_theme
+        poster: pandemic
+        day: thursday
+      - name: tmdb_theme
+        keywords: "188973|17995"                # Pandemic OR Epidemic
+        minimum_rating: 2
+
+  Top Rated in Paranormal:
+    summary: "Unexplained phenomena blur the boundary between the ordinary and the impossible."
+    template:
+      - name: ranked_theme
+        poster: paranormal
+        day: thursday
+      - name: tmdb_theme
+        keywords: "9853|11627"                  # Paranormal OR Paranormal Phenomena
+
+  Top Rated in Period Drama:
+    summary: "Personal lives and social conflicts unfold against the customs of another era."
+    template:
+      - name: ranked_theme
+        poster: period-drama
+        day: friday
+      - name: tmdb_theme
+        keywords: "15060"                       # Period Drama
+
+  Top Rated in Philosophical:
+    summary: "Stories exploring existence, morality, and what it means to be human."
+    template:
+      - name: ranked_theme
+        poster: philosophical
+        day: friday
+      - name: tmdb_theme
+        keywords: "490"                         # Philosophy
+
+  Top Rated in Political:
+    summary: "Power, public ambition, and political struggles shape lives and nations."
+    template:
+      - name: ranked_theme
+        poster: political
+        day: friday
+      - name: tmdb_theme
+        keywords: "6078|6083"                   # Politics OR Politician
+
+  Top Rated in Post-Apocalyptic:
+    summary: "Survivors build new lives among the ruins of a fallen world."
+    template:
+      - name: ranked_theme
+        poster: post-apocalyptic
+        day: friday
+      - name: tmdb_theme
+        keywords: "4458"                        # Post-Apocalyptic Future
+
+  Top Rated in Prehistoric:
+    summary: "Early humans and ancient creatures inhabit worlds long before recorded history."
+    template:
+      - name: ranked_theme
+        poster: prehistoric
+        day: friday
+      - name: tmdb_theme
+        keywords: "192918|10789"                # Prehistoric Man OR Prehistoric Creature
+        minimum_rating: 2
+
+  Top Rated in Prison:
+    summary: "Life behind bars tests loyalties, resilience, and the hope of freedom."
+    template:
+      - name: ranked_theme
+        poster: prison
+        day: friday
+      - name: tmdb_theme
+        keywords: "378|1563|9774"               # Prison OR Prisoner OR Prison Guard
+        minimum_rating: 2
+        minimum_votes: 100
+
+  Top Rated in Psychedelic:
+    summary: "Altered perceptions and hallucinatory journeys bend the boundaries of reality."
+    template:
+      - name: ranked_theme
+        poster: psychedelic
+        day: friday
+      - name: imdb_theme
+        keyword: psychedelic
+        minimum_rating: 2
+
+  Top Rated in Psychological:
+    summary: "Troubled minds, shifting perceptions, and emotional pressure drive unsettling stories."
+    template:
+      - name: ranked_theme
+        poster: psychological
+        day: friday
+      - name: tmdb_theme
+        keywords: "272553|12565"                # Psychological OR Psychological Thriller
+        minimum_rating: 2
+
+  Top Rated in Religion:
+    summary: "Belief, doubt, and spiritual devotion shape lives and communities."
+    template:
+      - name: ranked_theme
+        poster: religion
+        day: friday
+      - name: tmdb_theme
+        keywords: "11001|6150|6157"             # Religion OR Faith OR Prayer
+        minimum_rating: 2
+        minimum_votes: 100
+
+  Top Rated in Remake:
+    summary: "Familiar stories return through new casts, settings, and creative interpretations."
+    template:
+      - name: ranked_theme
+        poster: remake
+        day: friday
+      - name: tmdb_theme
+        keywords: "9714"                        # Remake
+        minimum_votes: 100
+
+  Top Rated in Revenge:
+    summary: "Old wounds fuel quests for retribution and dangerous reckonings."
+    template:
+      - name: ranked_theme
+        poster: revenge
+        day: friday
+      - name: tmdb_theme
+        keywords: "9748|197088"                 # Revenge OR Revenge Plot
+        minimum_rating: 3
+
+  Top Rated in Robots:
+    summary: "Mechanical beings become companions, adversaries, and mirrors of humanity."
+    template:
+      - name: ranked_theme
+        poster: robots
+        day: friday
+      - name: tmdb_theme
+        keywords: "14544|10891"                 # Robot OR Giant Robot
+        minimum_rating: 3
+
+  Top Rated in Romantic Comedy:
+    summary: "Love meets awkward encounters, misunderstandings, and plenty of laughter."
+    template:
+      - name: ranked_theme
+        poster: romantic-comedy
+        day: friday
+      - name: tmdb_theme
+        genres: "10749,35"                      # Romance AND Comedy
+
+  Top Rated in Romantic Drama:
+    summary: "Passionate relationships face difficult choices, loss, and the tests of time."
+    template:
+      - name: ranked_theme
+        poster: romantic-drama
+        day: friday
+      - name: tmdb_theme
+        genres: "10749,18"                      # Romance AND Drama
+
+  Top Rated in Samurai:
+    summary: "Warriors navigate honor, loyalty, and conflict in the way of the sword."
+    template:
+      - name: ranked_theme
+        poster: samurai
+        day: friday
+      - name: tmdb_theme
+        keywords: "1462"                        # Samurai
+        minimum_rating: 2
+        minimum_votes: 100
+
+  Top Rated in Satire:
+    summary: "Sharp humor takes aim at power, social habits, and human folly."
+    template:
+      - name: ranked_theme
+        poster: satire
+        day: friday
+      - name: tmdb_theme
+        keywords: "8201"                        # Satire
+        genres: "35"                            # Comedy
+
+  Top Rated in Serial Killers:
+    summary: "Predators strike repeatedly as investigators race to uncover the pattern."
+    template:
+      - name: ranked_theme
+        poster: serial-killers
+        day: saturday
+      - name: tmdb_theme
+        keywords: "10714"                       # Serial Killer
+
+  Top Rated in Slasher:
+    summary: "Relentless killers stalk their victims through escalating terror."
+    template:
+      - name: ranked_theme
+        poster: slasher
+        day: saturday
+      - name: tmdb_theme
+        keywords: "12339"                       # Slasher
+
+  Top Rated in Space Opera:
+    summary: "Interstellar conflicts and grand adventures unfold across the stars."
+    template:
+      - name: ranked_theme
+        poster: space-opera
+        day: saturday
+      - name: tmdb_theme
+        keywords: "161176"                      # Space Opera
+        minimum_rating: 2
+
+  #
+  # Keep multilingual westerns eligible through IMDb's English-language search.
+  #
+  Top Rated in Spaghetti Western:
+    summary: "Rugged landscapes, uneasy alliances, and ruthless gunfighters define the frontier."
+    template:
+      - name: ranked_theme
+        poster: spaghetti-western
+        day: saturday
+      - name: imdb_theme
+        keyword: spaghetti-western
+        minimum_rating: 1
+        minimum_votes: 10
+
+  Top Rated in Splatter:
+    summary: "Extreme gore and outrageous carnage push horror to its bloodiest limits."
+    template:
+      - name: ranked_theme
+        poster: splatter
+        day: saturday
+      - name: imdb_theme
+        keyword: splatter
+        genre: horror
+        minimum_rating: 2
+
+  Top Rated in Steampunk:
+    summary: "Steam-powered inventions and imaginative machinery reshape the past."
+    template:
+      - name: ranked_theme
+        poster: steampunk
+        day: saturday
+      - name: tmdb_theme
+        keywords: "10028"                       # Steampunk
+
+  Top Rated in Stoner:
+    summary: "Laid-back adventures and cannabis-fueled misadventures take unexpected turns."
+    template:
+      - name: ranked_theme
+        poster: stoner
+        day: saturday
+      - name: tmdb_theme
+        keywords: "54169|10776"                 # Stoner OR Marijuana
+        minimum_rating: 1
+
+  Top Rated in Stop-Motion:
+    summary: "Handcrafted characters and worlds spring to life one frame at a time."
+    template:
+      - name: ranked_theme
+        poster: stop-motion
+        day: saturday
+      - name: tmdb_theme
+        keywords: "10121"                       # Stop Motion
+        minimum_votes: 100
+
+  Top Rated in Superhero:
+    summary: "Extraordinary powers meet dangerous villains and the responsibilities of heroism."
+    template:
+      - name: ranked_theme
+        poster: superhero
+        day: saturday
+      - name: tmdb_theme
+        keywords: "9715"                        # Superhero
+
+  Top Rated in Supernatural:
+    summary: "Powers beyond the natural world transform lives and defy explanation."
+    template:
+      - name: ranked_theme
+        poster: supernatural
+        day: saturday
+      - name: tmdb_theme
+        keywords: "251513"                      # Supernatural Power
+
+  Top Rated in Surrealism:
+    summary: "Dreamlike images and strange connections turn reality inside out."
+    template:
+      - name: ranked_theme
+        poster: surrealism
+        day: saturday
+      - name: tmdb_theme
+        keywords: "9887"                        # Surrealism
+
+  Top Rated in Survival:
+    summary: "People pushed to their limits in the struggle to stay alive."
+    template:
+      - name: ranked_theme
+        poster: survival
+        day: saturday
+      - name: tmdb_theme
+        keywords: "10349|298724"                # Survival OR Survivor
+
+  Top Rated in Swashbuckler:
+    summary: "Dashing adventurers cross swords in tales of daring and romance."
+    template:
+      - name: ranked_theme
+        poster: swashbuckler
+        day: saturday
+      - name: tmdb_theme
+        keywords: "157186"                      # Swashbuckler
+        minimum_rating: 2
+        minimum_votes: 100
+
+  Top Rated in Sword & Sandal:
+    summary: "Heroes battle across ancient worlds of empires, arenas, and legendary quests."
+    template:
+      - name: ranked_theme
+        poster: sword-sandal
+        day: saturday
+      - name: tmdb_theme
+        keywords: "317728"                      # Sword And Sandal
+        minimum_rating: 3
+
+  Top Rated in Sword & Sorcery:
+    summary: "Blades and magic collide in perilous adventures through fantastic worlds."
+    template:
+      - name: ranked_theme
+        poster: sword-sorcery
+        day: saturday
+      - name: tmdb_theme
+        keywords: "234213"                      # Sword And Sorcery
+        minimum_rating: 3
+
+  Top Rated in Time Travel:
+    summary: "Journeys through time, tangled timelines, and the consequences of changing the past."
+    template:
+      - name: ranked_theme
+        poster: time-travel
+        day: sunday
+      - name: tmdb_theme
+        keywords: "4379"                        # Time Travel
+
+  Top Rated in Treasure Hunt:
+    summary: "Hidden clues and dangerous journeys lead adventurers toward a coveted prize."
+    template:
+      - name: ranked_theme
+        poster: treasure-hunt
+        day: sunday
+      - name: tmdb_theme
+        keywords: "6956"                        # Treasure Hunt
+        minimum_rating: 2
+        minimum_votes: 100
+
+  Top Rated in True Story:
+    summary: "Remarkable lives and real events brought to the screen."
+    template:
+      - name: ranked_theme
+        poster: true-story
+        day: sunday
+      - name: tmdb_theme
+        keywords: "9672"                        # Based On True Story
+
+  Top Rated in Urban Fantasy:
+    summary: "Magic and mythical forces hide within the streets of the modern world."
+    template:
+      - name: ranked_theme
+        poster: urban-fantasy
+        day: sunday
+      - name: imdb_theme
+        keyword: urban-fantasy
+
+  #
+  # Exclude the dystopia keyword to distinguish ideal societies from dark futures.
+  #
+  Top Rated in Utopian:
+    summary: "Dreams of a better society inspire journeys toward an ideal world."
+    template:
+      - name: ranked_theme
+        poster: utopian
+        day: sunday
+      - name: tmdb_theme
+        keywords: "3469"                        # Utopia
+        excluded_keywords: "4565"               # Dystopia
+
+  Top Rated in Vampires:
+    summary: "Bloodthirsty immortals, nocturnal hunters, and the lure of eternal life."
+    template:
+      - name: ranked_theme
+        poster: vampires
+        day: sunday
+      - name: tmdb_theme
+        keywords: "3133"                        # Vampire
+
+  Top Rated in Video Game:
+    summary: "Video game worlds and characters brought to the screen."
+    template:
+      - name: ranked_theme
+        poster: video-game
+        day: sunday
+      - name: tmdb_theme
+        keywords: "41645"                       # Based On Video Game
+
+  Top Rated in Werewolves:
+    summary: "Full moons, monstrous transformations, and the beast within."
+    template:
+      - name: ranked_theme
+        poster: werewolves
+        day: sunday
+      - name: tmdb_theme
+        keywords: "12564"                       # Werewolf
+
+  Top Rated in Whodunit?:
+    summary: "A crime, a cast of suspects, and clues that keep you guessing until the reveal."
+    template:
+      - name: ranked_theme
+        poster: whodunit
+        day: sunday
+      - name: tmdb_theme
+        keywords: "12570"                       # Whodunit
+        minimum_rating: 2
+        minimum_votes: 100
+
+  Top Rated in Wizardry & Witchcraft:
+    summary: "Witches, wizards, and spells that bring wonder or unleash dark consequences."
+    template:
+      - name: ranked_theme
+        poster: wizardry-witchcraft
+        day: sunday
+      - name: tmdb_theme
+        keywords: "616|177912"                  # Witch OR Wizard
+
+  Top Rated in World War:
+    summary: "Lives on the front lines and home fronts of the First and Second World Wars."
+    template:
+      - name: ranked_theme
+        poster: world-war
+        day: sunday
+      - name: tmdb_theme
+        keywords: "2504|1956"                   # World War I OR World War II
+
+  Top Rated in Zombies:
+    summary: "The dead rise, society unravels, and survivors fight to see another day."
+    template:
+      - name: ranked_theme
+        poster: zombies
+        day: sunday
+      - name: tmdb_theme
+        keywords: "12377"                       # Zombie

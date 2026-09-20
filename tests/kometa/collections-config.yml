@@ -14,7 +14,7 @@ libraries:
     collection_files:
       - file: /workspace/movies/franchise.yml
       - file: /workspace/movies/genre.yml
-      - file: /workspace/movies/subgenre-rules.yml
+      - file: /workspace/movies/subgenre-top.yml
       - file: /workspace/movies/cities.yml
       - file: /workspace/movies/universes.yml
 

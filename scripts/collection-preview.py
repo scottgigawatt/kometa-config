@@ -54,7 +54,7 @@ def preview_names(franchises, config, smoke, shows) -> list[str]:
             "collection_files": [
                 {"file": "/workspace/movies/franchise.yml"},
                 {"file": "/workspace/movies/genre.yml"},
-                {"file": "/workspace/movies/subgenre-rules.yml"},
+                {"file": "/workspace/movies/subgenre-top.yml"},
                 {"file": "/workspace/movies/cities.yml"},
                 {"file": "/workspace/movies/universes.yml"},
                 {"file": "/config/seasonal.yml"},
@@ -222,7 +222,7 @@ def check_id_comments(definitions, builder: str) -> None:
 
 
 def rule_names(genres, themes) -> list[str]:
-    """Allow only the seven genre rules and six ranked theme searches.
+    """Allow only the seven genre rules and 101 ranked theme searches.
 
     Args:
         genres: Parsed genre definitions and their shared artwork template.
@@ -283,11 +283,13 @@ def rule_names(genres, themes) -> list[str]:
                 raise ValueError("TMDb keyword IDs must be unique positive integers.")
 
     #
-    # Keep only provider search rules in the selected file, with no list writers,
-    # external templates, arbitrary search overrides, or static movie additions.
+    # Exact templates prevent inherited list builders, writers, or hidden filters.
+    # Validate every theme, including definitions outside the selected test scope.
     #
     expected_templates = {
         "ranked_theme": {
+            "file_poster": "/config/assets/posters/subgenre_top/subgenre_top_<<poster>>.png",
+            "schedule": "weekly(<<day>>)",
             "collection_mode": "hide",
             "collection_order": "release",
             "delete_not_scheduled": False,
@@ -299,14 +301,32 @@ def rule_names(genres, themes) -> list[str]:
             "visible_shared": False,
         },
         "tmdb_theme": {
+            "default": {"minimum_rating": 5, "minimum_votes": 1000},
+            "optional": ["keywords", "genres", "excluded_keywords"],
             "tmdb_discover": {
                 "with_keywords": "<<keywords>>",
+                "with_genres": "<<genres>>",
+                "without_keywords": "<<excluded_keywords>>",
                 "with_original_language": "en",
-                "vote_average.gte": 5,
-                "vote_count.gte": 1000,
+                "vote_average.gte": "<<minimum_rating>>",
+                "vote_count.gte": "<<minimum_votes>>",
                 "sort_by": "vote_average.desc",
                 "limit": 1000,
-            }
+            },
+        },
+        "imdb_theme": {
+            "default": {"minimum_rating": 5, "minimum_votes": 1000},
+            "optional": ["genre"],
+            "imdb_search": {
+                "keyword": "<<keyword>>",
+                "genre": "<<genre>>",
+                "language": "en",
+                "type": "movie,tv_movie",
+                "rating.gte": "<<minimum_rating>>",
+                "votes.gte": "<<minimum_votes>>",
+                "sort_by": "rating.desc",
+                "limit": 1000,
+            },
         },
     }
     if (
@@ -314,52 +334,134 @@ def rule_names(genres, themes) -> list[str]:
         or themes["templates"] != expected_templates
     ):
         raise ValueError("Theme preview must use the safe ranked search templates.")
-    expected_themes = {
-        "Top Rated in Mindfuck",
-        "Top Rated in Outerspace",
-        "Top Rated in Philosophical",
-        "Top Rated in Survival",
-        "Top Rated in Time Travel",
-        "Top Rated in True Story",
+    if len(themes["collections"]) != 101:
+        raise ValueError("Theme preview must contain all 101 supported themes.")
+
+    #
+    # Preserve deliberate per-theme floors instead of silently standardizing them.
+    #
+    thresholds = {
+        "Top Rated in Bigfoot": {"minimum_votes": 500},
+        "Top Rated in Boxing": {"minimum_rating": 2, "minimum_votes": 100},
+        "Top Rated in Bugs": {"minimum_rating": 2, "minimum_votes": 100},
+        "Top Rated in Cannibals": {"minimum_rating": 2, "minimum_votes": 100},
+        "Top Rated in Caper": {"minimum_votes": 100},
+        "Top Rated in Chick-flick": {"minimum_votes": 100},
+        "Top Rated in Con-Artists": {"minimum_rating": 2},
+        "Top Rated in Cop": {"minimum_rating": 2},
+        "Top Rated in Dragons": {"minimum_rating": 3},
+        "Top Rated in Experimental": {"minimum_rating": 3},
+        "Top Rated in Found Footage": {"minimum_rating": 2},
+        "Top Rated in Gothic": {"minimum_rating": 2, "minimum_votes": 100},
+        "Top Rated in Heartbreak": {"minimum_rating": 1, "minimum_votes": 10},
+        "Top Rated in Medical": {"minimum_rating": 2, "minimum_votes": 100},
+        "Top Rated in Military": {"minimum_rating": 2},
+        "Top Rated in Mockumentary": {"minimum_rating": 2},
+        "Top Rated in Naval": {"minimum_rating": 2},
+        "Top Rated in Outlaw": {"minimum_rating": 2, "minimum_votes": 100},
+        "Top Rated in Pandemic": {"minimum_rating": 2},
+        "Top Rated in Prehistoric": {"minimum_rating": 2},
+        "Top Rated in Prison": {"minimum_rating": 2, "minimum_votes": 100},
+        "Top Rated in Psychedelic": {"minimum_rating": 2},
+        "Top Rated in Psychological": {"minimum_rating": 2},
+        "Top Rated in Religion": {"minimum_rating": 2, "minimum_votes": 100},
+        "Top Rated in Remake": {"minimum_votes": 100},
+        "Top Rated in Revenge": {"minimum_rating": 3},
+        "Top Rated in Robots": {"minimum_rating": 3},
+        "Top Rated in Samurai": {"minimum_rating": 2, "minimum_votes": 100},
+        "Top Rated in Space Opera": {"minimum_rating": 2},
+        "Top Rated in Spaghetti Western": {"minimum_rating": 1, "minimum_votes": 10},
+        "Top Rated in Splatter": {"minimum_rating": 2},
+        "Top Rated in Stoner": {"minimum_rating": 1},
+        "Top Rated in Stop-Motion": {"minimum_votes": 100},
+        "Top Rated in Swashbuckler": {"minimum_rating": 2, "minimum_votes": 100},
+        "Top Rated in Sword & Sandal": {"minimum_rating": 3},
+        "Top Rated in Sword & Sorcery": {"minimum_rating": 3},
+        "Top Rated in Treasure Hunt": {"minimum_rating": 2, "minimum_votes": 100},
+        "Top Rated in Whodunit?": {"minimum_rating": 2, "minimum_votes": 100},
     }
-    if set(themes["collections"]) != expected_themes:
-        raise ValueError("Theme preview must contain the six supported themes.")
+    imdb_keywords = {
+        "Top Rated in Chick-flick": "chick-flick",
+        "Top Rated in Epics": "epic",
+        "Top Rated in Experimental": "experimental-film",
+        "Top Rated in Historical Event": "historical-event",
+        "Top Rated in Medical": "medical",
+        "Top Rated in Melodrama": "melodrama",
+        "Top Rated in Psychedelic": "psychedelic",
+        "Top Rated in Spaghetti Western": "spaghetti-western",
+        "Top Rated in Splatter": "splatter",
+        "Top Rated in Urban Fantasy": "urban-fantasy",
+        "Top Rated in Mindfuck": "mindbender",
+    }
     for name, definition in themes["collections"].items():
-        allowed = {"template", "summary", "schedule", "file_poster"}
-        if name == "Top Rated in Mindfuck":
-            allowed.add("imdb_search")
-            if definition.get("imdb_search") != {
-                "keyword": "mindbender",
-                "type": "movie,tv_movie",
-                "rating.gte": 5,
-                "votes.gte": 1000,
-                "language": "en",
-                "sort_by": "rating.desc",
-                "limit": 1000,
-            } or definition["template"] != [{"name": "ranked_theme"}]:
-                raise ValueError("Mindfuck preview must use the IMDb keyword rule.")
-        else:
-            templates = definition.get("template", [])
-            if (
-                len(templates) != 2
-                or templates[0] != {"name": "ranked_theme"}
-                or set(templates[1]) != {"name", "keywords"}
-                or templates[1]["name"] != "tmdb_theme"
-                or not isinstance(templates[1]["keywords"], str)
-                or not re.fullmatch(
-                    r"[1-9]\d*(?:\|[1-9]\d*)*", templates[1]["keywords"]
-                )
-            ):
-                raise ValueError(
-                    "Theme keywords must be explicit OR-separated TMDb IDs."
-                )
-        if set(definition) != allowed:
+        if (
+            not name.startswith("Top Rated in ")
+            or "|" in name
+            or set(definition) != {"template", "summary"}
+        ):
             raise ValueError("Unexpected theme source or writer behavior.")
-        if not re.fullmatch(
-            r"/config/assets/posters/subgenre_top/subgenre_top_[a-z-]+\.png",
-            definition["file_poster"],
+        templates = definition["template"]
+        if (
+            not isinstance(templates, list)
+            or len(templates) != 2
+            or not isinstance(templates[0], dict)
+            or set(templates[0]) != {"name", "poster", "day"}
+            or templates[0]["name"] != "ranked_theme"
+            or not isinstance(templates[1], dict)
+        ):
+            raise ValueError("Themes must use the ranked and provider templates.")
+        variables = templates[1]
+        floors = {k: v for k, v in variables.items() if k.startswith("minimum_")}
+        if floors != thresholds.get(name, {}) or any(
+            type(v) is not int for v in floors.values()
+        ):
+            raise ValueError("Theme rating and vote floors must remain explicit.")
+        allowed = {"name", *floors}
+        if name in imdb_keywords:
+            expected = {"name": "imdb_theme", "keyword": imdb_keywords[name], **floors}
+            if name == "Top Rated in Splatter":
+                expected["genre"] = "horror"
+            if variables != expected:
+                raise ValueError(
+                    "IMDb themes must use only their native keyword search."
+                )
+        else:
+            allowed |= {"keywords", "genres", "excluded_keywords"}
+            if variables.get("name") != "tmdb_theme" or set(variables) - allowed:
+                raise ValueError("Unexpected TMDb theme variables.")
+            if not (variables.get("keywords") or variables.get("genres")):
+                raise ValueError("TMDb themes need a keyword or genre restriction.")
+            for key, separator in (
+                ("keywords", r"\|"),
+                ("genres", ","),
+                ("excluded_keywords", r"\|"),
+            ):
+                if key not in variables:
+                    continue
+                value = variables[key]
+                if (
+                    not isinstance(value, str)
+                    or not re.fullmatch(rf"[1-9]\d*(?:{separator}[1-9]\d*)*", value)
+                    or len(re.split(separator, value))
+                    != len(set(re.split(separator, value)))
+                ):
+                    raise ValueError(
+                        "Theme IDs must be explicit, positive, and unique."
+                    )
+        if not isinstance(templates[0]["poster"], str) or not re.fullmatch(
+            r"[a-z]+(?:-[a-z]+)*", templates[0]["poster"]
         ):
             raise ValueError("Theme posters must use local subgenre artwork.")
+        if (
+            not isinstance(definition["summary"], str)
+            or not definition["summary"].strip()
+        ):
+            raise ValueError("Themes require a viewer-facing summary.")
+        if not isinstance(templates[0]["day"], str) or not re.fullmatch(
+            r"monday|tuesday|wednesday|thursday|friday|saturday|sunday",
+            templates[0]["day"],
+        ):
+            raise ValueError("Themes must retain a weekly schedule.")
     return list(genres["collections"]) + list(themes["collections"])
 
 
@@ -748,7 +850,7 @@ def load_preview(source: Path) -> tuple[list[str], dict]:
     smoke = yaml.load((source / "tests/kometa/collections.yml").read_text())
     shows = yaml.load((source / "shows/shuffle.yml").read_text())
     genres = yaml.load((source / "movies/genre.yml").read_text())
-    themes = yaml.load((source / "movies/subgenre-rules.yml").read_text())
+    themes = yaml.load((source / "movies/subgenre-top.yml").read_text())
     cities = yaml.load((source / "movies/cities.yml").read_text())
     universes = yaml.load((source / "movies/universes.yml").read_text())
     seasonal = yaml.load((source / "scheduled/seasonal.yml").read_text())
@@ -766,12 +868,12 @@ def load_preview(source: Path) -> tuple[list[str], dict]:
     check_id_comments(universes["collections"], "tmdb_collection")
     for definition in themes["collections"].values():
         for template in definition["template"]:
-            if "keywords" in template:
-                comment = template.ca.items.get("keywords")
+            for key in ("keywords", "genres", "excluded_keywords"):
+                if key not in template:
+                    continue
+                comment = template.ca.items.get(key)
                 if not comment or not comment[2] or not comment[2].value.strip("# \n"):
-                    raise ValueError(
-                        "Every TMDb keyword query needs a descriptive comment."
-                    )
+                    raise ValueError("Every TMDb ID query needs a descriptive comment.")
     return names, config
 
 
@@ -824,6 +926,7 @@ def main() -> None:
     scope = parser.add_mutually_exclusive_group()
     scope.add_argument("--seasonal-only", action="store_true")
     scope.add_argument("--tv-seasonal-only", action="store_true")
+    scope.add_argument("--subgenres-only", action="store_true")
     args = parser.parse_args()
     selected, preview = load_preview(Path("/workspace"))
     library_args = []
@@ -837,6 +940,13 @@ def main() -> None:
             YAML().load(Path("/workspace/shows/seasonal.yml").read_text())
         )
         library_args = ["--libraries", "test_tv_lib"]
+    elif args.subgenres_only:
+        selected = list(
+            YAML().load(Path("/workspace/movies/subgenre-top.yml").read_text())[
+                "collections"
+            ]
+        )
+        library_args = ["--libraries", "test_movie_lib"]
     if args.run:
         #
         # Check the copied runtime as well as source before enabling Plex writes.

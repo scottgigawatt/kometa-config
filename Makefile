@@ -24,7 +24,7 @@ export TEST_ENV
 #
 .DEFAULT_GOAL := help
 
-.PHONY: check check-generated format help lint lint-ci test-collections test-library test-seasonal test-tv-seasonal validate
+.PHONY: check check-generated format help lint lint-ci test-collections test-library test-seasonal test-subgenres test-tv-seasonal validate
 
 #
 # help: List the supported repository commands.
@@ -98,6 +98,14 @@ test-library:  # Render smoke collections and custom overlays in test libraries.
 #
 test-collections:  # Preview movie and TV collections, without overlays or downloads.
 	@scripts/run-collection-tests.sh
+
+#
+# test-subgenres: Preview only the native ranked movie themes.
+#
+# Dependencies: Docker, TEST_ENV, and the documented movie test library.
+#
+test-subgenres:  # Preview rule-based subgenres without overlays or downloads.
+	@scripts/run-collection-tests.sh --subgenres-only
 
 #
 # test-seasonal: Preview only seasonal movies, including out-of-season holidays.
