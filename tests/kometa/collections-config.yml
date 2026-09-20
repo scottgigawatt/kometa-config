@@ -17,6 +17,11 @@ libraries:
       - file: /workspace/movies/subgenre-rules.yml
       - file: /workspace/movies/cities.yml
       - file: /workspace/movies/universes.yml
+
+      #
+      # Load the guarded runtime copy with no Radarr attributes or scheduled deletion.
+      #
+      - file: /config/seasonal.yml
       - file: /workspace/tests/kometa/collections.yml
 
   #

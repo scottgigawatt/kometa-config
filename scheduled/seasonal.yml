@@ -1,4 +1,16 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# seasonal.yml: Build holiday movie collections from Plex tags and TMDb metadata.
+#
+
 templates:
+  #
+  # Preserve seasonal presentation without adding or searching for downloads.
+  # Production removes out-of-season collections; the fixture copy disables deletion.
+  #
   seasonal:
     file_poster: /config/assets/posters/seasonal/<<poster_id>>.jpg
     sort_title: "!00_<<collection_name>>"
@@ -8,90 +20,108 @@ templates:
     visible_home: true
     visible_shared: true
     delete_not_scheduled: true
-    summary: "A timed collection of <<holiday>> movies and other movies that may relate to the holiday."
+    radarr_add_missing: false
+    radarr_add_existing: false
+    radarr_search: false
+    radarr_upgrade_existing: false
+    radarr_monitor_existing: false
 
 collections:
+  #
+  # Combine holiday tagging with the existing romantic comedy and drama rules.
+  #
   Valentine's Day Movies:
     template:
       name: seasonal
-      holiday: "Valentine's Day"
       poster_id: valentine
-    letterboxd_list: https://letterboxd.com/mehrmantraut/list/theme-valentines/by/rating/
-    # letterboxd_list: https://letterboxd.com/chazlarson/list/theme-valentines/by/rating/
+    tmdb_keyword:
+      - 160404  # Valentine's Day
     plex_search:
       - all:
           genre: Romance, Comedy
-          # critic_rating.gte: 8.0
       - all:
           genre: Romance, Drama
-          # critic_rating.gte: 8.0
     schedule: range(02/10-02/14)
+    summary: "Love stories, romantic comedies, and Valentine's Day encounters."
 
+  #
+  # Include Irish settings, culture, and diaspora alongside the holiday itself.
+  # Each keyword contributes independently; production country is not a theme.
+  #
   St. Patrick's Day Movies:
     template:
       name: seasonal
-      holiday: "St. Patrick's Day"
       poster_id: patrick
+    tmdb_keyword:
+      - 14985   # Ireland
+      - 7005    # Northern Ireland
+      - 4729    # Dublin, Ireland
+      - 299594  # Irish
+      - 232483  # Irish folklore
+      - 232529  # Irish life
+      - 301981  # Irish culture
+      - 301982  # Irish diaspora
+      - 209352  # St. Patrick's Day
     schedule: range(03/16-03/18)
+    summary: "Irish stories, folklore, and journeys abroad, with a toast to St. Patrick's Day."
 
   Easter Movies:
     template:
       name: seasonal
-      holiday: "Easter"
       poster_id: easter
-    letterboxd_list: https://letterboxd.com/mehrmantraut/list/theme-easter/by/rating/
-    # letterboxd_list: https://letterboxd.com/chazlarson/list/theme-easter/by/rating/
-    trakt_list: https://trakt.tv/users/scottgigawatt/lists/easter
+    tmdb_keyword:
+      - 9921    # Easter
+      - 9923    # Easter bunny
+      - 233042  # Easter egg hunt
     schedule: range(03/22-04/25)
+    summary: "Easter traditions, tales of faith, and adventures with the Easter Bunny."
 
+  #
+  # Motherhood includes drama, comedy, and horror without treating every family
+  # relationship as a Mother's Day story.
+  #
   Mother's Day Movies:
     template:
       name: seasonal
-      holiday: "Mother's Day"
       poster_id: mother
-    letterboxd_list:
-      - https://letterboxd.com/horrorville/list/call-your-mother-then-watch-these-horror/by/rating/
-      - https://letterboxd.com/patrickb15/list/mothers-day/by/rating/
-      - https://letterboxd.com/zoltarak/list/happy-mothers-day/by/rating/
-    trakt_list: https://trakt.tv/users/sympli/lists/mothers-day-movies
+    tmdb_keyword:
+      - 173983  # Mother's Day
+      - 176227  # Motherhood
     schedule: range(05/01-05/25)
+    summary: "Mothers at the heart of stories about love, sacrifice, laughter, and terror."
 
   Halloween and Horror Movies:
     template:
       name: seasonal
-      holiday: "Halloween"
       poster_id: halloween
-    trakt_list:
-      - https://trakt.tv/users/oldmankestis/lists/horror
-      - https://trakt.tv/users/movistapp/lists/horror
-      - https://trakt.tv/users/g0g0/lists/horror
-      - https://trakt.tv/users/pterisaur/lists/halloween
+    tmdb_keyword:
+      - 3335  # Halloween
     plex_search:
       any:
         genre: Horror
     schedule: range(09/15-10/31)
+    summary: "Halloween mischief, haunted nights, and horror for the season of scares."
 
   Thanksgiving Movies:
     template:
       name: seasonal
-      holiday: "Thanksgiving"
       poster_id: thanksgiving
-    letterboxd_list: https://letterboxd.com/chazlarson/list/theme-thanksgiving/by/rating/
+    tmdb_keyword:
+      - 4543  # Thanksgiving
     schedule: range(11/01-12/15)
+    summary: "Thanksgiving gatherings, chaotic homecomings, and trouble around the dinner table."
 
+  #
+  # Uncapped discovery avoids silently losing older or less popular holiday films.
+  # Keep the existing title exclusions for the broad Christmas collection only.
+  #
   Christmas Movies:
     template:
       name: seasonal
-      holiday: "Christmas"
       poster_id: christmas
-    radarr_add_missing: false
-    radarr_search: false
-    trakt_list:
-      - https://trakt.tv/users/littlestella3/lists/christmas
-      - https://trakt.tv/users/triadcool/lists/christmas
-      - https://trakt.tv/users/pterisaur/lists/christmas
-      - https://trakt.tv/users/oldmankestis/lists/christmas
-      - https://trakt.tv/users/scottgigawatt/lists/every-christmas-movie-ever-made
+    tmdb_discover:
+      with_keywords: "207317"  # Christmas
+      limit: 0
     filters:
       title.not:
         - Lethal Weapon
@@ -104,81 +134,76 @@ collections:
         - Planes, Trains & Automobiles
         - Kiss Kiss Bang Bang
     schedule: range(11/01-01/10)
+    summary: "Christmas celebrations, snowy adventures, and stories filled with holiday spirit."
 
+  #
+  # Company credits intersect with Christmas tagging, not streaming availability.
+  # Films without the relevant TMDb credits are outside these studio selections.
+  #
   Hallmark Christmas Movies:
     template:
       name: seasonal
-      holiday: "Hallmark Christmas"
       poster_id: christmas_hallmark
-    radarr_add_missing: true
-    radarr_search: true
-    trakt_list: https://trakt.tv/users/ad76/lists/hallmark-christmas
-    letterboxd_list: https://letterboxd.com/juliec/list/hallmark-christmas/
+    tmdb_discover:
+      with_keywords: "207317"                # Christmas
+      with_companies: "4056|6435|53015|9027"  # Hallmark Entertainment, Productions, Media, and Hall of Fame Productions
+      limit: 0
     schedule: range(11/01-01/10)
+    summary: "Hallmark holiday romances, festive reunions, and Christmas wishes coming true."
 
   Lifetime Christmas Movies:
     template:
       name: seasonal
-      holiday: "Lifetime Christmas"
       poster_id: christmas_lifetime
-    radarr_add_missing: true
-    radarr_search: true
-    trakt_list:
-      - https://trakt.tv/users/mzdiobolik/lists/lifetime-christmas-movies
-      - https://trakt.tv/users/vectrexgamer/lists/lifetime-original-christmas-movies
-    letterboxd_list: https://letterboxd.com/shelbyec13/list/lifetime-christmas-movies/
+    tmdb_discover:
+      with_keywords: "207317"            # Christmas
+      with_companies: "3431|21935|6709"  # Lifetime, Lifetime Entertainment, and Lifetime Productions International
+      limit: 0
     schedule: range(11/01-01/10)
+    summary: "Lifetime's Christmas romances, family reunions, and unexpected holiday connections."
 
   Rankin/Bass Christmas Movies:
     template:
       name: seasonal
-      holiday: "Rankin/Bass Christmas"
       poster_id: christmas_rankin-bass
-    radarr_add_missing: true
-    radarr_search: true
-    trakt_list:
-      - https://trakt.tv/users/circle909/lists/rankin-bass-christmas-classics
-      - https://trakt.tv/users/goape/lists/rankin-bass-christmas-classics
-      - https://trakt.tv/users/nexpose95/lists/rankin-bass-christmas-tv
-      - https://trakt.tv/users/gristlemctough/lists/rankin-bass-christmas
-    letterboxd_list: https://letterboxd.com/saih86/list/rankin-bass-christmas-collection/
+    tmdb_discover:
+      with_keywords: "207317"     # Christmas
+      with_companies: "688|8813"  # Rankin/Bass Productions and Videocraft International
+      limit: 0
     schedule: range(11/01-01/10)
+    summary: "Rankin/Bass Christmas tales, from Rudolph and Frosty to Santa's snowy adventures."
 
+  #
+  # Vintage means a first release before 1980, including classic television specials.
+  # Use the primary release date so later reissues do not change eligibility.
+  #
   Vintage Christmas Movies:
     template:
       name: seasonal
-      holiday: "Vintage Christmas"
       poster_id: christmas_vintage
-    radarr_add_missing: true
-    radarr_search: true
-    trakt_list: https://trakt.tv/users/scottgigawatt/lists/christmas-vintage
-    letterboxd_list:
-      - https://letterboxd.com/screendrafts/list/vintage-christmas/
-      - https://letterboxd.com/zgkap/list/vintage-christmas/
-      - https://letterboxd.com/angry_yara/list/vintage-christmas-winter-magic-of-old-cinema/
+    tmdb_discover:
+      with_keywords: "207317"  # Christmas
+      primary_release_date.lte: 12/31/1979
+      limit: 0
     schedule: range(11/01-01/10)
+    summary: "Christmas films and television specials from 1979 and earlier, full of old-fashioned holiday charm."
 
   Horror Christmas Movies:
     template:
       name: seasonal
-      holiday: "Horror Christmas"
       poster_id: christmas_horror
-    radarr_add_missing: true
-    radarr_search: true
-    trakt_list:
-      - https://trakt.tv/users/rudehorror90/lists/christmas-horror
-      - https://trakt.tv/users/japhyryder81/lists/christmas-horror
-    letterboxd_list:
-      - https://letterboxd.com/theweirdling/list/christmas-horror/
-      - https://letterboxd.com/toshio/list/christmas-horror/
-      - https://letterboxd.com/atriptopluto/list/christmas-horror/
+    tmdb_discover:
+      with_keywords: "207317"  # Christmas
+      with_genres: "27"        # Horror
+      limit: 0
     schedule: range(11/01-01/10)
+    summary: "Christmas nightmares, sinister Santas, and holiday cheer with a body count."
 
   New Year's Eve Movies:
     template:
       name: seasonal
-      holiday: "New Year's Eve"
       poster_id: years
-    letterboxd_list: https://letterboxd.com/mehrmantraut/list/theme-new-years-eve/by/rating/
-    # letterboxd_list: https://letterboxd.com/chazlarson/list/theme-new-years-eve/by/rating/
+    tmdb_keyword:
+      - 613  # New Year's Eve
     schedule: range(12/26-01/10)
+    summary: "Midnight celebrations, fresh starts, and fateful encounters on New Year's Eve."
