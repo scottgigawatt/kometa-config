@@ -222,7 +222,7 @@ def check_id_comments(definitions, builder: str) -> None:
 
 
 def rule_names(genres, themes) -> list[str]:
-    """Allow only the seven genre rules and six ranked theme searches.
+    """Allow only the seven genre rules and thirteen ranked theme searches.
 
     Args:
         genres: Parsed genre definitions and their shared artwork template.
@@ -299,14 +299,15 @@ def rule_names(genres, themes) -> list[str]:
             "visible_shared": False,
         },
         "tmdb_theme": {
+            "default": {"minimum_rating": 5, "minimum_votes": 1000},
             "tmdb_discover": {
                 "with_keywords": "<<keywords>>",
                 "with_original_language": "en",
-                "vote_average.gte": 5,
-                "vote_count.gte": 1000,
+                "vote_average.gte": "<<minimum_rating>>",
+                "vote_count.gte": "<<minimum_votes>>",
                 "sort_by": "vote_average.desc",
                 "limit": 1000,
-            }
+            },
         },
     }
     if (
@@ -321,9 +322,16 @@ def rule_names(genres, themes) -> list[str]:
         "Top Rated in Survival",
         "Top Rated in Time Travel",
         "Top Rated in True Story",
+        "Top Rated in Vampires",
+        "Top Rated in Video Game",
+        "Top Rated in Werewolves",
+        "Top Rated in Whodunit?",
+        "Top Rated in Wizardry & Witchcraft",
+        "Top Rated in World War",
+        "Top Rated in Zombies",
     }
     if set(themes["collections"]) != expected_themes:
-        raise ValueError("Theme preview must contain the six supported themes.")
+        raise ValueError("Theme preview must contain the thirteen supported themes.")
     for name, definition in themes["collections"].items():
         allowed = {"template", "summary", "schedule", "file_poster"}
         if name == "Top Rated in Mindfuck":
@@ -340,10 +348,22 @@ def rule_names(genres, themes) -> list[str]:
                 raise ValueError("Mindfuck preview must use the IMDb keyword rule.")
         else:
             templates = definition.get("template", [])
+            expected_keys = {"name", "keywords"}
+
+            #
+            # Only Whodunit uses lower thresholds; reject arbitrary overrides.
+            #
+            if name == "Top Rated in Whodunit?":
+                expected_keys |= {"minimum_rating", "minimum_votes"}
+                if len(templates) != 2 or {
+                    key: templates[1].get(key)
+                    for key in ("minimum_rating", "minimum_votes")
+                } != {"minimum_rating": 2, "minimum_votes": 100}:
+                    raise ValueError("Whodunit must retain its rating and vote floors.")
             if (
                 len(templates) != 2
                 or templates[0] != {"name": "ranked_theme"}
-                or set(templates[1]) != {"name", "keywords"}
+                or set(templates[1]) != expected_keys
                 or templates[1]["name"] != "tmdb_theme"
                 or not isinstance(templates[1]["keywords"], str)
                 or not re.fullmatch(
@@ -824,6 +844,7 @@ def main() -> None:
     scope = parser.add_mutually_exclusive_group()
     scope.add_argument("--seasonal-only", action="store_true")
     scope.add_argument("--tv-seasonal-only", action="store_true")
+    scope.add_argument("--subgenres-only", action="store_true")
     args = parser.parse_args()
     selected, preview = load_preview(Path("/workspace"))
     library_args = []
@@ -837,6 +858,13 @@ def main() -> None:
             YAML().load(Path("/workspace/shows/seasonal.yml").read_text())
         )
         library_args = ["--libraries", "test_tv_lib"]
+    elif args.subgenres_only:
+        selected = list(
+            YAML().load(Path("/workspace/movies/subgenre-rules.yml").read_text())[
+                "collections"
+            ]
+        )
+        library_args = ["--libraries", "test_movie_lib"]
     if args.run:
         #
         # Check the copied runtime as well as source before enabling Plex writes.

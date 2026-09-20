@@ -11,10 +11,14 @@
 
 """Exercise collection safety contracts without connecting to external services."""
 
+import contextlib
 import copy
 import importlib.util
+import io
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from ruamel.yaml import YAML
 
@@ -54,11 +58,60 @@ class CollectionPreviewTests(unittest.TestCase):
     # Check rule-based membership and reject hidden source or template behavior.
     #
     def test_genre_and_theme_selection(self) -> None:
-        """Select all seven genre rules and six supported theme searches."""
+        """Select all seven genre rules and thirteen supported theme searches."""
         names = preview.rule_names(self.genres, self.themes)
-        self.assertEqual(len(names), 13)
+        self.assertEqual(len(names), 20)
         self.assertIn("LGBTQ+ Movies", names)
         self.assertIn("Top Rated in Mindfuck", names)
+
+    def test_sunday_theme_keywords(self) -> None:
+        """Keep each Sunday theme tied to its named native TMDb keywords."""
+        expected = {
+            "Vampires": "3133",
+            "Video Game": "41645",
+            "Werewolves": "12564",
+            "Whodunit?": "12570",
+            "Wizardry & Witchcraft": "616|177912",
+            "World War": "2504|1956",
+            "Zombies": "12377",
+        }
+        for theme, keywords in expected.items():
+            with self.subTest(theme=theme):
+                definition = self.themes["collections"][f"Top Rated in {theme}"]
+                self.assertEqual(definition["template"][1]["keywords"], keywords)
+                self.assertEqual(definition["schedule"], "weekly(sunday)")
+
+    def test_whodunit_thresholds_preserved(self) -> None:
+        """Reject changed or missing Whodunit rating and vote thresholds."""
+        for key, value in (("minimum_rating", 5), ("minimum_votes", 1000)):
+            with self.subTest(key=key):
+                changed = copy.deepcopy(self.themes)
+                variables = changed["collections"]["Top Rated in Whodunit?"][
+                    "template"
+                ][1]
+                variables[key] = value
+                with self.assertRaises(ValueError):
+                    preview.rule_names(self.genres, changed)
+                del variables[key]
+                with self.assertRaises(ValueError):
+                    preview.rule_names(self.genres, changed)
+
+    def test_other_theme_threshold_override_rejected(self) -> None:
+        """Keep ordinary themes on the shared rating and vote floors."""
+        self.themes["collections"]["Top Rated in Zombies"]["template"][1][
+            "minimum_votes"
+        ] = 100
+        with self.assertRaises(ValueError):
+            preview.rule_names(self.genres, self.themes)
+
+    def test_theme_letterboxd_builder_rejected(self) -> None:
+        """Reject reintroduced list dependencies in native theme definitions."""
+        for key in ("letterboxd_list", "imdb_list", "trakt_list"):
+            with self.subTest(key=key):
+                changed = copy.deepcopy(self.themes)
+                changed["collections"]["Top Rated in Zombies"][key] = "list"
+                with self.assertRaises(ValueError):
+                    preview.rule_names(self.genres, changed)
 
     def test_provider_error_cannot_hide_behind_success_summary(self) -> None:
         """Reject provider errors even when the summary reports success."""
@@ -151,6 +204,67 @@ class CollectionPreviewTests(unittest.TestCase):
             set(remaining["collections"]) & set(self.themes["collections"])
         )
 
+    #
+    # Exercise the scoped CLI without credentials, network access, or Plex writes.
+    #
+    def test_subgenre_command_targets_only_movie_themes(self) -> None:
+        """Restrict the live command to thirteen themes in the movie fixture."""
+        with tempfile.TemporaryDirectory() as directory:
+            runtime = Path(directory)
+            runtime.joinpath("config.yml").write_text(
+                Path("/workspace/tests/kometa/collections-config.yml").read_text()
+            )
+
+            def mapped_path(value: str) -> Path:
+                """Redirect private runtime writes into disposable scratch space."""
+                return (
+                    runtime / value[8:] if value.startswith("/config/") else Path(value)
+                )
+
+            def completed_run(*args, **kwargs) -> None:
+                """Supply a successful summary without starting a real process."""
+                runtime.joinpath("logs").mkdir()
+                runtime.joinpath("logs/meta.log").write_text(
+                    "\n".join(
+                        f"| {name} | 1 | 1 | 0 | 0 | Created |"
+                        for name in self.themes["collections"]
+                    )
+                )
+
+            with (
+                patch(
+                    "sys.argv", ["collection-preview.py", "--run", "--subgenres-only"]
+                ),
+                patch.object(preview, "Path", side_effect=mapped_path),
+                patch.object(
+                    preview.subprocess, "run", side_effect=completed_run
+                ) as run,
+                contextlib.redirect_stdout(io.StringIO()),
+            ):
+                preview.main()
+            command = run.call_args.args[0]
+            self.assertEqual(command[-2:], ["--libraries", "test_movie_lib"])
+            self.assertEqual(
+                command[command.index("--run-collections") + 1],
+                "|".join(self.themes["collections"]),
+            )
+            self.assertIn("--collections-only", command)
+            self.assertIn("--ignore-schedules", command)
+
+    def test_conflicting_subgenre_scopes_rejected(self) -> None:
+        """Reject combined scopes before loading any preview sources."""
+        for flag in ("--seasonal-only", "--tv-seasonal-only"):
+            with (
+                self.subTest(flag=flag),
+                patch("sys.argv", ["collection-preview.py", "--subgenres-only", flag]),
+                patch.object(preview, "load_preview") as load,
+                contextlib.redirect_stderr(io.StringIO()),
+                self.assertRaises(SystemExit) as error,
+            ):
+                preview.main()
+            self.assertEqual(error.exception.code, 2)
+            load.assert_not_called()
+
     def check(self) -> list[str]:
         """Evaluate the same guard used by the live preview entrypoint."""
         return preview.preview_names(
@@ -163,7 +277,7 @@ class CollectionPreviewTests(unittest.TestCase):
     def test_native_selection(self) -> None:
         """Select all guarded sources while excluding unrelated franchises."""
         selected, _ = preview.load_preview(Path("/workspace"))
-        self.assertEqual(len(selected), 58)
+        self.assertEqual(len(selected), 65)
         self.assertIn("The Purge Collection", selected)
         self.assertIn("Adult Animation", selected)
         self.assertNotIn("After Collection", selected)

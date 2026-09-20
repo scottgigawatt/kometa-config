@@ -8,7 +8,7 @@
 # run-collection-tests.sh: Preview movie and TV collection builders in Plex fixtures.
 #
 # Purpose: Reuse production definitions without overlays, downloads, or list writes.
-# Usage: KOMETA_IMAGE=<image> TEST_ENV=<path> scripts/run-collection-tests.sh [--seasonal-only | --tv-seasonal-only]
+# Usage: KOMETA_IMAGE=<image> TEST_ENV=<path> scripts/run-collection-tests.sh [--seasonal-only | --tv-seasonal-only | --subgenres-only]
 #
 
 #
