@@ -1,3 +1,11 @@
+<!--
+  Copyright 2025-2026 Scott Gigawatt
+
+  Licensed under the Apache License, Version 2.0.
+
+  AGENTS.md: Contributor and AI-agent instructions for the configuration repository.
+-->
+
 # AGENTS.md
 
 ## Project purpose
@@ -14,6 +22,7 @@ This repository is the source-controlled Kometa configuration for a private Plex
 - `tests/kometa/`: Isolated configuration for the two upstream Plex fixture libraries.
 - `scripts/`: Repository validation and test-library helpers.
 - `docs/`: Current operating documentation.
+- `.github/`: Workflows, ownership, and issue/PR templates.
 
 ## Source and runtime ownership
 
@@ -64,6 +73,7 @@ Run the smallest relevant checks, then the complete repository gate before hando
 ```sh
 make validate
 make check-generated
+make test-make-helpers
 make lint
 ```
 
@@ -93,4 +103,12 @@ Separate repository-only guardrail changes from Plex-mutating behavior changes. 
 
 ## Documentation
 
-Document only the current supported arrangement. Do not preserve historical migration instructions, superseded paths, or compatibility notes for configurations that no longer exist. Keep commands literal and copyable.
+Follow [the documentation style guide](docs/documentation-style.md). Keep the README concise, operating guides and recognized community policies under `docs/`, and issue/PR templates under `.github/`. Keep this file at the repository root for discovery. Update the documentation index and inbound links when moving pages.
+
+Document only the current supported arrangement. Do not preserve historical migration instructions, superseded paths, or compatibility notes for configurations that no longer exist. Use sentence-case headings, descriptive links, native GitHub alerts only for important information, and copyable `sh` command fences. Keep ordinary prose paragraphs on one physical line and enable visual word wrapping in the editor. Public prose may use light cinema humor; technical comments and security guidance remain literal.
+
+## Makefile conventions
+
+Follow Plundarr and Privateerr's structure: centralized target names, common/project/internal target groups, helper command variables, framed target comments, dependency notes, and reusable terminal output helpers. Keep Kometa's own supported target inventory; do not import unrelated Docker lifecycle or destructive cleanup commands.
+
+Plain `make` must remain help-only, with no Docker or secret prerequisites. Preserve the pinned runtime, private environment exports, preview flags, and guarded helper boundaries. Honor `NO_COLOR` and keep captured output plain. Do not hide hook failures. Run `make test-make-helpers` after Make or documentation changes and the complete `make check` before handoff.

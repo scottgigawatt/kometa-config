@@ -312,7 +312,8 @@
         "editor.detectIndentation": false,
         "editor.tabSize": 2,
         "editor.insertSpaces": true,
-        "editor.formatOnSave": false
+        "editor.formatOnSave": false,
+        "editor.wordWrap": "on"
     },
     "[shellscript]": {
         "editor.detectIndentation": false,

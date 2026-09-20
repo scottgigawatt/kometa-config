@@ -28,8 +28,9 @@ config:
   default: true
   line-length: false
   no-inline-html: false
-  first-line-h1: false
-  code-block-style: false
+  first-line-h1: true
+  code-block-style:
+    style: fenced
   table-column-style: false
 
   #

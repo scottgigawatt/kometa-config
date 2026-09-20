@@ -6,11 +6,15 @@
 
 # Service connections
 
+Keep source templates separate from live connection values. These settings describe the deployment; they are not required for the isolated [test-library configuration](test-libraries.md).
+
 ## Shared configuration
 
 Duplex mounts the deployment checkout at `/config` for both Kometa and PATTRMM. By default, both read the checkout's root `config.yml`. `KOMETA_RUNTIME_CONFIG_PATH` in Duplex's `.env` can select another existing file; it replaces `/config/config.yml` inside both containers.
 
 Keep the checked-in template free of credentials. Set live values in the deployment copy, and provide literal connection values when PATTRMM needs them; it does not resolve Kometa environment-secret substitutions.
+
+Never copy that private deployment file back into a commit. Both credentials and server addresses follow the [security policy](SECURITY.md).
 
 PATTRMM writes its generated metadata and overlays into the shared checkout. Those files remain ignored; edit PATTRMM preferences to change their output.
 
