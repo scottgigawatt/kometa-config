@@ -12,9 +12,11 @@
 
 import re
 import unittest
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from types import SimpleNamespace
 
+from modules import util
 from modules.tmdb import TMDb
 from ruamel.yaml import YAML
 
@@ -60,6 +62,65 @@ class YamlPolicyTests(unittest.TestCase):
         for service in ("radarr", "sonarr"):
             with self.subTest(service=service):
                 self.assertIs(config[service]["monitor_existing"], False)
+
+    #
+    # Pre-rolls change a server-wide preference, so validate them without Plex access.
+    #
+    def test_preroll_structure(self) -> None:
+        """Keep every pre-roll inside collections with schema-compatible schedules."""
+        source = self.yaml.load((self.root / "movies/pre-roll.yml").read_text())
+        self.assertEqual(set(source), {"collections"})
+        self.assertEqual(
+            set(source["collections"]),
+            {
+                "Weekly",
+                "New Year",
+                "Black History Month",
+                "Valentine's Day",
+                "Easter",
+                "Pride Month",
+                "Halloween",
+                "Christmas",
+            },
+        )
+        for name, definition in source["collections"].items():
+            with self.subTest(collection=name):
+                self.assertIs(definition["build_collection"], False)
+                self.assertIsInstance(definition["schedule"], str)
+                self.assertTrue(definition["server_preroll"])
+
+    def test_preroll_calendar(self) -> None:
+        """Check the complete annual rotation using Kometa's actual scheduler."""
+        source = self.yaml.load((self.root / "movies/pre-roll.yml").read_text())
+        windows = {
+            "Weekly": ((301, 321), (426, 531), (701, 915)),
+            "New Year": ((101, 115), (1226, 1231)),
+            "Black History Month": ((201, 209), (215, 228)),
+            "Valentine's Day": ((210, 214),),
+            "Easter": ((322, 425),),
+            "Pride Month": ((601, 630),),
+            "Halloween": ((916, 1031),),
+            "Christmas": ((1101, 1225),),
+        }
+        day = datetime(2026, 1, 1, tzinfo=UTC)
+        while day.year == 2026:
+            date_number = day.month * 100 + day.day
+            active = []
+            for name, definition in source["collections"].items():
+                with self.subTest(collection=name, date=day.date()):
+                    expected = any(
+                        start <= date_number <= end for start, end in windows[name]
+                    )
+                    try:
+                        util.schedule_check("schedule", definition["schedule"], day, 5)
+                        actual = True
+                    except util.NotScheduled:
+                        actual = False
+                    self.assertEqual(actual, expected)
+                    if actual:
+                        active.append(name)
+            self.assertLessEqual(len(active), 1, day.date())
+            day += timedelta(days=1)
 
     def test_shuffle_source_policy(self) -> None:
         """Keep random sampling separate from the post-filter 25-movie cap."""
