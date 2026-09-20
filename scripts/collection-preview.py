@@ -288,6 +288,8 @@ def rule_names(genres, themes) -> list[str]:
     #
     expected_templates = {
         "ranked_theme": {
+            "file_poster": "/config/assets/posters/subgenre_top/subgenre_top_<<poster>>.png",
+            "schedule": "weekly(<<day>>)",
             "collection_mode": "hide",
             "collection_order": "release",
             "delete_not_scheduled": False,
@@ -395,14 +397,16 @@ def rule_names(genres, themes) -> list[str]:
         if (
             not name.startswith("Top Rated in ")
             or "|" in name
-            or set(definition) != {"template", "summary", "schedule", "file_poster"}
+            or set(definition) != {"template", "summary"}
         ):
             raise ValueError("Unexpected theme source or writer behavior.")
         templates = definition["template"]
         if (
             not isinstance(templates, list)
             or len(templates) != 2
-            or templates[0] != {"name": "ranked_theme"}
+            or not isinstance(templates[0], dict)
+            or set(templates[0]) != {"name", "poster", "day"}
+            or templates[0]["name"] != "ranked_theme"
             or not isinstance(templates[1], dict)
         ):
             raise ValueError("Themes must use the ranked and provider templates.")
@@ -444,9 +448,8 @@ def rule_names(genres, themes) -> list[str]:
                     raise ValueError(
                         "Theme IDs must be explicit, positive, and unique."
                     )
-        if not re.fullmatch(
-            r"/config/assets/posters/subgenre_top/subgenre_top_[a-z-]+\.png",
-            definition["file_poster"],
+        if not isinstance(templates[0]["poster"], str) or not re.fullmatch(
+            r"[a-z]+(?:-[a-z]+)*", templates[0]["poster"]
         ):
             raise ValueError("Theme posters must use local subgenre artwork.")
         if (
@@ -454,9 +457,9 @@ def rule_names(genres, themes) -> list[str]:
             or not definition["summary"].strip()
         ):
             raise ValueError("Themes require a viewer-facing summary.")
-        if not re.fullmatch(
-            r"weekly\((?:monday|tuesday|wednesday|thursday|friday|saturday|sunday)\)",
-            definition["schedule"],
+        if not isinstance(templates[0]["day"], str) or not re.fullmatch(
+            r"monday|tuesday|wednesday|thursday|friday|saturday|sunday",
+            templates[0]["day"],
         ):
             raise ValueError("Themes must retain a weekly schedule.")
     return list(genres["collections"]) + list(themes["collections"])

@@ -77,7 +77,7 @@ class CollectionPreviewTests(unittest.TestCase):
             with self.subTest(theme=theme):
                 definition = self.themes["collections"][f"Top Rated in {theme}"]
                 self.assertEqual(definition["template"][1]["keywords"], keywords)
-                self.assertEqual(definition["schedule"], "weekly(sunday)")
+                self.assertEqual(definition["template"][0]["day"], "sunday")
 
     def test_whodunit_thresholds_preserved(self) -> None:
         """Reject changed or missing Whodunit rating and vote thresholds."""
@@ -172,11 +172,44 @@ class CollectionPreviewTests(unittest.TestCase):
 
     def test_theme_external_poster_rejected(self) -> None:
         """Keep theme posters in the repository-owned artwork directory."""
-        self.themes["collections"]["Top Rated in Mindfuck"]["file_poster"] = (
-            "https://example.com/poster.png"
-        )
-        with self.assertRaises(ValueError):
-            preview.rule_names(self.genres, self.themes)
+        for poster in (
+            "https://example.com/poster.png",
+            "../escape",
+            "<<name>>",
+            "",
+            True,
+        ):
+            with self.subTest(poster=poster):
+                self.themes["collections"]["Top Rated in Mindfuck"]["template"][0][
+                    "poster"
+                ] = poster
+                with self.assertRaises(ValueError):
+                    preview.rule_names(self.genres, self.themes)
+
+    def test_theme_schedule_variable_rejected(self) -> None:
+        """Require an explicit weekday rather than arbitrary schedule expressions."""
+        for day in ("daily", "monday,tuesday", "<<day>>", "", True):
+            with self.subTest(day=day):
+                self.themes["collections"]["Top Rated in Aliens"]["template"][0][
+                    "day"
+                ] = day
+                with self.assertRaises(ValueError):
+                    preview.rule_names(self.genres, self.themes)
+
+    def test_theme_presentation_overrides_rejected(self) -> None:
+        """Keep presentation variables explicit and prevent bypassing the template."""
+        for key in ("poster", "day"):
+            with self.subTest(missing=key):
+                changed = copy.deepcopy(self.themes)
+                del changed["collections"]["Top Rated in Aliens"]["template"][0][key]
+                with self.assertRaises(ValueError):
+                    preview.rule_names(self.genres, changed)
+        for key in ("file_poster", "schedule", "radarr_search"):
+            with self.subTest(override=key):
+                changed = copy.deepcopy(self.themes)
+                changed["collections"]["Top Rated in Aliens"][key] = "unexpected"
+                with self.assertRaises(ValueError):
+                    preview.rule_names(self.genres, changed)
 
     def test_imdb_curated_list_rejected(self) -> None:
         """Reject curated IMDb lists added to a keyword-based search."""
@@ -381,11 +414,18 @@ class CollectionPreviewTests(unittest.TestCase):
             with self.subTest(theme=theme):
                 definition = self.themes["collections"][f"Top Rated in {theme}"]
                 variables = definition["template"][1]
+                presentation = definition["template"][0]
+                template = self.themes["templates"]["ranked_theme"]
                 self.assertEqual(
-                    definition["file_poster"],
+                    template["file_poster"].replace(
+                        "<<poster>>", presentation["poster"]
+                    ),
                     f"/config/assets/posters/subgenre_top/subgenre_top_{poster}.png",
                 )
-                self.assertEqual(definition["schedule"], schedule)
+                self.assertEqual(
+                    template["schedule"].replace("<<day>>", presentation["day"]),
+                    schedule,
+                )
                 self.assertEqual(variables.get("minimum_rating", 5), rating)
                 self.assertEqual(variables.get("minimum_votes", 1000), votes)
 
