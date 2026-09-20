@@ -5,6 +5,11 @@
 #
 # test_location_universe_preview.py: Guard native sources and retained charts.
 #
+# Purpose: Protect native city and universe builders and production chart wiring.
+# Usage: Run through make validate inside the pinned Kometa image.
+#
+
+"""Exercise collection safety contracts without connecting to external services."""
 
 import copy
 import importlib.util
@@ -13,9 +18,15 @@ from pathlib import Path
 
 from ruamel.yaml import YAML
 
+#
+# Load the exact container-mounted helper without invoking its CLI entrypoint.
+# A missing loader indicates a broken test mount, not a collection failure.
+#
 spec = importlib.util.spec_from_file_location(
     "preview", "/scripts/collection-preview.py"
 )
+if spec is None or spec.loader is None:
+    raise ImportError("The container must mount /scripts/collection-preview.py.")
 preview = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(preview)
 
@@ -23,20 +34,25 @@ spec.loader.exec_module(preview)
 class LocationUniverseTests(unittest.TestCase):
     """Keep native city and universe sources isolated from production services."""
 
-    def setUp(self):
+    def setUp(self) -> None:
         """Load independent source copies for mutation and wiring checks."""
         yaml = YAML()
         self.cities = yaml.load(Path("/workspace/movies/cities.yml").read_text())
         self.universes = yaml.load(Path("/workspace/movies/universes.yml").read_text())
         self.config = yaml.load(Path("/workspace/config.yml").read_text())
 
-    def test_native_sources_selected(self):
+    #
+    # Validate native builders before permitting any fixture-library writes.
+    #
+    def test_native_sources_selected(self) -> None:
+        """Select the six city collections and five native movie universes."""
         names = preview.location_universe_names(self.cities, self.universes)
         self.assertEqual(len(names), 11)
         self.assertIn("Washington D.C. Collection", names)
         self.assertIn("Star Trek Universe", names)
 
-    def test_writers_and_external_sources_rejected(self):
+    def test_writers_and_external_sources_rejected(self) -> None:
+        """Reject external lists, standalone movies, and download writers."""
         for index in range(2):
             for key in ("trakt_list", "imdb_list", "radarr_search", "tmdb_movie"):
                 with self.subTest(source=index, key=key):
@@ -45,7 +61,8 @@ class LocationUniverseTests(unittest.TestCase):
                     with self.assertRaises(ValueError):
                         preview.location_universe_names(*sources)
 
-    def test_template_writers_and_overrides_rejected(self):
+    def test_template_writers_and_overrides_rejected(self) -> None:
+        """Prevent source templates or their variables from enabling downloads."""
         for index in range(2):
             for target in ("templates", "collections"):
                 with self.subTest(source=index, target=target):
@@ -57,7 +74,8 @@ class LocationUniverseTests(unittest.TestCase):
                     with self.assertRaises(ValueError):
                         preview.location_universe_names(*sources)
 
-    def test_invalid_and_duplicate_ids_rejected(self):
+    def test_invalid_and_duplicate_ids_rejected(self) -> None:
+        """Require unique positive integers for both native TMDb builders."""
         for source, name, builder in (
             (0, "Chicago Collection", "tmdb_keyword"),
             (1, "DC Universe", "tmdb_keyword"),
@@ -70,7 +88,8 @@ class LocationUniverseTests(unittest.TestCase):
                     with self.assertRaises(ValueError):
                         preview.location_universe_names(*sources)
 
-    def test_id_comments_required(self):
+    def test_id_comments_required(self) -> None:
+        """Require readable names beside keyword and collection IDs."""
         for source, builder in (
             (self.cities, "tmdb_keyword"),
             (self.universes, "tmdb_keyword"),
@@ -84,7 +103,11 @@ class LocationUniverseTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     preview.check_id_comments(changed, builder)
 
-    def test_universe_defaults_cannot_recreate_local_collections(self):
+    #
+    # Protect production wiring and the explicitly retained chart behavior.
+    #
+    def test_universe_defaults_cannot_recreate_local_collections(self) -> None:
+        """Keep excluded Defaults from recreating locally owned universes."""
         chart = next(
             entry
             for entry in self.config["libraries"]["Movies"]["collection_files"]
@@ -114,7 +137,8 @@ class LocationUniverseTests(unittest.TestCase):
                     & set(yaml.load(path.read_text()).get("collections", {}))
                 )
 
-    def test_trakt_chart_settings_preserved(self):
+    def test_trakt_chart_settings_preserved(self) -> None:
+        """Preserve the approved movie and TV Trakt chart settings."""
         for library in ("Movies", "TV Shows"):
             with self.subTest(library=library):
                 entries = [
@@ -135,7 +159,8 @@ class LocationUniverseTests(unittest.TestCase):
                     entries, [{"default": "trakt", "template_variables": expected}]
                 )
 
-    def test_tracearr_behavior_preserved(self):
+    def test_tracearr_behavior_preserved(self) -> None:
+        """Preserve Tracearr behavior while using media-specific summaries."""
         for library, media in (("Movies", "movies"), ("TV Shows", "shows")):
             with self.subTest(library=library):
                 entries = [
@@ -162,5 +187,8 @@ class LocationUniverseTests(unittest.TestCase):
                 )
 
 
+#
+# Support direct execution inside the same isolated validation container.
+#
 if __name__ == "__main__":
     unittest.main()

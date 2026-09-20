@@ -13,10 +13,13 @@
     // repository. End-of-line notes distinguish formatters from validators.
     //
     "recommendations": [
+        "charliermarsh.ruff",                         // Lint and format Python source.
         "davidanson.vscode-markdownlint",             // Lint Markdown structure and style.
         "EditorConfig.EditorConfig",                  // Apply portable repository whitespace rules.
         "esbenp.prettier-vscode",                     // Format supported languages on explicit request.
         "github.vscode-github-actions",               // Validate and navigate GitHub Actions workflows.
+        "ms-python.python",                           // Select the local development interpreter.
+        "ms-python.vscode-pylance",                   // Analyze Python imports and types in that environment.
         "ms-vscode.makefile-tools",                   // Discover and run documented Make targets.
         "redhat.vscode-yaml",                         // Validate YAML with Kometa-specific schemas.
         "streetsidesoftware.code-spell-checker",      // Check prose and identifiers for spelling errors.

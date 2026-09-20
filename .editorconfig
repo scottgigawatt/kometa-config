@@ -43,9 +43,9 @@ trim_trailing_whitespace = false
 indent_size = 2
 
 #
-# JSON, JSON-with-comments, and shell source use four-space indentation.
+# JSON, JSON-with-comments, Python, and shell source use four-space indentation.
 #
-[*.{json,json5,sh}]
+[*.{json,json5,py,sh}]
 indent_size = 4
 
 #

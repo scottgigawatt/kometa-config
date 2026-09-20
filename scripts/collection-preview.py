@@ -11,6 +11,8 @@
 # Usage: Run inside the pinned image through make validate or test-collections.
 #
 
+"""Validate fixture isolation before optionally running collection previews."""
+
 import argparse
 import re
 import subprocess
@@ -19,8 +21,25 @@ from pathlib import Path
 from ruamel.yaml import YAML
 
 
-def preview_names(franchises, config, smoke, shows):
-    """Return selected names after checking fixture isolation and source safety."""
+def preview_names(franchises, config, smoke, shows) -> list[str]:
+    """Select franchise, smoke, and TV collections after checking isolation.
+
+    Args:
+        franchises: Parsed franchise source with its shared template.
+        config: Credential-free configuration for the two fixture libraries.
+        smoke: Parsed smoke collections shared by both fixture libraries.
+        shows: Parsed show-only definitions and their local template.
+
+    Returns:
+        Collection names permitted in the explicit preview run.
+
+    Raises:
+        ValueError: If a source violates the fixture or no-writer contract.
+    """
+
+    #
+    # Validate library targets and service boundaries before selecting builders.
+    #
     if set(franchises) != {"templates", "collections"} or set(
         franchises["templates"]
     ) != {"franchise"}:
@@ -177,8 +196,16 @@ def preview_names(franchises, config, smoke, shows):
     return names
 
 
-def check_id_comments(definitions, builder):
-    """Require readable inline names beside each explicit TMDb ID."""
+def check_id_comments(definitions, builder: str) -> None:
+    """Require readable inline names beside each explicit TMDb ID.
+
+    Args:
+        definitions: Round-trip YAML mappings that retain inline comments.
+        builder: Builder key whose ID sequence needs adjacent title comments.
+
+    Raises:
+        ValueError: If an explicit ID is missing a nonempty inline comment.
+    """
     for definition in definitions.values():
         ids = definition.get(builder)
         if ids is None:
@@ -191,8 +218,23 @@ def check_id_comments(definitions, builder):
                 )
 
 
-def rule_names(genres, themes):
-    """Allow only the seven genre rules and six isolated ranked theme searches."""
+def rule_names(genres, themes) -> list[str]:
+    """Allow only the seven genre rules and six ranked theme searches.
+
+    Args:
+        genres: Parsed genre definitions and their shared artwork template.
+        themes: Parsed ranked searches and their local templates.
+
+    Returns:
+        Genre and theme collection names permitted in the preview.
+
+    Raises:
+        ValueError: If builders, templates, or artwork violate the allowlist.
+    """
+
+    #
+    # Keep local artwork and native genre rules independent of curated lists.
+    #
     genre_template = {
         "file_poster": "/config/assets/posters/genre/<<poster_id>>.jpg",
         "sort_title": "!060_<<collection_name>>",
@@ -318,8 +360,23 @@ def rule_names(genres, themes):
     return list(genres["collections"]) + list(themes["collections"])
 
 
-def location_universe_names(cities, universes):
-    """Allow city keywords and native universe builders without external writers."""
+def location_universe_names(cities, universes) -> list[str]:
+    """Allow city keywords and native universe builders without external writers.
+
+    Args:
+        cities: Parsed city keyword definitions and their local template.
+        universes: Parsed universe definitions and their release-order template.
+
+    Returns:
+        The six city names and five universe names permitted in the preview.
+
+    Raises:
+        ValueError: If source names, IDs, artwork, or behavior are unapproved.
+    """
+
+    #
+    # Fix template behavior so a later edit cannot silently enable side effects.
+    #
     city_template = {
         "file_poster": "/config/assets/posters/cities/<<city>>.png",
         "sort_title": "!105_<<collection_name>>",
@@ -351,6 +408,9 @@ def location_universe_names(cities, universes):
         "Alien / Predator": ("Alien Predator", "tmdb_collection"),
         "X-Men Collection": ("X-Men", "tmdb_collection"),
     }
+    #
+    # Permit only named native builders and their case-correct artwork mappings.
+    #
     names = []
     for source, template_name, template, expected, poster_key in (
         (cities, "city", city_template, city_sources, "city"),
@@ -388,8 +448,23 @@ def location_universe_names(cities, universes):
     return names
 
 
-def load_preview(source):
-    """Load tracked source files and verify collection and show ID comments."""
+def load_preview(source: Path) -> tuple[list[str], dict]:
+    """Load preview sources and validate their behavior and readable ID comments.
+
+    Args:
+        source: Root of the credential-free source snapshot mounted by Docker.
+
+    Returns:
+        Selected collection names and the validated fixture configuration.
+
+    Raises:
+        OSError: If a required mounted source file cannot be read.
+        ValueError: If a source violates an isolation or documentation rule.
+    """
+
+    #
+    # Round-trip parsing preserves the ID comments checked below.
+    #
     yaml = YAML()
     path = source / "movies/franchise.yml"
     franchises = yaml.load(path.read_text())
@@ -420,8 +495,16 @@ def load_preview(source):
     return names, config
 
 
-def check_run_summary(log, names):
-    """Reject failed or missing collection results even when Kometa exits zero."""
+def check_run_summary(log: str, names: list[str]) -> None:
+    """Reject failed or missing collection results even when Kometa exits zero.
+
+    Args:
+        log: Fresh runtime log read privately after Kometa finishes.
+        names: Every selected collection that must have a successful result.
+
+    Raises:
+        ValueError: If errors, unsuccessful states, or missing results are found.
+    """
     if "[ERROR]" in log or "[CRITICAL]" in log:
         raise ValueError(
             "Collection preview logged errors; inspect the private runtime log."
@@ -445,7 +528,17 @@ def check_run_summary(log, names):
         )
 
 
-if __name__ == "__main__":
+def main() -> None:
+    """Validate mounted sources and run Plex previews only with explicit --run.
+
+    Raises:
+        ValueError: If isolation checks or the fresh run summary fail.
+        subprocess.CalledProcessError: If the Kometa process exits unsuccessfully.
+    """
+
+    #
+    # Keep the default invocation offline; Plex writes require the explicit flag.
+    #
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run", action="store_true")
     args = parser.parse_args()
@@ -483,3 +576,7 @@ if __name__ == "__main__":
     print(
         f"Collection preview isolation and ID comments passed ({len(selected)} definitions)."
     )
+
+
+if __name__ == "__main__":
+    main()

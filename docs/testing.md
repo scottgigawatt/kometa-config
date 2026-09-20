@@ -10,10 +10,12 @@ Run the repository commands on the Mac from the local checkout, with Docker Desk
 cd /Users/edward/Documents/Workspace/kometa-config
 ```
 
-Install the pinned development tool and run all checks:
+Use Python 3.14 to create an ignored local environment, install the pinned development tools, and run all checks:
 
 ```sh
-python3 -m pip install -r requirements-dev.txt
+python3.14 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-dev.txt
 make check
 ```
 
@@ -21,7 +23,13 @@ make check
 
 The same command checks enabled custom artwork against the pinned Defaults catalog and case-sensitive Git filenames. It also requires both test overlay sets to match their production definitions. These checks use Git's file inventory, so continuous integration does not need to download the artwork.
 
-Validation also checks native franchise ID comments and collection-preview isolation, with offline regression tests for unsafe libraries, connections, maintenance, download settings, and external list writers. Ruff enforces Python lint, import ordering, and formatting through pre-commit and CI.
+Validation also checks native franchise ID comments and collection-preview isolation, with offline regression tests for unsafe libraries, connections, maintenance, download settings, and external list writers. Ruff enforces Python lint, import ordering, module/class/function docstrings, and formatting through pre-commit and CI.
+
+## Configure Python editing
+
+The workspace defaults to `.venv`, whose `ruamel.yaml` version matches the pinned Kometa image. In an existing VS Code workspace, run **Python: Select Interpreter** and choose `.venv/bin/python` after setup. Pylance resolves imports from the selected environment; an earlier selection is not replaced automatically by the workspace default. See [VS Code's interpreter settings](https://code.visualstudio.com/docs/python/settings-reference).
+
+The local environment supports editing and pre-commit. Run the regression suite through `make validate`: those tests intentionally use container paths and the pinned Kometa Defaults, rather than a local Kometa installation. Do not disable missing-import diagnostics or add container paths to Pylance's import search paths. The environment and Python bytecode remain ignored by Git.
 
 ## Prepare Plex fixture libraries
 

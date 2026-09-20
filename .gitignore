@@ -13,6 +13,9 @@
 .DS_Store
 *.bak
 .ruff_cache/
+.venv/
+__pycache__/
+*.py[cod]
 
 #
 # Private credentials and environment files; checked-in examples remain
