@@ -25,7 +25,7 @@ collections:
       poster_id: Marvel Cinematic Universe
     tmdb_keyword:
       - 180547  # Marvel Cinematic Universe (MCU)
-    summary: "Interconnected adventures of Marvel's heroes, from Iron Man and the Avengers to distant galaxies and the multiverse."
+    summary: "Heroes assemble, worlds collide, and saving the universe becomes a team sport with a very complicated group chat. 🦸"
 
   #
   # The DCEU keyword defines this universe, not every film based on DC comics.
@@ -36,7 +36,7 @@ collections:
       poster_id: DC Universe
     tmdb_keyword:
       - 229266  # DC Extended Universe (DCEU)
-    summary: "Superman, Batman, Wonder Woman, and their allies face world-changing threats across the DC Extended Universe."
+    summary: "Superman, Batman, Wonder Woman, and their allies face impossible choices and world-shaking threats across the DC Extended Universe. ⚡"
 
   Star Trek Universe:
     template:
@@ -46,7 +46,7 @@ collections:
       - 151     # Star Trek: The Original Series Collection
       - 115570  # Star Trek: The Next Generation Collection
       - 115575  # Star Trek: Alternate Reality Collection
-    summary: "Starfleet crews explore strange new worlds, confront old enemies, and chart the future across generations of the Enterprise."
+    summary: "Starfleet crews venture into the unknown, facing strange worlds, old enemies, and the occasional diplomatic disaster. Boldly, naturally. 🖖"
 
   Alien / Predator:
     template:
@@ -56,7 +56,7 @@ collections:
       - 8091    # Alien Collection
       - 399     # Predator Collection
       - 115762  # AVP Collection
-    summary: "Xenomorph terror and Predator hunts bring humanity face to face with ruthless creatures from beyond Earth."
+    summary: "Xenomorphs stalk the dark, Predators hunt for sport, and humanity discovers it is not at the top of the food chain. 👽"
 
   X-Men Collection:
     template:
@@ -66,4 +66,4 @@ collections:
       - 748     # X-Men Collection
       - 453993  # The Wolverine Collection
       - 448150  # Deadpool Collection
-    summary: "Mutants fight for their place in the world through the adventures of the X-Men, Wolverine, and Deadpool."
+    summary: "Mutants fight for acceptance and survival, from the X-Men's divided loyalties to Wolverine's claws and Deadpool's complete lack of a filter."

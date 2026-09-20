@@ -32,7 +32,7 @@ In VS Code, run **Python: Select Interpreter** and choose `.venv/bin/python`. Th
 
 ## Make a focused change
 
-Follow [AGENTS.md](../AGENTS.md), [EditorConfig](../.editorconfig), and the [documentation style guide](documentation-style.md). Use concise, framed comments for non-obvious behavior. Document TMDb IDs by title and year; use exactly two spaces before inline ID comments in `movies/top-rated-subgenres.yml`.
+Follow [AGENTS.md](../AGENTS.md), [EditorConfig](../.editorconfig), and the [documentation style guide](documentation-style.md). Use concise, framed comments for non-obvious behavior. Document TMDb IDs by title and year; align related inline comments, leaving two spaces after the longest entry in each group.
 
 Prefer native builders and repository-owned definitions over personal lists maintained by other users. Preserve custom artwork unless the change explicitly concerns artwork. Document the current supported arrangement, not migration history.
 

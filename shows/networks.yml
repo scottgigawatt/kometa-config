@@ -18,6 +18,7 @@ templates:
     sort_title: +2_<<collection_name>>
     sync_mode: sync
     smart_label: episode_added.desc
+    summary: "Stories, personalities, and discoveries from <<collection_name>>. 📺"
 
 collections:
   ABC:

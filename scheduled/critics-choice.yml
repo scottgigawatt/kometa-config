@@ -13,6 +13,7 @@ external_templates:
 
 templates:
   choice_award_winner:
+    summary: "Critics Choice honorees with memorable performances, bold stories, and a little red-carpet glow. 🏆"
     sort_title: "!130_<<collection_name>>"
     collection_order: release.desc
     sync_mode: sync
@@ -32,7 +33,7 @@ collections:
       - name: choice_award_winner
     trakt_list:
       - https://trakt.tv/users/oldmankestis/lists/critics-choice-best-picture-winners
-    summary: "Winners of the Critics Choice Best Picture category."
+    summary: "Best Picture honorees from the Critics Choice Awards, where memorable stories get their moment in the spotlight. 🏆"
 
 dynamic_collections:
   #

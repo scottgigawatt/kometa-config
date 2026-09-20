@@ -37,7 +37,7 @@ libraries:
           data:
             starting: current_year-1
             ending: current_year-1
-          summary_format: Top <<limit>> movies of <<key>>. Sorted by critic rating.
+          summary_format: "Standout stories and memorable performances from <<key>>. A year worth another look. 🎞️"
           collection_section: "010"
           schedule: range(01/01-04/01)
 
@@ -88,8 +88,8 @@ libraries:
         template_variables:
           limit: 100
           limit_1970: 25
-          summary_format: Top <<limit>> movies of the <<key>>s. Sorted by critic rating.
-          summary_1970: Top <<limit_1970>> movies of the <<key>>s. Sorted by critic rating.
+          summary_format: "The stories, stars, and big-screen ambitions of the <<key>>s. Every decade has its scene-stealers. 🎞️"
+          summary_1970: "Bold voices, unforgettable antiheroes, and a decade that rewrote the rules of the big screen. 🎞️"
           minimum_items: 25
 
       # Dynamic collections based on the genres available in your library
@@ -156,7 +156,8 @@ libraries:
           collection_section: "020_1"
           list_days: 30
           list_size: 25
-          summary_popular: The most widely watched movies of the last 30 days.
+          summary_popular: "Big-screen adventures, memorable characters, and stories with plenty of encore appeal. 🍿"
+          summary_watched: "Movie-night favorites and stories worth settling in for. Pass the popcorn. 🍿"
           name_popular: Plex Popular
           name_watched: Plex Watched
           use_trending: false
@@ -310,7 +311,7 @@ libraries:
       - default: studio
         template_variables:
           minimum_items: 10
-          exclude: # In networks.yml config
+          exclude:  # In networks.yml config
             - HBO
 
       # Collections based on popular TV show franchises
@@ -342,7 +343,8 @@ libraries:
         template_variables:
           list_days: 30
           list_size: 25
-          summary_popular: The most widely watched shows of the last 30 days.
+          summary_popular: "Compelling characters, unfolding stories, and cliffhangers that make bedtime negotiable. 📺"
+          summary_watched: "Familiar faces and ongoing adventures that keep one more episode sounding like a reasonable plan. 📺"
           collection_section: "020_1"
           name_popular: Plex Popular
           name_watched: Plex Watched

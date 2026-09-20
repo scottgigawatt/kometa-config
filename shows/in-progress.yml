@@ -26,7 +26,7 @@ collections:
     template:
       - name: shared
     collection_filtering: user
-    summary: TV shows that have been started but not finished. Sorted by Date Viewed.
+    summary: "Unfinished stories and familiar faces waiting for your return. That cliffhanger is not going to resolve itself. ⏯️"
     visible_library: true
     visible_home: true
     visible_shared: true

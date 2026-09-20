@@ -15,6 +15,7 @@ templates:
     sort_title: "!060_<<collection_name>>"
     collection_order: title.asc
     sync_mode: sync
+    schedule: weekly(tuesday)
 
 collections:
   #
@@ -29,7 +30,7 @@ collections:
       all:
         genre: Horror
     schedule: range(11/01-09/14)
-    summary: "Nightmares, monsters, and unsettling tales of terror."
+    summary: "Haunted places, hungry monsters, and the terrible feeling that something is right behind you. 👻"
 
   #
   # Each keyword contributes movies independently; matches are combined.
@@ -47,8 +48,7 @@ collections:
       - 329968  # Bisexual
       - 290527  # Transgender
       - 240109  # Intersex
-    schedule: weekly(tuesday)
-    summary: "Stories of queer love, identity, community, and self-discovery."
+    summary: "Queer love, chosen families, hard-won freedom, and lives too vibrant to stay in the closet. 🏳️‍🌈"
 
   Sports Movies:
     template:
@@ -57,8 +57,7 @@ collections:
     tmdb_keyword:
       - 6075    # Sports
       - 333328  # Sport
-    schedule: weekly(tuesday)
-    summary: "Athletes, fierce rivalries, and the pursuit of victory."
+    summary: "Underdogs, fierce rivals, and the long road from the practice ground to a shot at glory. 🏆"
 
   Spy Movies:
     template:
@@ -67,8 +66,7 @@ collections:
     tmdb_keyword:
       - 470   # Spy
       - 5265  # Espionage
-    schedule: weekly(tuesday)
-    summary: "Secret missions, double agents, and high-stakes espionage."
+    summary: "Secret identities, double crosses, and missions where trusting the wrong person can change everything. 🕶️"
 
   Stand-up Comedy:
     template:
@@ -76,8 +74,7 @@ collections:
       poster_id: Stand-Up Comedy
     tmdb_keyword:
       - 9716  # Stand-up comedy
-    schedule: weekly(tuesday)
-    summary: "Stand-up performances packed with sharp observations and big laughs."
+    summary: "One microphone, sharp observations, and absolutely no guarantee of polite dinner conversation. 🎤"
 
   War Movies:
     template:
@@ -86,8 +83,7 @@ collections:
     plex_search:
       all:
         genre: War
-    schedule: weekly(tuesday)
-    summary: "Stories of combat, sacrifice, and lives shaped by war."
+    summary: "Lives on the front lines and beyond, shaped by conflict, courage, loss, and the struggle to make it home."
 
   Western Movies:
     template:
@@ -96,5 +92,4 @@ collections:
     plex_search:
       all:
         genre: Western
-    schedule: weekly(tuesday)
-    summary: "Frontier adventures, outlaws, and showdowns in the Old West."
+    summary: "Dusty towns, uneasy alliances, and frontier justice that tends to arrive on horseback. 🤠"

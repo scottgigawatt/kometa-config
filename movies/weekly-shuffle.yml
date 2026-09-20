@@ -10,7 +10,7 @@ templates:
   random:
     file_poster: "/config/assets/posters/favorites/Weekly Shuffle.png"
     sort_title: "!058_<<collection_name>>"
-    summary: "A fresh mix of well-rated discoveries and familiar favorites, shuffled every Monday."
+    summary: "Unexpected discoveries and familiar favorites for whatever kind of movie night finds you. Popcorn has no genre preference. 🍿"
     sync_mode: sync
     visible_library: true
     visible_home: true

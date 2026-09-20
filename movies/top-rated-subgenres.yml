@@ -28,7 +28,7 @@ templates:
   # Pipe-separated keywords mean OR; comma-separated genres mean AND.
   #
   tmdb_theme:
-    default:
+    default: &rating_defaults
       minimum_rating: 5
       minimum_votes: 1000
     optional:
@@ -51,9 +51,7 @@ templates:
   # original-language filter. These searches never reference curated lists.
   #
   imdb_theme:
-    default:
-      minimum_rating: 5
-      minimum_votes: 1000
+    default: *rating_defaults
     optional:
       - genre
     imdb_search:
@@ -69,7 +67,7 @@ templates:
 collections:
 
   Top Rated in Absurdism:
-    summary: "Strange predicaments and irrational worlds where ordinary logic breaks down."
+    summary: "Strange predicaments, irrational worlds, and people trying very hard to make sense of absolutely none of it."
     template:
       - name: ranked_theme
         poster: absurdism
@@ -78,7 +76,7 @@ collections:
         keywords: "214655"  # Absurdism
 
   Top Rated in Aliens:
-    summary: "Visitors from other worlds, first encounters, and invasions from beyond Earth."
+    summary: "First encounters, distant visitors, and invasions that make staying home sound sensible. 👽"
     template:
       - name: ranked_theme
         poster: aliens
@@ -87,7 +85,7 @@ collections:
         keywords: "9951|14909"  # Alien OR Alien Invasion
 
   Top Rated in Alternate History:
-    summary: "Familiar history takes a different turn, reshaping the world that follows."
+    summary: "History takes the road not traveled, and the familiar world becomes something altogether different."
     template:
       - name: ranked_theme
         poster: alternate-history
@@ -96,7 +94,7 @@ collections:
         keywords: "12026"  # Alternate History
 
   Top Rated in Anti-Hero:
-    summary: "Flawed protagonists who challenge the line between hero and villain."
+    summary: "Questionable methods, complicated motives, and protagonists whose halos have clearly been repossessed."
     template:
       - name: ranked_theme
         poster: anti-hero
@@ -105,7 +103,7 @@ collections:
         keywords: "2095"  # Anti Hero
 
   Top Rated in Apocalypse:
-    summary: "Civilization faces catastrophe as the world hurtles toward its end."
+    summary: "Civilization faces its final act as catastrophe approaches and ordinary plans become wildly optimistic."
     template:
       - name: ranked_theme
         poster: apocalypse
@@ -114,7 +112,7 @@ collections:
         keywords: "12332|10150"  # Apocalypse OR End Of The World
 
   Top Rated in Artificial Intelligence:
-    summary: "Thinking machines, artificial minds, and the consequences of creating intelligence."
+    summary: "Thinking machines, artificial minds, and humanity's habit of inventing things before discussing the consequences. 🤖"
     template:
       - name: ranked_theme
         poster: artificial-intelligence
@@ -123,7 +121,7 @@ collections:
         keywords: "310"  # Artificial Intelligence (A.I.)
 
   Top Rated in Assassins:
-    summary: "Contract killers, covert operatives, and dangerous lives built around a target."
+    summary: "Contract killers, covert targets, and dangerous professionals discovering that retirement is rarely straightforward."
     template:
       - name: ranked_theme
         poster: assassins
@@ -141,7 +139,7 @@ collections:
         keywords: "10085"  # Betrayal
 
   Top Rated in Bigfoot:
-    summary: "Encounters with elusive creatures hiding deep in the wilderness."
+    summary: "Something elusive is moving through the wilderness. The blurry photographs are not helping. 🌲"
     template:
       - name: ranked_theme
         poster: bigfoot
@@ -162,7 +160,7 @@ collections:
         minimum_votes: 100
 
   Top Rated in Bugs:
-    summary: "Giant insects turn ordinary fears into oversized nightmares."
+    summary: "Crawling, swarming, oversized nightmares. A rolled-up newspaper is not going to solve this one. 🐜"
     template:
       - name: ranked_theme
         poster: bugs
@@ -184,7 +182,7 @@ collections:
         minimum_votes: 100
 
   Top Rated in Caper:
-    summary: "Elaborate criminal schemes, unlikely crews, and plans that rarely go smoothly."
+    summary: "Unlikely crews, elaborate criminal schemes, and plans that were foolproof right up until people got involved."
     template:
       - name: ranked_theme
         poster: caper
@@ -194,7 +192,7 @@ collections:
         minimum_votes: 100
 
   Top Rated in Chick-flick:
-    summary: "Romance, friendship, and personal reinvention take center stage."
+    summary: "Friendship, romance, and personal reinvention, with room for messy feelings and a spectacular comeback."
     template:
       - name: ranked_theme
         poster: chick-flick
@@ -204,7 +202,7 @@ collections:
         minimum_votes: 100
 
   Top Rated in Comics:
-    summary: "Comic-book characters and illustrated worlds leap from the page to the screen."
+    summary: "Heroes, outsiders, and illustrated worlds escape the panels and make a larger-than-life entrance. 💥"
     template:
       - name: ranked_theme
         poster: comics
@@ -222,7 +220,7 @@ collections:
         keywords: "10683"  # Coming Of Age
 
   Top Rated in Con-Artists:
-    summary: "Smooth talkers, elaborate deceptions, and fortunes built on someone else's trust."
+    summary: "Smooth talkers and elaborate cons turn someone else's trust into a very risky investment."
     template:
       - name: ranked_theme
         poster: con-artists
@@ -251,7 +249,7 @@ collections:
         keywords: "195013"  # Costume Drama
 
   Top Rated in Courtroom:
-    summary: "Trials, testimony, and legal battles put justice on the line."
+    summary: "Witnesses, objections, and legal battles where the truth has to survive cross-examination. ⚖️"
     template:
       - name: ranked_theme
         poster: courtroom
@@ -260,7 +258,7 @@ collections:
         keywords: "33519|214780"  # Courtroom OR Courtroom Drama
 
   Top Rated in Cyberpunk:
-    summary: "High technology collides with fractured societies and life on the margins."
+    summary: "Neon streets, powerful corporations, and high technology making life remarkably difficult for ordinary people."
     template:
       - name: ranked_theme
         poster: cyberpunk
@@ -269,14 +267,14 @@ collections:
         keywords: "12190"  # Cyberpunk
 
   Top Rated in Dark Comedy:
-    summary: "Grim situations and uncomfortable truths with a wicked sense of humor."
+    summary: "Grim situations, terrible decisions, and laughter that arrives when it really should know better."
     template:
       - name: ranked_theme
         poster: dark-comedy
         day: monday
       - name: tmdb_theme
         keywords: "10123"  # Dark Comedy
-        genres: "35"  # Comedy
+        genres: "35"       # Comedy
 
   Top Rated in Dark Fantasy:
     summary: "Magic and myth take sinister turns in dangerous, unsettling worlds."
@@ -288,7 +286,7 @@ collections:
         keywords: "177895"  # Dark Fantasy
 
   Top Rated in Detective:
-    summary: "Investigators follow clues, untangle motives, and uncover dangerous secrets."
+    summary: "Clues, motives, and secrets that refuse to stay buried. Everyone has a story; someone is lying. 🔍"
     template:
       - name: ranked_theme
         poster: detective
@@ -306,7 +304,7 @@ collections:
         keywords: "10617|5096"  # Disaster OR Natural Disaster
 
   Top Rated in Dragons:
-    summary: "Fire-breathing legends, unlikely companions, and adventures among dragons."
+    summary: "Fire-breathing legends, unlikely friendships, and adventures with creatures that do not fit in the stable. 🐉"
     template:
       - name: ranked_theme
         poster: dragons
@@ -353,7 +351,7 @@ collections:
         minimum_rating: 3
 
   Top Rated in Fairytales:
-    summary: "Enchanted journeys, impossible wishes, and timeless tales of wonder."
+    summary: "Enchanted journeys, impossible wishes, and magical bargains with suspiciously small print. ✨"
     template:
       - name: ranked_theme
         poster: fairytales
@@ -362,14 +360,14 @@ collections:
         keywords: "179411|3205"  # Based On Fairy Tale OR Fairy Tale
 
   Top Rated in Found Footage:
-    summary: "Recovered recordings reveal horrors that their filmmakers could not escape."
+    summary: "Recovered recordings reveal what happened when curiosity outlasted common sense. Somebody really should have stopped filming."
     template:
       - name: ranked_theme
         poster: found-footage
         day: wednesday
       - name: tmdb_theme
         keywords: "163053"  # Found Footage
-        genres: "27"  # Horror
+        genres: "27"        # Horror
         minimum_rating: 2
 
   Top Rated in Fugitives:
@@ -391,14 +389,14 @@ collections:
         keywords: "3149"  # Gangster
 
   Top Rated in Ghosts:
-    summary: "Restless spirits haunt the living and refuse to let the past stay buried."
+    summary: "Restless spirits, haunted places, and the past making itself everybody else's problem. 👻"
     template:
       - name: ranked_theme
         poster: ghosts
         day: wednesday
       - name: tmdb_theme
         keywords: "162846"  # Ghost
-        genres: "27"  # Horror
+        genres: "27"        # Horror
 
   Top Rated in Gothic:
     summary: "Brooding settings and buried secrets give way to haunting terror."
@@ -408,7 +406,7 @@ collections:
         day: wednesday
       - name: tmdb_theme
         keywords: "33505"  # Gothic
-        genres: "27"  # Horror
+        genres: "27"       # Horror
         minimum_rating: 2
         minimum_votes: 100
 
@@ -424,7 +422,7 @@ collections:
         minimum_votes: 10
 
   Top Rated in Heists:
-    summary: "Daring robberies bring together intricate plans, risky alliances, and big stakes."
+    summary: "Intricate plans, risky alliances, and one enormous score. What could possibly go wrong? 💎"
     template:
       - name: ranked_theme
         poster: heists
@@ -508,7 +506,7 @@ collections:
         minimum_rating: 2
 
   Top Rated in Mindfuck:
-    summary: "Mind-bending stories that blur reality and reward a second watch."
+    summary: "Fractured realities, shifting identities, and revelations that send you straight back to the beginning. 🌀"
     template:
       - name: ranked_theme
         poster: mindfuck
@@ -517,7 +515,7 @@ collections:
         keyword: mindbender
 
   Top Rated in Mockumentary:
-    summary: "Fiction borrows the documentary lens to expose absurd characters and situations."
+    summary: "Very serious cameras follow deeply unserious people through worlds that almost look real."
     template:
       - name: ranked_theme
         poster: mockumentary
@@ -527,14 +525,14 @@ collections:
         minimum_rating: 2
 
   Top Rated in Monsters:
-    summary: "Terrifying creatures emerge from the shadows to threaten the living."
+    summary: "Creatures emerge from the shadows, the depths, and places nobody should have disturbed in the first place."
     template:
       - name: ranked_theme
         poster: monsters
         day: thursday
       - name: tmdb_theme
         keywords: "1299|13031|158126"  # Monster OR Creature OR Creature Feature
-        genres: "27"  # Horror
+        genres: "27"                   # Horror
 
   Top Rated in Mythology:
     summary: "Gods, heroes, and legendary creatures bring ancient myths to life."
@@ -556,7 +554,7 @@ collections:
         minimum_rating: 2
 
   Top Rated in Ninjas:
-    summary: "Stealth, secret missions, and deadly martial skill collide."
+    summary: "Secret missions, rival clans, and martial skill with a strong preference for making an entrance unnoticed."
     template:
       - name: ranked_theme
         poster: ninjas
@@ -574,7 +572,7 @@ collections:
         keywords: "818"  # Based On Novel Or Book
 
   Top Rated in Occult:
-    summary: "Forbidden knowledge, secret rituals, and forces beyond understanding."
+    summary: "Forbidden knowledge, secret rituals, and compelling reasons to leave that mysterious book closed."
     template:
       - name: ranked_theme
         poster: occult
@@ -583,7 +581,7 @@ collections:
         keywords: "156174"  # Occult
 
   Top Rated in Outerspace:
-    summary: "Journeys beyond Earth, from distant worlds to the depths of space."
+    summary: "Distant worlds, impossible distances, and adventures well beyond the comfort of Earth's atmosphere. 🚀"
     template:
       - name: ranked_theme
         poster: outerspace
@@ -730,7 +728,7 @@ collections:
         minimum_rating: 3
 
   Top Rated in Robots:
-    summary: "Mechanical beings become companions, adversaries, and mirrors of humanity."
+    summary: "Mechanical companions, metal adversaries, and artificial beings asking surprisingly human questions. 🤖"
     template:
       - name: ranked_theme
         poster: robots
@@ -740,7 +738,7 @@ collections:
         minimum_rating: 3
 
   Top Rated in Romantic Comedy:
-    summary: "Love meets awkward encounters, misunderstandings, and plenty of laughter."
+    summary: "Meet-cutes, mixed signals, and people taking the scenic route to admitting they like each other. 💘"
     template:
       - name: ranked_theme
         poster: romantic-comedy
@@ -769,14 +767,14 @@ collections:
         minimum_votes: 100
 
   Top Rated in Satire:
-    summary: "Sharp humor takes aim at power, social habits, and human folly."
+    summary: "Sharp humor punctures power, vanity, and human folly. No institution is too important to look ridiculous."
     template:
       - name: ranked_theme
         poster: satire
         day: friday
       - name: tmdb_theme
         keywords: "8201"  # Satire
-        genres: "35"  # Comedy
+        genres: "35"      # Comedy
 
   Top Rated in Serial Killers:
     summary: "Predators strike repeatedly as investigators race to uncover the pattern."
@@ -788,7 +786,7 @@ collections:
         keywords: "10714"  # Serial Killer
 
   Top Rated in Slasher:
-    summary: "Relentless killers stalk their victims through escalating terror."
+    summary: "Relentless killers, dwindling hiding places, and an extremely poor moment to suggest splitting up."
     template:
       - name: ranked_theme
         poster: slasher
@@ -832,7 +830,7 @@ collections:
         minimum_rating: 2
 
   Top Rated in Steampunk:
-    summary: "Steam-powered inventions and imaginative machinery reshape the past."
+    summary: "Steam-powered inventions and ingenious machinery turn another age into an extraordinary mechanical dream. ⚙️"
     template:
       - name: ranked_theme
         poster: steampunk
@@ -841,7 +839,7 @@ collections:
         keywords: "10028"  # Steampunk
 
   Top Rated in Stoner:
-    summary: "Laid-back adventures and cannabis-fueled misadventures take unexpected turns."
+    summary: "Laid-back plans, cannabis-fueled detours, and adventures that somehow become much more complicated than getting snacks."
     template:
       - name: ranked_theme
         poster: stoner
@@ -861,7 +859,7 @@ collections:
         minimum_votes: 100
 
   Top Rated in Superhero:
-    summary: "Extraordinary powers meet dangerous villains and the responsibilities of heroism."
+    summary: "Extraordinary powers, dangerous villains, and the tricky business of saving the day without destroying the neighborhood. 🦸"
     template:
       - name: ranked_theme
         poster: superhero
@@ -897,7 +895,7 @@ collections:
         keywords: "10349|298724"  # Survival OR Survivor
 
   Top Rated in Swashbuckler:
-    summary: "Dashing adventurers cross swords in tales of daring and romance."
+    summary: "Dashing adventurers, flashing swords, and daring escapes carried off with entirely unnecessary flair. ⚔️"
     template:
       - name: ranked_theme
         poster: swashbuckler
@@ -928,7 +926,7 @@ collections:
         minimum_rating: 3
 
   Top Rated in Time Travel:
-    summary: "Journeys through time, tangled timelines, and the consequences of changing the past."
+    summary: "Tangled timelines, second chances, and changes to the past that were definitely supposed to be small. ⏳"
     template:
       - name: ranked_theme
         poster: time-travel
@@ -937,7 +935,7 @@ collections:
         keywords: "4379"  # Time Travel
 
   Top Rated in Treasure Hunt:
-    summary: "Hidden clues and dangerous journeys lead adventurers toward a coveted prize."
+    summary: "Hidden clues and perilous journeys lead toward fortunes that rarely come with an easy pickup option. 🗺️"
     template:
       - name: ranked_theme
         poster: treasure-hunt
@@ -975,11 +973,11 @@ collections:
         poster: utopian
         day: sunday
       - name: tmdb_theme
-        keywords: "3469"  # Utopia
+        keywords: "3469"           # Utopia
         excluded_keywords: "4565"  # Dystopia
 
   Top Rated in Vampires:
-    summary: "Bloodthirsty immortals, nocturnal hunters, and the lure of eternal life."
+    summary: "Bloodthirsty immortals, forbidden desire, and the considerable complications of never seeing the sun. 🧛"
     template:
       - name: ranked_theme
         poster: vampires
@@ -988,7 +986,7 @@ collections:
         keywords: "3133"  # Vampire
 
   Top Rated in Video Game:
-    summary: "Video game worlds and characters brought to the screen."
+    summary: "Familiar game worlds, unlikely heroes, and adventures where the danger no longer comes with a pause button. 🎮"
     template:
       - name: ranked_theme
         poster: video-game
@@ -997,7 +995,7 @@ collections:
         keywords: "41645"  # Based On Video Game
 
   Top Rated in Werewolves:
-    summary: "Full moons, monstrous transformations, and the beast within."
+    summary: "Full moons, monstrous transformations, and the growing suspicion that the family dog is not responsible. 🌕"
     template:
       - name: ranked_theme
         poster: werewolves
@@ -1006,7 +1004,7 @@ collections:
         keywords: "12564"  # Werewolf
 
   Top Rated in Whodunit?:
-    summary: "A crime, a cast of suspects, and clues that keep you guessing until the reveal."
+    summary: "A crime, a roomful of suspects, and enough secrets to keep everyone looking guilty until the reveal. 🔍"
     template:
       - name: ranked_theme
         poster: whodunit
@@ -1017,7 +1015,7 @@ collections:
         minimum_votes: 100
 
   Top Rated in Wizardry & Witchcraft:
-    summary: "Witches, wizards, and spells that bring wonder or unleash dark consequences."
+    summary: "Witches, wizards, and spells that promise wonders while occasionally making everything much, much worse. 🪄"
     template:
       - name: ranked_theme
         poster: wizardry-witchcraft
@@ -1035,7 +1033,7 @@ collections:
         keywords: "2504|1956"  # World War I OR World War II
 
   Top Rated in Zombies:
-    summary: "The dead rise, society unravels, and survivors fight to see another day."
+    summary: "The dead are back on their feet, society is falling apart, and surviving until morning is suddenly an ambitious plan. 🧟"
     template:
       - name: ranked_theme
         poster: zombies

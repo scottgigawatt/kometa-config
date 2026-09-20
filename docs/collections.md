@@ -18,7 +18,7 @@ Ninety themes use [TMDb Discover](https://kometa.wiki/en/latest/files/builders/t
 
 Eleven themes use native [IMDb keyword searches](https://kometa.wiki/en/latest/files/builders/imdb/search/) where TMDb tagging is sparse: Chick-flick, Epics, Experimental, Historical Event, Medical, Melodrama, Mindfuck, Psychedelic, Spaghetti Western, Splatter, and Urban Fantasy. These searches need no IMDb account and load no personal lists.
 
-The usual rating/vote floors are 5 and 1,000, with explicit exceptions beside each definition. Regression tests protect names, posters, schedules, limits, readable IDs, and the absence of personal-list builders or external templates.
+Both provider templates share rating/vote defaults of 5 and 1,000 through a YAML anchor, with explicit exceptions beside each definition. Regression tests protect names, posters, schedules, limits, readable IDs, and the absence of personal-list builders or external templates.
 
 ## Weekly Shuffle
 
@@ -28,7 +28,7 @@ Christmas/Xmas titles and the TMDb Christmas keyword are excluded year-round. Ke
 
 ## People collections
 
-[Top Actors](../movies/actors-directors-writers.yml) ranks people from Plex credits. Nicholas Galitzine, Chris Farley, and Ray Liotta have explicit collections and are excluded from dynamic actor generation before its limit is filled. Directors and writers use separate ranked groups; inspect future logs for cross-role name collisions.
+[People collections](../movies/actors-directors-writers.yml) rank actors, directors, and writers from Plex credits. A shared local template supplies artwork, ordering, and the Saturday schedule; each dynamic group supplies its credit role. Nicholas Galitzine, Chris Farley, and Ray Liotta have explicit collections and are excluded from dynamic actor generation before its limit is filled. Directors and writers use separate ranked groups; inspect future logs for cross-role name collisions.
 
 ## TV series and holiday episodes
 

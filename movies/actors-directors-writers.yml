@@ -6,49 +6,31 @@
 # actors-directors-writers.yml: Build people collections from Plex credits and TMDb metadata.
 #
 
-external_templates:
-  git: meisnate12/People
-  template_variables:
-    collection_section: 17
-
 templates:
-  actor_dynamic:
+  #
+  # Share person metadata and presentation; each dynamic group supplies its credit role.
+  #
+  person_dynamic:
     default:
       sort_by: release.desc
     tmdb_person: <<value>>
     file_poster: /config/assets/posters/people/<<key>>.png
     sort_title: <<key_name>>
+
+    #
+    # Kometa reserves key_name in summaries; original_key_name expands the person's name.
+    #
+    summary: "Films <<credit>> <<original_key_name>>, with memorable characters, striking moments, and stories worth another look. 🎬"
     schedule: weekly(saturday)
     smart_filter:
       sort_by: <<sort_by>>
       all:
-        actor: tmdb
+        <<role>>: tmdb
 
-  director_dynamic:
-    default:
-      sort_by: release.desc
-    tmdb_person: <<value>>
-    file_poster: /config/assets/posters/people/<<key>>.png
-    sort_title: <<key_name>>
-    schedule: weekly(saturday)
-    smart_filter:
-      sort_by: <<sort_by>>
-      all:
-        director: tmdb
-
-  writer_dynamic:
-    default:
-      sort_by: release.desc
-    tmdb_person: <<value>>
-    file_poster: /config/assets/posters/people/<<key>>.png
-    sort_title: <<key_name>>
-    schedule: weekly(saturday)
-    smart_filter:
-      sort_by: <<sort_by>>
-      all:
-        writer: tmdb
-
-  Person:
+  #
+  # Named actors use explicit searches instead of dynamically ranked credits.
+  #
+  person:
     collection_order: release.desc
     tmdb_person: <<actor>>
     file_poster: /config/assets/posters/people/<<actor>>.png
@@ -65,7 +47,12 @@ dynamic_collections:
   Top Actors:
     type: actor
     template:
-      - actor_dynamic
+      - person_dynamic
+    template_variables:
+      role:
+        default: actor
+      credit:
+        default: featuring
     title_format: <<title>> Collection
 
     #
@@ -84,7 +71,12 @@ dynamic_collections:
   Top Directors:
     type: director
     template:
-      - director_dynamic
+      - person_dynamic
+    template_variables:
+      role:
+        default: director
+      credit:
+        default: directed by
     title_format: <<title>> Collection
     data:
       depth: 1
@@ -94,7 +86,12 @@ dynamic_collections:
   Top Writers:
     type: writer
     template:
-      - writer_dynamic
+      - person_dynamic
+    template_variables:
+      role:
+        default: writer
+      credit:
+        default: written by
     title_format: <<title>> Collection
     data:
       depth: 2
@@ -102,16 +99,19 @@ dynamic_collections:
 
 collections:
   Nicholas Galitzine Collection:
+    summary: "Nicholas Galitzine brings charm, longing, and complicated hearts to princes, performers, and people falling spectacularly in love."
     template:
-      name: Person
+      name: person
       actor: "Nicholas Galitzine"
 
   Chris Farley Collection:
+    summary: "Chris Farley turns lovable disasters into full-body comedy. Subtle entrances were never really his thing."
     template:
-      name: Person
+      name: person
       actor: "Chris Farley"
 
   Ray Liotta Collection:
+    summary: "Ray Liotta brings sharp intensity, dangerous charm, and characters you would hesitate to owe a favor."
     template:
-      name: Person
+      name: person
       actor: "Ray Liotta"

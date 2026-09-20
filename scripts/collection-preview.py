@@ -243,6 +243,7 @@ def rule_names(genres, themes) -> list[str]:
         "sort_title": "!060_<<collection_name>>",
         "collection_order": "title.asc",
         "sync_mode": "sync",
+        "schedule": "weekly(tuesday)",
     }
     if set(genres) != {"templates", "collections"} or genres["templates"] != {
         "genre": genre_template
@@ -262,8 +263,13 @@ def rule_names(genres, themes) -> list[str]:
     for name, definition in genres["collections"].items():
         native = name in {"Horror Movies", "War Movies", "Western Movies"}
         builder = "plex_search" if native else "tmdb_keyword"
-        if set(definition) != {"template", "summary", "schedule", builder}:
+        allowed = {"template", "summary", builder}
+        if name == "Horror Movies":
+            allowed.add("schedule")
+        if set(definition) != allowed:
             raise ValueError("Unexpected genre source or writer behavior.")
+        if name == "Horror Movies" and definition["schedule"] != "range(11/01-09/14)":
+            raise ValueError("Horror must retain its non-Halloween schedule.")
         if definition["template"] != {
             "name": "genre",
             "poster_id": expected_genres[name],
@@ -487,7 +493,6 @@ def location_universe_names(cities, universes) -> list[str]:
         "sort_title": "!105_<<collection_name>>",
         "collection_order": "title.asc",
         "content_rating": "R",
-        "summary": "Stories unfolding across the streets and skyline of <<city>>.",
         "sync_mode": "sync",
         "schedule": "weekly(saturday)",
     }
@@ -521,7 +526,12 @@ def location_universe_names(cities, universes) -> list[str]:
         (cities, "city", city_template, city_sources, "city"),
         (universes, "universe", universe_template, universe_sources, "poster_id"),
     ):
-        if set(source) != {"templates", "collections"} or source["templates"] != {
+        actual_templates = copy.deepcopy(source.get("templates", {}))
+        if template_name == "city":
+            summary = actual_templates.get("city", {}).pop("summary", None)
+            if not isinstance(summary, str) or not summary.strip():
+                raise ValueError("Cities require a viewer-facing summary.")
+        if set(source) != {"templates", "collections"} or actual_templates != {
             template_name: template
         }:
             raise ValueError(

@@ -42,7 +42,7 @@ collections:
       - all:
           genre: Romance, Drama
     schedule: range(02/10-02/14)
-    summary: "Love stories, romantic comedies, and Valentine's Day encounters."
+    summary: "Meet-cutes, grand gestures, and romantic disasters with excellent timing. Love rarely follows the plan. 💘"
 
   #
   # Include Irish settings, culture, and diaspora alongside the holiday itself.
@@ -63,7 +63,7 @@ collections:
       - 301982  # Irish diaspora
       - 209352  # St. Patrick's Day
     schedule: range(03/16-03/18)
-    summary: "Irish stories, folklore, and journeys abroad, with a toast to St. Patrick's Day."
+    summary: "Irish lives, faraway journeys, old legends, and a little St. Patrick's Day mischief. Sláinte! ☘️"
 
   Easter Movies:
     template:
@@ -74,7 +74,7 @@ collections:
       - 9923    # Easter bunny
       - 233042  # Easter egg hunt
     schedule: range(03/22-04/25)
-    summary: "Easter traditions, tales of faith, and adventures with the Easter Bunny."
+    summary: "Easter traditions, stories of faith and renewal, and bunny business of varying seriousness. 🐰"
 
   #
   # Motherhood includes drama, comedy, and horror without treating every family
@@ -88,7 +88,7 @@ collections:
       - 173983  # Mother's Day
       - 176227  # Motherhood
     schedule: range(05/01-05/25)
-    summary: "Mothers at the heart of stories about love, sacrifice, laughter, and terror."
+    summary: "Mothers navigating love, sacrifice, impossible expectations, and the occasional nightmare. Motherhood contains multitudes. 💐"
 
   Halloween and Horror Movies:
     template:
@@ -100,7 +100,7 @@ collections:
       any:
         genre: Horror
     schedule: range(09/15-10/31)
-    summary: "Halloween mischief, haunted nights, and horror for the season of scares."
+    summary: "Haunted nights, masked terrors, and Halloween mischief. The decorations may be fake; the screaming is committed. 🎃"
 
   Thanksgiving Movies:
     template:
@@ -109,7 +109,7 @@ collections:
     tmdb_keyword:
       - 4543  # Thanksgiving
     schedule: range(11/01-12/15)
-    summary: "Thanksgiving gatherings, chaotic homecomings, and trouble around the dinner table."
+    summary: "Homecomings, family friction, and dinners where the gravy is not the only thing getting heated. 🦃"
 
   #
   # Uncapped discovery avoids silently losing older or less popular holiday films.
@@ -134,7 +134,7 @@ collections:
         - Planes, Trains & Automobiles
         - Kiss Kiss Bang Bang
     schedule: range(11/01-01/10)
-    summary: "Christmas celebrations, snowy adventures, and stories filled with holiday spirit."
+    summary: "Festive romances, family adventures, and holiday miracles, with enough Christmas spirit to survive the relatives. 🎄"
 
   #
   # Company credits intersect with Christmas tagging, not streaming availability.
@@ -145,11 +145,11 @@ collections:
       name: seasonal
       poster_id: christmas_hallmark
     tmdb_discover:
-      with_keywords: "207317"                # Christmas
+      with_keywords: "207317"                 # Christmas
       with_companies: "4056|6435|53015|9027"  # Hallmark Entertainment, Productions, Media, and Hall of Fame Productions
       limit: 0
     schedule: range(11/01-01/10)
-    summary: "Hallmark holiday romances, festive reunions, and Christmas wishes coming true."
+    summary: "Small-town reunions, festive romances, and Christmas wishes that tend to arrive with excellent knitwear. ❤️"
 
   Lifetime Christmas Movies:
     template:
@@ -160,7 +160,7 @@ collections:
       with_companies: "3431|21935|6709"  # Lifetime, Lifetime Entertainment, and Lifetime Productions International
       limit: 0
     schedule: range(11/01-01/10)
-    summary: "Lifetime's Christmas romances, family reunions, and unexpected holiday connections."
+    summary: "Holiday romances, family reunions, and unexpected connections that make Christmas a little more complicated. 🎁"
 
   Rankin/Bass Christmas Movies:
     template:
@@ -171,7 +171,7 @@ collections:
       with_companies: "688|8813"  # Rankin/Bass Productions and Videocraft International
       limit: 0
     schedule: range(11/01-01/10)
-    summary: "Rankin/Bass Christmas tales, from Rudolph and Frosty to Santa's snowy adventures."
+    summary: "Rudolph, Frosty, Santa, and other holiday heroes find their way through snowy adventures and songs that never quite leave your head. ⛄"
 
   #
   # Vintage means a first release before 1980, including classic television specials.
@@ -186,7 +186,7 @@ collections:
       primary_release_date.lte: 12/31/1979
       limit: 0
     schedule: range(11/01-01/10)
-    summary: "Christmas films and television specials from 1979 and earlier, full of old-fashioned holiday charm."
+    summary: "Christmas films and specials from 1979 and earlier, full of old-fashioned wonder, snowy wishes, and familiar holiday warmth. 🕯️"
 
   Horror Christmas Movies:
     template:
@@ -197,7 +197,7 @@ collections:
       with_genres: "27"        # Horror
       limit: 0
     schedule: range(11/01-01/10)
-    summary: "Christmas nightmares, sinister Santas, and holiday cheer with a body count."
+    summary: "Twinkling lights, holiday traditions, and something deeply wrong coming down the chimney. Naughty or nice may not help. 🎅"
 
   New Year's Eve Movies:
     template:
@@ -206,4 +206,4 @@ collections:
     tmdb_keyword:
       - 613  # New Year's Eve
     schedule: range(12/26-01/10)
-    summary: "Midnight celebrations, fresh starts, and fateful encounters on New Year's Eve."
+    summary: "Midnight promises, last-minute chaos, and fresh starts that refuse to wait for a sensible hour. 🥂"

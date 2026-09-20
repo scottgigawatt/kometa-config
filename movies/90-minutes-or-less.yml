@@ -24,4 +24,4 @@ collections:
     plex_search:
       all:
         duration.lte: 96
-    summary: "A collection of titles that are 90 minutes or less in duration."
+    summary: "Short on time, not on story. Quick movie escapes for nights when an epic commitment is not on the menu. ⏱️"

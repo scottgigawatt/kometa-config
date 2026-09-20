@@ -19,6 +19,7 @@ templates:
     schedule: range(01/01-04/01)
 
   globe_award_winner_dynamic:
+    summary: "Golden Globe-winning films with bold stories, memorable performances, and a little red-carpet shine. 🏆"
     sort_title: "!130_<<collection_name>>"
     run_definition: movie
     imdb_search:
@@ -32,6 +33,7 @@ templates:
 
 collections:
   Golden Globes Best Picture Winners:
+    summary: "Golden Globe-winning dramas, comedies, musicals, and animated adventures with a little extra shine. 🏆"
     variables:
       key: best_picture
     template:
@@ -52,6 +54,7 @@ collections:
       - 8235497  # Animation
 
   Golden Globes Best Director Winners:
+    summary: "Films whose directors earned a Golden Globe, from bold visions to moments that linger long after the credits. 🎬"
     variables:
       key: best_director
     template:

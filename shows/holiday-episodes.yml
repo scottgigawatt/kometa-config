@@ -37,7 +37,7 @@ collections:
       poster_id: halloween
       holiday_pattern: '(?i)\b(?:halloween|all hallows eve|trick[ -]or[ -]treat(?:ing)?|treehouse of horror)\b'
     schedule: range(09/15-10/31)
-    summary: "Halloween celebrations, trick-or-treating, and spooky seasonal misadventures."
+    summary: "Familiar faces, questionable costumes, and Halloween plans that spiral gloriously out of control. 🎃"
 
   #
   # Require the named holiday; a turkey dinner alone does not establish the theme.
@@ -48,7 +48,7 @@ collections:
       poster_id: thanksgiving
       holiday_pattern: '(?i)\bthanksgiving\b'
     schedule: range(11/01-12/15)
-    summary: "Thanksgiving gatherings, family mishaps, and memorable feasts."
+    summary: "Big dinners, bigger feelings, and family gatherings with plenty to unpack before dessert. 🦃"
 
   #
   # Avoid generic holidays, winter weather, and places such as Santa Barbara.
@@ -60,4 +60,4 @@ collections:
       poster_id: christmas
       holiday_pattern: '(?i)\b(?:christmas|x[ -]?mas|yuletide|santa claus)\b'
     schedule: range(11/20-12/28)
-    summary: "Christmas celebrations, festive surprises, and holiday chaos with familiar faces."
+    summary: "Festive surprises, heartfelt reunions, and familiar faces making a magnificent mess of Christmas. 🎄"

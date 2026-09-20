@@ -47,8 +47,8 @@ class YamlPolicyTests(unittest.TestCase):
                 self.assertIn("Licensed under the Apache License, Version 2.0.", header)
                 self.assertIn(f"# {path.name}:", header)
 
-    def test_subgenre_inline_spacing(self) -> None:
-        """Separate subgenre ID comments by exactly two spaces without alignment."""
+    def test_subgenre_id_comments(self) -> None:
+        """Keep readable ID comments with room for block alignment."""
         source = (self.root / "movies/top-rated-subgenres.yml").read_text()
         lines = [
             line
@@ -58,7 +58,7 @@ class YamlPolicyTests(unittest.TestCase):
         self.assertTrue(lines)
         for line in lines:
             with self.subTest(line=line):
-                self.assertRegex(line, r'^\s+\w+: "[0-9|,]+"  # \S')
+                self.assertRegex(line, r'^\s+\w+: "[0-9|,]+" {2,}# \S')
 
     def test_definition_filenames_use_kebab_case(self) -> None:
         """Keep authored collection, overlay, playlist, and fixture names consistent."""
@@ -212,7 +212,7 @@ class YamlPolicyTests(unittest.TestCase):
         reserved = set()
         for title, definition in source["collections"].items():
             call = definition["template"]
-            self.assertEqual(call["name"], "Person")
+            self.assertEqual(call["name"], "person")
             self.assertEqual(title, f"{call['actor']} Collection")
             reserved.add(call["actor"])
         self.assertEqual(set(actors["exclude"]), reserved)
@@ -249,12 +249,11 @@ class YamlPolicyTests(unittest.TestCase):
 
         #
         # Exercise the pinned loader with synthetic credits and a one-slot dynamic limit.
-        # External templates are irrelevant to local actor templates and stay offline.
+        # All people templates are local, so the loader requires no external files.
         #
         for exclude_reserved in (False, True):
             with self.subTest(exclude_reserved=exclude_reserved):
                 fixture = copy.deepcopy(source)
-                fixture.pop("external_templates")
                 actors = fixture["dynamic_collections"]["Top Actors"]
                 actors["data"]["limit"] = 1
                 if not exclude_reserved:
