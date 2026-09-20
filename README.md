@@ -71,6 +71,8 @@ See the [Kometa documentation](https://kometa.wiki/en/latest/) for application b
 
 Use `make test-collections` to preview native TMDb franchise definitions without rerunning overlays.
 
+Use `make test-seasonal` to preview the holiday movie collections without downloads or scheduled deletion.
+
 ## Validation
 
 The default Make target lists the supported commands:

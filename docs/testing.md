@@ -139,3 +139,21 @@ The movie fixtures include a two-second black, silent clip matched to Bo Burnham
 The production `other_chart` configuration enables both `radarr_add_missing_pirated` and `radarr_search_pirated` only for Top 10 Pirated Movies of the Week. The preview never loads that chart or connects to Radarr. Offline regression tests verify its collection-specific variables against the pinned Defaults; actual Radarr additions and download searches require a separately approved production run with working private Radarr settings.
 
 The command does not deploy configuration to Hera's production checkout.
+
+## Preview seasonal movie collections
+
+Run only the thirteen holiday movie collections in `test_movie_lib`:
+
+```sh
+make test-seasonal
+```
+
+The command uses the same guarded configuration and private test environment as `make test-collections`, but selects only `scheduled/seasonal.yml` collection names and the movie fixture library. It ignores production schedules so every holiday can be reviewed at any time. The runner validates the production source and renders a private `seasonal.yml` copy with scheduled deletion disabled; production keeps its existing schedule windows and deletion behavior. The full collection preview includes these holidays too.
+
+Holiday membership uses named TMDb keywords and [TMDb Discover](https://kometa.wiki/en/latest/files/builders/tmdb/discover/movie/), supplemented by Plex romantic-comedy/drama searches for Valentine's Day and the Horror genre for Halloween. St. Patrick's Day combines Irish settings, culture, folklore, and diaspora with the holiday keyword. Mother's Day includes motherhood as well as the named holiday. No seasonal movie builder depends on an individual user's Trakt or Letterboxd list.
+
+Christmas discovery has no popularity cutoff. Hallmark, Lifetime, and Rankin/Bass combine Christmas tagging with the named production companies; a film broadcast by one of those channels is not automatically included without matching TMDb company credits. Vintage Christmas uses a primary release date through December 31, 1979, including television specials. Horror Christmas also requires the Horror genre. The broad Christmas collection retains its explicit title exclusions. Membership follows provider metadata, not a fixed historical selection.
+
+All seasonal movie collections explicitly disable Radarr additions, searches, upgrades, and monitoring changes, including every Christmas collection. These flags override global defaults. The test configuration has no download-client connection at all. Because Kometa requires Radarr even for false Radarr attributes, the guarded runtime copy omits only those five already-disabled flags. It preserves every builder, poster, summary, and schedule, and rejects enabled writers instead of silently removing them. Existing Radarr entries and queued downloads are not removed by this configuration.
+
+Review each collection's membership, existing local poster, critic-rating order, and viewer-facing summary. The fixture clips cover general Irish themes and St. Patrick's Day separately, Easter, the three Christmas companies, vintage Christmas, and Christmas horror. They are tiny synthetic clips, not copies of production media. Offline tests protect the schedules, artwork mappings, Christmas exclusions, named IDs, uncapped discovery, and no-download/no-deletion preview boundaries.

@@ -14,6 +14,7 @@
 """Validate fixture isolation before optionally running collection previews."""
 
 import argparse
+import copy
 import re
 import subprocess
 from pathlib import Path
@@ -56,6 +57,7 @@ def preview_names(franchises, config, smoke, shows) -> list[str]:
                 {"file": "/workspace/movies/subgenre-rules.yml"},
                 {"file": "/workspace/movies/cities.yml"},
                 {"file": "/workspace/movies/universes.yml"},
+                {"file": "/config/seasonal.yml"},
                 {"file": "/workspace/tests/kometa/collections.yml"},
             ]
         },
@@ -448,6 +450,183 @@ def location_universe_names(cities, universes) -> list[str]:
     return names
 
 
+def seasonal_names(seasonal) -> list[str]:
+    """Allow native holiday sources with no downloads or hidden template behavior.
+
+    Args:
+        seasonal: Round-trip YAML containing holiday definitions and ID comments.
+
+    Returns:
+        The thirteen seasonal movie collection names permitted in the preview.
+
+    Raises:
+        ValueError: If sources, schedules, artwork, or side effects are unapproved.
+    """
+
+    #
+    # Production retains scheduled deletion; the guarded fixture copy disables it.
+    # All download and existing-item writes must already be off in the source.
+    #
+    expected_template = {
+        "file_poster": "/config/assets/posters/seasonal/<<poster_id>>.jpg",
+        "sort_title": "!00_<<collection_name>>",
+        "collection_order": "critic_rating.desc",
+        "sync_mode": "sync",
+        "visible_library": True,
+        "visible_home": True,
+        "visible_shared": True,
+        "delete_not_scheduled": True,
+        "radarr_add_missing": False,
+        "radarr_add_existing": False,
+        "radarr_search": False,
+        "radarr_upgrade_existing": False,
+        "radarr_monitor_existing": False,
+    }
+    if set(seasonal) != {"templates", "collections"} or seasonal["templates"] != {
+        "seasonal": expected_template
+    }:
+        raise ValueError("Seasonal preview must use the safe no-download template.")
+    expected = {
+        "Valentine's Day Movies": ("valentine", "02/10-02/14"),
+        "St. Patrick's Day Movies": ("patrick", "03/16-03/18"),
+        "Easter Movies": ("easter", "03/22-04/25"),
+        "Mother's Day Movies": ("mother", "05/01-05/25"),
+        "Halloween and Horror Movies": ("halloween", "09/15-10/31"),
+        "Thanksgiving Movies": ("thanksgiving", "11/01-12/15"),
+        "Christmas Movies": ("christmas", "11/01-01/10"),
+        "Hallmark Christmas Movies": ("christmas_hallmark", "11/01-01/10"),
+        "Lifetime Christmas Movies": ("christmas_lifetime", "11/01-01/10"),
+        "Rankin/Bass Christmas Movies": ("christmas_rankin-bass", "11/01-01/10"),
+        "Vintage Christmas Movies": ("christmas_vintage", "11/01-01/10"),
+        "Horror Christmas Movies": ("christmas_horror", "11/01-01/10"),
+        "New Year's Eve Movies": ("years", "12/26-01/10"),
+    }
+    if set(seasonal["collections"]) != set(expected):
+        raise ValueError("Seasonal preview must contain the thirteen holiday movies.")
+
+    #
+    # Constrain each family to its intended native source and local artwork.
+    # Exact key sets reject writers, external templates, and source overrides.
+    #
+    for name, definition in seasonal["collections"].items():
+        poster, dates = expected[name]
+        allowed = {"template", "schedule", "summary"}
+        if (
+            definition.get("template")
+            != {
+                "name": "seasonal",
+                "poster_id": poster,
+            }
+            or definition.get("schedule") != f"range({dates})"
+        ):
+            raise ValueError("Unexpected seasonal artwork, schedule, or variables.")
+        if (
+            not isinstance(definition.get("summary"), str)
+            or not definition["summary"].strip()
+        ):
+            raise ValueError("Seasonal collections need a viewer-facing summary.")
+        if "Christmas" in name:
+            allowed.add("tmdb_discover")
+            query = definition.get("tmdb_discover", {})
+            query_keys = {"with_keywords", "limit"}
+            if (
+                query.get("with_keywords") != "207317"
+                or not isinstance(query.get("limit"), int)
+                or isinstance(query.get("limit"), bool)
+                or query["limit"] != 0
+            ):
+                raise ValueError("Christmas discovery must be uncapped and themed.")
+            if name.startswith(("Hallmark", "Lifetime", "Rankin/Bass")):
+                query_keys.add("with_companies")
+                companies = query.get("with_companies")
+                if not isinstance(companies, str) or not re.fullmatch(
+                    r"[1-9]\d*(?:\|[1-9]\d*)*", companies
+                ):
+                    raise ValueError("Christmas studios require explicit company IDs.")
+            if name == "Vintage Christmas Movies":
+                query_keys.add("primary_release_date.lte")
+                if query.get("primary_release_date.lte") != "12/31/1979":
+                    raise ValueError("Vintage Christmas ends with the 1979 releases.")
+            if name == "Horror Christmas Movies":
+                query_keys.add("with_genres")
+                if query.get("with_genres") != "27":
+                    raise ValueError("Horror Christmas requires the Horror genre.")
+            if set(query) != query_keys:
+                raise ValueError("Unexpected seasonal discovery override.")
+            for key in query_keys & {"with_keywords", "with_companies", "with_genres"}:
+                comment = query.ca.items.get(key)
+                if not comment or not comment[2] or not comment[2].value.strip("# \n"):
+                    raise ValueError(
+                        "Every seasonal TMDb query needs named ID comments."
+                    )
+        else:
+            allowed.add("tmdb_keyword")
+            ids = definition.get("tmdb_keyword")
+            if (
+                not isinstance(ids, list)
+                or not ids
+                or any(type(value) is not int or value <= 0 for value in ids)
+                or len(ids) != len(set(ids))
+            ):
+                raise ValueError("Seasonal keywords must be unique positive integers.")
+        if name == "Christmas Movies":
+            allowed.add("filters")
+            filters = definition.get("filters", {})
+            if (
+                set(filters) != {"title.not"}
+                or not isinstance(filters["title.not"], list)
+                or any(not isinstance(title, str) for title in filters["title.not"])
+            ):
+                raise ValueError("Christmas exclusions must remain title filters.")
+        searches = {
+            "Valentine's Day Movies": [
+                {"all": {"genre": "Romance, Comedy"}},
+                {"all": {"genre": "Romance, Drama"}},
+            ],
+            "Halloween and Horror Movies": {"any": {"genre": "Horror"}},
+        }
+        if name in searches:
+            allowed.add("plex_search")
+            if definition.get("plex_search") != searches[name]:
+                raise ValueError("Unexpected seasonal Plex search.")
+        if set(definition) != allowed:
+            raise ValueError("Unexpected seasonal source or writer behavior.")
+    check_id_comments(seasonal["collections"], "tmdb_keyword")
+    return list(seasonal["collections"])
+
+
+def seasonal_preview(seasonal) -> dict:
+    """Copy validated sources for a preview with no Radarr connection or deletion.
+
+    Args:
+        seasonal: Round-trip holiday YAML with production download flags disabled.
+
+    Returns:
+        A separate source copy with unchanged builders, artwork, and schedules.
+
+    Raises:
+        ValueError: If production source violates the seasonal safety contract.
+    """
+    seasonal_names(seasonal)
+    result = copy.deepcopy(seasonal)
+    template = result["templates"]["seasonal"]
+
+    #
+    # Kometa requires a Radarr connection even for false Radarr attributes.
+    # Remove only the five validated false flags from the disconnected fixture.
+    #
+    for key in (
+        "radarr_add_missing",
+        "radarr_add_existing",
+        "radarr_search",
+        "radarr_upgrade_existing",
+        "radarr_monitor_existing",
+    ):
+        del template[key]
+    template["delete_not_scheduled"] = False
+    return result
+
+
 def load_preview(source: Path) -> tuple[list[str], dict]:
     """Load preview sources and validate their behavior and readable ID comments.
 
@@ -475,9 +654,11 @@ def load_preview(source: Path) -> tuple[list[str], dict]:
     themes = yaml.load((source / "movies/subgenre-rules.yml").read_text())
     cities = yaml.load((source / "movies/cities.yml").read_text())
     universes = yaml.load((source / "movies/universes.yml").read_text())
+    seasonal = yaml.load((source / "scheduled/seasonal.yml").read_text())
     names = preview_names(franchises, config, smoke, shows)
     names.extend(rule_names(genres, themes))
     names.extend(location_universe_names(cities, universes))
+    names.extend(seasonal_names(seasonal))
     check_id_comments(franchises["collections"], "tmdb_collection")
     check_id_comments(shows["collections"], "tmdb_show")
     check_id_comments(genres["collections"], "tmdb_keyword")
@@ -541,8 +722,13 @@ def main() -> None:
     #
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run", action="store_true")
+    parser.add_argument("--seasonal-only", action="store_true")
     args = parser.parse_args()
     selected, preview = load_preview(Path("/workspace"))
+    if args.seasonal_only:
+        selected = seasonal_names(
+            YAML().load(Path("/workspace/scheduled/seasonal.yml").read_text())
+        )
     if args.run:
         #
         # Check the copied runtime as well as source before enabling Plex writes.
@@ -552,6 +738,14 @@ def main() -> None:
             raise ValueError(
                 "Runtime configuration does not match the checked preview."
             )
+
+        #
+        # Render only the guarded holiday copy into private runtime storage.
+        # All membership and presentation inputs remain identical to the source.
+        #
+        yaml = YAML()
+        seasonal = yaml.load(Path("/workspace/scheduled/seasonal.yml").read_text())
+        yaml.dump(seasonal_preview(seasonal), Path("/config/seasonal.yml"))
         log_path = Path("/config/logs/meta.log")
         previous = log_path.stat().st_mtime_ns if log_path.exists() else None
         subprocess.run(
@@ -567,7 +761,8 @@ def main() -> None:
                 "--run-collections",
                 "|".join(selected),
                 "--run",
-            ],
+            ]
+            + (["--libraries", "test_movie_lib"] if args.seasonal_only else []),
             check=True,
         )
         if not log_path.exists() or log_path.stat().st_mtime_ns == previous:
