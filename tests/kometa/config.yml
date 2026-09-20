@@ -12,10 +12,10 @@ libraries:
   #
   test_movie_lib:
     collection_files:
-      - file: /workspace/tests/kometa/collections.yml
+      - file: /workspace/tests/kometa/smoke-collections.yml
     overlay_files:
-      - file: config/overlays/top.yml
-      - file: config/overlays/background.yml
+      - file: config/overlays/chart-award-ribbons.yml
+      - file: config/overlays/corner-background.yml
       - default: mediastinger
         template_variables:
           file: config/overlays/bottom-left/mediastinger-bottom-left.png
@@ -63,10 +63,10 @@ libraries:
   #
   test_tv_lib:
     collection_files:
-      - file: /workspace/tests/kometa/collections.yml
+      - file: /workspace/tests/kometa/smoke-collections.yml
     overlay_files:
-      - file: config/overlays/top.yml
-      - file: config/overlays/status.yml
+      - file: config/overlays/chart-award-ribbons.yml
+      - file: config/overlays/series-status.yml
       - file: config/overlays/network-fallback.yml
       - default: streaming
         template_variables:

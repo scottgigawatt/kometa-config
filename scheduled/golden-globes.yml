@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# golden.yml: Build Golden Globe collections from lists and IMDb searches.
+# golden-globes.yml: Build Golden Globe collections from lists and IMDb searches.
 #
 
 external_templates:

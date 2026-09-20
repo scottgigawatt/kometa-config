@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# top-actors.yml: Build people collections from Plex credits and TMDb metadata.
+# actors-directors-writers.yml: Build people collections from Plex credits and TMDb metadata.
 #
 
 external_templates:

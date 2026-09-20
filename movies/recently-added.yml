@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# new-old.yml: Separate recent releases from older movies newly added.
+# recently-added.yml: Separate recent releases from older movies newly added.
 #
 
 collections:

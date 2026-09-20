@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# top.yml: Keep experimental chart badges separate from live wiring.
+# chart-award-badges.yml: Keep experimental chart badges separate from live wiring.
 #
 
 templates:

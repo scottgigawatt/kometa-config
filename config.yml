@@ -96,7 +96,7 @@ libraries:
       - default: genre
         template_variables:
           sort_by: title.asc
-          # In genre.yml config
+          # Defined in movies/genres.yml.
           exclude:
             - Horror
             - War
@@ -139,7 +139,7 @@ libraries:
           schedule_thanksgiving: range(11/01-11/24)
           schedule_veteran: range(11/01-11/12)
           imdb_list_veteran: https://www.imdb.com/list/ls561621160/
-          # These default collections are defined in the seasonal.yml config
+          # These default collections are defined in scheduled/holiday-movies.yml
           exclude:
             - christmas
             - easter
@@ -219,8 +219,8 @@ libraries:
     schedule_overlays: hourly(05-07)
     remove_overlays: false
     overlay_files:
-      - file: config/overlays/top.yml
-      - file: config/overlays/background.yml
+      - file: config/overlays/chart-award-ribbons.yml
+      - file: config/overlays/corner-background.yml
       - default: mediastinger
         template_variables:
           file: config/overlays/bottom-left/mediastinger-bottom-left.png
@@ -297,7 +297,7 @@ libraries:
       - folder: config/shows/
 
       # Define with scheduled 'TV Shows' library collections
-      - file: config/scheduled/emmy.yml
+      - file: config/scheduled/emmy-awards.yml
 
       #
       # Define 'TV Shows' library default collections
@@ -366,8 +366,8 @@ libraries:
     schedule_overlays: hourly(05-07)
     remove_overlays: false
     overlay_files:
-      - file: config/overlays/top.yml
-      - file: config/overlays/status.yml
+      - file: config/overlays/chart-award-ribbons.yml
+      - file: config/overlays/series-status.yml
       - file: config/overlays/network-fallback.yml
       - default: streaming
         template_variables:
@@ -483,7 +483,7 @@ libraries:
 # Define movie and TV playlists
 #
 playlist_files:
-  - file: config/playlists/playlists.yml
+  - file: config/playlists/battlestar-galactica-timeline.yml
   - default: playlist
     # template_variables:
     #   # These default playlists are defined in the playlist.yml config

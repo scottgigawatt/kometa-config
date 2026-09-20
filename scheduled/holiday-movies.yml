@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# seasonal.yml: Build holiday movie collections from Plex tags and TMDb metadata.
+# holiday-movies.yml: Build holiday movie collections from Plex tags and TMDb metadata.
 #
 
 templates:

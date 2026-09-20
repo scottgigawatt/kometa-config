@@ -36,7 +36,9 @@ class SeasonalPreviewTests(unittest.TestCase):
     def setUp(self) -> None:
         """Load fresh round-trip YAML so ID comment checks remain meaningful."""
         yaml = YAML()
-        self.source = yaml.load(Path("/workspace/scheduled/seasonal.yml").read_text())
+        self.source = yaml.load(
+            Path("/workspace/scheduled/holiday-movies.yml").read_text()
+        )
         self.config = yaml.load(Path("/workspace/config.yml").read_text())
 
     #
@@ -176,15 +178,19 @@ class SeasonalPreviewTests(unittest.TestCase):
         seasonal = next(
             entry
             for entry in config["libraries"]["test_movie_lib"]["collection_files"]
-            if entry["file"] == "/config/seasonal.yml"
+            if entry["file"] == "/config/holiday-movies.yml"
         )
-        seasonal["file"] = "/workspace/scheduled/seasonal.yml"
+        seasonal["file"] = "/workspace/scheduled/holiday-movies.yml"
         with self.assertRaises(ValueError):
             preview.preview_names(
-                yaml.load(Path("/workspace/movies/franchise.yml").read_text()),
+                yaml.load(Path("/workspace/movies/franchises.yml").read_text()),
                 config,
-                yaml.load(Path("/workspace/tests/kometa/collections.yml").read_text()),
-                yaml.load(Path("/workspace/shows/shuffle.yml").read_text()),
+                yaml.load(
+                    Path("/workspace/tests/kometa/smoke-collections.yml").read_text()
+                ),
+                yaml.load(
+                    Path("/workspace/shows/animation-and-sitcoms.yml").read_text()
+                ),
             )
 
     def test_projection_changes_only_disabled_integration_and_deletion(self) -> None:

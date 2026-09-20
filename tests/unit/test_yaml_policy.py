@@ -49,7 +49,7 @@ class YamlPolicyTests(unittest.TestCase):
 
     def test_subgenre_inline_spacing(self) -> None:
         """Separate subgenre ID comments by exactly two spaces without alignment."""
-        source = (self.root / "movies/subgenre-top.yml").read_text()
+        source = (self.root / "movies/top-rated-subgenres.yml").read_text()
         lines = [
             line
             for line in source.splitlines()
@@ -59,6 +59,58 @@ class YamlPolicyTests(unittest.TestCase):
         for line in lines:
             with self.subTest(line=line):
                 self.assertRegex(line, r'^\s+\w+: "[0-9|,]+"  # \S')
+
+    def test_definition_filenames_use_kebab_case(self) -> None:
+        """Keep authored collection, overlay, playlist, and fixture names consistent."""
+        for folder in (
+            "movies",
+            "shows",
+            "scheduled",
+            "overlays",
+            "playlists",
+            "tests/kometa",
+        ):
+            for path in (self.root / folder).rglob("*.yml"):
+                with self.subTest(path=path.relative_to(self.root)):
+                    self.assertRegex(path.name, r"^[a-z0-9]+(?:-[a-z0-9]+)*\.yml$")
+
+    def test_configuration_source_paths_exist(self) -> None:
+        """Resolve local source wiring after renames without reading private runtime state."""
+
+        #
+        # Collection previews generate these two guarded copies from tracked source.
+        # Every other local definition must exist in the read-only YAML snapshot.
+        #
+        generated = {
+            "/config/holiday-movies.yml": "scheduled/holiday-movies.yml",
+            "/config/holiday-episodes.yml": "shows/holiday-episodes.yml",
+        }
+        for name in (
+            "config.yml",
+            "tests/kometa/config.yml",
+            "tests/kometa/collections-config.yml",
+        ):
+            config = self.yaml.load((self.root / name).read_text())
+            scopes = [config, *config["libraries"].values()]
+            for scope in scopes:
+                for key in ("collection_files", "overlay_files", "playlist_files"):
+                    for entry in scope.get(key, []):
+                        for kind in ("file", "folder"):
+                            if kind not in entry:
+                                continue
+                            original = entry[kind]
+                            relative = generated.get(original, original)
+                            for prefix in ("/workspace/", "/config/", "config/"):
+                                if relative.startswith(prefix):
+                                    relative = relative.removeprefix(prefix)
+                                    break
+                            target = self.root / relative
+                            with self.subTest(config=name, kind=kind, path=original):
+                                self.assertTrue(
+                                    target.is_file()
+                                    if kind == "file"
+                                    else target.is_dir()
+                                )
 
     def test_existing_arr_monitoring_disabled(self) -> None:
         """Leave existing movie and episode monitoring under Radarr and Sonarr control."""
@@ -77,7 +129,10 @@ class YamlPolicyTests(unittest.TestCase):
         self.assertEqual(config["settings"]["playlist_sync_to_users"], "all")
         self.assertEqual(
             config["playlist_files"],
-            [{"file": "config/playlists/playlists.yml"}, {"default": "playlist"}],
+            [
+                {"file": "config/playlists/battlestar-galactica-timeline.yml"},
+                {"default": "playlist"},
+            ],
         )
 
     def test_unused_nightly_setting_absent(self) -> None:
@@ -147,7 +202,9 @@ class YamlPolicyTests(unittest.TestCase):
 
     def test_explicit_actors_excluded_from_dynamic_generation(self) -> None:
         """Reserve named actor collections before the dynamic actor limit is filled."""
-        source = self.yaml.load((self.root / "movies/top-actors.yml").read_text())
+        source = self.yaml.load(
+            (self.root / "movies/actors-directors-writers.yml").read_text()
+        )
         actors = source["dynamic_collections"]["Top Actors"]
         self.assertEqual(actors["type"], "actor")
         self.assertEqual(actors["title_format"], "<<title>> Collection")
@@ -168,7 +225,9 @@ class YamlPolicyTests(unittest.TestCase):
         #
         importlib.import_module("modules.builder")
         meta = importlib.import_module("modules.meta")
-        source = self.yaml.load((self.root / "movies/top-actors.yml").read_text())
+        source = self.yaml.load(
+            (self.root / "movies/actors-directors-writers.yml").read_text()
+        )
         actor_names = [
             definition["template"]["actor"]
             for definition in source["collections"].values()
@@ -231,7 +290,9 @@ class YamlPolicyTests(unittest.TestCase):
     #
     def test_preroll_structure(self) -> None:
         """Keep every pre-roll inside collections with schema-compatible schedules."""
-        source = self.yaml.load((self.root / "movies/pre-roll.yml").read_text())
+        source = self.yaml.load(
+            (self.root / "movies/seasonal-pre-rolls.yml").read_text()
+        )
         self.assertEqual(set(source), {"collections"})
         self.assertEqual(
             set(source["collections"]),
@@ -254,7 +315,9 @@ class YamlPolicyTests(unittest.TestCase):
 
     def test_preroll_calendar(self) -> None:
         """Check the complete annual rotation using Kometa's actual scheduler."""
-        source = self.yaml.load((self.root / "movies/pre-roll.yml").read_text())
+        source = self.yaml.load(
+            (self.root / "movies/seasonal-pre-rolls.yml").read_text()
+        )
         windows = {
             "Weekly": ((301, 321), (426, 531), (701, 915)),
             "New Year": ((101, 115), (1226, 1231)),
@@ -287,7 +350,7 @@ class YamlPolicyTests(unittest.TestCase):
 
     def test_shuffle_source_policy(self) -> None:
         """Keep random sampling separate from the post-filter 25-movie cap."""
-        source = self.yaml.load((self.root / "movies/shuffle.yml").read_text())
+        source = self.yaml.load((self.root / "movies/weekly-shuffle.yml").read_text())
         definition = source["collections"]["Weekly Shuffle"]
         template = source["templates"]["random"]
         self.assertEqual(template["limit"], 25)

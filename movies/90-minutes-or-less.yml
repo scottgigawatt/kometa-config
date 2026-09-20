@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# duration.yml: Select shorter movies using Plex runtime metadata.
+# 90-minutes-or-less.yml: Select shorter movies using Plex runtime metadata.
 #
 
 templates:

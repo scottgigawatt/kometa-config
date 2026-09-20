@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# pre-roll.yml: Schedule server-wide pre-roll selections without collections.
+# seasonal-pre-rolls.yml: Schedule server-wide pre-roll selections without collections.
 #
 
 collections:

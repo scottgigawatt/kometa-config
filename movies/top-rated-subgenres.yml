@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# subgenre-top.yml: Build ranked movie themes from native provider searches.
+# top-rated-subgenres.yml: Build ranked movie themes from native provider searches.
 #
 
 templates:

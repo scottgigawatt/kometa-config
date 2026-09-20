@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# collections.yml: Non-destructive smoke collection for both Plex fixtures.
+# smoke-collections.yml: Non-destructive smoke collection for both Plex fixtures.
 #
 
 collections:

@@ -80,7 +80,12 @@ def check_assets(source: Path, defaults: Path, tracked: set[str]) -> list[str]:
     # Check local ribbons and backgrounds too, resolving the status template.
     # Git's names are authoritative even on case-insensitive macOS filesystems.
     #
-    for name in ("top", "background", "status", "network-fallback"):
+    for name in (
+        "chart-award-ribbons",
+        "corner-background",
+        "series-status",
+        "network-fallback",
+    ):
         text = (source / f"overlays/{name}.yml").read_text()
         for reference in re.findall(
             r"^\s+file: (config/overlays/[^\n]+)", text, re.MULTILINE

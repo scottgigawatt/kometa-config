@@ -41,16 +41,22 @@ class CollectionPreviewTests(unittest.TestCase):
     def setUp(self) -> None:
         """Load fresh source data so each mutation test remains independent."""
         yaml = YAML(typ="safe")
-        self.franchises = yaml.load(Path("/workspace/movies/franchise.yml").read_text())
+        self.franchises = yaml.load(
+            Path("/workspace/movies/franchises.yml").read_text()
+        )
         self.config = yaml.load(
             Path("/workspace/tests/kometa/collections-config.yml").read_text()
         )
         self.smoke = yaml.load(
-            Path("/workspace/tests/kometa/collections.yml").read_text()
+            Path("/workspace/tests/kometa/smoke-collections.yml").read_text()
         )
-        self.shows = yaml.load(Path("/workspace/shows/shuffle.yml").read_text())
-        self.genres = yaml.load(Path("/workspace/movies/genre.yml").read_text())
-        self.themes = yaml.load(Path("/workspace/movies/subgenre-top.yml").read_text())
+        self.shows = yaml.load(
+            Path("/workspace/shows/animation-and-sitcoms.yml").read_text()
+        )
+        self.genres = yaml.load(Path("/workspace/movies/genres.yml").read_text())
+        self.themes = yaml.load(
+            Path("/workspace/movies/top-rated-subgenres.yml").read_text()
+        )
 
     #
     # Check rule-based membership and reject hidden source or template behavior.
@@ -219,14 +225,14 @@ class CollectionPreviewTests(unittest.TestCase):
 
     def test_genre_and_subgenre_sources_have_no_trakt(self) -> None:
         """Keep movie genre and theme sources independent of Trakt lists."""
-        for name in ("genre.yml", "subgenre-top.yml"):
+        for name in ("genres.yml", "top-rated-subgenres.yml"):
             self.assertNotIn(
                 "trakt", Path("/workspace/movies", name).read_text().lower()
             )
 
     def test_theme_personal_lists_are_absent(self) -> None:
         """Keep the complete theme source free of personal-list dependencies."""
-        text = Path("/workspace/movies/subgenre-top.yml").read_text().lower()
+        text = Path("/workspace/movies/top-rated-subgenres.yml").read_text().lower()
         for marker in ("letterboxd", "trakt", "imdb_list", "mdblist"):
             with self.subTest(marker=marker):
                 self.assertNotIn(marker, text)
@@ -562,7 +568,9 @@ class CollectionPreviewTests(unittest.TestCase):
     def test_only_owner_favorites_active(self) -> None:
         """Retain only the owner's active favorites source."""
         yaml = YAML(typ="safe")
-        favorites = yaml.load(Path("/workspace/movies/favorites.yml").read_text())
+        favorites = yaml.load(
+            Path("/workspace/movies/edwards-favorites.yml").read_text()
+        )
         self.assertEqual(list(favorites["collections"]), ["Edward's Favorite Movies"])
         self.assertFalse(Path("/workspace/shows/favorites.yml").exists())
 
@@ -679,7 +687,9 @@ class CollectionPreviewTests(unittest.TestCase):
     def test_tv_id_comment_required(self) -> None:
         """Require a readable title comment beside every explicit show ID."""
         yaml = YAML()
-        shows = yaml.load(Path("/workspace/shows/shuffle.yml").read_text())
+        shows = yaml.load(
+            Path("/workspace/shows/animation-and-sitcoms.yml").read_text()
+        )
         shows["collections"]["Adult Animation"]["tmdb_show"].ca.items.clear()
         with self.assertRaises(ValueError):
             preview.check_id_comments(shows["collections"], "tmdb_show")
@@ -750,7 +760,9 @@ class CollectionPreviewTests(unittest.TestCase):
     def test_only_chronological_playlist_retained(self) -> None:
         """Retain the single mixed-media chronological playlist."""
         yaml = YAML(typ="safe")
-        source = yaml.load(Path("/workspace/playlists/playlists.yml").read_text())
+        source = yaml.load(
+            Path("/workspace/playlists/battlestar-galactica-timeline.yml").read_text()
+        )
         self.assertEqual(
             list(source["playlists"]), ["Battlestar Galactica (Timeline Order)"]
         )

@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# emmy.yml: Search Emmy-winning shows across rolling release windows.
+# emmy-awards.yml: Search Emmy-winning shows across rolling release windows.
 #
 
 external_templates:

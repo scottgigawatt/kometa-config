@@ -36,7 +36,7 @@ The [documentation index](docs/index.md) links to the complete guide.
 
 ## Artwork and credits
 
-Explore the custom [subgenre posters](assets/posters/subgenre_top/) and their [collection definitions](movies/subgenre-top.yml).
+Explore the custom [subgenre posters](assets/posters/subgenre_top/) and their [collection definitions](movies/top-rated-subgenres.yml).
 
 ![A selection of custom subgenre collection posters](https://github.com/scottgigawatt/kometa-config/assets/16313565/091fc37c-e9d4-4f8e-8e2c-0b537f46e8c0)
 

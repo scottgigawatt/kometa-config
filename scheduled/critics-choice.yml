@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# choice.yml: Build seasonal Critics Choice collections from award lists.
+# critics-choice.yml: Build seasonal Critics Choice collections from award lists.
 #
 
 external_templates:

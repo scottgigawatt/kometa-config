@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# overlays.yml: Keep experimental rating overlays separate from live wiring.
+# ratings.yml: Keep experimental rating overlays separate from live wiring.
 #
 
 templates:

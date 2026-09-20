@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# genre.yml: Build movie genres from Plex tags and named TMDb keywords.
+# genres.yml: Build movie genres from Plex tags and named TMDb keywords.
 #
 
 templates:

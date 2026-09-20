@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# seasonal.yml: Select holiday episodes using their own Plex titles and summaries.
+# holiday-episodes.yml: Select holiday episodes using their own Plex titles and summaries.
 #
 
 templates:
