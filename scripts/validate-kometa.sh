@@ -103,6 +103,7 @@ docker run --rm \
 #
 # Check native collection selection, readable ID comments, and preview isolation.
 # Exercise regression tests offline with the same pinned YAML implementation.
+# Give CLI tests disposable scratch space while keeping source mounts read-only.
 #
 docker run --rm \
     --network none \
@@ -111,6 +112,7 @@ docker run --rm \
     --security-opt no-new-privileges \
     --user "$(id -u):$(id -g)" \
     --env PYTHONDONTWRITEBYTECODE=1 \
+    --tmpfs /tmp:rw,noexec,nosuid,size=64m \
     --mount "type=bind,src=$source_directory,dst=/workspace,readonly" \
     --mount "type=bind,src=$repository_root/scripts,dst=/scripts,readonly" \
     --mount "type=bind,src=$repository_root/tests/unit,dst=/tests,readonly" \
