@@ -50,17 +50,15 @@ class CollectionPreviewTests(unittest.TestCase):
         )
         self.shows = yaml.load(Path("/workspace/shows/shuffle.yml").read_text())
         self.genres = yaml.load(Path("/workspace/movies/genre.yml").read_text())
-        self.themes = yaml.load(
-            Path("/workspace/movies/subgenre-rules.yml").read_text()
-        )
+        self.themes = yaml.load(Path("/workspace/movies/subgenre-top.yml").read_text())
 
     #
     # Check rule-based membership and reject hidden source or template behavior.
     #
     def test_genre_and_theme_selection(self) -> None:
-        """Select all seven genre rules and thirteen supported theme searches."""
+        """Select all seven genre rules and 101 supported theme searches."""
         names = preview.rule_names(self.genres, self.themes)
-        self.assertEqual(len(names), 20)
+        self.assertEqual(len(names), 108)
         self.assertIn("LGBTQ+ Movies", names)
         self.assertIn("Top Rated in Mindfuck", names)
 
@@ -182,33 +180,29 @@ class CollectionPreviewTests(unittest.TestCase):
 
     def test_imdb_curated_list_rejected(self) -> None:
         """Reject curated IMDb lists added to a keyword-based search."""
-        self.themes["collections"]["Top Rated in Mindfuck"]["imdb_search"][
-            "list.any"
-        ] = "ls12345"
+        self.themes["templates"]["imdb_theme"]["imdb_search"]["list.any"] = "ls12345"
         with self.assertRaises(ValueError):
             preview.rule_names(self.genres, self.themes)
 
     def test_genre_and_subgenre_sources_have_no_trakt(self) -> None:
         """Keep movie genre and theme sources independent of Trakt lists."""
-        for name in ("genre.yml", "subgenre-rules.yml", "subgenre-top.yml"):
+        for name in ("genre.yml", "subgenre-top.yml"):
             self.assertNotIn(
                 "trakt", Path("/workspace/movies", name).read_text().lower()
             )
 
-    def test_theme_names_are_not_duplicated(self) -> None:
-        """Prevent rule-based themes from duplicating remaining definitions."""
-        remaining = YAML(typ="safe").load(
-            Path("/workspace/movies/subgenre-top.yml").read_text()
-        )
-        self.assertFalse(
-            set(remaining["collections"]) & set(self.themes["collections"])
-        )
+    def test_theme_personal_lists_are_absent(self) -> None:
+        """Keep the complete theme source free of personal-list dependencies."""
+        text = Path("/workspace/movies/subgenre-top.yml").read_text().lower()
+        for marker in ("letterboxd", "trakt", "imdb_list", "mdblist"):
+            with self.subTest(marker=marker):
+                self.assertNotIn(marker, text)
 
     #
     # Exercise the scoped CLI without credentials, network access, or Plex writes.
     #
     def test_subgenre_command_targets_only_movie_themes(self) -> None:
-        """Restrict the live command to thirteen themes in the movie fixture."""
+        """Restrict the live command to all 101 themes in the movie fixture."""
         with tempfile.TemporaryDirectory() as directory:
             runtime = Path(directory)
             runtime.joinpath("config.yml").write_text(
@@ -265,6 +259,179 @@ class CollectionPreviewTests(unittest.TestCase):
             self.assertEqual(error.exception.code, 2)
             load.assert_not_called()
 
+    #
+    # Freeze public identity and presentation independently of provider membership.
+    # These expectations catch accidental removals and flattened rating thresholds.
+    #
+    def test_all_theme_contracts_preserved(self) -> None:
+        """Preserve all names, poster mappings, schedules, and rating floors."""
+        expected = {
+            "Absurdism": ("absurdism", "weekly(monday)", 5, 1000),
+            "Aliens": ("aliens", "weekly(monday)", 5, 1000),
+            "Alternate History": ("alternate-history", "weekly(monday)", 5, 1000),
+            "Anti-Hero": ("anti-hero", "weekly(monday)", 5, 1000),
+            "Apocalypse": ("apocalypse", "weekly(monday)", 5, 1000),
+            "Artificial Intelligence": (
+                "artificial-intelligence",
+                "weekly(monday)",
+                5,
+                1000,
+            ),
+            "Assassins": ("assassins", "weekly(monday)", 5, 1000),
+            "Betrayal": ("betrayal", "weekly(monday)", 5, 1000),
+            "Bigfoot": ("bigfoot", "weekly(monday)", 5, 500),
+            "Boxing": ("boxing", "weekly(monday)", 2, 100),
+            "Bugs": ("bugs", "weekly(monday)", 2, 100),
+            "Cannibals": ("cannibals", "weekly(monday)", 2, 100),
+            "Caper": ("caper", "weekly(monday)", 5, 100),
+            "Chick-flick": ("chick-flick", "weekly(monday)", 5, 100),
+            "Comics": ("comics", "weekly(tuesday)", 5, 1000),
+            "Coming of Age": ("coming-of-age", "weekly(tuesday)", 5, 1000),
+            "Con-Artists": ("con-artists", "weekly(tuesday)", 2, 1000),
+            "Cop": ("cop", "weekly(tuesday)", 2, 1000),
+            "Costume Drama": ("costume-drama", "weekly(tuesday)", 5, 1000),
+            "Courtroom": ("courtroom", "weekly(tuesday)", 5, 1000),
+            "Cyberpunk": ("cyberpunk", "weekly(tuesday)", 5, 1000),
+            "Dark Comedy": ("dark-comedy", "weekly(monday)", 5, 1000),
+            "Dark Fantasy": ("dark-fantasy", "weekly(tuesday)", 5, 1000),
+            "Detective": ("detective", "weekly(tuesday)", 5, 1000),
+            "Disaster": ("disaster", "weekly(tuesday)", 5, 1000),
+            "Dragons": ("dragons", "weekly(tuesday)", 3, 1000),
+            "Dystopian": ("dystopian", "weekly(tuesday)", 5, 1000),
+            "Epics": ("epics", "weekly(tuesday)", 5, 1000),
+            "Espionage": ("espionage", "weekly(tuesday)", 5, 1000),
+            "Experimental": ("experimental", "weekly(wednesday)", 3, 1000),
+            "Fairytales": ("fairytales", "weekly(wednesday)", 5, 1000),
+            "Found Footage": ("found-footage", "weekly(wednesday)", 2, 1000),
+            "Fugitives": ("fugitives", "weekly(wednesday)", 5, 1000),
+            "Gangster": ("gangster", "weekly(wednesday)", 5, 1000),
+            "Ghosts": ("ghosts", "weekly(wednesday)", 5, 1000),
+            "Gothic": ("gothic", "weekly(wednesday)", 2, 100),
+            "Heartbreak": ("heartbreak", "weekly(wednesday)", 1, 10),
+            "Heists": ("heists", "weekly(wednesday)", 5, 1000),
+            "Historical Event": ("historical-event", "weekly(wednesday)", 5, 1000),
+            "Hostage": ("hostage", "weekly(wednesday)", 5, 1000),
+            "Hustle": ("hustle", "weekly(wednesday)", 5, 1000),
+            "Martial-Arts": ("martial-arts", "weekly(wednesday)", 5, 1000),
+            "Medical": ("medical", "weekly(wednesday)", 2, 100),
+            "Medieval": ("medieval", "weekly(wednesday)", 5, 1000),
+            "Melodrama": ("melodrama", "weekly(thursday)", 5, 1000),
+            "Military": ("military", "weekly(thursday)", 2, 1000),
+            "Mindfuck": ("mindfuck", "weekly(thursday)", 5, 1000),
+            "Mockumentary": ("mockumentary", "weekly(thursday)", 2, 1000),
+            "Monsters": ("monsters", "weekly(thursday)", 5, 1000),
+            "Mythology": ("mythology", "weekly(thursday)", 5, 1000),
+            "Naval": ("naval", "weekly(thursday)", 2, 1000),
+            "Ninjas": ("ninjas", "weekly(thursday)", 5, 1000),
+            "Novel": ("novel", "weekly(thursday)", 5, 1000),
+            "Occult": ("occult", "weekly(thursday)", 5, 1000),
+            "Outerspace": ("outerspace", "weekly(thursday)", 5, 1000),
+            "Outlaw": ("outlaw", "weekly(thursday)", 2, 100),
+            "Pandemic": ("pandemic", "weekly(thursday)", 2, 1000),
+            "Paranormal": ("paranormal", "weekly(thursday)", 5, 1000),
+            "Period Drama": ("period-drama", "weekly(friday)", 5, 1000),
+            "Philosophical": ("philosophical", "weekly(friday)", 5, 1000),
+            "Political": ("political", "weekly(friday)", 5, 1000),
+            "Post-Apocalyptic": ("post-apocalyptic", "weekly(friday)", 5, 1000),
+            "Prehistoric": ("prehistoric", "weekly(friday)", 2, 1000),
+            "Prison": ("prison", "weekly(friday)", 2, 100),
+            "Psychedelic": ("psychedelic", "weekly(friday)", 2, 1000),
+            "Psychological": ("psychological", "weekly(friday)", 2, 1000),
+            "Religion": ("religion", "weekly(friday)", 2, 100),
+            "Remake": ("remake", "weekly(friday)", 5, 100),
+            "Revenge": ("revenge", "weekly(friday)", 3, 1000),
+            "Robots": ("robots", "weekly(friday)", 3, 1000),
+            "Romantic Comedy": ("romantic-comedy", "weekly(friday)", 5, 1000),
+            "Romantic Drama": ("romantic-drama", "weekly(friday)", 5, 1000),
+            "Samurai": ("samurai", "weekly(friday)", 2, 100),
+            "Satire": ("satire", "weekly(friday)", 5, 1000),
+            "Serial Killers": ("serial-killers", "weekly(saturday)", 5, 1000),
+            "Slasher": ("slasher", "weekly(saturday)", 5, 1000),
+            "Space Opera": ("space-opera", "weekly(saturday)", 2, 1000),
+            "Spaghetti Western": ("spaghetti-western", "weekly(saturday)", 1, 10),
+            "Splatter": ("splatter", "weekly(saturday)", 2, 1000),
+            "Steampunk": ("steampunk", "weekly(saturday)", 5, 1000),
+            "Stoner": ("stoner", "weekly(saturday)", 1, 1000),
+            "Stop-Motion": ("stop-motion", "weekly(saturday)", 5, 100),
+            "Superhero": ("superhero", "weekly(saturday)", 5, 1000),
+            "Supernatural": ("supernatural", "weekly(saturday)", 5, 1000),
+            "Surrealism": ("surrealism", "weekly(saturday)", 5, 1000),
+            "Survival": ("survival", "weekly(saturday)", 5, 1000),
+            "Swashbuckler": ("swashbuckler", "weekly(saturday)", 2, 100),
+            "Sword & Sandal": ("sword-sandal", "weekly(saturday)", 3, 1000),
+            "Sword & Sorcery": ("sword-sorcery", "weekly(saturday)", 3, 1000),
+            "Time Travel": ("time-travel", "weekly(sunday)", 5, 1000),
+            "Treasure Hunt": ("treasure-hunt", "weekly(sunday)", 2, 100),
+            "True Story": ("true-story", "weekly(sunday)", 5, 1000),
+            "Urban Fantasy": ("urban-fantasy", "weekly(sunday)", 5, 1000),
+            "Utopian": ("utopian", "weekly(sunday)", 5, 1000),
+            "Vampires": ("vampires", "weekly(sunday)", 5, 1000),
+            "Video Game": ("video-game", "weekly(sunday)", 5, 1000),
+            "Werewolves": ("werewolves", "weekly(sunday)", 5, 1000),
+            "Whodunit?": ("whodunit", "weekly(sunday)", 2, 100),
+            "Wizardry & Witchcraft": ("wizardry-witchcraft", "weekly(sunday)", 5, 1000),
+            "World War": ("world-war", "weekly(sunday)", 5, 1000),
+            "Zombies": ("zombies", "weekly(sunday)", 5, 1000),
+        }
+        self.assertEqual(
+            set(self.themes["collections"]),
+            {f"Top Rated in {theme}" for theme in expected},
+        )
+        for theme, (poster, schedule, rating, votes) in expected.items():
+            with self.subTest(theme=theme):
+                definition = self.themes["collections"][f"Top Rated in {theme}"]
+                variables = definition["template"][1]
+                self.assertEqual(
+                    definition["file_poster"],
+                    f"/config/assets/posters/subgenre_top/subgenre_top_{poster}.png",
+                )
+                self.assertEqual(definition["schedule"], schedule)
+                self.assertEqual(variables.get("minimum_rating", 5), rating)
+                self.assertEqual(variables.get("minimum_votes", 1000), votes)
+
+    def test_theme_templates_reject_list_builders(self) -> None:
+        """Reject external lists and writers inherited by any shared template."""
+        for template in self.themes["templates"]:
+            for key in (
+                "letterboxd_list",
+                "imdb_list",
+                "trakt_list",
+                "mdblist_list",
+                "radarr_search",
+            ):
+                with self.subTest(template=template, key=key):
+                    changed = copy.deepcopy(self.themes)
+                    changed["templates"][template][key] = "unexpected"
+                    with self.assertRaises(ValueError):
+                        preview.rule_names(self.genres, changed)
+
+    def test_native_query_boundaries(self) -> None:
+        """Keep synonyms as alternatives and romantic genres as intersections."""
+        expected = {
+            "Aliens": {"keywords": "9951|14909"},
+            "Anti-Hero": {"keywords": "2095"},
+            "Coming of Age": {"keywords": "10683"},
+            "Robots": {"keywords": "14544|10891"},
+            "Romantic Comedy": {"genres": "10749,35"},
+            "Romantic Drama": {"genres": "10749,18"},
+            "Utopian": {"keywords": "3469", "excluded_keywords": "4565"},
+        }
+        for theme, query in expected.items():
+            variables = self.themes["collections"][f"Top Rated in {theme}"]["template"][
+                1
+            ]
+            for key, value in query.items():
+                with self.subTest(theme=theme, key=key):
+                    self.assertEqual(variables[key], value)
+
+    def test_unbounded_theme_search_rejected(self) -> None:
+        """Reject a TMDb theme with no keyword or genre restriction."""
+        del self.themes["collections"]["Top Rated in Zombies"]["template"][1][
+            "keywords"
+        ]
+        with self.assertRaises(ValueError):
+            preview.rule_names(self.genres, self.themes)
+
     def check(self) -> list[str]:
         """Evaluate the same guard used by the live preview entrypoint."""
         return preview.preview_names(
@@ -277,7 +444,7 @@ class CollectionPreviewTests(unittest.TestCase):
     def test_native_selection(self) -> None:
         """Select all guarded sources while excluding unrelated franchises."""
         selected, _ = preview.load_preview(Path("/workspace"))
-        self.assertEqual(len(selected), 65)
+        self.assertEqual(len(selected), 153)
         self.assertIn("The Purge Collection", selected)
         self.assertIn("Adult Animation", selected)
         self.assertNotIn("After Collection", selected)

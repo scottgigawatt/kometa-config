@@ -65,7 +65,7 @@ docker run --rm \
     --mount "type=bind,src=$repository_root/assets,dst=/config/assets,readonly" \
     --mount "type=bind,src=$repository_root/movies/franchise.yml,dst=/workspace/movies/franchise.yml,readonly" \
     --mount "type=bind,src=$repository_root/movies/genre.yml,dst=/workspace/movies/genre.yml,readonly" \
-    --mount "type=bind,src=$repository_root/movies/subgenre-rules.yml,dst=/workspace/movies/subgenre-rules.yml,readonly" \
+    --mount "type=bind,src=$repository_root/movies/subgenre-top.yml,dst=/workspace/movies/subgenre-top.yml,readonly" \
     --mount "type=bind,src=$repository_root/movies/cities.yml,dst=/workspace/movies/cities.yml,readonly" \
     --mount "type=bind,src=$repository_root/movies/universes.yml,dst=/workspace/movies/universes.yml,readonly" \
     --mount "type=bind,src=$repository_root/scheduled/seasonal.yml,dst=/workspace/scheduled/seasonal.yml,readonly" \
