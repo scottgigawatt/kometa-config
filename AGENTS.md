@@ -79,6 +79,8 @@ Use `make test-collections` for collection previews without rerunning overlays. 
 
 Never point the test configuration at production library names. Overlay files must be evaluated together; do not use Kometa's `--run-files` option for overlays.
 
+CodeQL uses the checked-in `.github/workflows/codeql-actions.yml` with independent Python and GitHub Actions analyses. Preserve its digest pins, minimal permissions, separate language categories, and framed job/step comments. Keep GitHub Default setup disabled; do not introduce a competing CodeQL workflow or enable separate billable analysis features as part of routine maintenance.
+
 ## Production changes
 
 Repository validation does not prove that external lists still exist or that Plex will render the desired result. After a test-library pass, deploy one clean Git commit to Hera, run only the affected library or definition where Kometa supports it, inspect the log and Plex result, and then perform the full scheduled run.

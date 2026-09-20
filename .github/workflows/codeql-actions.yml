@@ -1,0 +1,71 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# codeql-actions.yml: Analyze Kometa's Python helpers and GitHub Actions source.
+#
+
+name: "Inspect the Kometa Security Reels 🔎"
+
+#
+# Inspect every change entering main, every resulting main commit, and any
+# manually requested security review.
+#
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  #
+  # Analyze Python and workflow source independently, matching Plundarr's matrix.
+  # One language failure must not cancel the other language's useful results.
+  #
+  codeql:
+    name: "Inspect Python and Actions 🧪"
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language:
+          - actions
+          - python
+
+    steps:
+      #
+      # Check out without retaining credentials; CodeQL alone receives permission
+      # to publish analysis results. No private runtime configuration is loaded.
+      #
+      - name: "Load the Source Reels 🎞️"
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      #
+      # Initialize CodeQL for the current matrix language using standard queries.
+      #
+      - name: "Focus the CodeQL Lens 🔍"
+        uses: github/codeql-action/init@1c5b675653bb5c22dbe9b12b556ec555138e09fd  # v4
+        with:
+          languages: ${{ matrix.language }}
+
+      #
+      # Publish separate Python and Actions categories for code-scanning rules.
+      #
+      - name: "Screen the Security Findings 📽️"
+        uses: github/codeql-action/analyze@1c5b675653bb5c22dbe9b12b556ec555138e09fd  # v4
+        with:
+          category: "/language:${{ matrix.language }}"

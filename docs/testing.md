@@ -25,6 +25,14 @@ The same command checks enabled custom artwork against the pinned Defaults catal
 
 Validation also checks native franchise ID comments and collection-preview isolation, with offline regression tests for unsafe libraries, connections, maintenance, download settings, and external list writers. Ruff enforces Python lint, import ordering, module/class/function docstrings, and formatting through pre-commit and CI.
 
+## CodeQL security analysis
+
+The checked-in `.github/workflows/codeql-actions.yml` uses GitHub's Advanced setup, matching Plundarr and Privateerr's source-controlled approach. Independent matrix jobs scan Python helpers/tests and GitHub Actions on pull requests to `main`, pushes to `main`, and manual dispatches. Actions are pinned by commit, checkout credentials are not retained, and only the analysis jobs receive `security-events: write` to publish findings. Renovate maintains the action pins.
+
+Keep CodeQL Default setup disabled; the workflow uses standard queries and needs no additional CodeQL configuration file. The ruleset requires CodeQL results, while `Validate the Configuration Reels 🎞️` remains the required repository validation check. Both language analyses must publish successfully; a green lint job alone does not establish CodeQL coverage. Check the Actions runs and the repository's code-scanning tool status for the analyzed commit and branch before merging.
+
+CodeQL does not run Kometa, connect to Plex, or replace configuration validation and secret scanning. GitHub Code Quality is a separate product, not the Ruff checks in this repository. Do not require its results unless that product is available and deliberately enabled.
+
 ## Configure Python editing
 
 The workspace defaults to `.venv`, whose `ruamel.yaml` version matches the pinned Kometa image. In an existing VS Code workspace, run **Python: Select Interpreter** and choose `.venv/bin/python` after setup. Pylance resolves imports from the selected environment; an earlier selection is not replaced automatically by the workspace default. See [VS Code's interpreter settings](https://code.visualstudio.com/docs/python/settings-reference).
