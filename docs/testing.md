@@ -19,11 +19,13 @@ python -m pip install -r requirements-dev.txt
 make check
 ```
 
-`make validate` runs the official Kometa 2.4.8 directory validator in an immutable container with no secrets or Plex access. Its read-only source snapshot contains only Git-tracked YAML, including working-tree edits; stage new YAML files before validation. Ignored credentials and runtime output are not mounted. Kometa performs its normal upstream version check, but the directory validator does not initialize the configured services or modify the repository.
+`make validate` runs the official Kometa directory validator using the immutable image pinned in `Makefile`, with no secrets or Plex access. Its read-only source snapshot contains only Git-tracked YAML, including working-tree edits; stage new YAML files before validation. Ignored credentials and runtime output are not mounted. Kometa performs its normal upstream version check, but the directory validator does not initialize the configured services or modify the repository.
 
 The same command checks enabled custom artwork against the pinned Defaults catalog and case-sensitive Git filenames. It also requires both test overlay sets to match their production definitions. These checks use Git's file inventory, so continuous integration does not need to download the artwork.
 
 Validation also checks native franchise ID comments and collection-preview isolation, with offline regression tests for unsafe libraries, connections, maintenance, download settings, and external list writers. Ruff enforces Python lint, import ordering, module/class/function docstrings, and formatting through pre-commit and CI.
+
+Renovate tracks the Kometa image, all four versioned editor schemas, GitHub Actions (including CodeQL), the CI Python version, Python development dependencies, and pre-commit hooks. Runtime and schema updates share a pull request; confirm their release versions match before merging, and keep `ruamel.yaml` in `requirements-dev.txt` aligned with the selected image. VS Code manages extension updates separately.
 
 ## CodeQL security analysis
 

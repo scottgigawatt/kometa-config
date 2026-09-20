@@ -4,7 +4,7 @@
 // Licensed under the Apache License, Version 2.0.
 //
 // renovate.json5: Automated dependency update policy for repository tooling
-//                 and the pinned Kometa validator image.
+//                 and the pinned Kometa runtime and editor schemas.
 //
 {
     //
@@ -38,7 +38,7 @@
     ],
 
     //
-    // Track the digest-pinned Kometa image declared in the Makefile.
+    // Track the immutable runtime and each versioned editor schema URL.
     //
     "customManagers": [
         {
@@ -49,6 +49,16 @@
             ],
             "datasourceTemplate": "docker",
             "versioningTemplate": "docker"
+        },
+        {
+            "customType": "regex",
+            "managerFilePatterns": ["/^\\.vscode/settings\\.json$/"],
+            "matchStrings": [
+                "https://raw\\.githubusercontent\\.com/Kometa-Team/Kometa/(?<currentValue>v\\d+\\.\\d+\\.\\d+)/json-schema/(?:config|collection|overlay|playlist)-schema\\.json"
+            ],
+            "depNameTemplate": "Kometa-Team/Kometa",
+            "datasourceTemplate": "github-tags",
+            "versioningTemplate": "semver"
         }
     ],
 
@@ -65,7 +75,10 @@
             "matchManagers": ["pre-commit"]
         },
         {
-            "groupName": "Kometa validator",
+            "groupName": "Kometa runtime and schemas",
+            "matchDepNames": ["kometateam/kometa", "Kometa-Team/Kometa"]
+        },
+        {
             "matchDepNames": ["kometateam/kometa"],
             "pinDigests": true
         },
