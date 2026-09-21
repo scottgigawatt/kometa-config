@@ -12,6 +12,7 @@ import importlib
 import unittest
 from pathlib import Path
 from unittest.mock import Mock
+from urllib.parse import urlsplit
 
 from ruamel.yaml import YAML
 
@@ -205,14 +206,20 @@ class CollectionSourceTests(unittest.TestCase):
             elif isinstance(value, list):
                 for child in value:
                     check(child, path)
-            elif isinstance(value, str) and (
-                "trakt.tv/users/" in value or "letterboxd.com/" in value
-            ):
-                self.assertEqual(path.name, "edwards-favorites.yml")
-                self.assertEqual(
-                    value,
-                    "https://trakt.tv/users/scottgigawatt/lists/plex-favorite-movies",
-                )
+            elif isinstance(value, str) and value.startswith(("https://", "http://")):
+                url = urlsplit(value)
+                personal_trakt = url.hostname in {
+                    "trakt.tv",
+                    "www.trakt.tv",
+                    "app.trakt.tv",
+                } and url.path.startswith("/users/")
+                letterboxd = url.hostname in {"letterboxd.com", "www.letterboxd.com"}
+                if personal_trakt or letterboxd:
+                    self.assertEqual(path.name, "edwards-favorites.yml")
+                    self.assertEqual(
+                        value,
+                        "https://trakt.tv/users/scottgigawatt/lists/plex-favorite-movies",
+                    )
 
         for folder in ("movies", "shows", "scheduled"):
             for path in (self.root / folder).glob("*.yml"):
