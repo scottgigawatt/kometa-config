@@ -1,5 +1,9 @@
 #
-# config.yml: Main configuration file for Kometa.
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# config.yml: Configure libraries, shared services, overlays, and playlists.
 #
 
 #
@@ -33,7 +37,7 @@ libraries:
           data:
             starting: current_year-1
             ending: current_year-1
-          summary_format: Top <<limit>> movies of <<key>>. Sorted by critic rating.
+          summary_format: "Standout stories and memorable performances from <<key>>. A year worth another look. 🎞️"
           collection_section: "010"
           schedule: range(01/01-04/01)
 
@@ -84,15 +88,15 @@ libraries:
         template_variables:
           limit: 100
           limit_1970: 25
-          summary_format: Top <<limit>> movies of the <<key>>s. Sorted by critic rating.
-          summary_1970: Top <<limit_1970>> movies of the <<key>>s. Sorted by critic rating.
+          summary_format: "The stories, stars, and big-screen ambitions of the <<key>>s. Every decade has its scene-stealers. 🎞️"
+          summary_1970: "Bold voices, unforgettable antiheroes, and a decade that rewrote the rules of the big screen. 🎞️"
           minimum_items: 25
 
       # Dynamic collections based on the genres available in your library
       - default: genre
         template_variables:
           sort_by: title.asc
-          # In genre.yml config
+          # Defined in movies/genres.yml.
           exclude:
             - Horror
             - War
@@ -135,7 +139,7 @@ libraries:
           schedule_thanksgiving: range(11/01-11/24)
           schedule_veteran: range(11/01-11/12)
           imdb_list_veteran: https://www.imdb.com/list/ls561621160/
-          # These default collections are defined in the seasonal.yml config
+          # These default collections are defined in scheduled/holiday-movies.yml
           exclude:
             - christmas
             - easter
@@ -152,8 +156,8 @@ libraries:
           collection_section: "020_1"
           list_days: 30
           list_size: 25
-          list_minimum: 0
-          summary_popular: The most widely watched movies of the last 30 days.
+          summary_popular: "Big-screen adventures, memorable characters, and stories with plenty of encore appeal. 🍿"
+          summary_watched: "Movie-night favorites and stories worth settling in for. Pass the popcorn. 🍿"
           name_popular: Plex Popular
           name_watched: Plex Watched
           use_trending: false
@@ -216,8 +220,8 @@ libraries:
     schedule_overlays: hourly(05-07)
     remove_overlays: false
     overlay_files:
-      - file: config/overlays/top.yml
-      - file: config/overlays/background.yml
+      - file: config/overlays/chart-award-ribbons.yml
+      - file: config/overlays/corner-background.yml
       - default: mediastinger
         template_variables:
           file: config/overlays/bottom-left/mediastinger-bottom-left.png
@@ -265,15 +269,15 @@ libraries:
       show_missing_assets: false
 
     #
-    # Define 'Movies' library operations
+    # Run 'Movies' library operations together within the scheduled window.
     #
     operations:
-      schedule: all[weekly(monday|thursday|saturday), hourly(05-07)]
-      mass_genre_update: tmdb
-      mass_audience_rating_update: imdb
-      mass_critic_rating_update: mdb_tomatoes
-      mass_user_rating_update: trakt_user
-      assets_for_all: true
+      - schedule: all[weekly(monday|thursday|saturday), hourly(05-07)]
+        mass_genre_update: tmdb
+        mass_audience_rating_update: imdb
+        mass_critic_rating_update: mdb_tomatoes
+        mass_user_rating_update: trakt_user
+        assets_for_all: true
 
   #
   # Define 'TV Shows' library collections
@@ -294,7 +298,7 @@ libraries:
       - folder: config/shows/
 
       # Define with scheduled 'TV Shows' library collections
-      - file: config/scheduled/emmy.yml
+      - file: config/scheduled/emmy-awards.yml
 
       #
       # Define 'TV Shows' library default collections
@@ -307,7 +311,7 @@ libraries:
       - default: studio
         template_variables:
           minimum_items: 10
-          exclude: # In networks.yml config
+          exclude:  # In networks.yml config
             - HBO
 
       # Collections based on popular TV show franchises
@@ -339,8 +343,8 @@ libraries:
         template_variables:
           list_days: 30
           list_size: 25
-          list_minimum: 0
-          summary_popular: The most widely watched shows of the last 30 days.
+          summary_popular: "Compelling characters, unfolding stories, and cliffhangers that make bedtime negotiable. 📺"
+          summary_watched: "Familiar faces and ongoing adventures that keep one more episode sounding like a reasonable plan. 📺"
           collection_section: "020_1"
           name_popular: Plex Popular
           name_watched: Plex Watched
@@ -364,8 +368,8 @@ libraries:
     schedule_overlays: hourly(05-07)
     remove_overlays: false
     overlay_files:
-      - file: config/overlays/top.yml
-      - file: config/overlays/status.yml
+      - file: config/overlays/chart-award-ribbons.yml
+      - file: config/overlays/series-status.yml
       - file: config/overlays/network-fallback.yml
       - default: streaming
         template_variables:
@@ -468,27 +472,26 @@ libraries:
       asset_directory: config/assets
 
     #
-    # Define 'TV Shows' library operations
+    # Run 'TV Shows' library operations together within the scheduled window.
     #
     operations:
-      schedule: all[weekly(monday|thursday|saturday), hourly(05-07)]
-      mass_genre_update: tmdb
-      mass_audience_rating_update: imdb
-      mass_critic_rating_update: mdb_tomatoes
-      mass_user_rating_update: trakt_user
+      - schedule: all[weekly(monday|thursday|saturday), hourly(05-07)]
+        mass_genre_update: tmdb
+        mass_audience_rating_update: imdb
+        mass_critic_rating_update: mdb_tomatoes
+        mass_user_rating_update: trakt_user
 
 #
 # Define movie and TV playlists
 #
 playlist_files:
-  - file: config/playlists/playlists.yml
+  - file: config/playlists/battlestar-galactica-timeline.yml
   - default: playlist
     # template_variables:
     #   # These default playlists are defined in the playlist.yml config
     #   exclude:
     #     - dragonball
     #     - xmen
-  - playlist_sync_to_users: all
 
 #
 # Define global settings
@@ -535,7 +538,6 @@ settings:
   custom_repo:
   overlay_artwork_filetype: jpg
   overlay_artwork_quality: 75
-  check_nightly: true
   show_unconfigured: true
   show_unfiltered: false
   auto_sort_hubs:

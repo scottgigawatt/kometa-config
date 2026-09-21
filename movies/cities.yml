@@ -16,7 +16,7 @@ templates:
     sort_title: "!105_<<collection_name>>"
     collection_order: title.asc
     content_rating: R
-    summary: "Stories unfolding across the streets and skyline of <<city>>."
+    summary: "Big dreams, chance encounters, and trouble around the corner on the streets of <<city>>. 🌆"
     sync_mode: sync
     schedule: weekly(saturday)
 

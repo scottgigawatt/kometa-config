@@ -101,4 +101,4 @@ jobs:
       # repository lint hook through the contributor-facing Make targets.
       #
       - name: "Run the Repository Credits ✅"
-        run: make validate check-generated lint-ci
+        run: make validate validate-editor check-generated test-make-helpers lint-ci

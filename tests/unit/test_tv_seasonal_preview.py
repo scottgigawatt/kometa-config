@@ -40,7 +40,9 @@ class TVSeasonalPreviewTests(unittest.TestCase):
 
     def setUp(self) -> None:
         """Load a fresh copy of the actual production source for every test."""
-        self.source = YAML().load(Path("/workspace/shows/seasonal.yml").read_text())
+        self.source = YAML().load(
+            Path("/workspace/shows/holiday-episodes.yml").read_text()
+        )
 
     def matches(self, holiday: str, title: str = "", summary: str = "") -> bool:
         """Evaluate source patterns using Kometa's title-or-summary filter shape.
@@ -291,7 +293,7 @@ class TVSeasonalPreviewTests(unittest.TestCase):
             self.assertIn("--no-missing", command)
             self.assertIn("--ignore-schedules", command)
             self.assertEqual(
-                YAML().load(runtime.joinpath("tv-seasonal.yml").read_text()),
+                YAML().load(runtime.joinpath("holiday-episodes.yml").read_text()),
                 preview.tv_seasonal_preview(self.source),
             )
 

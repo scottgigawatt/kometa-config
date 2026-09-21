@@ -1,0 +1,63 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# holiday-episodes.yml: Select holiday episodes using their own Plex titles and summaries.
+#
+
+templates:
+  #
+  # Evaluate individual episodes, never the parent show's title or description.
+  # Separate filter sets match the title OR summary. Scan all local episodes so
+  # summary-only matches and specials outside holiday air dates remain eligible.
+  #
+  seasonal:
+    file_poster: /config/assets/posters/seasonal/<<poster_id>>.jpg
+    sort_title: "!00_<<collection_name>>"
+    sync_mode: sync
+    builder_level: episode
+    plex_all: true
+    filters:
+      - title.regex: <<holiday_pattern>>
+      - summary.regex: <<holiday_pattern>>
+    visible_library: true
+    visible_home: true
+    visible_shared: true
+    delete_not_scheduled: true
+
+collections:
+  #
+  # Match explicit Halloween traditions, not generic ghosts, costumes, or parties.
+  # Word boundaries and case-insensitive matching apply to both metadata fields.
+  #
+  Halloween Episodes:
+    template:
+      name: seasonal
+      poster_id: halloween
+      holiday_pattern: '(?i)\b(?:halloween|all hallows eve|trick[ -]or[ -]treat(?:ing)?|treehouse of horror)\b'
+    schedule: range(09/15-10/31)
+    summary: "Familiar faces, questionable costumes, and Halloween plans that spiral gloriously out of control. 🎃"
+
+  #
+  # Require the named holiday; a turkey dinner alone does not establish the theme.
+  #
+  Thanksgiving Episodes:
+    template:
+      name: seasonal
+      poster_id: thanksgiving
+      holiday_pattern: '(?i)\bthanksgiving\b'
+    schedule: range(11/01-12/15)
+    summary: "Big dinners, bigger feelings, and family gatherings with plenty to unpack before dessert. 🦃"
+
+  #
+  # Avoid generic holidays, winter weather, and places such as Santa Barbara.
+  # These phrases identify Christmas without assuming every December episode fits.
+  #
+  Christmas Episodes:
+    template:
+      name: seasonal
+      poster_id: christmas
+      holiday_pattern: '(?i)\b(?:christmas|x[ -]?mas|yuletide|santa claus)\b'
+    schedule: range(11/20-12/28)
+    summary: "Festive surprises, heartfelt reunions, and familiar faces making a magnificent mess of Christmas. 🎄"

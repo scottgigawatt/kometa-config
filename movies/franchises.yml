@@ -1,0 +1,374 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# franchises.yml: Release-ordered film collections with custom franchise artwork.
+#
+
+#
+# TMDb collection IDs follow upstream membership without extra movie overrides.
+# Keep the adjacent collection names readable when reviewing numeric IDs.
+#
+templates:
+  franchise:
+    file_poster: /config/assets/posters/franchise/<<poster_id>>.jpg
+    sort_title: "!106_<<collection_name>>"
+    collection_order: release
+    sync_mode: sync
+    schedule:
+      - weekly(sunday)
+      - weekly(thursday)
+
+collections:
+  After Collection:
+    template:
+      name: franchise
+      poster_id: After
+    plex_search:
+      all:
+        title.begins: After
+        actor: Josephine Langford
+    summary: "Tessa and Hardin fall hard, fight harder, and discover that chemistry is not the same thing as having your life together. 💔"
+
+  Jurassic Park Collection:
+    template:
+      name: franchise
+      poster_id: Jurassic Park
+    tmdb_collection:
+      - 328  # Jurassic Park Collection
+    summary: "Cloned dinosaurs, spectacular parks, and humanity's persistent refusal to learn from the last dinosaur incident. 🦖"
+
+  American Pie Collection:
+    template:
+      name: franchise
+      poster_id: American Pie
+    tmdb_collection:
+      - 2806  # American Pie Collection
+    summary: "Jim, Michelle, and their friends stumble through sex, growing up, and reunions with very little dignity intact. 🥧"
+
+  Back to the Future Trilogy:
+    template:
+      name: franchise
+      poster_id: BTTF
+    plex_search:
+      all:
+        title.begins: "Back to the Future"
+    summary: "Marty McFly and Doc Brown race through Hill Valley's past and future, where one wrong turn can erase the family photo. ⚡"
+
+  Batman Collection:
+    template:
+      name: franchise
+      poster_id: Batman
+    tmdb_collection:
+      - 120794  # Batman Collection
+    summary: "Gotham's caped crusader faces theatrical villains, dangerous romances, and a city with an alarming shortage of daylight. 🦇"
+
+  Beverly Hills Cop Collection:
+    template:
+      name: franchise
+      poster_id: Beverly Hills Cop
+    tmdb_collection:
+      - 85861  # Beverly Hills Cop Collection
+    summary: "Axel Foley takes his Detroit instincts to Beverly Hills, where his biggest weapons are quick thinking and an impressive refusal to stop talking. 😎"
+
+  Blade Trilogy:
+    template:
+      name: franchise
+      poster_id: Blade
+    plex_search:
+      all:
+        title.begins: Blade
+        actor: Wesley Snipes
+    summary: "Half human, half vampire, entirely unwilling to let the undead run the place. Blade brings a sword to the blood feud. 🩸"
+
+  Cornetto Trilogy:
+    template:
+      name: franchise
+      poster_id: Cornetto Trilogy
+    imdb_id: tt0425112, tt0365748, tt1213663
+    summary: "Zombies, village conspiracies, and a pub crawl gone cosmic. Friendship survives; the neighborhood is less fortunate. 🍦"
+
+  Die Hard Collection:
+    template:
+      name: franchise
+      poster_id: Die Hard
+    plex_search:
+      all:
+        title: Die Hard
+        actor: Bruce Willis
+    summary: "John McClane keeps finding terrorists where a quiet day should be. Shoes, backup, and intact buildings are optional."
+
+  Dark Knight Trilogy:
+    template:
+      name: franchise
+      poster_id: Dark Knight
+    imdb_id: tt0372784, tt0468569, tt1345836
+    summary: "Bruce Wayne becomes Gotham's symbol of hope as fear, chaos, and sacrifice test the man behind the mask. 🦇"
+
+  Dune Collection:
+    template:
+      name: franchise
+      poster_id: Dune
+    tmdb_collection:
+      - 726871  # Dune Collection
+    summary: "Paul Atreides enters a desert world of giant sandworms, rival dynasties, and prophecies with a devastating price. 🏜️"
+
+  Ghostbusters Collection:
+    template:
+      name: franchise
+      poster_id: Ghostbusters
+    plex_search:
+      all:
+        title.begins: Ghostbusters
+    summary: "Paranormal pests meet proton packs as ghost hunters tackle haunted cities, ancient gods, and spectacular cleanup bills. 👻"
+
+  The Godfather Trilogy:
+    template:
+      name: franchise
+      poster_id: Godfather
+    sort_title: "!106_Godfather Trilogy"
+    plex_search:
+      all:
+        title.begins: The Godfather
+    summary: "The Corleone family builds an empire of loyalty, power, and violence, where every favor carries a debt."
+
+  The Hunger Games Collection:
+    template:
+      name: franchise
+      poster_id: The Hunger Games
+    sort_title: "!106_Hunger Games Collection"
+    plex_search:
+      all:
+        title.begins: The Hunger Games
+    summary: "In Panem, survival is a spectacle and defiance can ignite a revolution. The odds were never fair. 🔥"
+
+  Indiana Jones Collection:
+    template:
+      name: franchise
+      poster_id: Indiana Jones
+    tmdb_collection:
+      - 84  # Indiana Jones Collection
+    summary: "Ancient mysteries, lost treasures, and villains who really should have left the artifact alone. Indy brought the hat. 🤠"
+
+  Jackass Collection:
+    template:
+      name: franchise
+      poster_id: Jackass
+    plex_search:
+      any:
+        title:
+          - Jackass
+          - Bad Grandpa
+    summary: "Reckless stunts, elaborate pranks, and friends with a deeply questionable definition of a good idea. Do not try this."
+
+  Jack Ryan Collection:
+    template:
+      name: franchise
+      poster_id: Jack Ryan
+    tmdb_collection:
+      - 192492  # The Jack Ryan Collection
+    summary: "Jack Ryan follows Cold War secrets and political conspiracies into danger, armed with analysis and terrible luck."
+
+  James Bond Collection:
+    template:
+      name: franchise
+      poster_id: James Bond 007
+    tmdb_collection:
+      - 645  # James Bond Collection
+    summary: "007 takes on criminal masterminds with improbable gadgets, immaculate tailoring, and a spectacular disregard for the expense account. 🍸"
+
+  Jason Bourne Collection:
+    template:
+      name: franchise
+      poster_id: Bourne
+    tmdb_collection:
+      - 31562  # The Bourne Collection
+    summary: "A hunted operative searches for his past while the people who trained him try very hard to erase his future."
+
+  John Wick Collection:
+    template:
+      name: franchise
+      poster_id: John Wick
+    plex_search:
+      all:
+        title: John Wick
+    summary: "An assassin returns to a world of blood debts, strict etiquette, and very expensive consequences. Never hurt the dog. 🐾"
+
+  Kung Fu Panda Collection:
+    template:
+      name: franchise
+      poster_id: Kung Fu Panda
+    tmdb_collection:
+      - 77816  # Kung Fu Panda Collection
+    summary: "Po finds his inner warrior through friendship, perseverance, and a healthy respect for dumplings. 🐼"
+
+  Lethal Weapon Collection:
+    template:
+      name: franchise
+      poster_id: Lethal Weapon
+    plex_search:
+      all:
+        title: Lethal Weapon
+    summary: "Riggs and Murtaugh take on Los Angeles crime with explosive teamwork and increasingly reasonable complaints about getting too old for this."
+
+  "Laugh It Up, Fuzzball: The Family Guy Trilogy":
+    template:
+      name: franchise
+      poster_id: Family Guy
+    plex_search:
+      all:
+        title: Family Guy Presents
+    summary: "The Griffin family invades a galaxy far, far away, turning Star Wars into a deeply inappropriate family affair. 🚀"
+
+  The Matrix Collection:
+    template:
+      name: franchise
+      poster_id: Matrix
+    sort_title: "!106_Matrix"
+    plex_search:
+      all:
+        title: The Matrix
+    summary: "Reality is a simulation, humanity is on borrowed time, and the dress code is black leather. Take the red pill. 💊"
+
+  Men in Black Collection:
+    template:
+      name: franchise
+      poster_id: Men in Black
+    plex_search:
+      all:
+        title: Men in Black
+    summary: "Secret agents keep alien life on Earth under wraps, one intergalactic incident and conveniently erased memory at a time. 👽"
+
+  "Mission: Impossible Collection":
+    template:
+      name: franchise
+      poster_id: Mission Impossible
+    plex_search:
+      all:
+        title.begins: "Mission: Impossible"
+        actor: Tom Cruise
+    summary: "Ethan Hunt and his team race through betrayals, impossible odds, and missions with absolutely no respect for gravity."
+
+  "Ocean's Collection":
+    template:
+      name: franchise
+      poster_id: Oceans
+    plex_search:
+      all:
+        title: Ocean's
+    summary: "Smooth operators, elaborate cons, and impossible heists. The plan has layers; so does the wardrobe. 💎"
+
+  Planet of the Apes:
+    template:
+      name: franchise
+      poster_id: Planet of the Apes
+    tmdb_collection:
+      - 1709    # Planet of the Apes (Original) Collection
+      - 173710  # Planet of the Apes (Reboot) Collection
+    summary: "Humanity and intelligent apes struggle for survival, freedom, and the future of a world neither can fully control."
+
+  Pirates of the Caribbean:
+    template:
+      name: franchise
+      poster_id: Pirates of the Caribbean
+    tmdb_collection:
+      - 295  # Pirates of the Caribbean Collection
+    summary: "Cursed treasure, sea monsters, and shifting alliances follow Captain Jack Sparrow wherever the rum runs out. 🏴‍☠️"
+
+  The Purge Collection:
+    template:
+      name: franchise
+      poster_id: Purge
+    tmdb_collection:
+      - 256322  # The Purge Collection
+    summary: "For one night, the law looks away. Families and strangers fight to survive a society that has made violence a tradition."
+
+  Rambo Collection:
+    template:
+      name: franchise
+      poster_id: Rambo
+    plex_search:
+      any:
+        title:
+          - First Blood
+          - Rambo
+    summary: "John Rambo carries the scars of war into battles against brutality, exploitation, and those who mistake silence for surrender."
+
+  Resident Evil Collection:
+    template:
+      name: franchise
+      poster_id: Resident Evil
+    plex_search:
+      all:
+        title.begins: Resident Evil
+        genre.not: Animation
+    summary: "Viral outbreaks, corporate experiments, and the undead turn survival into a running battle against the Umbrella Corporation. 🧟"
+
+  The Chronicles of Riddick:
+    template:
+      name: franchise
+      poster_id: Riddick
+    plex_search:
+      any:
+        title:
+          - Pitch Black
+          - Riddick
+    summary: "A hunted fugitive with eyes built for darkness faces hostile planets, ruthless enemies, and creatures best left in the shadows."
+
+  RoboCop Collection:
+    template:
+      name: franchise
+      poster_id: Robocop
+    plex_search:
+      all:
+        title: RoboCop
+    summary: "A fallen police officer becomes a cyborg enforcer in a city where violent crime and corporate ambition share the same address. 🤖"
+
+  Scream Collection:
+    template:
+      name: franchise
+      poster_id: Scream
+    plex_search:
+      all:
+        title.begins: Scream
+    summary: "Ghostface turns horror trivia into a survival test. Everyone knows the rules; someone keeps answering the phone. ☎️"
+
+  The Terminator Collection:
+    template:
+      name: franchise
+      poster_id: Terminator
+    sort_title: "!106_Terminator"
+    plex_search:
+      all:
+        title: Terminator
+    summary: "Killer machines cross time to decide humanity's future, while resistance fighters refuse to accept the ending. 🤖"
+
+  Transformers Collection:
+    template:
+      name: franchise
+      poster_id: Transformers
+    tmdb_collection:
+      - 8650  # Transformers Collection
+    summary: "Autobots and Decepticons bring their war to Earth, where even the getaway car might have an opinion. 🚗"
+
+  The Transporter Trilogy:
+    template:
+      name: franchise
+      poster_id: Transporter
+    sort_title: "!106_Transporter"
+    plex_search:
+      all:
+        title: Transporter
+    summary: "Frank Martin delivers dangerous cargo under strict rules. Unfortunately, the cargo rarely reads the terms and conditions."
+
+  The Twilight Saga:
+    template:
+      name: franchise
+      poster_id: Twilight
+    sort_title: "!106_Twilight Saga"
+    plex_search:
+      all:
+        title: Twilight
+        actor: Kristen Stewart
+    summary: "Bella Swan enters a world of vampire romance, werewolf loyalty, and supernatural family drama beneath the clouds of the Pacific Northwest. 🌙"

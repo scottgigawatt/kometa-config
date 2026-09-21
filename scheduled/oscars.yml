@@ -1,3 +1,11 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# oscars.yml: Build Oscar collections from IMDb award searches.
+#
+
 external_templates:
   default: templates
   template_variables:
@@ -16,6 +24,7 @@ templates:
     schedule: range(01/01-04/01)
 
   oscar_award_winner_dynamic:
+    summary: "Oscar-winning films where unforgettable performances and ambitious visions earn their golden moment. 🏆"
     sort_title: "!130_<<collection_name>>"
     run_definition: movie
     imdb_search:
@@ -29,6 +38,7 @@ templates:
 
 collections:
   Oscars Best Picture Winners:
+    summary: "Best Picture winners with unforgettable stories, ambitious visions, and a golden place in Oscar history. 🏆"
     variables:
       key: best_picture
       event_winning: oscar_picture
@@ -43,6 +53,7 @@ collections:
       - name: oscar_award_winner
 
   Oscars Best Director Winners:
+    summary: "Oscar-winning direction turns performances, images, and ideas into something worth talking about after the lights come up. 🎬"
     variables:
       key: best_director
       event_winning: oscar_director
@@ -57,6 +68,9 @@ collections:
       - name: oscar_award_winner
 
 dynamic_collections:
+  #
+  # Search the preceding release year for each generated awards-year collection.
+  #
   Oscars Winners:
     type: number
     sync: true

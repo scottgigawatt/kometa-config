@@ -1,0 +1,95 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# genres.yml: Build movie genres from Plex tags and named TMDb keywords.
+#
+
+templates:
+  #
+  # Keep custom posters and alphabetical browsing while synchronizing membership.
+  #
+  genre:
+    file_poster: /config/assets/posters/genre/<<poster_id>>.jpg
+    sort_title: "!060_<<collection_name>>"
+    collection_order: title.asc
+    sync_mode: sync
+    schedule: weekly(tuesday)
+
+collections:
+  #
+  # Native genres use library tags without external curated additions.
+  # The seasonal Halloween collection is maintained separately.
+  #
+  Horror Movies:
+    template:
+      name: genre
+      poster_id: Horror
+    plex_search:
+      all:
+        genre: Horror
+    schedule: range(11/01-09/14)
+    summary: "Haunted places, hungry monsters, and the terrible feeling that something is right behind you. 👻"
+
+  #
+  # Each keyword contributes movies independently; matches are combined.
+  # Coverage follows TMDb tagging, not a manually maintained title list.
+  #
+  LGBTQ+ Movies:
+    template:
+      name: genre
+      poster_id: LGBTQ+
+    tmdb_keyword:
+      - 158718  # LGBT
+      - 380747  # LGBT+
+      - 363345  # Gay
+      - 264386  # Lesbian
+      - 329968  # Bisexual
+      - 290527  # Transgender
+      - 240109  # Intersex
+    summary: "Queer love, chosen families, hard-won freedom, and lives too vibrant to stay in the closet. 🏳️‍🌈"
+
+  Sports Movies:
+    template:
+      name: genre
+      poster_id: Sport
+    tmdb_keyword:
+      - 6075    # Sports
+      - 333328  # Sport
+    summary: "Underdogs, fierce rivals, and the long road from the practice ground to a shot at glory. 🏆"
+
+  Spy Movies:
+    template:
+      name: genre
+      poster_id: Spy
+    tmdb_keyword:
+      - 470   # Spy
+      - 5265  # Espionage
+    summary: "Secret identities, double crosses, and missions where trusting the wrong person can change everything. 🕶️"
+
+  Stand-up Comedy:
+    template:
+      name: genre
+      poster_id: Stand-Up Comedy
+    tmdb_keyword:
+      - 9716  # Stand-up comedy
+    summary: "One microphone, sharp observations, and absolutely no guarantee of polite dinner conversation. 🎤"
+
+  War Movies:
+    template:
+      name: genre
+      poster_id: War
+    plex_search:
+      all:
+        genre: War
+    summary: "Lives on the front lines and beyond, shaped by conflict, courage, loss, and the struggle to make it home."
+
+  Western Movies:
+    template:
+      name: genre
+      poster_id: Western
+    plex_search:
+      all:
+        genre: Western
+    summary: "Dusty towns, uneasy alliances, and frontier justice that tends to arrive on horseback. 🤠"

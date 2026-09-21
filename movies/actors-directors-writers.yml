@@ -1,0 +1,110 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# actors-directors-writers.yml: Build people collections from Plex credits and TMDb metadata.
+#
+
+templates:
+  #
+  # Share person metadata and presentation; each dynamic group supplies its credit role.
+  #
+  person_dynamic:
+    default:
+      sort_by: release.desc
+    tmdb_person: <<value>>
+    file_poster: /config/assets/posters/people/<<key>>.png
+    sort_title: <<key_name>>
+
+    #
+    # Kometa reserves key_name in summaries; original_key_name expands the person's name.
+    #
+    summary: "Films <<credit>> <<original_key_name>>, with memorable characters, striking moments, and stories worth another look. 🎬"
+    schedule: weekly(saturday)
+    smart_filter:
+      sort_by: <<sort_by>>
+      all:
+        <<role>>: tmdb
+
+  #
+  # Named actors use explicit searches instead of dynamically ranked credits.
+  #
+  person:
+    collection_order: release.desc
+    tmdb_person: <<actor>>
+    file_poster: /config/assets/posters/people/<<actor>>.png
+    sort_title: <<actor>>
+    schedule: weekly(saturday)
+    plex_search:
+      any:
+        actor: <<actor>>
+
+dynamic_collections:
+  #
+  # Rank people by their credits in the library, with separate limits for each role.
+  #
+  Top Actors:
+    type: actor
+    template:
+      - person_dynamic
+    template_variables:
+      role:
+        default: actor
+      credit:
+        default: featuring
+    title_format: <<title>> Collection
+
+    #
+    # Keep the explicit actor collections below as the only definitions for these names.
+    # Exclusions are applied before the dynamic collection limit is filled.
+    #
+    exclude:
+      - Nicholas Galitzine
+      - Chris Farley
+    data:
+      depth: 5
+      minimum: 10
+      limit: 200
+
+  Top Directors:
+    type: director
+    template:
+      - person_dynamic
+    template_variables:
+      role:
+        default: director
+      credit:
+        default: directed by
+    title_format: <<title>> Collection
+    data:
+      depth: 1
+      minimum: 10
+      limit: 5
+
+  Top Writers:
+    type: writer
+    template:
+      - person_dynamic
+    template_variables:
+      role:
+        default: writer
+      credit:
+        default: written by
+    title_format: <<title>> Collection
+    data:
+      depth: 2
+      limit: 5
+
+collections:
+  Nicholas Galitzine Collection:
+    summary: "Nicholas Galitzine brings charm, longing, and complicated hearts to princes, performers, and people falling spectacularly in love."
+    template:
+      name: person
+      actor: "Nicholas Galitzine"
+
+  Chris Farley Collection:
+    summary: "Chris Farley turns lovable disasters into full-body comedy. Subtle entrances were never really his thing."
+    template:
+      name: person
+      actor: "Chris Farley"

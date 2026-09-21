@@ -1,3 +1,5 @@
+# Pull request
+
 ## What changed
 
 <!-- Describe the configuration, tooling, documentation, or artwork change. -->
@@ -8,13 +10,14 @@
 
 ## Validation
 
-- [ ] `make validate`
-- [ ] `make check-generated`
-- [ ] `make lint`
+- [ ] `make check` (validation, generated-file policy, helper tests, and lint)
 - [ ] Plex fixture-library render, when behavior or artwork changes
+- [ ] Documentation links and rendered Markdown reviewed, when changed
+
+<!-- Explain checks that were skipped. See docs/testing.md and docs/CONTRIBUTING.md. -->
 
 ## Safety
 
-- [ ] No credentials, logs, caches, reports, or PATTRMM-generated files are included
+- [ ] No credentials, private server addresses, logs, caches, reports, or generated files are included
 - [ ] External lists and local asset paths were verified when changed
 - [ ] The rollback path is clear

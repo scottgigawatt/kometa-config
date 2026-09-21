@@ -1,0 +1,66 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# critics-choice.yml: Build seasonal Critics Choice collections from award lists.
+#
+
+external_templates:
+  default: templates
+  template_variables:
+    collection_section: "130"
+
+templates:
+  choice_award_winner:
+    summary: "Critics Choice honorees with memorable performances, bold stories, and a little red-carpet glow. 🏆"
+    sort_title: "!130_<<collection_name>>"
+    collection_order: release.desc
+    sync_mode: sync
+    schedule: range(01/01-04/01)
+
+collections:
+  Critics Choice Best Picture Winners:
+    template:
+      - name: shared
+        sort: Critics Choice Awards !1
+        allowed_libraries: movie
+        image: award/choice/best_picture_winner
+        translation_key: choice_best
+      - name: arr
+      - name: custom
+        collection_order: release.desc
+      - name: choice_award_winner
+    trakt_list:
+      - https://trakt.tv/users/oldmankestis/lists/critics-choice-best-picture-winners
+    summary: "Best Picture honorees from the Critics Choice Awards, where memorable stories get their moment in the spotlight. 🏆"
+
+dynamic_collections:
+  #
+  # Include the current year and five preceding years: six collections in total.
+  #
+  Critics Choice Awards:
+    type: number
+    sync: true
+    data:
+      starting: current_year-5
+      ending: current_year
+    title_format: Critics Choice Awards <<key_name>>
+    template:
+      - choice_award_winner
+      - use_year_collections
+      - trakt
+      - shared
+      - arr
+      - custom
+    template_variables:
+      trakt_list:
+        default: https://trakt.tv/users/pjcob/lists/<<key>>-<<url>>-choice
+      image:
+        default: award/choice/<<key>>
+      translation_key:
+        default: choice_year
+      url:
+        default: critic-s
+      dynamic:
+        default: true

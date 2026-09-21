@@ -63,14 +63,14 @@ docker run --rm \
     --env-file "$test_environment" \
     --mount "type=bind,src=$runtime_directory,dst=/config" \
     --mount "type=bind,src=$repository_root/assets,dst=/config/assets,readonly" \
-    --mount "type=bind,src=$repository_root/movies/franchise.yml,dst=/workspace/movies/franchise.yml,readonly" \
-    --mount "type=bind,src=$repository_root/movies/genre.yml,dst=/workspace/movies/genre.yml,readonly" \
-    --mount "type=bind,src=$repository_root/movies/subgenre-top.yml,dst=/workspace/movies/subgenre-top.yml,readonly" \
+    --mount "type=bind,src=$repository_root/movies/franchises.yml,dst=/workspace/movies/franchises.yml,readonly" \
+    --mount "type=bind,src=$repository_root/movies/genres.yml,dst=/workspace/movies/genres.yml,readonly" \
+    --mount "type=bind,src=$repository_root/movies/top-rated-subgenres.yml,dst=/workspace/movies/top-rated-subgenres.yml,readonly" \
     --mount "type=bind,src=$repository_root/movies/cities.yml,dst=/workspace/movies/cities.yml,readonly" \
     --mount "type=bind,src=$repository_root/movies/universes.yml,dst=/workspace/movies/universes.yml,readonly" \
-    --mount "type=bind,src=$repository_root/scheduled/seasonal.yml,dst=/workspace/scheduled/seasonal.yml,readonly" \
-    --mount "type=bind,src=$repository_root/shows/shuffle.yml,dst=/workspace/shows/shuffle.yml,readonly" \
-    --mount "type=bind,src=$repository_root/shows/seasonal.yml,dst=/workspace/shows/seasonal.yml,readonly" \
+    --mount "type=bind,src=$repository_root/scheduled/holiday-movies.yml,dst=/workspace/scheduled/holiday-movies.yml,readonly" \
+    --mount "type=bind,src=$repository_root/shows/animation-and-sitcoms.yml,dst=/workspace/shows/animation-and-sitcoms.yml,readonly" \
+    --mount "type=bind,src=$repository_root/shows/holiday-episodes.yml,dst=/workspace/shows/holiday-episodes.yml,readonly" \
     --mount "type=bind,src=$repository_root/tests/kometa,dst=/workspace/tests/kometa,readonly" \
     --mount "type=bind,src=$repository_root/scripts/collection-preview.py,dst=/collection-preview.py,readonly" \
     --entrypoint python \

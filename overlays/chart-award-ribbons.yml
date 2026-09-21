@@ -1,0 +1,232 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# chart-award-ribbons.yml: Custom chart and award ribbons for movie and show posters.
+#
+
+#
+# Define top ratings templates
+#
+templates:
+  #
+  # Define IMDb top 250 template
+  #
+  imdb-top-250:
+    default:
+      overlay: <<overlay_name>>
+    imdb_chart: top_<<library_type>>s
+    overlay:
+      name: <<overlay_name>>
+      file: config/overlays/bottom-right/imdb-ribbon.png
+      group: logo
+      weight: <<weight>>
+      horizontal_offset: 0
+      horizontal_align: right
+      vertical_offset: 0
+      vertical_align: bottom
+
+  #
+  # Define Letterboxd 'Top 1000 of All Time' movies template
+  #
+  letterboxd-1000:
+    optional:
+      - overlay_level
+    run_definition: movie
+    collection_level: <<overlay_level>>
+    letterboxd_list: https://letterboxd.com/prof_ratigan/list/top-1000-films-of-all-time-calculated/
+    overlay:
+      name: <<overlay_name>>
+      file: config/overlays/bottom-right/letterboxd-ribbon.png
+      group: logo
+      weight: <<weight>>
+      horizontal_offset: 0
+      horizontal_align: right
+      vertical_offset: 0
+      vertical_align: bottom
+
+  #
+  # Define Rotten Tomatoes 'Fresh' movie template
+  #
+  rt-cert-fresh-movie:
+    optional:
+      - overlay_level
+    run_definition: movie
+    collection_level: <<overlay_level>>
+    mdblist_list: https://mdblist.com/lists/k0meta/certifiedfreshmovies
+    overlay:
+      name: <<overlay_name>>
+      file: config/overlays/bottom-right/rotten-ribbon.png
+      group: logo
+      weight: <<weight>>
+      horizontal_offset: 0
+      horizontal_align: right
+      vertical_offset: 0
+      vertical_align: bottom
+
+  #
+  # Define Rotten Tomatoes 'Fresh' TV show template
+  #
+  rt-cert-fresh-show:
+    optional:
+      - overlay_level
+    run_definition: show
+    collection_level: <<overlay_level>>
+    mdblist_list: https://mdblist.com/lists/k0meta/certifiedfreshshows
+    overlay:
+      name: <<overlay_name>>
+      file: config/overlays/bottom-right/rotten-ribbon.png
+      group: logo
+      weight: <<weight>>
+      horizontal_offset: 0
+      horizontal_align: right
+      vertical_offset: 0
+      vertical_align: bottom
+
+  #
+  # Define Metacritic 'Must See' movie template
+  #
+  meta-must-see-movie:
+    optional:
+      - overlay_level
+    run_definition: movie
+    collection_level: <<overlay_level>>
+    mdblist_list: https://mdblist.com/lists/k0meta/metacriticmustseemovies
+    overlay:
+      name: <<overlay_name>>
+      file: config/overlays/bottom-right/metacritic-ribbon.png
+      group: logo
+      weight: <<weight>>
+      horizontal_offset: 0
+      horizontal_align: right
+      vertical_offset: 0
+      vertical_align: bottom
+
+  #
+  # Define Metacritic 'Must See' TV show template
+  #
+  meta-must-see-show:
+    optional:
+      - overlay_level
+    run_definition: show
+    collection_level: <<overlay_level>>
+    mdblist_list: https://mdblist.com/lists/k0meta/metacriticmustseeshows
+    overlay:
+      name: <<overlay_name>>
+      file: config/overlays/bottom-right/metacritic-ribbon.png
+      group: logo
+      weight: <<weight>>
+      horizontal_offset: 0
+      horizontal_align: right
+      vertical_offset: 0
+      vertical_align: bottom
+
+  #
+  # Define 'Razzie' movies template
+  #
+  razzie:
+    optional:
+      - overlay_level
+    run_definition: movie
+    collection_level: <<overlay_level>>
+    imdb_award:
+      event_id: ev0000558
+      event_year: 1981-current
+      winning: true
+    overlay:
+      name: <<overlay_name>>
+      file: config/overlays/bottom-right/razzie-ribbon.png
+      group: logo
+      weight: <<weight>>
+      horizontal_offset: 0
+      horizontal_align: right
+      vertical_offset: 0
+      vertical_align: bottom
+
+  #
+  # Define IMDb 'Lowest Rated' movies template
+  #
+  imdb-lowest:
+    optional:
+      - overlay_level
+    run_definition: movie
+    collection_level: <<overlay_level>>
+    imdb_chart: lowest_rated
+    overlay:
+      name: <<overlay_name>>
+      file: config/overlays/bottom-right/imdb-lowest-ribbon.png
+      group: logo
+      weight: <<weight>>
+      horizontal_offset: 0
+      horizontal_align: right
+      vertical_offset: 0
+      vertical_align: bottom
+
+#
+# Define top ratings overlays
+#
+overlays:
+  #
+  # IMDb top 250
+  #
+  imdb-top-250:
+    template:
+      - name: imdb-top-250
+        weight: 60
+
+  #
+  # Letterboxd 'Top 1000 of All Time' movies
+  #
+  letterboxd-1000:
+    template:
+      - name: letterboxd-1000
+        weight: 50
+
+  #
+  # Metacritic 'Must See' movies
+  #
+  mc-must-see-movie:
+    template:
+      - name: meta-must-see-movie
+        weight: 40
+
+  #
+  # Rotten Tomatoes 'Fresh' movies
+  #
+  rt-cert-fresh-movie:
+    template:
+      - name: rt-cert-fresh-movie
+        weight: 30
+
+  #
+  # Rotten Tomatoes 'Fresh' TV shows
+  #
+  rt-cert-fresh-show:
+    template:
+      - name: rt-cert-fresh-show
+        weight: 30
+
+  #
+  # Metacritic 'Must See' TV shows
+  #
+  mc-must-see-show:
+    template:
+      - name: meta-must-see-show
+        weight: 40
+
+  #
+  # 'Razzie' movies
+  #
+  razzie:
+    template:
+      - name: razzie
+        weight: 5
+
+  #
+  # IMDb 'Lowest Rated' movies
+  #
+  imdb-lowest:
+    template:
+      - name: imdb-lowest
+        weight: 1

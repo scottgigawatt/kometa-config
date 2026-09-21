@@ -1,0 +1,22 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# config.yml: Route issue reports, support questions, and security concerns.
+#
+
+#
+# Prefer focused templates while keeping sensitive reports out of public issues.
+#
+blank_issues_enabled: false
+contact_links:
+  - name: "🔥HADES🔥 Discord"
+    url: https://discord.gg/BpEGzWwGYf
+    about: Join the community for setup questions and troubleshooting. Keep credentials and private addresses out of chat.
+  - name: Support and setup
+    url: https://github.com/scottgigawatt/kometa-config/blob/main/docs/SUPPORT.md
+    about: Choose the right route for configuration questions and troubleshooting.
+  - name: Report a vulnerability privately
+    url: https://github.com/scottgigawatt/kometa-config/security/advisories/new
+    about: Do not disclose credentials, private addresses, or vulnerabilities in public issues.

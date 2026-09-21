@@ -52,20 +52,20 @@ def preview_names(franchises, config, smoke, shows) -> list[str]:
     expected = {
         "test_movie_lib": {
             "collection_files": [
-                {"file": "/workspace/movies/franchise.yml"},
-                {"file": "/workspace/movies/genre.yml"},
-                {"file": "/workspace/movies/subgenre-top.yml"},
+                {"file": "/workspace/movies/franchises.yml"},
+                {"file": "/workspace/movies/genres.yml"},
+                {"file": "/workspace/movies/top-rated-subgenres.yml"},
                 {"file": "/workspace/movies/cities.yml"},
                 {"file": "/workspace/movies/universes.yml"},
-                {"file": "/config/seasonal.yml"},
-                {"file": "/workspace/tests/kometa/collections.yml"},
+                {"file": "/config/holiday-movies.yml"},
+                {"file": "/workspace/tests/kometa/smoke-collections.yml"},
             ]
         },
         "test_tv_lib": {
             "collection_files": [
-                {"file": "/workspace/shows/shuffle.yml"},
-                {"file": "/config/tv-seasonal.yml"},
-                {"file": "/workspace/tests/kometa/collections.yml"},
+                {"file": "/workspace/shows/animation-and-sitcoms.yml"},
+                {"file": "/config/holiday-episodes.yml"},
+                {"file": "/workspace/tests/kometa/smoke-collections.yml"},
             ]
         },
     }
@@ -243,6 +243,7 @@ def rule_names(genres, themes) -> list[str]:
         "sort_title": "!060_<<collection_name>>",
         "collection_order": "title.asc",
         "sync_mode": "sync",
+        "schedule": "weekly(tuesday)",
     }
     if set(genres) != {"templates", "collections"} or genres["templates"] != {
         "genre": genre_template
@@ -262,8 +263,13 @@ def rule_names(genres, themes) -> list[str]:
     for name, definition in genres["collections"].items():
         native = name in {"Horror Movies", "War Movies", "Western Movies"}
         builder = "plex_search" if native else "tmdb_keyword"
-        if set(definition) != {"template", "summary", "schedule", builder}:
+        allowed = {"template", "summary", builder}
+        if name == "Horror Movies":
+            allowed.add("schedule")
+        if set(definition) != allowed:
             raise ValueError("Unexpected genre source or writer behavior.")
+        if name == "Horror Movies" and definition["schedule"] != "range(11/01-09/14)":
+            raise ValueError("Horror must retain its non-Halloween schedule.")
         if definition["template"] != {
             "name": "genre",
             "poster_id": expected_genres[name],
@@ -487,7 +493,6 @@ def location_universe_names(cities, universes) -> list[str]:
         "sort_title": "!105_<<collection_name>>",
         "collection_order": "title.asc",
         "content_rating": "R",
-        "summary": "Stories unfolding across the streets and skyline of <<city>>.",
         "sync_mode": "sync",
         "schedule": "weekly(saturday)",
     }
@@ -521,7 +526,12 @@ def location_universe_names(cities, universes) -> list[str]:
         (cities, "city", city_template, city_sources, "city"),
         (universes, "universe", universe_template, universe_sources, "poster_id"),
     ):
-        if set(source) != {"templates", "collections"} or source["templates"] != {
+        actual_templates = copy.deepcopy(source.get("templates", {}))
+        if template_name == "city":
+            summary = actual_templates.get("city", {}).pop("summary", None)
+            if not isinstance(summary, str) or not summary.strip():
+                raise ValueError("Cities require a viewer-facing summary.")
+        if set(source) != {"templates", "collections"} or actual_templates != {
             template_name: template
         }:
             raise ValueError(
@@ -844,17 +854,17 @@ def load_preview(source: Path) -> tuple[list[str], dict]:
     # Round-trip parsing preserves the ID comments checked below.
     #
     yaml = YAML()
-    path = source / "movies/franchise.yml"
+    path = source / "movies/franchises.yml"
     franchises = yaml.load(path.read_text())
     config = yaml.load((source / "tests/kometa/collections-config.yml").read_text())
-    smoke = yaml.load((source / "tests/kometa/collections.yml").read_text())
-    shows = yaml.load((source / "shows/shuffle.yml").read_text())
-    genres = yaml.load((source / "movies/genre.yml").read_text())
-    themes = yaml.load((source / "movies/subgenre-top.yml").read_text())
+    smoke = yaml.load((source / "tests/kometa/smoke-collections.yml").read_text())
+    shows = yaml.load((source / "shows/animation-and-sitcoms.yml").read_text())
+    genres = yaml.load((source / "movies/genres.yml").read_text())
+    themes = yaml.load((source / "movies/top-rated-subgenres.yml").read_text())
     cities = yaml.load((source / "movies/cities.yml").read_text())
     universes = yaml.load((source / "movies/universes.yml").read_text())
-    seasonal = yaml.load((source / "scheduled/seasonal.yml").read_text())
-    tv_seasonal = yaml.load((source / "shows/seasonal.yml").read_text())
+    seasonal = yaml.load((source / "scheduled/holiday-movies.yml").read_text())
+    tv_seasonal = yaml.load((source / "shows/holiday-episodes.yml").read_text())
     names = preview_names(franchises, config, smoke, shows)
     names.extend(rule_names(genres, themes))
     names.extend(location_universe_names(cities, universes))
@@ -932,17 +942,17 @@ def main() -> None:
     library_args = []
     if args.seasonal_only:
         selected = seasonal_names(
-            YAML().load(Path("/workspace/scheduled/seasonal.yml").read_text())
+            YAML().load(Path("/workspace/scheduled/holiday-movies.yml").read_text())
         )
         library_args = ["--libraries", "test_movie_lib"]
     elif args.tv_seasonal_only:
         selected = tv_seasonal_names(
-            YAML().load(Path("/workspace/shows/seasonal.yml").read_text())
+            YAML().load(Path("/workspace/shows/holiday-episodes.yml").read_text())
         )
         library_args = ["--libraries", "test_tv_lib"]
     elif args.subgenres_only:
         selected = list(
-            YAML().load(Path("/workspace/movies/subgenre-top.yml").read_text())[
+            YAML().load(Path("/workspace/movies/top-rated-subgenres.yml").read_text())[
                 "collections"
             ]
         )
@@ -962,10 +972,16 @@ def main() -> None:
         # All membership and presentation inputs remain identical to the source.
         #
         yaml = YAML()
-        seasonal = yaml.load(Path("/workspace/scheduled/seasonal.yml").read_text())
-        yaml.dump(seasonal_preview(seasonal), Path("/config/seasonal.yml"))
-        tv_seasonal = yaml.load(Path("/workspace/shows/seasonal.yml").read_text())
-        yaml.dump(tv_seasonal_preview(tv_seasonal), Path("/config/tv-seasonal.yml"))
+        seasonal = yaml.load(
+            Path("/workspace/scheduled/holiday-movies.yml").read_text()
+        )
+        yaml.dump(seasonal_preview(seasonal), Path("/config/holiday-movies.yml"))
+        tv_seasonal = yaml.load(
+            Path("/workspace/shows/holiday-episodes.yml").read_text()
+        )
+        yaml.dump(
+            tv_seasonal_preview(tv_seasonal), Path("/config/holiday-episodes.yml")
+        )
         log_path = Path("/config/logs/meta.log")
         previous = log_path.stat().st_mtime_ns if log_path.exists() else None
         subprocess.run(

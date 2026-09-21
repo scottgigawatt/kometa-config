@@ -1,0 +1,39 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# recently-added.yml: Separate recent releases from older movies newly added.
+#
+
+collections:
+  #
+  # Smart filters follow Plex metadata without waiting for collection rebuilds.
+  #
+  New Movie Releases:  # Smart collection
+    smart_filter:
+      sort_by: added.desc
+      all:
+        added: 92
+        release: 365
+      limit: 250
+    summary: "Fresh stories, new faces, and big-screen adventures ready for a first impression. 🍿"
+    visible_library: true
+    visible_home: true
+    visible_shared: true
+    sort_title: "!008_New_Releases"
+    file_poster: config/assets/posters/new-releases/new-movie-releases.png
+
+  Old Movies Just Added:  # Smart collection
+    smart_filter:
+      sort_by: added.desc
+      all:
+        added: 30
+        release.not: 365
+      limit: 250
+    summary: "Earlier releases with new chances to charm, thrill, or finally escape the 'I'll watch it someday' pile. 🎞️"
+    visible_library: true
+    visible_home: true
+    visible_shared: true
+    sort_title: "!009_Old_Movies_Just_Added"
+    file_poster: config/assets/posters/new-releases/old-movies-just-added.png

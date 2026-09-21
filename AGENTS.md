@@ -1,3 +1,11 @@
+<!--
+  Copyright 2025-2026 Scott Gigawatt
+
+  Licensed under the Apache License, Version 2.0.
+
+  AGENTS.md: Contributor and AI-agent instructions for the configuration repository.
+-->
+
 # AGENTS.md
 
 ## Project purpose
@@ -14,6 +22,7 @@ This repository is the source-controlled Kometa configuration for a private Plex
 - `tests/kometa/`: Isolated configuration for the two upstream Plex fixture libraries.
 - `scripts/`: Repository validation and test-library helpers.
 - `docs/`: Current operating documentation.
+- `.github/`: Workflows, ownership, and issue/PR templates.
 
 ## Source and runtime ownership
 
@@ -37,13 +46,13 @@ Use two-space YAML indentation, UTF-8, LF line endings, a final newline, and no 
 
 Comments use concise plain English and explain intent, ownership, scheduling, external-source choices, or Plex side effects. Do not comment obvious syntax. New project-owned configuration, scripts, and workflow files begin with the established copyright, Apache-2.0, filename, and purpose header.
 
-Write explicit TMDb IDs one per YAML list line with at least two spaces before a descriptive inline comment. Align end-of-line comments within logical groups where practical. Movie and show IDs identify the title and premiere year; collection IDs identify the TMDb collection name, not an individual movie. Follow native TMDb collection membership without adding standalone films to recreate a broader franchise.
+Write explicit TMDb IDs one per YAML list line with a descriptive inline comment. Align adjacent end-of-line comments within logical groups at the same indentation, placing two spaces after the longest code entry. Shorter entries receive padding to that same comment column; standalone entries use two spaces. Apply this rule to all authored YAML, including `movies/top-rated-subgenres.yml`. Movie and show IDs identify the title and premiere year; collection IDs identify the TMDb collection name, not an individual movie. Follow native TMDb collection membership without adding standalone films to recreate a broader franchise.
 
-Collection summaries describe the films and their themes for viewers. Avoid references to the library, metadata providers, keyword matching, vote thresholds, or how the collection is assembled. Keep those operational details in source comments and documentation.
+Collection summaries describe the characters, stories, moods, and themes for viewers. Use concise original prose, with wit and occasional emoji where appropriate; keep serious subjects respectful. Avoid references to the library, metadata providers, keyword matching, vote thresholds, sorting, or how the collection is assembled. Do not introduce summaries with generic invitations such as 'this collection' or 'dive into'. Keep operational details in source comments and documentation.
 
 Use the established framed block style for standalone comments: a `#` line before and after the explanatory text. Put a blank line before a standalone comment that introduces the next logical block. GitHub Actions workflows comment every job and step with its operational purpose or safety constraint. Shell helpers comment setup, validation, state preparation, and consequential commands as logical blocks; keep error messages literal and corrective.
 
-Use lowercase kebab-case for human-authored filenames. Generated PATTRMM names are controlled by the upstream application and are exempt.
+Use descriptive lowercase kebab-case for human-authored filenames. Name collection files for the collections they contain, such as `critics-choice.yml`, `weekly-shuffle.yml`, and `holiday-episodes.yml`. Preserve tool-required configuration filenames. Generated PATTRMM names are controlled by the upstream application and are exempt.
 
 ## Python helpers and tests
 
@@ -63,11 +72,15 @@ Run the smallest relevant checks, then the complete repository gate before hando
 
 ```sh
 make validate
+make validate-editor
 make check-generated
+make test-make-helpers
 make lint
 ```
 
 `make validate` uses the immutable Kometa image configured in `Makefile`, with no secrets or Plex access and a read-only snapshot of Git-tracked YAML from the working tree. Stage new YAML files before validation; ignored credentials and runtime output are not mounted. Kometa performs its normal upstream version check, but the directory validator does not initialize the configured services. Schema gaps reported by upstream Kometa are warnings; syntax, type, and required-field errors must fail.
+
+`make validate-editor` generates the ignored `.vscode/.schemas/config-schema.json` from the same runtime version and validates all public base configs. Keep compatibility fixes narrow and runtime-verified; never disable validation or permit arbitrary unknown properties. Add negative tests under `tests/editor/` when extending the schema adapter. CI runs this target through Make.
 
 For changes affecting collection membership or rendered artwork, use the isolated Plex fixtures documented in `docs/testing.md` before running against production:
 
@@ -75,13 +88,13 @@ For changes affecting collection membership or rendered artwork, use the isolate
 make test-library
 ```
 
-Use `make test-collections` for collection previews without rerunning overlays. It reuses the TMDb builders from `movies/franchise.yml`, the genre rules from `movies/genre.yml`, all 101 searches in `movies/subgenre-top.yml`, the city keywords from `movies/cities.yml`, the five native sources from `movies/universes.yml`, the show-only collections from `shows/shuffle.yml`, and smoke collections in both fixtures. Use `make test-subgenres` to run only all 101 ranked themes in `test_movie_lib`. Ninety themes use TMDb Discover; eleven use native IMDb keyword searches. No personal-list builders or external templates are permitted anywhere in the subgenre file. Themes use a rating floor of 5 and 1,000 votes by default, with explicit per-theme overrides protected by regression tests. Keep every keyword and genre ID query documented with an aligned inline comment. TV membership is maintained as named TMDb show IDs in source, with no external curated-list dependency. The runtime remains isolated under `.kometa-test/collections/`; production favorites, charts, download clients, and external list writers are not loaded.
+Use `make test-collections` for collection previews without rerunning overlays. It reuses the TMDb builders from `movies/franchises.yml`, the genre rules from `movies/genres.yml`, all 101 searches in `movies/top-rated-subgenres.yml`, the city keywords from `movies/cities.yml`, the five native sources from `movies/universes.yml`, the show-only collections from `shows/animation-and-sitcoms.yml`, and smoke collections in both fixtures. Use `make test-subgenres` to run only all 101 ranked themes in `test_movie_lib`. Ninety themes use TMDb Discover; eleven use native IMDb keyword searches. No personal-list builders or external templates are permitted anywhere in the subgenre file. Themes use a rating floor of 5 and 1,000 votes by default, with explicit per-theme overrides protected by regression tests. Keep every keyword and genre ID query documented with an aligned inline comment and at least two separating spaces. TV membership is maintained as named TMDb show IDs in source, with no external curated-list dependency. The runtime remains isolated under `.kometa-test/collections/`; production favorites, charts, download clients, and external list writers are not loaded.
 
-The collection preview also loads the thirteen holiday movie collections from `scheduled/seasonal.yml`. Use `make test-seasonal` to run only those collections in `test_movie_lib`. The runner validates production source before rendering a private runtime copy with scheduled deletion disabled and the five already-false Radarr attributes omitted; Kometa requires a Radarr connection even for false attributes. Do not remove enabled writer attributes to bypass validation. Keep all seasonal Radarr add, search, upgrade, and monitoring flags explicitly false in production source. Vintage Christmas includes first releases through 1979; St. Patrick's Day includes Irish-themed films and the holiday itself.
+The collection preview also loads the thirteen holiday movie collections from `scheduled/holiday-movies.yml`. Use `make test-seasonal` to run only those collections in `test_movie_lib`. The runner validates production source before rendering a private runtime copy with scheduled deletion disabled and the five already-false Radarr attributes omitted; Kometa requires a Radarr connection even for false attributes. Do not remove enabled writer attributes to bypass validation. Keep all seasonal Radarr add, search, upgrade, and monitoring flags explicitly false in production source. Vintage Christmas includes first releases through 1979; St. Patrick's Day includes Irish-themed films and the holiday itself.
 
 Never point the test configuration at production library names. Overlay files must be evaluated together; do not use Kometa's `--run-files` option for overlays.
 
-TV holiday collections in `shows/seasonal.yml` use `builder_level: episode`, `plex_all`, and separate title/summary regex filter sets. Match episode metadata, never parent-show metadata. Avoid generic seasonal words and air-date restrictions. Episode collections do not support Sonarr attributes, including false ones; the preview guard rejects all download-client attributes and external builders. Use `make test-tv-seasonal` for the three holidays in `test_tv_lib`. The private runtime copy changes only scheduled deletion, preserving the production rules and artwork. Keep positive, negative, summary-only, and CLI-isolation regression coverage when changing these rules.
+TV holiday collections in `shows/holiday-episodes.yml` use `builder_level: episode`, `plex_all`, and separate title/summary regex filter sets. Match episode metadata, never parent-show metadata. Avoid generic seasonal words and air-date restrictions. Episode collections do not support Sonarr attributes, including false ones; the preview guard rejects all download-client attributes and external builders. Use `make test-tv-seasonal` for the three holidays in `test_tv_lib`. The private runtime copy changes only scheduled deletion, preserving the production rules and artwork. Keep positive, negative, summary-only, and CLI-isolation regression coverage when changing these rules.
 
 CodeQL uses the checked-in `.github/workflows/codeql-actions.yml` with independent Python and GitHub Actions analyses. Preserve its digest pins, minimal permissions, separate language categories, and framed job/step comments. Keep GitHub Default setup disabled; do not introduce a competing CodeQL workflow or enable separate billable analysis features as part of routine maintenance.
 
@@ -93,4 +106,12 @@ Separate repository-only guardrail changes from Plex-mutating behavior changes. 
 
 ## Documentation
 
-Document only the current supported arrangement. Do not preserve historical migration instructions, superseded paths, or compatibility notes for configurations that no longer exist. Keep commands literal and copyable.
+Follow [the documentation style guide](docs/documentation-style.md). Keep the README concise, operating guides and recognized community policies under `docs/`, and issue/PR templates under `.github/`. Keep this file at the repository root for discovery. Update the documentation index and inbound links when moving pages.
+
+Document only the current supported arrangement. Do not preserve historical migration instructions, superseded paths, or compatibility notes for configurations that no longer exist. Use sentence-case headings, descriptive links, native GitHub alerts only for important information, and copyable `sh` command fences. Keep ordinary prose paragraphs on one physical line and enable visual word wrapping in the editor. Public prose may use light cinema humor; technical comments and security guidance remain literal.
+
+## Makefile conventions
+
+Follow Plundarr and Privateerr's structure: centralized target names, common/project/internal target groups, helper command variables, framed target comments, dependency notes, and reusable terminal output helpers. Keep Kometa's own supported target inventory; do not import unrelated Docker lifecycle or destructive cleanup commands.
+
+Plain `make` must remain help-only, with no Docker or secret prerequisites. Preserve the pinned runtime, private environment exports, preview flags, and guarded helper boundaries. Honor `NO_COLOR` and keep captured output plain. Do not hide hook failures. Run `make test-make-helpers` after Make or documentation changes and the complete `make check` before handoff.

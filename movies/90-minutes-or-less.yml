@@ -1,0 +1,27 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# 90-minutes-or-less.yml: Select shorter movies using Plex runtime metadata.
+#
+
+templates:
+  #
+  # Reuse the weekly presentation for runtime-based movie selections.
+  #
+  duration:
+    file_poster: /config/assets/posters/duration/<<collection_name>>.png
+    sort_title: "!099_<<collection_name>>"
+    collection_order: alpha
+    sync_mode: sync
+    schedule: weekly(wednesday)
+
+collections:
+  90 Minutes or Less:
+    template:
+      name: duration
+    plex_search:
+      all:
+        duration.lte: 96
+    summary: "Short on time, not on story. Quick movie escapes for nights when an epic commitment is not on the menu. ⏱️"

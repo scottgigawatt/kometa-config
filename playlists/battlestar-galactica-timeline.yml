@@ -1,0 +1,19 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# battlestar-galactica-timeline.yml: Mixed-media playlists that require explicit episode ordering.
+#
+
+#
+# Preserve Battlestar Galactica's chronological movie and episode sequence.
+#
+playlists:
+  Battlestar Galactica (Timeline Order):
+    sync_mode: sync
+    libraries: Movies, TV Shows
+    sync_to_users: all
+    file_poster: "config/assets/posters/playlist/Battlestar Galactica (Timeline Order).png"
+    trakt_list: https://trakt.tv/users/markmckee/lists/battlestar-galactica-chrono-order
+    summary: "Humanity's survivors flee the Cylons through uneasy alliances, hidden identities, and a desperate search for home. So say we all. 🚀"

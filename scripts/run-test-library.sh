@@ -82,7 +82,7 @@ set -- \
     --mount "type=bind,src=$repository_root/tests/kometa,dst=/workspace/tests/kometa,readonly"
 
 for overlay_source in \
-    top.yml background.yml status.yml network-fallback.yml \
+    chart-award-ribbons.yml corner-background.yml series-status.yml network-fallback.yml \
     background bottom-left bottom-right resolution-top-left-45deg \
     audio-top-left-45deg status-top-left streaming-top-left studio-top-left network-top-left
 do

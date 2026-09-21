@@ -12,30 +12,30 @@ libraries:
   #
   test_movie_lib:
     collection_files:
-      - file: /workspace/movies/franchise.yml
-      - file: /workspace/movies/genre.yml
-      - file: /workspace/movies/subgenre-top.yml
+      - file: /workspace/movies/franchises.yml
+      - file: /workspace/movies/genres.yml
+      - file: /workspace/movies/top-rated-subgenres.yml
       - file: /workspace/movies/cities.yml
       - file: /workspace/movies/universes.yml
 
       #
       # Load the guarded runtime copy with no Radarr attributes or scheduled deletion.
       #
-      - file: /config/seasonal.yml
-      - file: /workspace/tests/kometa/collections.yml
+      - file: /config/holiday-movies.yml
+      - file: /workspace/tests/kometa/smoke-collections.yml
 
   #
   # Preview the same curated TV collections without loading other TV files.
   #
   test_tv_lib:
     collection_files:
-      - file: /workspace/shows/shuffle.yml
+      - file: /workspace/shows/animation-and-sitcoms.yml
 
       #
       # Preview individual holiday episodes without Sonarr or scheduled deletion.
       #
-      - file: /config/tv-seasonal.yml
-      - file: /workspace/tests/kometa/collections.yml
+      - file: /config/holiday-episodes.yml
+      - file: /workspace/tests/kometa/smoke-collections.yml
 
 #
 # Preview collections without deleting unrelated collections or updating media.
