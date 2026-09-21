@@ -30,7 +30,7 @@ libraries:
           summary: "Big-screen ambitions, big-file energy. The storage hogs take their bow. 💾"
 
     #
-    # Revisit releases from this calendar month across all years.
+    # Revisit releases from this calendar month in past years.
     #
     - in_history:
         enabled: true
@@ -47,7 +47,7 @@ libraries:
   TV Shows:
 
     #
-    # Celebrate series premieres from this calendar month across all years.
+    # Celebrate series premieres from this calendar month in past years.
     #
     - in_history:
         enabled: true
@@ -82,7 +82,7 @@ libraries:
 
 #
 # Read literal private connection values from the shared runtime file.
-# Neo uses TMDb for release dates and series status, with its cache under /data.
+# Neo uses TMDb for series status, with its cache under /data.
 #
 settings:
   kometa_config: config.yml
