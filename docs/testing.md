@@ -57,7 +57,7 @@ The runners pass secrets through a private environment file without mounting the
 - **Container stays in Created:** Check Docker Desktop's status and file-sharing prompts. Restart it only when safe for other local containers.
 - **Slow first run:** External chart/provider lookups can outweigh rendering time. Retain the cache and let the scoped run finish.
 - **Missing badge or collection:** Confirm Plex matched the fixture, then check source membership, metadata, minimum items, and available artwork.
-- **Unexpected schema warning:** Compare the exact pinned editor schema with Kometa's documented runtime behavior; do not disable validation globally.
+- **Unexpected schema warning:** Run `make validate-editor` to refresh the local config schema, then reload VS Code if needed. Compare remaining diagnostics with Kometa's documented runtime behavior; do not disable validation globally.
 
 ## Deploy separately
 

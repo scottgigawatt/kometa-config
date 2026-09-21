@@ -11,6 +11,9 @@
 #
 blank_issues_enabled: false
 contact_links:
+  - name: "🔥HADES🔥 Discord"
+    url: https://discord.gg/BpEGzWwGYf
+    about: Join the community for setup questions and troubleshooting. Keep credentials and private addresses out of chat.
   - name: Support and setup
     url: https://github.com/scottgigawatt/kometa-config/blob/main/docs/SUPPORT.md
     about: Choose the right route for configuration questions and troubleshooting.

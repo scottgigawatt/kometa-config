@@ -490,7 +490,8 @@ class CollectionPreviewTests(unittest.TestCase):
     def test_native_selection(self) -> None:
         """Select all guarded sources while excluding unrelated franchises."""
         selected, _ = preview.load_preview(Path("/workspace"))
-        self.assertEqual(len(selected), 153)
+        self.assertEqual(len(selected), 154)
+        self.assertIn("Beverly Hills Cop Collection", selected)
         self.assertIn("The Purge Collection", selected)
         self.assertIn("Adult Animation", selected)
         self.assertNotIn("After Collection", selected)

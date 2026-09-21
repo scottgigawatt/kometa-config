@@ -64,14 +64,13 @@ collections:
       - 120794  # Batman Collection
     summary: "Gotham's caped crusader faces theatrical villains, dangerous romances, and a city with an alarming shortage of daylight. 🦇"
 
-#   Beverly Hills Cop Collection:
-#     template:
-#       name: franchise
-#       poster_id: Beverly Hills Cop
-#     plex_search:
-#       all:
-#         title: Beverly Hills Cop
-#     summary: "Axel Foley takes his Detroit instincts to Beverly Hills, where his biggest weapons are quick thinking and an impressive refusal to stop talking. 😎"
+  Beverly Hills Cop Collection:
+    template:
+      name: franchise
+      poster_id: Beverly Hills Cop
+    tmdb_collection:
+      - 85861  # Beverly Hills Cop Collection
+    summary: "Axel Foley takes his Detroit instincts to Beverly Hills, where his biggest weapons are quick thinking and an impressive refusal to stop talking. 😎"
 
   Blade Trilogy:
     template:

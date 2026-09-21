@@ -179,7 +179,10 @@ class CollectionPresentationTests(unittest.TestCase):
                 for key, value in dynamic["template_variables"].items()
             }
             call.update(
-                name=dynamic["template"][0], value=[31], key=31, key_name="Tom Hanks"
+                name=dynamic["template"][0],
+                value=[31],
+                key="Tom Hanks",
+                key_name="Tom Hanks",
             )
             rendered = self.render(source, "Tom Hanks Collection", {"template": call})
             summary = rendered.pop("summary")
@@ -190,7 +193,7 @@ class CollectionPresentationTests(unittest.TestCase):
                     rendered,
                     {
                         "tmdb_person": [31],
-                        "file_poster": "/config/assets/posters/people/31.png",
+                        "file_poster": "/config/assets/posters/people/Tom Hanks.png",
                         "sort_title": "Tom Hanks",
                         "schedule": "weekly(saturday)",
                         "smart_filter": {

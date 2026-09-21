@@ -19,6 +19,7 @@ HELP=help
 # Project target names.
 #
 VALIDATE=validate
+VALIDATE_EDITOR=validate-editor
 CHECK_GENERATED=check-generated
 TEST_LIBRARY=test-library
 TEST_COLLECTIONS=test-collections
@@ -46,6 +47,7 @@ COMMON_TARGETS= \
 #
 PROJECT_TARGETS= \
 	$(VALIDATE) \
+	$(VALIDATE_EDITOR) \
 	$(CHECK_GENERATED) \
 	$(TEST_LIBRARY) \
 	$(TEST_COLLECTIONS) \
@@ -71,20 +73,22 @@ TARGETS= \
 # Keep the image assignment compatible with Renovate's custom manager.
 #
 KOMETA_IMAGE ?= kometateam/kometa:v2.4.8@sha256:c58f6d4af511613f218b6dafbfc84078af4e5a6089790c1fdba58fd7c5dad70a
-TEST_ENV ?= .secrets/test.env
+TEST_ENV      = .secrets/test.env
 
 #
 # Local tools and project-owned helpers.
 #
-PYTHON_BIN                ?= python3
-PRE_COMMIT                ?= pre-commit
-VALIDATE_CMD              ?= scripts/validate-kometa.sh
-CHECK_GENERATED_CMD       ?= scripts/check-generated-files.sh
-LINT_CI_CMD               ?= scripts/run-pre-commit-ci.sh
-TEST_LIBRARY_CMD          ?= scripts/run-test-library.sh
-TEST_COLLECTIONS_CMD      ?= scripts/run-collection-tests.sh
-MAKE_HELPERS_TEST_CMD     ?= $(PYTHON_BIN) -m unittest discover -s tests/helpers -v
-FORMAT_HOOKS              := trailing-whitespace end-of-file-fixer mixed-line-ending
+PYTHON_BIN             ?= python3
+PRE_COMMIT             ?= pre-commit
+VALIDATE_CMD           ?= scripts/validate-kometa.sh
+EDITOR_SCHEMA_CMD      ?= $(PYTHON_BIN) scripts/editor-schema.py
+EDITOR_SCHEMA_TEST_CMD ?= $(PYTHON_BIN) -m unittest discover -s tests/editor -v
+CHECK_GENERATED_CMD    ?= scripts/check-generated-files.sh
+LINT_CI_CMD            ?= scripts/run-pre-commit-ci.sh
+TEST_LIBRARY_CMD       ?= scripts/run-test-library.sh
+TEST_COLLECTIONS_CMD   ?= scripts/run-collection-tests.sh
+MAKE_HELPERS_TEST_CMD  ?= $(PYTHON_BIN) -m unittest discover -s tests/helpers -v
+FORMAT_HOOKS           := trailing-whitespace end-of-file-fixer mixed-line-ending
 
 #
 # Export only the settings consumed by the preview and validation helpers.
@@ -139,11 +143,12 @@ endef
 #
 # Dependencies:
 #   $(VALIDATE) - Check pinned Kometa behavior and YAML without Plex access.
+#   $(VALIDATE_EDITOR) - Check strict editor schemas and compatibility regressions.
 #   $(CHECK_GENERATED) - Reject helper-generated YAML from source control.
 #   $(TEST_MAKE_HELPERS) - Check Make behavior and repository documentation.
 #   $(LINT) - Run formatting, syntax, and secret checks.
 #
-$(CHECK): $(VALIDATE) $(CHECK_GENERATED) $(TEST_MAKE_HELPERS) $(LINT)
+$(CHECK): $(VALIDATE) $(VALIDATE_EDITOR) $(CHECK_GENERATED) $(TEST_MAKE_HELPERS) $(LINT)
 
 #
 # $(LINT): Run all pre-commit hooks against the complete local checkout.
@@ -186,6 +191,7 @@ $(HELP):
 	$(call help_heading,Local checks — no Plex access)
 	$(call help_line,$(CHECK),Run all repository checks.)
 	$(call help_line,$(VALIDATE),Run pinned Kometa validation and regression tests.)
+	$(call help_line,$(VALIDATE_EDITOR),Refresh the editor schema and test strict config validation.)
 	$(call help_line,$(CHECK_GENERATED),Reject tracked generated runtime files.)
 	$(call help_line,$(LINT),Run every pre-commit hook.)
 	$(call help_line,$(FORMAT),Apply safe whitespace fixes; rerun checks afterward.)
@@ -208,6 +214,16 @@ $(HELP):
 #
 $(VALIDATE):
 	@$(VALIDATE_CMD)
+
+#
+# $(VALIDATE_EDITOR): Validate config sources with runtime-supported schema fixes.
+#
+# Dependencies: Development Python packages and the pinned public upstream schema.
+# No secrets, Plex access, or production files are read.
+#
+$(VALIDATE_EDITOR):
+	@$(EDITOR_SCHEMA_CMD)
+	@$(EDITOR_SCHEMA_TEST_CMD)
 
 #
 # $(CHECK_GENERATED): Reject PATTRMM-owned generated YAML from tracked source.

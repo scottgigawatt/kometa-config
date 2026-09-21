@@ -72,12 +72,15 @@ Run the smallest relevant checks, then the complete repository gate before hando
 
 ```sh
 make validate
+make validate-editor
 make check-generated
 make test-make-helpers
 make lint
 ```
 
 `make validate` uses the immutable Kometa image configured in `Makefile`, with no secrets or Plex access and a read-only snapshot of Git-tracked YAML from the working tree. Stage new YAML files before validation; ignored credentials and runtime output are not mounted. Kometa performs its normal upstream version check, but the directory validator does not initialize the configured services. Schema gaps reported by upstream Kometa are warnings; syntax, type, and required-field errors must fail.
+
+`make validate-editor` generates the ignored `.vscode/.schemas/config-schema.json` from the same runtime version and validates all public base configs. Keep compatibility fixes narrow and runtime-verified; never disable validation or permit arbitrary unknown properties. Add negative tests under `tests/editor/` when extending the schema adapter. CI runs this target through Make.
 
 For changes affecting collection membership or rendered artwork, use the isolated Plex fixtures documented in `docs/testing.md` before running against production:
 

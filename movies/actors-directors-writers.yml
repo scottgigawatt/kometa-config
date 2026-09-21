@@ -62,7 +62,6 @@ dynamic_collections:
     exclude:
       - Nicholas Galitzine
       - Chris Farley
-      - Ray Liotta
     data:
       depth: 5
       minimum: 10
@@ -109,9 +108,3 @@ collections:
     template:
       name: person
       actor: "Chris Farley"
-
-  Ray Liotta Collection:
-    summary: "Ray Liotta brings sharp intensity, dangerous charm, and characters you would hesitate to owe a favor."
-    template:
-      name: person
-      actor: "Ray Liotta"

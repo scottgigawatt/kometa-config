@@ -28,9 +28,11 @@ Christmas/Xmas titles and the TMDb Christmas keyword are excluded year-round. Ke
 
 ## People collections
 
-[People collections](../movies/actors-directors-writers.yml) rank actors, directors, and writers from Plex credits. A shared local template supplies artwork, ordering, and the Saturday schedule; each dynamic group supplies its credit role. Nicholas Galitzine, Chris Farley, and Ray Liotta have explicit collections and are excluded from dynamic actor generation before its limit is filled. Directors and writers use separate ranked groups; inspect future logs for cross-role name collisions.
+[People collections](../movies/actors-directors-writers.yml) rank actors, directors, and writers from Plex credits. A shared local template supplies artwork, ordering, and the Saturday schedule; each dynamic group supplies its credit role. Nicholas Galitzine and Chris Farley have explicit collections and are excluded from dynamic actor generation before its limit is filled. Ray Liotta uses only the dynamic actor definition, subject to the same credit-count and ranking thresholds as other actors. Directors and writers use separate ranked groups; inspect future logs for cross-role name collisions.
 
 ## TV series and holiday episodes
+
+[Network collections](../shows/networks.yml) use explicit TMDb network IDs, each annotated with its current name and country when available. A network credit identifies an original broadcaster or platform, not current streaming availability. Country-specific variants remain separate IDs.
 
 [Curated TV collections](../shows/animation-and-sitcoms.yml) use repository-owned TMDb show IDs for Adult Animation, Saturday Morning Cartoons, Classic Sitcoms, and Modern Sitcoms. They contain whole shows, browse alphabetically, and support Plex's Shuffle action. Plex groups both Will & Grace runs under the original series ID.
 

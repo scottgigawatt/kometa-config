@@ -1,5 +1,7 @@
 # Support
 
+For community setup questions and troubleshooting, join [HADES on Discord](https://discord.gg/BpEGzWwGYf). Keep credentials, private server addresses, and unredacted logs out of public chat.
+
 Choose the right route so a small configuration question does not become a full-season mystery.
 
 ## Ask a question

@@ -48,6 +48,8 @@ class MakefileTests(unittest.TestCase):
             f"{key}=./stub.sh {name}"
             for key, name in {
                 "VALIDATE_CMD": "validate",
+                "EDITOR_SCHEMA_CMD": "editor-schema",
+                "EDITOR_SCHEMA_TEST_CMD": "editor-tests",
                 "CHECK_GENERATED_CMD": "generated",
                 "MAKE_HELPERS_TEST_CMD": "helpers",
                 "PRE_COMMIT": "pre-commit",
@@ -99,7 +101,14 @@ class MakefileTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(
             (self.root / "calls.txt").read_text().splitlines(),
-            ["validate", "generated", "helpers", "pre-commit run --all-files"],
+            [
+                "validate",
+                "editor-schema",
+                "editor-tests",
+                "generated",
+                "helpers",
+                "pre-commit run --all-files",
+            ],
         )
 
     def test_preview_scope_and_exports(self) -> None:

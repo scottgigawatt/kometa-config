@@ -231,7 +231,7 @@ class YamlPolicyTests(unittest.TestCase):
         actor_names = [
             definition["template"]["actor"]
             for definition in source["collections"].values()
-        ] + ["Tom Hanks"]
+        ] + ["Ray Liotta"]
         movie = SimpleNamespace(
             title="Fixture movie",
             actors=[
@@ -270,12 +270,17 @@ class YamlPolicyTests(unittest.TestCase):
                     )
                 logger.error.assert_not_called()
                 self.assertEqual(
-                    "Tom Hanks Collection" in loaded.collections, exclude_reserved
+                    "Ray Liotta Collection" in loaded.collections, exclude_reserved
                 )
                 for name, definition in source["collections"].items():
                     self.assertEqual(loaded.collections[name], definition)
                 if exclude_reserved:
                     logger.warning.assert_not_called()
+                    self.assertNotIn("Ray Liotta Collection", source["collections"])
+                    call = loaded.collections["Ray Liotta Collection"]["template"]
+                    calls = call if isinstance(call, list) else [call]
+                    self.assertEqual(calls[0]["name"], "person_dynamic")
+                    self.assertEqual(calls[0]["key"], "Ray Liotta")
                 else:
                     self.assertTrue(
                         any(

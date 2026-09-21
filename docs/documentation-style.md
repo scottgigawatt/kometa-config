@@ -26,7 +26,7 @@ Keep copyable commands in `sh` fences without prompt characters or explanatory c
 
 Use native `[!NOTE]`, `[!TIP]`, `[!IMPORTANT]`, `[!WARNING]`, or `[!CAUTION]` alerts for information readers must notice. Most pages need no more than one or two. Keep alerts separate and concise; do not turn ordinary steps into callouts.
 
-Use task lists in issue and PR templates. Reserve `<details>` for optional diagnostics, never prerequisites or safety warnings. Prefer ordinary Markdown to decorative HTML.
+Use task lists in issue and PR templates. Reserve `<details>` for optional diagnostics, never prerequisites or safety warnings. Prefer ordinary Markdown; the root README may use a centered HTML badge and community-link header matching the sibling projects. Keep its lint exceptions local, image alt text descriptive, and status badges tied to real workflows.
 
 ## Verify before publishing
 

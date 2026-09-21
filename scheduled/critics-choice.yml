@@ -37,7 +37,7 @@ collections:
 
 dynamic_collections:
   #
-  # Expand year-specific source lists across the configured rolling awards window.
+  # Include the current year and five preceding years: six collections in total.
   #
   Critics Choice Awards:
     type: number
@@ -62,11 +62,5 @@ dynamic_collections:
         default: choice_year
       url:
         default: critic-s
-        2019: critics
-        2018: critics
-        2017: critics
-        2016: critics
-        2015: critics
-        2014: critics
       dynamic:
         default: true
