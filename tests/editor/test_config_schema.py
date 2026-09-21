@@ -109,6 +109,22 @@ class ConfigSchemaTests(unittest.TestCase):
         editor.build_schema(self.schema)
         self.assertEqual(self.schema, original)
 
+    #
+    # Rating queues use named layouts accepted by both the editor schema and runtime.
+    # Do not silence the editor's queue type check to accommodate the older list form.
+    #
+    def test_rating_queue_mappings_pass_upstream_schema(self) -> None:
+        """Accept both real rating layouts and reject bare lists in the editor schema."""
+        schema = json.loads((ROOT / ".vscode/.schemas/overlay-schema.json").read_text())
+        for filename in ("overlays/ratings.yml", "overlays/test/ratings.yml"):
+            with self.subTest(file=filename):
+                source = YAML(typ="safe").load((ROOT / filename).read_text())
+                self.assertFalse(editor.validation_errors(schema, source))
+                source["queues"]["rating_queue_logo"] = source["queues"][
+                    "rating_queue_logo"
+                ]["default"]
+                self.assertTrue(editor.validation_errors(schema, source))
+
 
 if __name__ == "__main__":
     unittest.main()

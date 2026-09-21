@@ -7,8 +7,10 @@
 #
 
 templates:
+
   #
-  # Resolve network membership through TMDb and sort matching shows by new episodes.
+  # Resolve network membership through TMDb and sort matching shows by newly added episodes.
+  # Network credits describe a show's broadcasters, not current streaming availability.
   #
   network:
     optional:
@@ -370,6 +372,9 @@ collections:
         - 247   # YouTube
         - 1436  # YouTube Premium
 
+  #
+  # Keep these optional network groups inactive; commented definitions create no collections.
+  #
   # A&E:
   #   template:
   #     name: network

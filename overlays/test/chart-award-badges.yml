@@ -6,7 +6,14 @@
 # chart-award-badges.yml: Keep experimental chart badges separate from live wiring.
 #
 
+#
+# Keep this alternate badge layout opt-in; the test-library runner uses the main ribbon set.
+#
 templates:
+
+  #
+  # Match the IMDb chart to the library type and share the exclusive logo group.
+  #
   imdbtop250:
     default:
       overlay: <<overlay_name>>
@@ -21,6 +28,9 @@ templates:
       vertical_offset: 0
       vertical_align: bottom
 
+  #
+  # Read the Certified Fresh movie selection maintained for Kometa on MDBList.
+  #
   rt-cert-fresh:
     optional:
       - overlay_level
@@ -36,6 +46,9 @@ templates:
       vertical_offset: 10
       vertical_align: bottom
 
+  #
+  # Read the Metacritic Must See movie selection maintained for Kometa on MDBList.
+  #
   meta-must:
     optional:
       - overlay_level
@@ -51,6 +64,9 @@ templates:
       vertical_offset: 10
       vertical_align: bottom
 
+#
+# Choose one logo per poster: IMDb first, then Metacritic, then Rotten Tomatoes.
+#
 overlays:
   imdb-top-250red:
     template:

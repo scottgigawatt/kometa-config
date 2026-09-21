@@ -7,6 +7,7 @@
 #
 
 templates:
+
   #
   # Share person metadata and presentation; each dynamic group supplies its credit role.
   #
@@ -41,6 +42,7 @@ templates:
         actor: <<actor>>
 
 dynamic_collections:
+
   #
   # Rank people by their credits in the library, with separate limits for each role.
   #
@@ -97,6 +99,10 @@ dynamic_collections:
       limit: 5
 
 collections:
+
+  #
+  # Keep these two actors regardless of whether their credits reach the dynamic cutoff.
+  #
   Nicholas Galitzine Collection:
     summary: "Nicholas Galitzine brings charm, longing, and complicated hearts to princes, performers, and people falling spectacularly in love."
     template:

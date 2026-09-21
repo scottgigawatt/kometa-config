@@ -7,10 +7,11 @@
 #
 
 templates:
+
   #
   # Evaluate individual episodes, never the parent show's title or description.
-  # Separate filter sets match the title OR summary. Scan all local episodes so
-  # summary-only matches and specials outside holiday air dates remain eligible.
+  # Separate filter sets match the title OR summary, including summary-only matches.
+  # Scan all local episodes so specials outside holiday air dates remain eligible.
   #
   seasonal:
     file_poster: /config/assets/posters/seasonal/<<poster_id>>.jpg
@@ -27,6 +28,7 @@ templates:
     delete_not_scheduled: true
 
 collections:
+
   #
   # Match explicit Halloween traditions, not generic ghosts, costumes, or parties.
   # Word boundaries and case-insensitive matching apply to both metadata fields.

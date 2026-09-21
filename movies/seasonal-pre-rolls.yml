@@ -6,7 +6,12 @@
 # seasonal-pre-rolls.yml: Schedule server-wide pre-roll selections without collections.
 #
 
+#
+# Paths are read by the native Plex server, not by the Kometa container.
+# Semicolons let Plex randomly select one clip from the active seasonal group.
+#
 collections:
+
   #
   # These definitions update the server pre-roll setting, not a visible collection.
   #

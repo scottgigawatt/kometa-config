@@ -9,6 +9,7 @@
 #
 # Combine native collection groups or universe keywords without standalone films.
 # Keep the same minimum and section as the remaining universe Defaults.
+# config.yml excludes these groups from Defaults so each name has one builder.
 #
 templates:
   universe:

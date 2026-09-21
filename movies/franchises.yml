@@ -8,7 +8,8 @@
 
 #
 # TMDb collection IDs follow upstream membership without extra movie overrides.
-# Keep the adjacent collection names readable when reviewing numeric IDs.
+# Named trilogies and local Plex searches below define the remaining exceptions.
+# Refresh on Thursday or Sunday and display every group in release order.
 #
 templates:
   franchise:

@@ -18,7 +18,7 @@ templates:
     sync_mode: sync
 
 #
-# Keep the existing collection names and artwork available to shared TV users.
+# Give shared TV users the same collection artwork without maintaining duplicate playlists.
 #
 collections:
   Adult Animation:

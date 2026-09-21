@@ -7,10 +7,12 @@
 #
 
 collections:
+
   #
-  # Smart filters follow Plex metadata without waiting for collection rebuilds.
+  # Smart filters update membership in Plex without waiting for collection rebuilds.
+  # New releases must be added within 92 days and released within the last year.
   #
-  New Movie Releases:  # Smart collection
+  New Movie Releases:
     smart_filter:
       sort_by: added.desc
       all:
@@ -24,7 +26,10 @@ collections:
     sort_title: "!008_New_Releases"
     file_poster: config/assets/posters/new-releases/new-movie-releases.png
 
-  Old Movies Just Added:  # Smart collection
+  #
+  # Separate movies added within 30 days whose release dates are more than a year old.
+  #
+  Old Movies Just Added:
     smart_filter:
       sort_by: added.desc
       all:

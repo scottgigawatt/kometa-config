@@ -7,6 +7,7 @@
 #
 
 templates:
+
   #
   # Reuse the weekly presentation for runtime-based movie selections.
   #
@@ -23,5 +24,5 @@ collections:
       name: duration
     plex_search:
       all:
-        duration.lte: 96
+        duration.lte: 96  # Retain the configured six-minute allowance above the title's cutoff.
     summary: "Short on time, not on story. Quick movie escapes for nights when an epic commitment is not on the menu. ⏱️"

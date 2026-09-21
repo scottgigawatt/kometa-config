@@ -6,18 +6,28 @@
 # oscars.yml: Build Oscar winners from IMDb ceremony records.
 #
 
+#
+# Reuse Kometa's award artwork and shared presentation in collection section 130.
+#
 external_templates:
   default: templates
   template_variables:
     collection_section: "130"
 
 templates:
+
+  #
+  # Synchronize the all-time film winners from January 1 through April 1.
+  #
   oscar_award_winner:
     sort_title: "!130_<<collection_name>>"
     collection_order: release.desc
     sync_mode: sync
     schedule: range(01/01-04/01)
 
+  #
+  # Select movie winners for each ceremony, including films released in earlier years.
+  #
   oscar_award_winner_dynamic:
     summary: "Oscar-winning films where unforgettable performances and ambitious visions earn their golden moment. 🏆"
     sort_title: "!130_<<collection_name>>"
@@ -84,6 +94,7 @@ collections:
         - best achievement in directing
 
 dynamic_collections:
+
   #
   # Use six ceremonies from Kometa's validated event-year index.
   #

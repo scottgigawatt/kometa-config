@@ -6,12 +6,19 @@
 # emmy-awards.yml: Build Emmy-winning shows from IMDb ceremony records.
 #
 
+#
+# Reuse Kometa's award artwork and shared presentation in collection section 130.
+#
 external_templates:
   default: templates
   template_variables:
     collection_section: 130
 
 templates:
+
+  #
+  # Restrict the ceremony builder to shows; a show's premiere year does not limit its wins.
+  #
   emmy_award_winner:
     summary: "Emmy-winning television with compelling characters, ambitious storytelling, and plenty of reasons for one more episode. 🏆"
     sort_title: "!130_<<collection_name>>"
@@ -29,6 +36,7 @@ templates:
     delete_not_scheduled: false
 
 dynamic_collections:
+
   #
   # Use six validated ceremonies, including wins by shows that premiered earlier.
   #

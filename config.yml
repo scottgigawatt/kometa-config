@@ -7,29 +7,44 @@
 #
 
 #
-# Define the libraries
+# Separate seasonal movie runs from regular movie and TV processing.
 #
 libraries:
+
   #
-  # Define 'Scheduled' movie collections
+  # Reuse the Movies library for seasonal collections with separate reporting.
   #
   Scheduled:
-    # Define target Plex library
+
+    #
+    # Target the existing Movies library, not a separate Plex library.
+    #
     library_name: Movies
 
-    # Define where to store missing movies report
+    #
+    # Keep seasonal missing-item reports separate from ordinary movie reports.
+    #
     report_path: config/missing/scheduled-report.yml
 
-    # Define scheduled 'Movies' library template variable overrides
+    #
+    # Hide separator collections between award and holiday groups.
+    #
     template_variables:
       use_separator: false
 
-    # Define scheduled 'Movies' library collections
+    #
+    # Load local awards and holidays alongside the previous year's highlights.
+    #
     collection_files:
-      # Define folder with scheduled 'Movies' library collections
+
+      #
+      # Load the scheduled definitions; each file controls its eligible media type.
+      #
       - folder: /config/scheduled/
 
-      # Dynamic collections based on the years available in your library, sorted by critic rating to create a "best of"
+      #
+      # Show the previous year's 50 highest critic-rated movies during awards season.
+      #
       - default: year
         template_variables:
           limit: 50
@@ -41,35 +56,47 @@ libraries:
           collection_section: "010"
           schedule: range(01/01-04/01)
 
-    # Define 'Scheduled' movies library settings
+    #
+    # Remove out-of-season collections without removing their media from Plex.
+    #
     settings:
       delete_not_scheduled: true
       asset_directory: config/assets
 
   #
-  # Define 'Movies' library collections
+  # Build regular movie collections and maintain their metadata and custom artwork.
   #
   Movies:
-    # Define where to store missing movies report
+
+    #
+    # Record missing matches without enabling automatic downloads globally.
+    #
     report_path: config/missing/movies-report.yml
 
-    # Define 'Movies' library template variable overrides
+    #
+    # Hide separator collections while retaining each group's sort order.
+    #
     template_variables:
       use_separator: false
 
-    # Define 'Movies' library collections
+    #
+    # Combine local rules with selected Kometa Defaults.
+    #
     collection_files:
-      # Define folder with 'Movies' library collections
+
+      #
+      # Keep custom membership rules and presentation in the movie source files.
+      #
       - folder: config/movies/
 
       #
-      # Define 'Movies' library default collections
+      # Group movies by their available US content ratings.
       #
-
-      # Dynamic collections based on the content ratings available in your library
       - default: content_rating_us
 
-      # Collections with items that are based on or inspired by various media outlets, such as books or video games
+      #
+      # Refresh adaptation and true-story collections during Sunday's morning window.
+      #
       - default: based
         template_variables:
           summary_true_story: Films based on or inspired by a true story.
@@ -78,12 +105,16 @@ libraries:
           summary_comic: Films based on or inspired by a comic.
           schedule: all[weekly(sunday), hourly(05-07)]
 
-      # Dynamic collections based on the studios available in your library
+      #
+      # Create studio groups only when at least ten matching movies are present.
+      #
       - default: studio
         template_variables:
           minimum_items: 10
 
-      # Dynamic collections based on the decades available in your library, sorted by critic rating to create a "best of"
+      #
+      # Cap decade highlights at 100 movies, with a smaller 25-movie 1970s selection.
+      #
       - default: decade
         template_variables:
           limit: 100
@@ -92,11 +123,16 @@ libraries:
           summary_1970: "Bold voices, unforgettable antiheroes, and a decade that rewrote the rules of the big screen. 🎞️"
           minimum_items: 25
 
-      # Dynamic collections based on the genres available in your library
+      #
+      # Build alphabetical genre groups without duplicating the local genre rules.
+      #
       - default: genre
         template_variables:
           sort_by: title.asc
-          # Defined in movies/genres.yml.
+
+          #
+          # Let movies/genres.yml own these collection names and membership rules.
+          #
           exclude:
             - Horror
             - War
@@ -105,14 +141,18 @@ libraries:
             - Sport
           minimum_items: 10
 
-      # Collections based on IMDb charts
+      #
+      # Include IMDb's top and popular charts without the lowest-rated chart.
+      #
       - default: imdb
         template_variables:
           use_lowest: false
           order_top: 3
           order_popular: 3
 
-      # Collections based on TMDb charts
+      #
+      # Promote the 50-movie TMDb popular selection on library and shared home screens.
+      #
       - default: tmdb
         template_variables:
           limit_popular: 50
@@ -120,7 +160,9 @@ libraries:
           visible_home_popular: true
           visible_shared_popular: true
 
-      # Collections based on lists from Letterboxd
+      #
+      # Retain the selected Letterboxd lists maintained by Kometa Defaults.
+      #
       - default: letterboxd
         template_variables:
           use_imdb_top_250: true
@@ -130,7 +172,9 @@ libraries:
           visible_home_top_250: true
           visible_shared_top_250: true
 
-      # Dynamic seasonal collections based on holidays
+      #
+      # Use default holiday rules only where local seasonal files do not own the name.
+      #
       - default: seasonal
         template_variables:
           emoji: ""
@@ -139,7 +183,10 @@ libraries:
           schedule_thanksgiving: range(11/01-11/24)
           schedule_veteran: range(11/01-11/12)
           imdb_list_veteran: https://www.imdb.com/list/ls561621160/
-          # These default collections are defined in scheduled/holiday-movies.yml
+
+          #
+          # Let scheduled/holiday-movies.yml own these holidays to avoid collisions.
+          #
           exclude:
             - christmas
             - easter
@@ -150,7 +197,9 @@ libraries:
             - valentine
             - years
 
-      # Collections based on Tracearr watch history
+      #
+      # Build two 25-movie selections from the last 30 days of Tracearr watch history.
+      #
       - default: tracearr
         template_variables:
           collection_section: "020_1"
@@ -166,7 +215,9 @@ libraries:
           use_binged: false
           use_transcoded: false
 
-      # Collections based on Trakt charts
+      #
+      # Refresh Trakt's service-wide popular and trending charts each Monday.
+      #
       - default: trakt
         template_variables:
           use_collected: false
@@ -176,7 +227,9 @@ libraries:
           order_trending: 4
           schedule: weekly(monday)
 
-      # Collections based on popular movie universes, such as the Marvel Cinematic Universe or Wizarding World
+      #
+      # Use default universe groups except those owned by local franchise rules.
+      #
       - default: universe
         template_variables:
           collection_section: "106"
@@ -196,7 +249,9 @@ libraries:
             - avp
             - xmen
 
-      # Collections based on other charts, e.g. Steven Lu's popular movies and top 10 pirated movies of the week
+      #
+      # Publish the weekly piracy chart with an explicit Radarr add-and-search override.
+      #
       - default: other_chart
         template_variables:
           visible_library_pirated: true
@@ -215,7 +270,8 @@ libraries:
           use_stevenlu: false
 
     #
-    # Define 'Movies' library overlays
+    # Apply the full custom movie artwork set during the morning overlay window.
+    # Full-poster graphics use a transparent 1000-by-1500 canvas at zero offset.
     #
     schedule_overlays: hourly(05-07)
     remove_overlays: false
@@ -263,13 +319,14 @@ libraries:
           back_color: "#0000"
 
     #
-    # Define 'Movies' library settings
+    # Suppress missing movie artwork notices while retaining other missing-item reports.
     #
     settings:
       show_missing_assets: false
 
     #
-    # Run 'Movies' library operations together within the scheduled window.
+    # Refresh genres, provider ratings, personal Trakt ratings, and movie assets together.
+    # Run only on Monday, Thursday, or Saturday between 05:00 and 07:59.
     #
     operations:
       - schedule: all[weekly(monday|thursday|saturday), hourly(05-07)]
@@ -280,57 +337,75 @@ libraries:
         assets_for_all: true
 
   #
-  # Define 'TV Shows' library collections
+  # Build show collections and maintain series metadata and custom corner artwork.
   #
   TV Shows:
-    # Define where to store missing TV shows report
+
+    #
+    # Keep missing show matches separate from movie reports.
+    #
     report_path: config/missing/tv-shows-report.yml
 
-    # Define 'TV Shows' library template variable overrides
+    #
+    # Hide separator collections while retaining each group's sort order.
+    #
     template_variables:
       use_separator: false
 
     #
-    # Define 'TV Shows' library collections
+    # Combine local show rules and Emmy winners with selected Kometa Defaults.
     #
     collection_files:
-      # Define folder with 'TV Shows' library collections
+
+      #
+      # Load custom networks, episode themes, and show-only shuffle collections.
+      #
       - folder: config/shows/
 
-      # Define with scheduled 'TV Shows' library collections
+      #
+      # Keep Emmy winners available year-round with their own Monday refresh schedule.
+      #
       - file: config/scheduled/emmy-awards.yml
 
       #
-      # Define 'TV Shows' library default collections
+      # Group shows by their available US content ratings.
       #
-
-      # Dynamic collections based on the content ratings available in your library
       - default: content_rating_us
 
-      # Dynamic collections based on the studios available in your library
+      #
+      # Require ten shows per studio and leave HBO to shows/networks.yml.
+      #
       - default: studio
         template_variables:
           minimum_items: 10
-          exclude:  # In networks.yml config
+          exclude:
             - HBO
 
-      # Collections based on popular TV show franchises
+      #
+      # Use Kometa's default TV franchise definitions.
+      #
       - default: franchise
 
-      # Dynamic collections based on the genres available in your library
+      #
+      # Keep genre groups alphabetical and require at least two matching shows.
+      #
       - default: genre
         template_variables:
           sort_by: title.asc
           minimum_items: 2
 
-      # Collections based on IMDb charts
+      #
+      # Include IMDb's top and popular charts without the lowest-rated chart.
+      #
       - default: imdb
         template_variables:
           use_lowest: false
           order_top: 3
           order_popular: 3
 
-      # Collections based on TMDb charts
+      #
+      # Promote the 50-show TMDb popular selection on library and shared home screens.
+      #
       - default: tmdb
         template_variables:
           limit_popular: 50
@@ -338,7 +413,9 @@ libraries:
           visible_home_popular: true
           visible_shared_popular: true
 
-      # Collections based on Tracearr watch history
+      #
+      # Build two 25-show selections from the last 30 days of Tracearr watch history.
+      #
       - default: tracearr
         template_variables:
           list_days: 30
@@ -354,7 +431,9 @@ libraries:
           use_binged: false
           use_transcoded: false
 
-      # Collections based on Trakt charts
+      #
+      # Retain Trakt's service-wide popular and trending charts, not personal lists.
+      #
       - default: trakt
         template_variables:
           use_collected: false
@@ -362,8 +441,10 @@ libraries:
           use_watched: false
           order_popular: 4
           order_trending: 4
+
     #
-    # Define 'TV Shows' library overlays
+    # Apply ribbons, series status, and provider artwork together each morning.
+    # The generic Plex corner remains when no matching provider graphic is selected.
     #
     schedule_overlays: hourly(05-07)
     remove_overlays: false
@@ -398,7 +479,7 @@ libraries:
           file_bet: config/overlays/network-top-left/BET+.png
 
           #
-          # Skip providers without matching custom artwork; keep the fallback.
+          # Disable missing provider graphics; the generic Plex corner remains available.
           #
           use_hayu: false
           use_tubi: false
@@ -420,7 +501,7 @@ libraries:
           file_Max: config/overlays/network-top-left/Max.png
 
           #
-          # Skip studios without matching custom artwork; keep the fallback.
+          # Disable missing studio graphics; the generic Plex corner remains available.
           #
           use_Disney Television Animation: false
           use_DisneyToon Studios: false
@@ -457,7 +538,7 @@ libraries:
           file_U&W: config/overlays/network-top-left/W.png
 
           #
-          # Skip networks without matching custom artwork; keep the fallback.
+          # Disable missing network graphics; the generic Plex corner remains available.
           #
           use_tubi: false
           use_U&Drama: false
@@ -465,14 +546,14 @@ libraries:
           use_U&Yesterday: false
 
     #
-    # Define 'TV Shows' library settings
+    # Remove out-of-season TV collections unless their definitions opt out.
     #
     settings:
       delete_not_scheduled: true
       asset_directory: config/assets
 
     #
-    # Run 'TV Shows' library operations together within the scheduled window.
+    # Refresh show genres and provider ratings in the same window as movie operations.
     #
     operations:
       - schedule: all[weekly(monday|thursday|saturday), hourly(05-07)]
@@ -482,18 +563,26 @@ libraries:
         mass_user_rating_update: trakt_user
 
 #
-# Define movie and TV playlists
+# Combine the custom Battlestar timeline with Kometa's default ordered playlists.
 #
 playlist_files:
   - file: config/playlists/battlestar-galactica-timeline.yml
   - default: playlist
 
 #
-# Define global settings
+# Set shared defaults; library, template, and collection overrides take precedence.
 #
 settings:
+
+  #
+  # Cache provider responses to reduce repeated lookups between runs.
+  #
   cache: true
   cache_expiration: 30
+
+  #
+  # Prefer repository artwork and save downloaded URL assets without creating folders.
+  #
   asset_directory: config/assets
   asset_folders: false
   asset_depth: 1
@@ -504,11 +593,20 @@ settings:
   show_missing_season_assets: false
   show_missing_episode_assets: false
   show_asset_not_needed: true
+
+  #
+  # Append membership by default; rule-based collections explicitly request sync.
+  # Delete collections below the minimum, but retain unscheduled ones unless overridden.
+  #
   sync_mode: append
   minimum_items: 1
   default_collection_order:
   delete_below_minimum: true
   delete_not_scheduled: false
+
+  #
+  # Report missing matches, including unreleased titles, without verbose item listings.
+  #
   run_again_delay: 2
   missing_only_released: false
   only_filter_missing: false
@@ -520,16 +618,36 @@ settings:
   save_report: true
   tvdb_language: eng
   item_refresh_delay: 0
+
+  #
+  # Report playlist results and synchronize playlists to all eligible Plex users.
+  #
   playlist_report: true
   playlist_sync_to_users: all
+
+  #
+  # Verify HTTPS certificates and use Kometa's default repository resolution.
+  #
   verify_ssl: true
   custom_repo:
+
+  #
+  # Save rendered overlay posters as JPEGs at the selected quality level.
+  #
   overlay_artwork_filetype: jpg
   overlay_artwork_quality: 75
+
+  #
+  # Keep unconfigured-library notices visible and leave hub sorting at its default.
+  #
   show_unconfigured: true
   show_unfiltered: false
   auto_sort_hubs:
   playlist_exclude_users:
+
+  #
+  # Update metadata before building collections and rendering ratings-dependent artwork.
+  #
   run_order:
     - operations
     - metadata
@@ -537,11 +655,8 @@ settings:
     - overlays
 
 #
-# Define service connections
-#
-
-#
-# Plex Media Server connection
+# Connect to Plex without running database maintenance or emptying the trash.
+# All service addresses and credentials below are public placeholders, not deployment values.
 #
 plex:
   url: http://localhost:32400
@@ -554,7 +669,7 @@ plex:
   verify_ssl:
 
 #
-# Tracearr connection
+# Read viewing activity from Tracearr for the popular and watched collections.
 #
 tracearr:
   url: http://localhost:3080
@@ -562,13 +677,13 @@ tracearr:
   server_id:
 
 #
-# Notifiarr connection
+# Send configured Kometa notifications through Notifiarr.
 #
 notifiarr:
   apikey: abc123
 
 #
-# Custom webhooks connection
+# Leave direct event webhooks unset unless configured privately for the deployment.
 #
 webhooks:
   error:
@@ -579,7 +694,7 @@ webhooks:
   delete:
 
 #
-# The Movie Database connection
+# Use English TMDb metadata and US regional settings for native movie and show builders.
 #
 tmdb:
   apikey: abc123
@@ -588,7 +703,8 @@ tmdb:
   region: US
 
 #
-# Radarr connection
+# Disable automatic Radarr additions, searches, and monitoring changes by default.
+# Individual collections may explicitly enable additions and searches.
 #
 radarr:
   ignore_cache: false
@@ -604,11 +720,16 @@ radarr:
   quality_profile: HD-1080p
   tag: kometa
   search: false
+
+  #
+  # Translate media paths between Radarr's container and the Plex host.
+  #
   radarr_path: /movies
   plex_path: /volume1/movies
 
 #
-# Sonarr connection
+# Disable automatic Sonarr additions, searches, and changes to existing monitoring.
+# The all-episodes monitoring policy applies only if a collection enables additions.
 #
 sonarr:
   ignore_cache: false
@@ -627,11 +748,15 @@ sonarr:
   tag: kometa
   search: false
   cutoff_search: false
+
+  #
+  # Translate media paths between Sonarr's container and the Plex host.
+  #
   sonarr_path: /tv
   plex_path: /volume1/tv
 
 #
-# Trakt connection
+# Authorize retained Trakt charts, owner-curated sources, and personal rating updates.
 #
 trakt:
   client_id: abc123
@@ -646,27 +771,27 @@ trakt:
   pin:
 
 #
-# MDb List connection
+# Retrieve MDBList ratings, including the Rotten Tomatoes critic scores used by operations.
 #
 mdblist:
   apikey: abc123
   cache_expiration: 60
 
 #
-# Open Movie Database connection
+# Cache OMDb lookups for builders and metadata that require its records.
 #
 omdb:
   apikey: abc123
   cache_expiration: 60
 
 #
-# GitHub connection
+# Authenticate GitHub requests when the deployment supplies a private token.
 #
 github:
   token: abc123
 
 #
-# MyAnimeList connection
+# Keep MyAnimeList authorization separate from the other metadata providers.
 #
 mal:
   client_id: abc123

@@ -7,8 +7,9 @@
 #
 
 collections:
+
   #
-  # Episode dates distinguish newly released television from older catalog additions.
+  # Select shows with episodes added within 92 days and aired within the last year.
   #
   New TV Show Releases:
     item_label: New Release
@@ -25,6 +26,10 @@ collections:
     sort_title: "!008_New_Releases"
     file_poster: config/assets/posters/new-releases/new-tv-show-releases.png
 
+  #
+  # Randomize recent additions with older episodes or without the New Release label.
+  # The nested any block intentionally allows either condition to qualify a show.
+  #
   Old TV Shows Just Added:
     smart_filter:
       sort_by: random

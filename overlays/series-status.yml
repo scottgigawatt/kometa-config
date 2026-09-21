@@ -7,11 +7,12 @@
 #
 
 #
-# Define TV show templates
+# Share placement and artwork selection across mutually exclusive status ribbons.
 #
 templates:
+
   #
-  # Define TV show 'status' template
+  # The highest weight in the status group wins when more than one rule matches.
   #
   status:
     default:
@@ -28,11 +29,12 @@ templates:
       vertical_align: top
 
 #
-# Define TV show 'status' overlays
+# Prefer currently airing shows over returning, cancelled, and ended states.
 #
 overlays:
+
   #
-  # Define overlays for TV shows with 'airing' status
+  # Give TMDb's on-the-air selection priority over the broader returning status.
   #
   airing:
     template:
@@ -43,7 +45,7 @@ overlays:
     tmdb_on_the_air: 500
 
   #
-  # Define overlays for TV shows with 'returning' status
+  # Treat returning, planned, and in-production shows as active series.
   #
   returning:
     template:
@@ -59,7 +61,7 @@ overlays:
         - production
 
   #
-  # Define overlays for TV shows with 'ended' status
+  # Mark ended series only when no higher-priority status matches.
   #
   ended:
     template:
@@ -73,7 +75,7 @@ overlays:
         - ended
 
   #
-  # Define overlays for TV shows with 'cancelled' status
+  # Keep the artwork spelling while matching TMDb's canceled status value.
   #
   cancelled:
     template:

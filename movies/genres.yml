@@ -6,7 +6,11 @@
 # genres.yml: Build movie genres from Plex tags and named TMDb keywords.
 #
 
+#
+# These custom groups own their names; config.yml excludes overlapping default genres.
+#
 templates:
+
   #
   # Keep custom posters and alphabetical browsing while synchronizing membership.
   #
@@ -18,6 +22,7 @@ templates:
     schedule: weekly(tuesday)
 
 collections:
+
   #
   # Native genres use library tags without external curated additions.
   # The seasonal Halloween collection is maintained separately.

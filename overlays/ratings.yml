@@ -7,11 +7,12 @@
 #
 
 #
-# Define ratings templates
+# Keep this optional numeric-rating layout separate from the main overlay wiring.
 #
 templates:
+
   #
-  # IMDb rating logo
+  # Pair the IMDb logo with the audience score using equal queue weights.
   #
   imdb_rating:
     optional:
@@ -26,7 +27,7 @@ templates:
       weight: <<weight>>
 
   #
-  # Audience rating text (IMDb rating)
+  # Display the Plex audience score beside its matching IMDb logo.
   #
   audience_rating:
     optional:
@@ -43,7 +44,7 @@ templates:
       font_color: "#FFFFFF"
 
   #
-  # Rotten Tomatoes rating logo (Fresh)
+  # Select the Fresh logo independently from the numeric critic score.
   #
   rt-crit-fresh:
     optional:
@@ -58,7 +59,7 @@ templates:
       weight: <<weight>>
 
   #
-  # Rotten Tomatoes rating logo (Rotten)
+  # Use the Rotten logo for the lower critic-rating range.
   #
   rt-crit-rotten:
     optional:
@@ -73,7 +74,7 @@ templates:
       weight: <<weight>>
 
   #
-  # Critic rating text (Rotten Tomatoes rating under 10)
+  # Keep the critic text formatting and weight paired with the Rotten Tomatoes logo.
   #
   critic_rating:
     optional:
@@ -90,41 +91,46 @@ templates:
       font_color: "#FFFFFF"
 
 #
-# Define queues section
+# Keep two bottom-row positions for logos and their matching score text.
+# A named default layout is understood by both Kometa and its editor schema.
 #
 queues:
+
   #
-  # Rating queue logos
+  # Higher weights fill the left position first; a second match uses the right position.
   #
   rating_queue_logo:
-    - horizontal_offset: 10
-      horizontal_align: left
-      vertical_offset: 10
-      vertical_align: bottom
-    - horizontal_offset: 320
-      horizontal_align: left
-      vertical_offset: 10
-      vertical_align: bottom
+    default:
+      - horizontal_offset: 10
+        horizontal_align: left
+        vertical_offset: 10
+        vertical_align: bottom
+      - horizontal_offset: 320
+        horizontal_align: left
+        vertical_offset: 10
+        vertical_align: bottom
 
   #
-  # Rating queue text
+  # Offset text from its matching logo while preserving the same weight order.
   #
   rating_queue_text:
-    - horizontal_offset: 189
-      horizontal_align: left
-      vertical_offset: 41
-      vertical_align: bottom
-    - horizontal_offset: 499
-      horizontal_align: left
-      vertical_offset: 41
-      vertical_align: bottom
+    default:
+      - horizontal_offset: 189
+        horizontal_align: left
+        vertical_offset: 41
+        vertical_align: bottom
+      - horizontal_offset: 499
+        horizontal_align: left
+        vertical_offset: 41
+        vertical_align: bottom
 
 #
-# Define 'ratings' overlays
+# Exclude missing or zero ratings and keep logo and text eligibility synchronized.
 #
 overlays:
+
   #
-  # IDMb rating logo
+  # Match IMDb audience scores on Plex's 0-to-10 rating scale.
   #
   imdb_rating:
     template:
@@ -136,7 +142,7 @@ overlays:
         audience_rating.lte: 10
 
   #
-  # Audience rating text (IMDb rating)
+  # Use the same audience-score range and weight as the IMDb logo.
   #
   audience_rating:
     template:
@@ -148,7 +154,7 @@ overlays:
         audience_rating.lte: 10
 
   #
-  # Rotten Tomatoes rating logo (Fresh)
+  # Choose Fresh artwork for critic scores from 6.1 through 10.
   #
   rt-crit-fresh:
     template:
@@ -160,7 +166,7 @@ overlays:
         critic_rating.lte: 10
 
   #
-  # Rotten Tomatoes rating logo (Rotten)
+  # Choose Rotten artwork for critic scores from 0.1 through 6.0.
   #
   rt-crit-rotten:
     template:
@@ -172,7 +178,7 @@ overlays:
         critic_rating.lte: 6.0
 
   #
-  # Critic rating text (Rotten Tomatoes rating under 10)
+  # Display critic text in the same queue position as either Rotten Tomatoes logo.
   #
   critic_rating:
     template:

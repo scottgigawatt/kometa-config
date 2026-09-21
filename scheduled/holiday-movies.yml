@@ -7,6 +7,7 @@
 #
 
 templates:
+
   #
   # Preserve seasonal presentation without adding or searching for downloads.
   # Production removes out-of-season collections; the fixture copy disables deletion.
@@ -27,6 +28,7 @@ templates:
     radarr_monitor_existing: false
 
 collections:
+
   #
   # Combine holiday tagging with the existing romantic comedy and drama rules.
   #
@@ -77,8 +79,7 @@ collections:
     summary: "Easter traditions, stories of faith and renewal, and bunny business of varying seriousness. 🐰"
 
   #
-  # Motherhood includes drama, comedy, and horror without treating every family
-  # relationship as a Mother's Day story.
+  # Match motherhood across genres without treating every family relationship as a Mother's Day story.
   #
   Mother's Day Movies:
     template:

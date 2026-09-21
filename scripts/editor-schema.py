@@ -101,7 +101,7 @@ def validation_errors(schema: dict, document: dict) -> list:
 
 
 def main() -> None:
-    """Refresh the ignored editor schema and check all three public config sources."""
+    """Refresh pinned schemas and check base configs plus optional rating overlays."""
     root = Path(__file__).resolve().parents[1]
     image = os.environ.get("KOMETA_IMAGE", "")
     match = re.fullmatch(
@@ -141,11 +141,29 @@ def main() -> None:
             location = "/".join(str(part) for part in error.absolute_path)
             print(f"{filename}: schema {error.validator} failure at {location or '/'}")
         failed = failed or bool(errors)
+
+    #
+    # Validate the optional rating layouts against the unchanged upstream overlay schema.
+    # Keep queue-shape coverage separate from the narrow base-config compatibility adapter.
+    #
+    overlay_url = url.replace("config-schema.json", "overlay-schema.json")
+    with urllib.request.urlopen(overlay_url, timeout=30) as response:
+        overlay_schema = json.load(response)
+    overlay_target = root / ".vscode/.schemas/overlay-schema.json"
+    overlay_target.write_text(
+        json.dumps(overlay_schema, indent=2) + "\n", encoding="utf-8"
+    )
+    for filename in ("overlays/ratings.yml", "overlays/test/ratings.yml"):
+        errors = validation_errors(
+            overlay_schema, yaml.load((root / filename).read_text())
+        )
+        for error in errors:
+            location = "/".join(str(part) for part in error.absolute_path)
+            print(f"{filename}: schema {error.validator} failure at {location or '/'}")
+        failed = failed or bool(errors)
     if failed:
         raise SystemExit(1)
-    print(
-        f"Editor schema {version}: all three config files passed; VS Code schema refreshed."
-    )
+    print(f"Editor schemas {version}: three configs and two rating overlays passed.")
 
 
 if __name__ == "__main__":

@@ -7,6 +7,10 @@
 #
 
 templates:
+
+  #
+  # Replace the selection each Monday and promote up to 25 qualifying movies.
+  #
   random:
     file_poster: "/config/assets/posters/favorites/Weekly Shuffle.png"
     sort_title: "!058_<<collection_name>>"
