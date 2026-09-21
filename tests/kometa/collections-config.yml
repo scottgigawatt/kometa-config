@@ -6,7 +6,11 @@
 # collections-config.yml: Collection-only preview with no external list writers.
 #
 
+#
+# Use only the named fixture libraries; production config.yml is never loaded here.
+#
 libraries:
+
   #
   # Load safe movie sources without production charts or external list writers.
   #

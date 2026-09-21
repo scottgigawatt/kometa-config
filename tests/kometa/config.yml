@@ -7,6 +7,7 @@
 #
 
 libraries:
+
   #
   # Preview the complete custom movie overlay set, including chart ribbons.
   #
@@ -95,7 +96,7 @@ libraries:
           file_bet: config/overlays/network-top-left/BET+.png
 
           #
-          # Skip providers without matching custom artwork; keep the fallback.
+          # Disable missing provider graphics; the generic Plex corner remains available.
           #
           use_hayu: false
           use_tubi: false
@@ -117,7 +118,7 @@ libraries:
           file_Max: config/overlays/network-top-left/Max.png
 
           #
-          # Skip studios without matching custom artwork; keep the fallback.
+          # Disable missing studio graphics; the generic Plex corner remains available.
           #
           use_Disney Television Animation: false
           use_DisneyToon Studios: false
@@ -154,7 +155,7 @@ libraries:
           file_U&W: config/overlays/network-top-left/W.png
 
           #
-          # Skip networks without matching custom artwork; keep the fallback.
+          # Disable missing network graphics; the generic Plex corner remains available.
           #
           use_tubi: false
           use_U&Drama: false
@@ -164,8 +165,7 @@ libraries:
       assets_for_all: false
 
 #
-# Keep the test isolated, preserve Plex state outside these definitions,
-# and retain logs plus reports for inspection after each run.
+# Restrict changes to these fixture definitions and retain logs and reports for review.
 #
 settings:
   cache: true
@@ -188,8 +188,8 @@ settings:
     - overlays
 
 #
-# Disable every Plex-wide maintenance action so the fixture run can change only
-# collection and overlay metadata in the two named test libraries.
+# Disable Plex-wide maintenance; change collection and overlay metadata only in the named fixtures.
+# Resolve private connection values from the ignored test environment.
 #
 plex:
   url: <<plexurl>>

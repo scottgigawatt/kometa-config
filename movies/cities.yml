@@ -15,7 +15,7 @@ templates:
     file_poster: /config/assets/posters/cities/<<city>>.png
     sort_title: "!105_<<collection_name>>"
     collection_order: title.asc
-    content_rating: R
+    content_rating: R  # Rate the collection itself; do not filter movie ratings.
     summary: "Big dreams, chance encounters, and trouble around the corner on the streets of <<city>>. 🌆"
     sync_mode: sync
     schedule: weekly(saturday)

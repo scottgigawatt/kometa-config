@@ -51,3 +51,5 @@ Review dependency PRs and their exact-head checks before merging. Do not add a c
 `make validate-editor` generates the ignored `.vscode/.schemas/config-schema.json` from the pinned upstream release. Run it after cloning or updating Kometa; `make check` also runs it. Reload VS Code's window if it retains old diagnostics.
 
 The [schema adapter](../scripts/editor-schema.py) adds only runtime-supported seasonal, universe, and final-overlay-offset fields missing from upstream, plus complete Plex URL secret placeholders. It preserves unknown-property and type checks; regression tests deliberately introduce misspellings and invalid values. The generated file is not deployed or committed. Refreshing it downloads only public schema data and never reads `.secrets/`.
+
+The same target validates both optional rating-overlay files against the unmodified upstream overlay schema, cached under `.vscode/.schemas/overlay-schema.json`. Their queues use named `default` layouts. Offline runtime tests confirm identical coordinates and ordering to list-based queues and reject invalid positions; neither rating file is added to the active overlay set.

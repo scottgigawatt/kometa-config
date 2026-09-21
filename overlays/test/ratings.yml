@@ -6,7 +6,14 @@
 # ratings.yml: Keep experimental rating overlays separate from live wiring.
 #
 
+#
+# Keep this local-asset experiment opt-in; the test-library runner uses the main ribbon set.
+#
 templates:
+
+  #
+  # Pair the IMDb logo with the audience score using equal queue weights.
+  #
   imdb_rating:
     optional:
       - overlay_level
@@ -19,6 +26,9 @@ templates:
       queue: rating_queue_logo
       weight: <<weight>>
 
+  #
+  # Display the Plex audience score beside its matching IMDb logo.
+  #
   audience_rating:
     optional:
       - overlay_level
@@ -33,6 +43,9 @@ templates:
       font_size: 63
       font_color: "#FFFFFF"
 
+  #
+  # Select the Fresh logo independently from the numeric critic score.
+  #
   rt_crit_fresh:
     optional:
       - overlay_level
@@ -45,6 +58,9 @@ templates:
       queue: rating_queue_logo
       weight: <<weight>>
 
+  #
+  # Use the Rotten logo for the lower critic-rating range.
+  #
   rt_crit_rotten:
     optional:
       - overlay_level
@@ -57,6 +73,9 @@ templates:
       queue: rating_queue_logo
       weight: <<weight>>
 
+  #
+  # Keep the critic text formatting and weight paired with the Rotten Tomatoes logo.
+  #
   critic_rating:
     optional:
       - overlay_level
@@ -71,26 +90,44 @@ templates:
       font_size: 63
       font_color: "#FFFFFF"
 
+#
+# Keep two bottom-row positions for logos and their matching score text.
+# A named default layout is understood by both Kometa and its editor schema.
+#
 queues:
-  rating_queue_logo:
-    - horizontal_offset: 10
-      horizontal_align: left
-      vertical_offset: 10
-      vertical_align: bottom
-    - horizontal_offset: 320
-      horizontal_align: left
-      vertical_offset: 10
-      vertical_align: bottom
-  rating_queue_text:
-    - horizontal_offset: 189
-      horizontal_align: left
-      vertical_offset: 41
-      vertical_align: bottom
-    - horizontal_offset: 499
-      horizontal_align: left
-      vertical_offset: 41
-      vertical_align: bottom
 
+  #
+  # Higher weights fill the left position first; a second match uses the right position.
+  #
+  rating_queue_logo:
+    default:
+      - horizontal_offset: 10
+        horizontal_align: left
+        vertical_offset: 10
+        vertical_align: bottom
+      - horizontal_offset: 320
+        horizontal_align: left
+        vertical_offset: 10
+        vertical_align: bottom
+
+  #
+  # Offset text from its matching logo while preserving the same weight order.
+  #
+  rating_queue_text:
+    default:
+      - horizontal_offset: 189
+        horizontal_align: left
+        vertical_offset: 41
+        vertical_align: bottom
+      - horizontal_offset: 499
+        horizontal_align: left
+        vertical_offset: 41
+        vertical_align: bottom
+
+#
+# Exclude missing or zero ratings and keep logo and text eligibility synchronized.
+# IMDb uses weight 80; either Rotten Tomatoes logo and its text use weight 90.
+#
 overlays:
   imdb_rating:
     template:

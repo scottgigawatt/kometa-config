@@ -69,7 +69,7 @@ class CollectionPresentationTests(unittest.TestCase):
         return result
 
     #
-    # Formatting must distinguish actual comments from string and block-scalar content.
+    # Award templates must use the selected ceremony year without date arithmetic.
     #
     def test_critics_choice_template_uses_the_ceremony_year(self) -> None:
         """Render an actual year template without a release-window approximation."""
@@ -87,6 +87,32 @@ class CollectionPresentationTests(unittest.TestCase):
                     result["imdb_award"],
                     {"event_id": "ev0000133", "event_year": year, "winning": True},
                 )
+
+    def test_remaining_award_templates_use_the_ceremony_year(self) -> None:
+        """Expand movie and TV winners from ceremony IDs rather than premiere dates."""
+        templates = {
+            "oscars.yml": ("oscar_award_winner_dynamic", "ev0000003"),
+            "golden-globes.yml": ("globe_award_winner_dynamic", "ev0000292"),
+            "emmy-awards.yml": ("emmy_award_winner", "ev0000223"),
+        }
+        for filename, (template, event_id) in templates.items():
+            source = self.yaml.load((self.root / "scheduled" / filename).read_text())
+            for year in (2021, 2026, 2027):
+                with self.subTest(file=filename, year=year):
+                    result = self.render(
+                        source,
+                        f"Award Winners {year}",
+                        {"template": {"name": template, "key": year}},
+                    )
+                    self.assertEqual(
+                        result["imdb_award"],
+                        {"event_id": event_id, "event_year": year, "winning": True},
+                    )
+                    self.assertNotIn("imdb_search", result)
+
+    #
+    # Formatting must distinguish actual comments from string and block-scalar content.
+    #
 
     def test_comment_alignment_preserves_values(self) -> None:
         """Pad short entries and leave two spaces after the longest adjacent entry."""

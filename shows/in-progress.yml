@@ -6,12 +6,16 @@
 # in-progress.yml: Show unfinished series using each viewer's watch history.
 #
 
+#
+# Reuse Kometa's shared presentation while the local smart filter controls membership.
+#
 external_templates:
   default: templates
   template_variables:
     collection_section: "009"
 
 collections:
+
   #
   # Evaluate the smart collection against the current viewer's playback history.
   #

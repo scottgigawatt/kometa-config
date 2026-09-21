@@ -7,11 +7,12 @@
 #
 
 #
-# Define top ratings templates
+# Share chart sources and ribbon placement while keeping movie and show eligibility separate.
 #
 templates:
+
   #
-  # Define IMDb top 250 template
+  # Select IMDb's Top 250 chart for the current library type.
   #
   imdb-top-250:
     default:
@@ -28,7 +29,7 @@ templates:
       vertical_align: bottom
 
   #
-  # Define Letterboxd 'Top 1000 of All Time' movies template
+  # Restrict the retained Letterboxd all-time selection to movies.
   #
   letterboxd-1000:
     optional:
@@ -47,7 +48,7 @@ templates:
       vertical_align: bottom
 
   #
-  # Define Rotten Tomatoes 'Fresh' movie template
+  # Read Certified Fresh movies from the Kometa-maintained MDBList source.
   #
   rt-cert-fresh-movie:
     optional:
@@ -66,7 +67,7 @@ templates:
       vertical_align: bottom
 
   #
-  # Define Rotten Tomatoes 'Fresh' TV show template
+  # Read Certified Fresh shows from the separate TV source.
   #
   rt-cert-fresh-show:
     optional:
@@ -85,7 +86,7 @@ templates:
       vertical_align: bottom
 
   #
-  # Define Metacritic 'Must See' movie template
+  # Read Metacritic Must See movies from the Kometa-maintained MDBList source.
   #
   meta-must-see-movie:
     optional:
@@ -104,7 +105,7 @@ templates:
       vertical_align: bottom
 
   #
-  # Define Metacritic 'Must See' TV show template
+  # Read Metacritic Must See shows from the separate TV source.
   #
   meta-must-see-show:
     optional:
@@ -123,7 +124,7 @@ templates:
       vertical_align: bottom
 
   #
-  # Define 'Razzie' movies template
+  # Match Razzie winners through IMDb's event records instead of a curated list.
   #
   razzie:
     optional:
@@ -131,7 +132,7 @@ templates:
     run_definition: movie
     collection_level: <<overlay_level>>
     imdb_award:
-      event_id: ev0000558
+      event_id: ev0000558  # Razzie Awards
       event_year: 1981-current
       winning: true
     overlay:
@@ -145,7 +146,7 @@ templates:
       vertical_align: bottom
 
   #
-  # Define IMDb 'Lowest Rated' movies template
+  # Restrict IMDb's lowest-rated chart to movies.
   #
   imdb-lowest:
     optional:
@@ -164,68 +165,44 @@ templates:
       vertical_align: bottom
 
 #
-# Define top ratings overlays
+# Select one ribbon from the logo group; the highest matching weight takes precedence.
 #
 overlays:
-  #
-  # IMDb top 250
-  #
   imdb-top-250:
     template:
       - name: imdb-top-250
         weight: 60
 
-  #
-  # Letterboxd 'Top 1000 of All Time' movies
-  #
   letterboxd-1000:
     template:
       - name: letterboxd-1000
         weight: 50
 
-  #
-  # Metacritic 'Must See' movies
-  #
   mc-must-see-movie:
     template:
       - name: meta-must-see-movie
         weight: 40
 
-  #
-  # Rotten Tomatoes 'Fresh' movies
-  #
   rt-cert-fresh-movie:
     template:
       - name: rt-cert-fresh-movie
         weight: 30
 
-  #
-  # Rotten Tomatoes 'Fresh' TV shows
-  #
   rt-cert-fresh-show:
     template:
       - name: rt-cert-fresh-show
         weight: 30
 
-  #
-  # Metacritic 'Must See' TV shows
-  #
   mc-must-see-show:
     template:
       - name: meta-must-see-show
         weight: 40
 
-  #
-  # 'Razzie' movies
-  #
   razzie:
     template:
       - name: razzie
         weight: 5
 
-  #
-  # IMDb 'Lowest Rated' movies
-  #
   imdb-lowest:
     template:
       - name: imdb-lowest

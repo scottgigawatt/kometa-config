@@ -6,12 +6,19 @@
 # critics-choice.yml: Build Critics Choice winners from IMDb ceremony records.
 #
 
+#
+# Reuse Kometa's award artwork and shared presentation in collection section 130.
+#
 external_templates:
   default: templates
   template_variables:
     collection_section: "130"
 
 templates:
+
+  #
+  # Synchronize winners during awards season and browse newest releases first.
+  #
   choice_award_winner:
     summary: "Critics Choice honorees with memorable performances, bold stories, and a little red-carpet glow. 🏆"
     sort_title: "!130_<<collection_name>>"
@@ -48,6 +55,7 @@ collections:
     summary: "Best Picture honorees from the Critics Choice Awards, where memorable stories get their moment in the spotlight. 🏆"
 
 dynamic_collections:
+
   #
   # Use six available ceremonies; do not request an unpublished new-year event.
   #

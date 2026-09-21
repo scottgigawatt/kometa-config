@@ -7,6 +7,7 @@
 #
 
 templates:
+
   #
   # Keep theme collections hidden, capped at 250 items, and browsable by release.
   #
@@ -25,6 +26,7 @@ templates:
 
   #
   # Rank up to 1,000 English-original candidates before matching local movies.
+  # Share rating defaults with IMDb; individual themes may lower their thresholds.
   # Pipe-separated keywords mean OR; comma-separated genres mean AND.
   #
   tmdb_theme:
@@ -66,6 +68,10 @@ templates:
 
 collections:
 
+  #
+  # Spread refreshes across the week while retaining every collection between runs.
+  # Keep membership rules here and viewer-facing descriptions in the summaries.
+  #
   Top Rated in Absurdism:
     summary: "Strange predicaments, irrational worlds, and people trying very hard to make sense of absolutely none of it."
     template:

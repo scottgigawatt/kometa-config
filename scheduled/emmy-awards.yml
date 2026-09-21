@@ -3,43 +3,54 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# emmy-awards.yml: Search Emmy-winning shows across rolling release windows.
+# emmy-awards.yml: Build Emmy-winning shows from IMDb ceremony records.
 #
 
+#
+# Reuse Kometa's award artwork and shared presentation in collection section 130.
+#
 external_templates:
   default: templates
   template_variables:
     collection_section: 130
 
 templates:
+
+  #
+  # Restrict the ceremony builder to shows; a show's premiere year does not limit its wins.
+  #
   emmy_award_winner:
     summary: "Emmy-winning television with compelling characters, ambitious storytelling, and plenty of reasons for one more episode. 🏆"
     sort_title: "!130_<<collection_name>>"
     run_definition: show
-    imdb_search:
-      type: tv_series, tv_mini_series
-      release.after: <<key-1>>-05-31
-      release.before: <<key>>-06-01
-      event.winning: emmy
-      sort_by: rating.desc
-      limit: 100
-    schedule: range(01/01-04/01)
+    imdb_award:
+      event_id: ev0000223  # Primetime Emmy Awards
+      event_year: <<key>>
+      winning: true
+
+    #
+    # Refresh after the weekend and retain collections between weekly runs.
+    # Override the TV library's scheduled-deletion setting explicitly.
+    #
+    schedule: weekly(monday)
+    delete_not_scheduled: false
 
 dynamic_collections:
+
   #
-  # Generate yearly release-window searches; these are not exact ceremony-year rosters.
+  # Use six validated ceremonies, including wins by shows that premiered earlier.
   #
   Emmys:
-    type: number
+    type: imdb_awards
     sync: true
     data:
-      starting: current_year-5
-      ending: current_year
+      event_id: ev0000223  # Primetime Emmy Awards
+      starting: latest-5
+      ending: latest
     title_format: Emmys <<key_name>>
     template:
       - emmy_award_winner
       - use_year_collections
-      - imdb
       - shared
       - arr
       - custom
