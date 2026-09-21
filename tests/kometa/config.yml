@@ -14,6 +14,17 @@ libraries:
   test_movie_lib:
     collection_files:
       - file: /workspace/tests/kometa/smoke-collections.yml
+
+      #
+      # Exercise the upstream DCEU source without loading other universe groups.
+      # Keep the production minimum while disabling the decorative separator.
+      #
+      - default: universe
+        template_variables:
+          include:
+            - dceu
+          minimum_items: 3
+          use_separator: false
     overlay_files:
       - file: config/overlays/chart-award-ribbons.yml
       - file: config/overlays/corner-background.yml

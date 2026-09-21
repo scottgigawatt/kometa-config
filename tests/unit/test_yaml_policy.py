@@ -149,7 +149,6 @@ class YamlPolicyTests(unittest.TestCase):
                 "mass_genre_update": "tmdb",
                 "mass_audience_rating_update": "imdb",
                 "mass_critic_rating_update": "mdb_tomatoes",
-                "mass_user_rating_update": "trakt_user",
             }
             if library == "Movies":
                 expected["assets_for_all"] = True

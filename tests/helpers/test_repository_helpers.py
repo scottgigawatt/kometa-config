@@ -163,6 +163,46 @@ class MakefileTests(unittest.TestCase):
         )
 
 
+class GeneratedFileTests(unittest.TestCase):
+    """Keep generated YAML and text lists outside the source-control boundary."""
+
+    def test_generated_inputs_are_ignored_and_rejected(self) -> None:
+        """Ignore generator output and reject it even when forcibly staged."""
+        with tempfile.TemporaryDirectory(prefix="kometa-generated-") as directory:
+            root = Path(directory)
+            (root / "scripts").mkdir()
+            shutil.copy2(ROOT / ".gitignore", root / ".gitignore")
+            script = root / "scripts/check-generated-files.sh"
+            shutil.copy2(ROOT / "scripts/check-generated-files.sh", script)
+            subprocess.run(["git", "init", "--quiet", directory], check=True)
+            for filename in (
+                "Movies-in-history.yml",
+                "Movies-in-history.txt",
+                "Movies-by-size.yml",
+                "Movies-by-size.txt",
+                "TV-returning-soon-metadata.yml",
+                "TV-returning-soon-overlay.yml",
+                "TV-returning-soon-collection.yml",
+                "TV-returning-soon-collection.txt",
+            ):
+                with self.subTest(file=filename):
+                    ignored = subprocess.run(
+                        ["git", "check-ignore", "--quiet", filename],
+                        cwd=root,
+                        check=False,
+                    )
+                    self.assertEqual(ignored.returncode, 0)
+                    (root / filename).write_text("# Generated fixture\n")
+                    subprocess.run(
+                        ["git", "add", "--force", "--", filename], cwd=root, check=True
+                    )
+                    result = subprocess.run(
+                        ["sh", str(script)], capture_output=True, text=True, check=False
+                    )
+                    self.assertEqual(result.returncode, 1)
+                    self.assertIn(filename, result.stderr)
+
+
 class DocumentationTests(unittest.TestCase):
     """Protect navigation and GitHub community-file discovery in sparse checkouts."""
 

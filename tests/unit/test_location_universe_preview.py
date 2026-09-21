@@ -45,9 +45,9 @@ class LocationUniverseTests(unittest.TestCase):
     # Validate native builders before permitting any fixture-library writes.
     #
     def test_native_sources_selected(self) -> None:
-        """Select the six city collections and five native movie universes."""
+        """Select the six city collections and four native movie universes."""
         names = preview.location_universe_names(self.cities, self.universes)
-        self.assertEqual(len(names), 11)
+        self.assertEqual(len(names), 10)
         self.assertIn("Washington D.C. Collection", names)
         self.assertIn("Star Trek Universe", names)
 
@@ -78,7 +78,7 @@ class LocationUniverseTests(unittest.TestCase):
         """Require unique positive integers for both native TMDb builders."""
         for source, name, builder in (
             (0, "Chicago Collection", "tmdb_keyword"),
-            (1, "DC Universe", "tmdb_keyword"),
+            (1, "Marvel Cinematic Universe", "tmdb_keyword"),
             (1, "Star Trek Universe", "tmdb_collection"),
         ):
             for ids in ([True], [0], [-1], [], ["151"], [151, 151]):
@@ -137,27 +137,43 @@ class LocationUniverseTests(unittest.TestCase):
                     & set(yaml.load(path.read_text()).get("collections", {}))
                 )
 
-    def test_trakt_chart_settings_preserved(self) -> None:
-        """Preserve the approved movie and TV Trakt chart settings."""
+    def test_supported_chart_sources(self) -> None:
+        """Retain native charts without the removed Trakt Defaults file."""
         for library in ("Movies", "TV Shows"):
             with self.subTest(library=library):
-                entries = [
-                    item
+                sources = {
+                    item.get("default")
                     for item in self.config["libraries"][library]["collection_files"]
-                    if item.get("default") == "trakt"
-                ]
-                expected = {
-                    "use_collected": False,
-                    "use_recommended": False,
-                    "use_watched": False,
-                    "order_popular": 4,
-                    "order_trending": 4,
                 }
-                if library == "Movies":
-                    expected["schedule"] = "weekly(monday)"
-                self.assertEqual(
-                    entries, [{"default": "trakt", "template_variables": expected}]
-                )
+                self.assertNotIn("trakt", sources)
+                self.assertTrue({"tmdb", "imdb", "tracearr"} <= sources)
+
+    def test_dceu_owned_by_defaults(self) -> None:
+        """Use upstream DCEU membership without a competing custom DC definition."""
+        defaults = YAML().load(Path("/defaults/both/universe.yml").read_text())
+        groups = defaults["dynamic_collections"]["Universe Collections"]["data"]
+        self.assertEqual(groups["dceu"], "DC Extended Universe")
+        self.assertNotIn("DC Universe", self.universes["collections"])
+        variables = next(
+            entry["template_variables"]
+            for entry in self.config["libraries"]["Movies"]["collection_files"]
+            if entry.get("default") == "universe"
+        )
+        self.assertNotIn("dceu", variables["exclude"])
+
+        #
+        # The full library preview exercises the actual Defaults builder in isolation.
+        #
+        fixture = YAML().load(Path("/workspace/tests/kometa/config.yml").read_text())
+        preview = next(
+            entry["template_variables"]
+            for entry in fixture["libraries"]["test_movie_lib"]["collection_files"]
+            if entry.get("default") == "universe"
+        )
+        self.assertEqual(
+            preview,
+            {"include": ["dceu"], "minimum_items": 3, "use_separator": False},
+        )
 
     def test_tracearr_behavior_preserved(self) -> None:
         """Preserve Tracearr behavior while using media-specific summaries."""

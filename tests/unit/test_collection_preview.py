@@ -490,7 +490,7 @@ class CollectionPreviewTests(unittest.TestCase):
     def test_native_selection(self) -> None:
         """Select all guarded sources while excluding unrelated franchises."""
         selected, _ = preview.load_preview(Path("/workspace"))
-        self.assertEqual(len(selected), 154)
+        self.assertEqual(len(selected), 153)
         self.assertIn("Beverly Hills Cop Collection", selected)
         self.assertIn("The Purge Collection", selected)
         self.assertIn("Adult Animation", selected)
@@ -769,10 +769,8 @@ class CollectionPreviewTests(unittest.TestCase):
         )
         playlist = next(iter(source["playlists"].values()))
         self.assertEqual(playlist["libraries"], "Movies, TV Shows")
-        self.assertEqual(
-            playlist["trakt_list"],
-            "https://trakt.tv/users/markmckee/lists/battlestar-galactica-chrono-order",
-        )
+        self.assertNotIn("trakt_list", playlist)
+        self.assertIsInstance(playlist["text"], list)
 
     def test_radarr_override_only_for_weekly_chart(self) -> None:
         """Limit automatic Radarr additions and searches to the weekly chart."""

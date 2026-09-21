@@ -8,7 +8,7 @@ The source files define membership and presentation. Rules may add or remove tit
 
 [Genres](../movies/genres.yml) use Plex tags for Horror, War, and Western. LGBTQ+, Sports, Spy, and Stand-up Comedy combine the named TMDb keywords documented in source. Browse these alphabetically.
 
-[Cities](../movies/cities.yml) use setting keywords, not filming locations. [Universes](../movies/universes.yml) use MCU/DC Extended Universe keywords or combine native Star Trek, Alien/Predator/AVP, and X-Men/Wolverine/Deadpool collections. Universe collections need at least three matches. The corresponding Defaults keys are excluded to prevent duplicate definitions; other universe Defaults remain separate sources.
+[Cities](../movies/cities.yml) use setting keywords, not filming locations. [Universes](../movies/universes.yml) use the MCU keyword or combine native Star Trek, Alien/Predator/AVP, and X-Men/Wolverine/Deadpool collections. Universe collections need at least three matches. The corresponding Defaults keys are excluded to prevent duplicate definitions. Kometa Defaults supplies the DC Extended Universe through its selected MDBList source; the separate rebooted DC Universe is excluded.
 
 ## Ranked subgenres
 
@@ -58,8 +58,14 @@ The movie award files run from January 1 through April 1. Emmys refresh every Mo
 
 ## Charts and download boundaries
 
-Production retains provider chart sources, including Trakt popularity charts. The move away from unreliable personal lists does not remove these charts.
+TMDb, IMDb, and Tracearr supply popular, trending, ranked, and local viewing charts. Personal Plex ratings are left untouched by library operations.
 
-Only the Top 10 Pirated Movies of the Week chart explicitly enables its collection-specific Radarr missing-item additions and searches. That chart is not loaded by collection previews. Production download behavior requires a separately approved run with private Radarr settings.
+Among chart collections, only Top 10 Pirated Movies of the Week explicitly enables collection-specific Radarr missing-item additions and searches. That chart is not loaded by collection previews. Production download behavior requires a separately approved run with private Radarr settings.
 
 Existing-item Radarr and Sonarr monitoring remains false. Preview configurations contain no download-client connections or external list writers. See [testing](testing.md) for the supported preview scope.
+
+## Personal favorites and ordered playlists
+
+[Edward's favorites](../movies/edwards-favorites.yml) is a repository-owned list of named TMDb movie IDs. Add or remove favorites in that file; its template retains explicit Radarr add-and-search overrides for missing movies. A Plex snapshot contains only movies present in Plex, so favorites absent from Plex must be supplied separately before they can be requested.
+
+[Battlestar Galactica](../playlists/battlestar-galactica-timeline.yml) uses Kometa's inline `text` builder with ordered TVDb episode IDs and IMDb movie IDs. The list is authoritative: neither missing specials nor alternate edits are inferred automatically. Keep each title comment beside its ID and preserve intentional episode/movie ordering.

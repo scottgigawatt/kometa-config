@@ -45,3 +45,7 @@ UUID
 **/*-in-history.yml
 **/*-returning-soon-metadata.yml
 **/*-returning-soon-overlay.yml
+**/*-returning-soon-collection.yml
+**/*-returning-soon-collection.txt
+**/*-in-history.txt
+**/*-by-size.txt

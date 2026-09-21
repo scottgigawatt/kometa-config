@@ -16,7 +16,7 @@ Keep the checked-in template free of credentials. Set live values in the deploym
 
 Never copy that private deployment file back into a commit. Both credentials and server addresses follow the [security policy](SECURITY.md).
 
-PATTRMM writes its generated metadata and overlays into the shared checkout. Those files remain ignored; edit PATTRMM preferences to change their output.
+PATTRMM writes its generated metadata, overlays, and text ID lists into the shared checkout. Those files remain ignored; edit PATTRMM preferences to change their output. Kometa 2.5.0 requires Trakt-free generated definitions, such as those produced by PATTRMM's `traktless` build using `text_file`. Regenerate and inspect the private output before a production run; upgrading this repository alone does not update PATTRMM or its existing files.
 
 ## Tracearr
 
