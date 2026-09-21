@@ -163,6 +163,92 @@ class MakefileTests(unittest.TestCase):
         )
 
 
+class GeneratedFileTests(unittest.TestCase):
+    """Keep generated YAML and text lists outside the source-control boundary."""
+
+    def test_generated_inputs_are_ignored_and_rejected(self) -> None:
+        """Ignore generator output and reject it even when forcibly staged."""
+        with tempfile.TemporaryDirectory(prefix="kometa-generated-") as directory:
+            root = Path(directory)
+            (root / "scripts").mkdir()
+            shutil.copy2(ROOT / ".gitignore", root / ".gitignore")
+            script = root / "scripts/check-generated-files.sh"
+            shutil.copy2(ROOT / "scripts/check-generated-files.sh", script)
+            subprocess.run(["git", "init", "--quiet", directory], check=True)
+
+            #
+            # Keep authored collections and custom status overlays eligible for Git.
+            #
+            for filename in (
+                "movies/universes.yml",
+                "movies/edwards-favorites.yml",
+                "overlays/series-status.yml",
+                "tests/kometa/config.yml",
+                "pattrmm/settings.yml",
+            ):
+                result = subprocess.run(
+                    ["git", "check-ignore", "--quiet", filename],
+                    cwd=root,
+                    check=False,
+                )
+                self.assertEqual(result.returncode, 1)
+
+            for filename in (
+                "generated/pattrmm/movies/runtime.yml",
+                "generated/pattrmm/shows/runtime.txt",
+                "Movies-in-history.yml",
+                "Movies-in-history.txt",
+                "Movies-by-size.yml",
+                "Movies-by-size.txt",
+                "TV-returning-soon-metadata.yml",
+                "TV-returning-soon-overlay.yml",
+                "TV-returning-soon-collection.yml",
+                "TV-returning-soon-collection.txt",
+                "Movies-by-size-collection.yml",
+                "Movies-by-size-collection.txt",
+                "Movies-month-in-history-collection.yml",
+                "Movies-month-in-history-collection.txt",
+                "Movies-week-in-history-1-collection.yml",
+                "Movies-week-in-history-1-collection.txt",
+                "TV-returning_soon-collection.yml",
+                "TV-returning_soon-collection.txt",
+                "TV-new_airing_next-collection.yml",
+                "TV-new_airing_next-collection.txt",
+                "TV-new_series-collection.yml",
+                "TV-new_series-collection.txt",
+                "TV-airing_next-collection.yml",
+                "TV-airing_next-collection.txt",
+                "TV-airing-collection.yml",
+                "TV-airing-collection.txt",
+                "TV-season_finale-collection.yml",
+                "TV-season_finale-collection.txt",
+                "TV-returning-collection.yml",
+                "TV-returning-collection.txt",
+                "TV-canceled-collection.yml",
+                "TV-canceled-collection.txt",
+                "TV-ended-collection.yml",
+                "TV-ended-collection.txt",
+                "TV-extended_status-overlay.yml",
+            ):
+                with self.subTest(file=filename):
+                    ignored = subprocess.run(
+                        ["git", "check-ignore", "--quiet", filename],
+                        cwd=root,
+                        check=False,
+                    )
+                    self.assertEqual(ignored.returncode, 0)
+                    (root / filename).parent.mkdir(parents=True, exist_ok=True)
+                    (root / filename).write_text("# Generated fixture\n")
+                    subprocess.run(
+                        ["git", "add", "--force", "--", filename], cwd=root, check=True
+                    )
+                    result = subprocess.run(
+                        ["sh", str(script)], capture_output=True, text=True, check=False
+                    )
+                    self.assertEqual(result.returncode, 1)
+                    self.assertIn(filename, result.stderr)
+
+
 class DocumentationTests(unittest.TestCase):
     """Protect navigation and GitHub community-file discovery in sparse checkouts."""
 

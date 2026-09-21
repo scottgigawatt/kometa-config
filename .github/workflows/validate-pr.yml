@@ -73,6 +73,7 @@ jobs:
             /movies/*.yml
             /overlays/*.yml
             /overlays/test/*.yml
+            /pattrmm/
             /playlists/*.yml
             /scheduled/*.yml
             /scripts/

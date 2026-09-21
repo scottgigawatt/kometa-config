@@ -120,7 +120,13 @@ docker run --rm \
     "$KOMETA_IMAGE" -c 'python /scripts/collection-preview.py && python -m unittest discover -s /tests -v'
 
 #
-# Validate the complete repository without privileges, secrets, network-bound
+# Neo's settings contract is covered by the offline tests, not Kometa's schema.
+# Move only that validated snapshot outside the Kometa directory scan.
+#
+mv "$source_directory/pattrmm/settings.yml" "$runtime_directory/pattrmm-settings.yml"
+
+#
+# Validate the Kometa definitions without privileges, secrets, network-bound
 # services, or writable access to source-controlled files.
 #
 docker run --rm \

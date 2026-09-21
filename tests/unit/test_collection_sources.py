@@ -181,7 +181,7 @@ class CollectionSourceTests(unittest.TestCase):
                 self.assertEqual(len(award["category_filter"]), len(categories))
 
     def test_custom_collections_do_not_depend_on_personal_lists(self) -> None:
-        """Allow only the owner's favorites, excluding deferred upstream Defaults."""
+        """Reject personal-list dependencies, excluding deferred upstream Defaults."""
 
         #
         # Inspect nested templates too; yearly URLs need not appear on collections.
@@ -191,17 +191,7 @@ class CollectionSourceTests(unittest.TestCase):
             """Reject third-party list URLs and builders at any nesting depth."""
             if isinstance(value, dict):
                 for key, child in value.items():
-                    if key in {"trakt_list", "letterboxd_list"}:
-                        self.assertEqual(path.name, "edwards-favorites.yml")
-                        self.assertEqual(
-                            child,
-                            [
-                                (
-                                    "https://trakt.tv/users/scottgigawatt/"
-                                    "lists/plex-favorite-movies"
-                                )
-                            ],
-                        )
+                    self.assertNotIn(key, {"trakt_list", "letterboxd_list"})
                     check(child, path)
             elif isinstance(value, list):
                 for child in value:
@@ -214,12 +204,7 @@ class CollectionSourceTests(unittest.TestCase):
                     "app.trakt.tv",
                 } and url.path.startswith("/users/")
                 letterboxd = url.hostname in {"letterboxd.com", "www.letterboxd.com"}
-                if personal_trakt or letterboxd:
-                    self.assertEqual(path.name, "edwards-favorites.yml")
-                    self.assertEqual(
-                        value,
-                        "https://trakt.tv/users/scottgigawatt/lists/plex-favorite-movies",
-                    )
+                self.assertFalse(personal_trakt or letterboxd, path.name)
 
         for folder in ("movies", "shows", "scheduled"):
             for path in (self.root / folder).glob("*.yml"):

@@ -106,6 +106,13 @@ class YamlPolicyTests(unittest.TestCase):
                                     break
                             target = self.root / relative
                             with self.subTest(config=name, kind=kind, path=original):
+                                if relative in (
+                                    "generated/pattrmm/movies/",
+                                    "generated/pattrmm/shows/",
+                                ):
+                                    self.assertEqual(name, "config.yml")
+                                    self.assertEqual(kind, "folder")
+                                    continue
                                 self.assertTrue(
                                     target.is_file()
                                     if kind == "file"
@@ -149,7 +156,6 @@ class YamlPolicyTests(unittest.TestCase):
                 "mass_genre_update": "tmdb",
                 "mass_audience_rating_update": "imdb",
                 "mass_critic_rating_update": "mdb_tomatoes",
-                "mass_user_rating_update": "trakt_user",
             }
             if library == "Movies":
                 expected["assets_for_all"] = True

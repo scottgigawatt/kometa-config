@@ -90,6 +90,11 @@ libraries:
       - folder: config/movies/
 
       #
+      # Load Neo's movie history and size collections after generation completes.
+      #
+      - folder: config/generated/pattrmm/movies/
+
+      #
       # Group movies by their available US content ratings.
       #
       - default: content_rating_us
@@ -216,19 +221,7 @@ libraries:
           use_transcoded: false
 
       #
-      # Refresh Trakt's service-wide popular and trending charts each Monday.
-      #
-      - default: trakt
-        template_variables:
-          use_collected: false
-          use_recommended: false
-          use_watched: false
-          order_popular: 4
-          order_trending: 4
-          schedule: weekly(monday)
-
-      #
-      # Use default universe groups except those owned by local franchise rules.
+      # Use default universe groups, including the DC Extended Universe.
       #
       - default: universe
         template_variables:
@@ -238,8 +231,8 @@ libraries:
             star: Star Wars Saga
 
           #
-          # Local franchise and universe files own these names and their sources.
-          # Exclude them here to prevent duplicate builders and list fallbacks.
+          # Exclude locally owned groups and the separate rebooted DC Universe.
+          # The default dceu group owns the DC Extended Universe collection.
           #
           exclude:
             - marvel
@@ -325,7 +318,7 @@ libraries:
       show_missing_assets: false
 
     #
-    # Refresh genres, provider ratings, personal Trakt ratings, and movie assets together.
+    # Refresh genres, provider ratings, and movie assets without changing personal ratings.
     # Run only on Monday, Thursday, or Saturday between 05:00 and 07:59.
     #
     operations:
@@ -333,7 +326,6 @@ libraries:
         mass_genre_update: tmdb
         mass_audience_rating_update: imdb
         mass_critic_rating_update: mdb_tomatoes
-        mass_user_rating_update: trakt_user
         assets_for_all: true
 
   #
@@ -361,6 +353,11 @@ libraries:
       # Load custom networks, episode themes, and show-only shuffle collections.
       #
       - folder: config/shows/
+
+      #
+      # Load Neo's TV history and returning-soon collections without generated overlays.
+      #
+      - folder: config/generated/pattrmm/shows/
 
       #
       # Keep Emmy winners available year-round with their own Monday refresh schedule.
@@ -430,17 +427,6 @@ libraries:
           use_completed: false
           use_binged: false
           use_transcoded: false
-
-      #
-      # Retain Trakt's service-wide popular and trending charts, not personal lists.
-      #
-      - default: trakt
-        template_variables:
-          use_collected: false
-          use_recommended: false
-          use_watched: false
-          order_popular: 4
-          order_trending: 4
 
     #
     # Apply ribbons, series status, and provider artwork together each morning.
@@ -560,7 +546,6 @@ libraries:
         mass_genre_update: tmdb
         mass_audience_rating_update: imdb
         mass_critic_rating_update: mdb_tomatoes
-        mass_user_rating_update: trakt_user
 
 #
 # Combine the custom Battlestar timeline with Kometa's default ordered playlists.
@@ -754,21 +739,6 @@ sonarr:
   #
   sonarr_path: /tv
   plex_path: /volume1/tv
-
-#
-# Authorize retained Trakt charts, owner-curated sources, and personal rating updates.
-#
-trakt:
-  client_id: abc123
-  client_secret: abc123
-  authorization:
-    access_token: abc123
-    token_type: Bearer
-    expires_in: 101010
-    refresh_token: abc123
-    scope: public
-    created_at: 101010
-  pin:
 
 #
 # Retrieve MDBList ratings, including the Rotten Tomatoes critic scores used by operations.

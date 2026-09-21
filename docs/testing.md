@@ -22,7 +22,7 @@ These commands connect to Plex and modify only the named test libraries.
 
 | Command | What it previews | Fixture libraries |
 | --- | --- | --- |
-| `make test-library` | Smoke collections and complete custom overlay sets | Movies and TV |
+| `make test-library` | Smoke collections, the default DCEU collection, and complete custom overlay sets | Movies and TV |
 | `make test-collections` | Guarded franchises, genres, themes, cities, universes, curated TV, and holidays | Movies and TV |
 | `make test-subgenres` | All 101 ranked movie themes | Movies |
 | `make test-seasonal` | Thirteen holiday movie collections | Movies |
@@ -37,7 +37,7 @@ The collection runner loads a deliberate subset of source files, not every colle
 1. Confirm the command succeeded, then inspect its private `logs/meta.log`: a zero Kometa exit code alone does not prove every collection succeeded. The collection runner also checks run summaries.
 2. Open the affected test collections in Plex. Check membership, ordering, summary, visibility, and artwork.
 3. For overlays, inspect both movie and TV posters and compare the expected badge matches with the log.
-4. Investigate empty results. Most sources need one matching item; the five universe collections need three. Add tiny matched fixtures when necessary—an empty collection is not a visual test.
+4. Investigate empty results. Most sources need one matching item; the four custom universe collections need three. Add tiny matched fixtures when necessary—an empty collection is not a visual test.
 
 See [collection behavior](collections.md) and [overlay behavior](overlays.md) for the expected results. Collection-only previews leave overlay artwork untouched.
 

@@ -479,7 +479,7 @@ def location_universe_names(cities, universes) -> list[str]:
         universes: Parsed universe definitions and their release-order template.
 
     Returns:
-        The six city names and five universe names permitted in the preview.
+        The six city names and four universe names permitted in the preview.
 
     Raises:
         ValueError: If source names, IDs, artwork, or behavior are unapproved.
@@ -513,7 +513,6 @@ def location_universe_names(cities, universes) -> list[str]:
     }
     universe_sources = {
         "Marvel Cinematic Universe": ("Marvel Cinematic Universe", "tmdb_keyword"),
-        "DC Universe": ("DC Universe", "tmdb_keyword"),
         "Star Trek Universe": ("Star Trek", "tmdb_collection"),
         "Alien / Predator": ("Alien Predator", "tmdb_collection"),
         "X-Men Collection": ("X-Men", "tmdb_collection"),

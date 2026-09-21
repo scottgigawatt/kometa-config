@@ -28,17 +28,6 @@ collections:
       - 180547  # Marvel Cinematic Universe (MCU)
     summary: "Heroes assemble, worlds collide, and saving the universe becomes a team sport with a very complicated group chat. 🦸"
 
-  #
-  # The DCEU keyword defines this universe, not every film based on DC comics.
-  #
-  DC Universe:
-    template:
-      name: universe
-      poster_id: DC Universe
-    tmdb_keyword:
-      - 229266  # DC Extended Universe (DCEU)
-    summary: "Superman, Batman, Wonder Woman, and their allies face impossible choices and world-shaking threats across the DC Extended Universe. ⚡"
-
   Star Trek Universe:
     template:
       name: universe
