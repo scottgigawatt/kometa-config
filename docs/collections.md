@@ -48,6 +48,14 @@ Christmas discovery has no popularity cutoff. Hallmark, Lifetime, and Rankin/Bas
 
 Every seasonal movie collection disables Radarr additions, searches, upgrades, and monitoring changes. Existing Radarr entries or queued downloads are not removed. The guarded preview omits only those already-false Radarr attributes because Kometa otherwise requires a Radarr connection; it rejects enabled writers.
 
+## Award winners
+
+[Critics Choice](../scheduled/critics-choice.yml) uses Kometa's [IMDb award builder](https://kometa.wiki/en/latest/files/builders/imdb/award/) for all-time Best Picture winners and the six latest available ceremonies' winning films. Years advance when upstream ceremony data becomes available, not just when the calendar changes. A ceremony year is not a release-year window; nominees without a win are excluded.
+
+[Golden Globes](../scheduled/golden-globes.yml) uses award records for all-time Best Picture and Best Director winners. Picture categories cover drama, comedy, musical, and animation, including historical category names; foreign-language and television awards are not included solely for those wins. The separate yearly Golden Globe collections retain their release-window searches.
+
+Both files run from January 1 through April 1. Award records come from Kometa's maintained IMDb award data, not personal Trakt, Letterboxd, or TMDb lists. New ceremony results depend on upstream data updates.
+
 ## Charts and download boundaries
 
 Production retains provider chart sources, including Trakt popularity charts. The move away from unreliable personal lists does not remove these charts.

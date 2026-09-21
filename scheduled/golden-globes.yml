@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# golden-globes.yml: Build Golden Globe collections from lists and IMDb searches.
+# golden-globes.yml: Build Golden Globe collections from IMDb awards and searches.
 #
 
 external_templates:
@@ -48,10 +48,26 @@ collections:
       - name: globe_award_winner
     delete_collections_named:
       - Golden Globe Best Motion Pictures
-    tmdb_list:
-      - 8191011  # Drama
-      - 8191022  # Musical or Comedy
-      - 8235497  # Animation
+    imdb_award:
+      event_id: ev0000292  # Golden Globes, USA
+      event_year: all
+      winning: true
+
+      #
+      # Include historical category names for drama, comedy, musical, and animation.
+      # Foreign-language and television awards remain separate categories.
+      #
+      category_filter:
+        - best picture
+        - best motion picture - drama
+        - best motion picture - comedy
+        - best motion picture - musical
+        - best motion picture - comedy or musical
+        - best motion picture - musical or comedy
+        - best motion picture, musical or comedy
+        - best animated feature film
+        - best animated film
+        - best motion picture - animated
 
   Golden Globes Best Director Winners:
     summary: "Films whose directors earned a Golden Globe, from bold visions to moments that linger long after the credits. 🎬"
@@ -66,8 +82,17 @@ collections:
       - name: arr
       - name: custom
       - name: globe_award_winner
-    tmdb_list:
-      - 8235502  # Golden Globe - Best Director
+    imdb_award:
+      event_id: ev0000292  # Golden Globes, USA
+      event_year: all
+      winning: true
+
+      #
+      # Both names refer to the film directing award across its history.
+      #
+      category_filter:
+        - best director
+        - best director - motion picture
 
 dynamic_collections:
   #

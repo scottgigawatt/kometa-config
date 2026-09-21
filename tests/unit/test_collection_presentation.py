@@ -71,6 +71,23 @@ class CollectionPresentationTests(unittest.TestCase):
     #
     # Formatting must distinguish actual comments from string and block-scalar content.
     #
+    def test_critics_choice_template_uses_the_ceremony_year(self) -> None:
+        """Render an actual year template without a release-window approximation."""
+        source = self.yaml.load(
+            (self.root / "scheduled/critics-choice.yml").read_text()
+        )
+        for year in (2021, 2026, 2027):
+            with self.subTest(year=year):
+                result = self.render(
+                    source,
+                    f"Critics Choice Awards {year}",
+                    {"template": {"name": "choice_award_year", "key": year}},
+                )
+                self.assertEqual(
+                    result["imdb_award"],
+                    {"event_id": "ev0000133", "event_year": year, "winning": True},
+                )
+
     def test_comment_alignment_preserves_values(self) -> None:
         """Pad short entries and leave two spaces after the longest adjacent entry."""
         source = "ids:\n  - 1  # First\n  - 12345    # Second\n\n  - 9   # Separate\n"
