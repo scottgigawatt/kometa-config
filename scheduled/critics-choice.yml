@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# critics-choice.yml: Build seasonal Critics Choice collections from award lists.
+# critics-choice.yml: Build Critics Choice winners from IMDb ceremony records.
 #
 
 external_templates:
@@ -19,6 +19,15 @@ templates:
     sync_mode: sync
     schedule: range(01/01-04/01)
 
+  #
+  # Select winners by ceremony year, not by the films' release dates.
+  #
+  choice_award_year:
+    imdb_award:
+      event_id: ev0000133  # Critics Choice Awards
+      event_year: <<key>>
+      winning: true
+
 collections:
   Critics Choice Best Picture Winners:
     template:
@@ -31,36 +40,36 @@ collections:
       - name: custom
         collection_order: release.desc
       - name: choice_award_winner
-    trakt_list:
-      - https://trakt.tv/users/oldmankestis/lists/critics-choice-best-picture-winners
+    imdb_award:
+      event_id: ev0000133  # Critics Choice Awards
+      event_year: all
+      category_filter: best picture
+      winning: true
     summary: "Best Picture honorees from the Critics Choice Awards, where memorable stories get their moment in the spotlight. 🏆"
 
 dynamic_collections:
   #
-  # Include the current year and five preceding years: six collections in total.
+  # Use six available ceremonies; do not request an unpublished new-year event.
   #
   Critics Choice Awards:
-    type: number
+    type: imdb_awards
     sync: true
     data:
-      starting: current_year-5
-      ending: current_year
+      event_id: ev0000133  # Critics Choice Awards
+      starting: latest-5
+      ending: latest
     title_format: Critics Choice Awards <<key_name>>
     template:
       - choice_award_winner
       - use_year_collections
-      - trakt
+      - choice_award_year
       - shared
       - arr
       - custom
     template_variables:
-      trakt_list:
-        default: https://trakt.tv/users/pjcob/lists/<<key>>-<<url>>-choice
       image:
         default: award/choice/<<key>>
       translation_key:
         default: choice_year
-      url:
-        default: critic-s
       dynamic:
         default: true
