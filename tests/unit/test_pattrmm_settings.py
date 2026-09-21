@@ -23,6 +23,14 @@ class PattrmmSettingsTests(unittest.TestCase):
         yaml = YAML(typ="safe")
         self.settings = yaml.load((root / "pattrmm/settings.yml").read_text())
         self.config = yaml.load((root / "config.yml").read_text())
+        self.workflow = yaml.load(
+            (root / ".github/workflows/validate-pr.yml").read_text()
+        )
+
+    def test_ci_includes_authored_settings(self) -> None:
+        """Keep the Neo source available in GitHub's artwork-free checkout."""
+        checkout = self.workflow["jobs"]["validate"]["steps"][0]
+        self.assertIn("/pattrmm/", checkout["with"]["sparse-checkout"].splitlines())
 
     def test_settings_and_library_contract(self) -> None:
         """Require Neo's config selection and the exact production library names."""
