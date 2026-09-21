@@ -49,3 +49,33 @@ UUID
 **/*-returning-soon-collection.txt
 **/*-in-history.txt
 **/*-by-size.txt
+
+#
+# Neo writes paired collection definitions and Plex-GUID lists, plus status overlays.
+# Generated names retain upstream underscores and optional history instance numbers.
+#
+**/*-by-size-collection.yml
+**/*-by-size-collection.txt
+**/*-in-history-collection.yml
+**/*-in-history-collection.txt
+**/*-in-history-[0-9]*-collection.yml
+**/*-in-history-[0-9]*-collection.txt
+**/*-returning_soon-collection.yml
+**/*-returning_soon-collection.txt
+**/*-new_airing_next-collection.yml
+**/*-new_airing_next-collection.txt
+**/*-new_series-collection.yml
+**/*-new_series-collection.txt
+**/*-airing_next-collection.yml
+**/*-airing_next-collection.txt
+**/*-airing-collection.yml
+**/*-airing-collection.txt
+**/*-season_finale-collection.yml
+**/*-season_finale-collection.txt
+**/*-returning-collection.yml
+**/*-returning-collection.txt
+**/*-canceled-collection.yml
+**/*-canceled-collection.txt
+**/*-ended-collection.yml
+**/*-ended-collection.txt
+**/*-extended_status-overlay.yml

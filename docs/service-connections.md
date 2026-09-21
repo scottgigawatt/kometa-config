@@ -16,7 +16,15 @@ Keep the checked-in template free of credentials. Set live values in the deploym
 
 Never copy that private deployment file back into a commit. Both credentials and server addresses follow the [security policy](SECURITY.md).
 
-PATTRMM writes its generated metadata, overlays, and text ID lists into the shared checkout. Those files remain ignored; edit PATTRMM preferences to change their output. Kometa 2.5.0 requires Trakt-free generated definitions, such as those produced by PATTRMM's `traktless` build using `text_file`. Regenerate and inspect the private output before a production run; upgrading this repository alone does not update PATTRMM or its existing files.
+PATTRMM writes generated metadata, overlays, and text ID lists into the shared checkout. Those files remain ignored; edit the generator's settings to change their output. Kometa 2.5.0 requires Trakt-free generated definitions. Regenerate and inspect private output before a production run; upgrading this repository alone does not update PATTRMM or its existing files.
+
+## PATTRMM Neo
+
+[Neo](https://github.com/InsertDisc/pattrmm/tree/neo) is the selected Trakt-free generator. Its By Size, In History, and Extended Status cores write local Plex-GUID lists consumed by Kometa's `text_file` builder. Keep the generated YAML and its paired `.txt` file together; both are runtime state, not authored collections.
+
+Neo uses `/settings` for named YAML settings files, `/data` for its cache, and `/config` for Kometa's configuration and generated output. Set `PATTRMM_SETTINGS` to the intended settings filename and `PATTRMM_TIMES` to the daily run times. Each settings file selects its Kometa config with `settings.kometa_config` and explicitly names the Plex libraries and enabled cores. Do not point fixture settings at production libraries.
+
+The deployment service chart must supply these mounts and environment variables; changing only the image tag is insufficient. Keep literal private Plex/TMDb connection values in the selected runtime config, never in the repository. Neo collection settings pass through to Kometa, so review them for download-client or deletion actions before loading generated files. Preserve the complete existing custom overlay set when reviewing any additional generated status overlays.
 
 ## Tracearr
 

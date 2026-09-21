@@ -175,6 +175,23 @@ class GeneratedFileTests(unittest.TestCase):
             script = root / "scripts/check-generated-files.sh"
             shutil.copy2(ROOT / "scripts/check-generated-files.sh", script)
             subprocess.run(["git", "init", "--quiet", directory], check=True)
+
+            #
+            # Keep authored collections and custom status overlays eligible for Git.
+            #
+            for filename in (
+                "movies/universes.yml",
+                "movies/edwards-favorites.yml",
+                "overlays/series-status.yml",
+                "tests/kometa/config.yml",
+            ):
+                result = subprocess.run(
+                    ["git", "check-ignore", "--quiet", filename],
+                    cwd=root,
+                    check=False,
+                )
+                self.assertEqual(result.returncode, 1)
+
             for filename in (
                 "Movies-in-history.yml",
                 "Movies-in-history.txt",
@@ -184,6 +201,31 @@ class GeneratedFileTests(unittest.TestCase):
                 "TV-returning-soon-overlay.yml",
                 "TV-returning-soon-collection.yml",
                 "TV-returning-soon-collection.txt",
+                "Movies-by-size-collection.yml",
+                "Movies-by-size-collection.txt",
+                "Movies-month-in-history-collection.yml",
+                "Movies-month-in-history-collection.txt",
+                "Movies-week-in-history-1-collection.yml",
+                "Movies-week-in-history-1-collection.txt",
+                "TV-returning_soon-collection.yml",
+                "TV-returning_soon-collection.txt",
+                "TV-new_airing_next-collection.yml",
+                "TV-new_airing_next-collection.txt",
+                "TV-new_series-collection.yml",
+                "TV-new_series-collection.txt",
+                "TV-airing_next-collection.yml",
+                "TV-airing_next-collection.txt",
+                "TV-airing-collection.yml",
+                "TV-airing-collection.txt",
+                "TV-season_finale-collection.yml",
+                "TV-season_finale-collection.txt",
+                "TV-returning-collection.yml",
+                "TV-returning-collection.txt",
+                "TV-canceled-collection.yml",
+                "TV-canceled-collection.txt",
+                "TV-ended-collection.yml",
+                "TV-ended-collection.txt",
+                "TV-extended_status-overlay.yml",
             ):
                 with self.subTest(file=filename):
                     ignored = subprocess.run(
