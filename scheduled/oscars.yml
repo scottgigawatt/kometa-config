@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# oscars.yml: Build Oscar collections from IMDb award searches.
+# oscars.yml: Build Oscar winners from IMDb ceremony records.
 #
 
 external_templates:
@@ -16,24 +16,16 @@ templates:
     sort_title: "!130_<<collection_name>>"
     collection_order: release.desc
     sync_mode: sync
-    imdb_search:
-      type: movie
-      event.winning: <<event_winning>>
-      sort_by: year.desc
-      limit: 100
     schedule: range(01/01-04/01)
 
   oscar_award_winner_dynamic:
     summary: "Oscar-winning films where unforgettable performances and ambitious visions earn their golden moment. 🏆"
     sort_title: "!130_<<collection_name>>"
     run_definition: movie
-    imdb_search:
-      type: movie
-      release.after: <<key-1>>-01-01
-      release.before: <<key-1>>-12-31
-      event.winning: oscar
-      sort_by: rating.desc
-      limit: 100
+    imdb_award:
+      event_id: ev0000003  # Academy Awards, USA
+      event_year: <<key>>
+      winning: true
     schedule: range(01/01-04/01)
 
 collections:
@@ -41,7 +33,6 @@ collections:
     summary: "Best Picture winners with unforgettable stories, ambitious visions, and a golden place in Oscar history. 🏆"
     variables:
       key: best_picture
-      event_winning: oscar_picture
     template:
       - name: shared
         sort: Oscars !1
@@ -51,12 +42,24 @@ collections:
       - name: arr
       - name: custom
       - name: oscar_award_winner
+    imdb_award:
+      event_id: ev0000003  # Academy Awards, USA
+      event_year: all
+      winning: true
+
+      #
+      # Follow the main picture award across its historical category names.
+      # The separate Unique and Artistic Picture award is not Best Picture.
+      #
+      category_filter:
+        - best picture, production
+        - best picture
+        - best motion picture of the year
 
   Oscars Best Director Winners:
     summary: "Oscar-winning direction turns performances, images, and ideas into something worth talking about after the lights come up. 🎬"
     variables:
       key: best_director
-      event_winning: oscar_director
     template:
       - name: shared
         sort: Oscars !2
@@ -66,22 +69,35 @@ collections:
       - name: arr
       - name: custom
       - name: oscar_award_winner
+    imdb_award:
+      event_id: ev0000003  # Academy Awards, USA
+      event_year: all
+      winning: true
+
+      #
+      # Include the first ceremony's separate comedy and drama directing awards.
+      #
+      category_filter:
+        - best director, comedy picture
+        - best director, dramatic picture
+        - best director
+        - best achievement in directing
 
 dynamic_collections:
   #
-  # Search the preceding release year for each generated awards-year collection.
+  # Use six ceremonies from Kometa's validated event-year index.
   #
   Oscars Winners:
-    type: number
+    type: imdb_awards
     sync: true
     data:
-      starting: current_year-6
-      ending: current_year-1
+      event_id: ev0000003  # Academy Awards, USA
+      starting: latest-5
+      ending: latest
     title_format: Oscars Winners <<key_name>>
     template:
       - oscar_award_winner_dynamic
       - use_year_collections
-      - imdb
       - shared
       - arr
       - custom

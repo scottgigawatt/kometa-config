@@ -229,7 +229,7 @@ class CollectionSourceTests(unittest.TestCase):
         #
         # TMDb lists are also user-maintained; do not reintroduce them for awards.
         #
-        for filename in ("critics-choice.yml", "golden-globes.yml"):
+        for filename in ("critics-choice.yml", "golden-globes.yml", "oscars.yml"):
             self.assertNotIn(
                 "tmdb_list:", (self.root / "scheduled" / filename).read_text()
             )
@@ -243,7 +243,7 @@ class CollectionSourceTests(unittest.TestCase):
         #
         imdb = importlib.import_module("modules.imdb")
 
-        for filename in ("critics-choice.yml", "golden-globes.yml"):
+        for filename in ("critics-choice.yml", "golden-globes.yml", "oscars.yml"):
             source = self.yaml.load((self.root / "scheduled" / filename).read_text())
             for name, collection in source["collections"].items():
                 with self.subTest(collection=name):
@@ -273,6 +273,93 @@ class CollectionSourceTests(unittest.TestCase):
                     }
                     client.get_event_data = Mock(return_value={"award": records})
                     self.assertEqual(client._award(award), expected)
+
+    #
+    # Award-year windows and exclusions must describe the intended provider records.
+    #
+    def test_award_years_use_validated_ceremonies(self) -> None:
+        """Keep six validated ceremonies and reject release-date search approximations."""
+        events = {
+            "oscars.yml": "ev0000003",
+            "golden-globes.yml": "ev0000292",
+            "emmy-awards.yml": "ev0000223",
+        }
+        for filename, event_id in events.items():
+            with self.subTest(file=filename):
+                source = self.yaml.load(
+                    (self.root / "scheduled" / filename).read_text()
+                )
+                self.assertNotIn("imdb_search", str(source))
+                self.assertNotIn("release.after", str(source))
+                self.assertNotIn("release.before", str(source))
+                dynamic = next(iter(source["dynamic_collections"].values()))
+                self.assertEqual(dynamic["type"], "imdb_awards")
+                self.assertIs(dynamic["sync"], True)
+                self.assertEqual(
+                    dynamic["data"],
+                    {"event_id": event_id, "starting": "latest-5", "ending": "latest"},
+                )
+                self.assertNotIn("imdb", dynamic["template"])
+                awards = [
+                    source["templates"][name]["imdb_award"]
+                    for name in dynamic["template"]
+                    if "imdb_award" in source["templates"].get(name, {})
+                ]
+                self.assertEqual(
+                    awards,
+                    [{"event_id": event_id, "event_year": "<<key>>", "winning": True}],
+                )
+
+    def test_oscar_all_time_categories_and_no_result_cap(self) -> None:
+        """Preserve historical picture and directing winners without a search limit."""
+        source = self.yaml.load((self.root / "scheduled/oscars.yml").read_text())
+        expected = {
+            "Oscars Best Picture Winners": {
+                "best picture, production",
+                "best picture",
+                "best motion picture of the year",
+            },
+            "Oscars Best Director Winners": {
+                "best director, comedy picture",
+                "best director, dramatic picture",
+                "best director",
+                "best achievement in directing",
+            },
+        }
+        for name, categories in expected.items():
+            with self.subTest(collection=name):
+                award = source["collections"][name]["imdb_award"]
+                self.assertEqual(award["event_id"], "ev0000003")
+                self.assertEqual(award["event_year"], "all")
+                self.assertIs(award["winning"], True)
+                self.assertEqual(set(award["category_filter"]), categories)
+        self.assertNotIn("limit", source["templates"]["oscar_award_winner"])
+
+    def test_emmys_stay_available_between_weekly_runs(self) -> None:
+        """Override TV-wide scheduled deletion without changing movie award seasons."""
+        source = self.yaml.load((self.root / "scheduled/emmy-awards.yml").read_text())
+        template = source["templates"]["emmy_award_winner"]
+        self.assertEqual(template["schedule"], "weekly(monday)")
+        self.assertIs(template["delete_not_scheduled"], False)
+        for filename in ("oscars.yml", "golden-globes.yml"):
+            source = self.yaml.load((self.root / "scheduled" / filename).read_text())
+            for template in source["templates"].values():
+                self.assertEqual(template["schedule"], "range(01/01-04/01)")
+
+    def test_libraries_have_no_inherited_title_exclusions(self) -> None:
+        """Keep global and library settings free of unwanted title exclusions."""
+        config = self.yaml.load((self.root / "config.yml").read_text())
+        scopes = {"global": config["settings"]}
+        scopes.update(
+            {
+                name: library.get("settings", {})
+                for name, library in config["libraries"].items()
+            }
+        )
+        for name, settings in scopes.items():
+            with self.subTest(scope=name):
+                self.assertNotIn("ignore_ids", settings)
+                self.assertNotIn("ignore_imdb_ids", settings)
 
 
 if __name__ == "__main__":

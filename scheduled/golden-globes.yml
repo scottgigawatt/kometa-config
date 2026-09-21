@@ -3,7 +3,7 @@
 #
 # Licensed under the Apache License, Version 2.0.
 #
-# golden-globes.yml: Build Golden Globe collections from IMDb awards and searches.
+# golden-globes.yml: Build Golden Globe winners from IMDb ceremony records.
 #
 
 external_templates:
@@ -22,13 +22,10 @@ templates:
     summary: "Golden Globe-winning films with bold stories, memorable performances, and a little red-carpet shine. 🏆"
     sort_title: "!130_<<collection_name>>"
     run_definition: movie
-    imdb_search:
-      type: movie
-      release.after: <<key-1>>-01-01
-      release.before: <<key>>-12-31
-      event.winning: golden
-      sort_by: rating.desc
-      limit: 100
+    imdb_award:
+      event_id: ev0000292  # Golden Globes, USA
+      event_year: <<key>>
+      winning: true
     schedule: range(01/01-04/01)
 
 collections:
@@ -96,19 +93,19 @@ collections:
 
 dynamic_collections:
   #
-  # Generate release-window searches separately from the all-time winner lists.
+  # Use six ceremonies from Kometa's validated event-year index.
   #
   Golden Globe Awards:
-    type: number
+    type: imdb_awards
     sync: true
     data:
-      starting: current_year-5
-      ending: current_year
+      event_id: ev0000292  # Golden Globes, USA
+      starting: latest-5
+      ending: latest
     title_format: Golden Globe <<key_name>>
     template:
       - globe_award_winner_dynamic
       - use_year_collections
-      - imdb
       - shared
       - arr
       - custom

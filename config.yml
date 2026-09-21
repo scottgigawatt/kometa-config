@@ -487,11 +487,6 @@ libraries:
 playlist_files:
   - file: config/playlists/battlestar-galactica-timeline.yml
   - default: playlist
-    # template_variables:
-    #   # These default playlists are defined in the playlist.yml config
-    #   exclude:
-    #     - dragonball
-    #     - xmen
 
 #
 # Define global settings
@@ -524,13 +519,6 @@ settings:
   show_missing_assets: true
   save_report: true
   tvdb_language: eng
-  ignore_ids:
-    - 232618
-    - 156249
-    - 241239
-    - 71365
-    - 84200
-  ignore_imdb_ids: tt0096548,tt0214341,tt4834232,tt0088484,tt0090509,tt0092324,tt0280249,tt4093826,tt1758429,tt0203082
   item_refresh_delay: 0
   playlist_report: true
   playlist_sync_to_users: all

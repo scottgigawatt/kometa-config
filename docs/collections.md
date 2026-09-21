@@ -50,11 +50,11 @@ Every seasonal movie collection disables Radarr additions, searches, upgrades, a
 
 ## Award winners
 
-[Critics Choice](../scheduled/critics-choice.yml) uses Kometa's [IMDb award builder](https://kometa.wiki/en/latest/files/builders/imdb/award/) for all-time Best Picture winners and the six latest available ceremonies' winning films. Years advance when upstream ceremony data becomes available, not just when the calendar changes. A ceremony year is not a release-year window; nominees without a win are excluded.
+[Critics Choice](../scheduled/critics-choice.yml), [Oscars](../scheduled/oscars.yml), [Golden Globes](../scheduled/golden-globes.yml), and [Primetime Emmys](../scheduled/emmy-awards.yml) use Kometa's [IMDb award builder](https://kometa.wiki/en/latest/files/builders/imdb/award/). Each keeps six ceremonies from Kometa's validated event-year index and selects winners from the named ceremony, regardless of when the film or show premiered. Nominees without a win are excluded. Years advance with upstream data, not just when the calendar changes. Future placeholders are not selected until validated.
 
-[Golden Globes](../scheduled/golden-globes.yml) uses award records for all-time Best Picture and Best Director winners. Picture categories cover drama, comedy, musical, and animation, including historical category names; foreign-language and television awards are not included solely for those wins. The separate yearly Golden Globe collections retain their release-window searches.
+Critics Choice also includes all-time Best Picture winners. Oscars and Golden Globes include all-time picture and directing winners without a result cap. Golden Globe picture categories cover drama, comedy, musical, and animation, including historical category names; foreign-language and television awards are not included solely for those wins. Oscar categories include historical picture names and the first ceremony's separate comedy and drama directing awards.
 
-Both files run from January 1 through April 1. Award records come from Kometa's maintained IMDb award data, not personal Trakt, Letterboxd, or TMDb lists. New ceremony results depend on upstream data updates.
+The movie award files run from January 1 through April 1. Emmys refresh every Monday and remain available between runs year-round, including after autumn ceremonies. Award records come from Kometa's maintained IMDb award data, not personal Trakt, Letterboxd, or TMDb lists. New ceremony results depend on upstream data updates.
 
 ## Charts and download boundaries
 
