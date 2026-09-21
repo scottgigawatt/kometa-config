@@ -20,6 +20,7 @@ This repository is the source-controlled Kometa configuration for a private Plex
 - `playlists/`: Playlist definitions.
 - `assets/`: Collection, playlist, and media artwork.
 - `tests/kometa/`: Isolated configuration for the two upstream Plex fixture libraries.
+- `pattrmm/settings.yml`: Authored PATTRMM Neo cores and collection presentation.
 - `scripts/`: Repository validation and test-library helpers.
 - `docs/`: Current operating documentation.
 - `.github/`: Workflows, ownership, and issue/PR templates.
@@ -28,7 +29,7 @@ This repository is the source-controlled Kometa configuration for a private Plex
 
 Treat the Git checkout as the source of truth for human-authored configuration. The Hera deployment mounts this checkout at Kometa's `/config` path.
 
-PATTRMM also mounts that path read-write and generates files such as `*-in-history.yml`, `*-by-size.yml`, `*-returning-soon-metadata.yml`, `*-returning-soon-collection.yml`, and `*-returning-soon-overlay.yml`, plus text ID lists. Those files are expected runtime inputs, remain ignored, and must not be committed. Update PATTRMM preferences when their contents need to change. Generated collection definitions must use builders supported by the pinned Kometa runtime.
+PATTRMM Neo mounts that path read-write and reads `pattrmm/settings.yml` through its read-only `/settings` mount. Its collections and paired Plex-GUID text lists belong under `generated/pattrmm/`, remain ignored, and must not be committed. Update the authored Neo settings when their contents need to change. The enabled status core generates collections only; preserve the independently maintained custom overlays. Generated collection definitions must use builders supported by the pinned Kometa runtime.
 
 Logs, caches, missing-item reports, `.kometa-test/`, and `.secrets/` are private runtime state. Never treat them as repository source.
 

@@ -106,6 +106,13 @@ class YamlPolicyTests(unittest.TestCase):
                                     break
                             target = self.root / relative
                             with self.subTest(config=name, kind=kind, path=original):
+                                if relative in (
+                                    "generated/pattrmm/movies/",
+                                    "generated/pattrmm/shows/",
+                                ):
+                                    self.assertEqual(name, "config.yml")
+                                    self.assertEqual(kind, "folder")
+                                    continue
                                 self.assertTrue(
                                     target.is_file()
                                     if kind == "file"

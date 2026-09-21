@@ -12,7 +12,7 @@ Choose the guide for the job. The configuration supplies the drama; the instruct
 
 - [Collections](collections.md): Source rules, shuffle behavior, holiday selections, and downloads.
 - [Overlays](overlays.md): Custom graphics, placement, fallbacks, and matching.
-- [Service connections](service-connections.md): Shared configuration and Tracearr.
+- [Service connections](service-connections.md): Shared configuration, PATTRMM Neo, and Tracearr.
 - [Automation](automation.md): Make commands, CI, CodeQL, and dependency updates.
 
 ## Participate safely

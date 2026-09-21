@@ -1,0 +1,89 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# settings.yml: Generate Neo collections from the Movies and TV Shows libraries.
+#
+
+#
+# Keep generated definitions outside authored collection folders.
+# Collection-only status output preserves the complete custom overlay set.
+#
+libraries:
+  Movies:
+
+    #
+    # Rank the largest 500 movie files without changing or deleting media.
+    #
+    - by_size:
+        enabled: true
+        order_by: size.desc
+        limit: 500
+        collection_dir: generated/pattrmm/movies/
+        collection:
+          name: Movies by Size
+          collection_order: custom
+          sync_mode: sync
+          minimum_items: 1
+          sort_title: "060_1_Movies by Size"
+          summary: "Big-screen ambitions, big-file energy. The storage hogs take their bow. 💾"
+
+    #
+    # Revisit releases from this calendar month across all years.
+    #
+    - in_history:
+        enabled: true
+        range: month
+        collection_dir: generated/pattrmm/movies/
+        collection:
+          name: This Month in Movie History
+          collection_order: custom
+          sync_mode: sync
+          minimum_items: 1
+          sort_title: "060_2_This Month in Movie History"
+          summary: "Same month, different marquee. A birthday party for movies that made their entrance this time of year. 🎞️"
+
+  TV Shows:
+
+    #
+    # Celebrate series premieres from this calendar month across all years.
+    #
+    - in_history:
+        enabled: true
+        range: month
+        collection_dir: generated/pattrmm/shows/
+        collection:
+          name: This Month in TV History
+          collection_order: custom
+          sync_mode: sync
+          minimum_items: 1
+          sort_title: "060_1_This Month in TV History"
+          summary: "Before the cliffhangers and questionable finales, there was a pilot. These shows first said hello this month. 📺"
+
+    #
+    # Find shows returning within 90 days after at least a two-week episode gap.
+    # Generate a collection only; custom status artwork remains independently managed.
+    #
+    - extended_status:
+        returning_soon:
+          enabled: true
+          mode: collection
+          days_ahead: 90
+          days_behind: 14
+          collection_dir: generated/pattrmm/shows/
+          collection:
+            name: Returning Soon
+            collection_order: custom
+            sync_mode: sync
+            minimum_items: 1
+            sort_title: "060_2_Returning Soon"
+            summary: "The hiatus is almost over. Time to remember who betrayed whom before the next episode drops. 🍿"
+
+#
+# Read literal private connection values from the shared runtime file.
+# Neo uses TMDb for release dates and series status, with its cache under /data.
+#
+settings:
+  kometa_config: config.yml
+  data_source: tmdb

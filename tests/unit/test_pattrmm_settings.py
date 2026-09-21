@@ -1,0 +1,93 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# test_pattrmm_settings.py: Protect Neo's authored settings and Kometa input paths.
+#
+
+"""Check the production Neo contract without credentials or service access."""
+
+import unittest
+from pathlib import Path
+
+from ruamel.yaml import YAML
+
+
+class PattrmmSettingsTests(unittest.TestCase):
+    """Keep generated collections isolated from authored source and custom overlays."""
+
+    def setUp(self) -> None:
+        """Read only the source snapshot mounted by the offline validator."""
+        root = Path("/workspace")
+        yaml = YAML(typ="safe")
+        self.settings = yaml.load((root / "pattrmm/settings.yml").read_text())
+        self.config = yaml.load((root / "config.yml").read_text())
+
+    def test_settings_and_library_contract(self) -> None:
+        """Require Neo's config selection and the exact production library names."""
+        self.assertEqual(set(self.settings), {"libraries", "settings"})
+        self.assertEqual(
+            self.settings["settings"],
+            {"kometa_config": "config.yml", "data_source": "tmdb"},
+        )
+        self.assertEqual(set(self.settings["libraries"]), {"Movies", "TV Shows"})
+        expected = {
+            "Movies": ["by_size", "in_history"],
+            "TV Shows": ["in_history", "extended_status"],
+        }
+        for library, cores in self.settings["libraries"].items():
+            with self.subTest(library=library):
+                self.assertEqual(
+                    [list(core) for core in cores], [[key] for key in expected[library]]
+                )
+
+    def test_generated_paths_and_collection_safety(self) -> None:
+        """Match each output folder to Kometa and forbid download or overlay actions."""
+        names = set()
+        for library, folder in (("Movies", "movies"), ("TV Shows", "shows")):
+            directory = f"generated/pattrmm/{folder}/"
+            self.assertIn(
+                {"folder": f"config/{directory}"},
+                self.config["libraries"][library]["collection_files"],
+            )
+            for entry in self.settings["libraries"][library]:
+                core, settings = next(iter(entry.items()))
+                if core == "extended_status":
+                    self.assertEqual(set(settings), {"returning_soon"})
+                    settings = settings["returning_soon"]
+                    self.assertEqual(settings["mode"], "collection")
+                    self.assertEqual(settings["days_ahead"], 90)
+                    self.assertEqual(settings["days_behind"], 14)
+                elif core == "in_history":
+                    self.assertEqual(settings["range"], "month")
+                else:
+                    self.assertEqual(settings["order_by"], "size.desc")
+                    self.assertEqual(settings["limit"], 500)
+                self.assertIs(settings["enabled"], True)
+                self.assertEqual(settings["collection_dir"], directory)
+                collection = settings["collection"]
+                self.assertEqual(
+                    set(collection),
+                    {
+                        "name",
+                        "collection_order",
+                        "sync_mode",
+                        "minimum_items",
+                        "sort_title",
+                        "summary",
+                    },
+                )
+                self.assertEqual(collection["sync_mode"], "sync")
+                self.assertEqual(collection["collection_order"], "custom")
+                self.assertEqual(collection["minimum_items"], 1)
+                self.assertTrue(collection["summary"])
+                self.assertNotIn(collection["name"], names)
+                names.add(collection["name"])
+        self.assertEqual(len(names), 4)
+
+    def test_custom_overlay_ownership(self) -> None:
+        """Keep every generated Neo file out of the production overlay pipeline."""
+        for library in self.config["libraries"].values():
+            for entry in library.get("overlay_files", []):
+                self.assertNotIn("generated/pattrmm", str(entry))

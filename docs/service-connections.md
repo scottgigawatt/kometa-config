@@ -16,15 +16,25 @@ Keep the checked-in template free of credentials. Set live values in the deploym
 
 Never copy that private deployment file back into a commit. Both credentials and server addresses follow the [security policy](SECURITY.md).
 
-PATTRMM writes generated metadata, overlays, and text ID lists into the shared checkout. Those files remain ignored; edit the generator's settings to change their output. Kometa 2.5.0 requires Trakt-free generated definitions. Regenerate and inspect private output before a production run; upgrading this repository alone does not update PATTRMM or its existing files.
+Use Kometa 2.5.0 or newer with PATTRMM Neo. Generated definitions and paired text lists remain ignored runtime files; edit their authored settings to change their output.
 
 ## PATTRMM Neo
 
-[Neo](https://github.com/InsertDisc/pattrmm/tree/neo) is the selected Trakt-free generator. Its By Size, In History, and Extended Status cores write local Plex-GUID lists consumed by Kometa's `text_file` builder. Keep the generated YAML and its paired `.txt` file together; both are runtime state, not authored collections.
+[PATTRMM Neo](https://github.com/InsertDisc/pattrmm/tree/neo) generates local Plex-GUID lists consumed by Kometa's `text_file` builder. [pattrmm/settings.yml](../pattrmm/settings.yml) owns four collections: Movies by Size, This Month in Movie History, This Month in TV History, and Returning Soon. The library names must match Plex exactly.
 
-Neo uses `/settings` for named YAML settings files, `/data` for its cache, and `/config` for Kometa's configuration and generated output. Set `PATTRMM_SETTINGS` to the intended settings filename and `PATTRMM_TIMES` to the daily run times. Each settings file selects its Kometa config with `settings.kometa_config` and explicitly names the Plex libraries and enabled cores. Do not point fixture settings at production libraries.
+The [Plundarr Neo service](https://github.com/scottgigawatt/plundarr/blob/main/docker/services/pattrmm/README.md) defaults to `ghcr.io/insertdisc/pattrmm:neo`. It mounts this checkout's `pattrmm/` directory read-only at `/settings`, its private cache at `/data`, and this checkout at `/config`. Set `PATTRMM_SETTINGS=settings.yml`; `PATTRMM_TIMES=02:00,14:00` runs before Kometa's `05:00,17:00` schedule. Give the configured container user write access to the cache and generated output directories.
 
-The deployment service chart must supply these mounts and environment variables; changing only the image tag is insufficient. Keep literal private Plex/TMDb connection values in the selected runtime config, never in the repository. Neo collection settings pass through to Kometa, so review them for download-client or deletion actions before loading generated files. Preserve the complete existing custom overlay set when reviewing any additional generated status overlays.
+Neo reads literal Plex URL/token and TMDb key, language, and region values from `/config/config.yml`. Keep them private. Its authored settings contain no credentials and select that file through `settings.kometa_config`.
+
+Output belongs in `generated/pattrmm/movies/` and `generated/pattrmm/shows/`. The main Kometa configuration loads those directories. Keep each generated YAML file beside its paired `.txt` file. Returning Soon uses collection-only mode; Neo does not replace or add to the custom overlays.
+
+From the generated Duplex directory, create the output before the first Kometa run:
+
+```sh
+docker compose run --rm --no-deps pattrmm --run
+```
+
+Confirm every settings run reports `All operations complete` with no failed-settings messages or tracebacks, then start the scheduler with `docker compose up -d pattrmm`. Allow generation to finish before Kometa reads its files. Do not point fixture settings at production libraries or commit generated output.
 
 ## Tracearr
 

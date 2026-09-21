@@ -90,6 +90,11 @@ libraries:
       - folder: config/movies/
 
       #
+      # Load Neo's movie history and size collections after generation completes.
+      #
+      - folder: config/generated/pattrmm/movies/
+
+      #
       # Group movies by their available US content ratings.
       #
       - default: content_rating_us
@@ -348,6 +353,11 @@ libraries:
       # Load custom networks, episode themes, and show-only shuffle collections.
       #
       - folder: config/shows/
+
+      #
+      # Load Neo's TV history and returning-soon collections without generated overlays.
+      #
+      - folder: config/generated/pattrmm/shows/
 
       #
       # Keep Emmy winners available year-round with their own Monday refresh schedule.

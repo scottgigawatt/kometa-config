@@ -184,6 +184,7 @@ class GeneratedFileTests(unittest.TestCase):
                 "movies/edwards-favorites.yml",
                 "overlays/series-status.yml",
                 "tests/kometa/config.yml",
+                "pattrmm/settings.yml",
             ):
                 result = subprocess.run(
                     ["git", "check-ignore", "--quiet", filename],
@@ -193,6 +194,8 @@ class GeneratedFileTests(unittest.TestCase):
                 self.assertEqual(result.returncode, 1)
 
             for filename in (
+                "generated/pattrmm/movies/runtime.yml",
+                "generated/pattrmm/shows/runtime.txt",
                 "Movies-in-history.yml",
                 "Movies-in-history.txt",
                 "Movies-by-size.yml",
@@ -234,6 +237,7 @@ class GeneratedFileTests(unittest.TestCase):
                         check=False,
                     )
                     self.assertEqual(ignored.returncode, 0)
+                    (root / filename).parent.mkdir(parents=True, exist_ok=True)
                     (root / filename).write_text("# Generated fixture\n")
                     subprocess.run(
                         ["git", "add", "--force", "--", filename], cwd=root, check=True

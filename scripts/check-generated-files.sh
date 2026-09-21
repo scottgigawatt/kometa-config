@@ -23,7 +23,7 @@ repository_root=$(CDPATH='' cd -- "$(dirname "$0")/.." && pwd)
 legacy_families='by-size|in-history|returning-soon-metadata|returning-soon-overlay|returning-soon-collection'
 neo_statuses='returning_soon|new_airing_next|new_series|airing_next|airing|season_finale|returning|canceled|ended'
 neo_families="by-size-collection|(day|week|month)-in-history(-[0-9]+)?-collection|($neo_statuses)-collection|extended_status-overlay"
-generated_pattern="(^|/).+-($legacy_families|$neo_families)\\.(yml|txt)$"
+generated_pattern="^generated/pattrmm/|(^|/).+-($legacy_families|$neo_families)\\.(yml|txt)$"
 
 #
 # Find tracked generated inputs without allowing an empty match to fail early.

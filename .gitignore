@@ -54,6 +54,7 @@ UUID
 # Neo writes paired collection definitions and Plex-GUID lists, plus status overlays.
 # Generated names retain upstream underscores and optional history instance numbers.
 #
+/generated/pattrmm/
 **/*-by-size-collection.yml
 **/*-by-size-collection.txt
 **/*-in-history-collection.yml
