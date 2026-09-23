@@ -83,6 +83,7 @@ class PattrmmSettingsTests(unittest.TestCase):
                         "sync_mode",
                         "minimum_items",
                         "sort_title",
+                        "file_poster",
                         "summary",
                     },
                 )
@@ -93,6 +94,39 @@ class PattrmmSettingsTests(unittest.TestCase):
                 self.assertNotIn(collection["name"], names)
                 names.add(collection["name"])
         self.assertEqual(len(names), 4)
+
+    def test_collection_posters_and_legacy_sort_positions(self) -> None:
+        """Keep Neo in the original chart section with explicit local artwork."""
+        expected = {
+            "Movies by Size": ("!020_2_Movies by Size", "Movies by Size.png"),
+            "This Month in Movie History": (
+                "!020_1_Plex In-History",
+                "This Month in Movie History.png",
+            ),
+            "This Month in TV History": (
+                "!020_1_Plex In-History",
+                "This Month in TV History.png",
+            ),
+            "Returning Soon": ("!020_0_Plex Returning Soon", "Returning Soon.png"),
+        }
+
+        #
+        # A missing exclamation mark sorts these charts below the prefixed sections.
+        #
+        for entries in self.settings["libraries"].values():
+            for entry in entries:
+                core, settings = next(iter(entry.items()))
+                if core == "extended_status":
+                    settings = settings["returning_soon"]
+
+                collection = settings["collection"]
+                title, poster = expected[collection["name"]]
+                with self.subTest(collection=collection["name"]):
+                    self.assertEqual(collection["sort_title"], title)
+                    self.assertEqual(
+                        collection["file_poster"],
+                        f"/config/assets/posters/chart/{poster}",
+                    )
 
     def test_custom_overlay_ownership(self) -> None:
         """Keep every generated Neo file out of the production overlay pipeline."""

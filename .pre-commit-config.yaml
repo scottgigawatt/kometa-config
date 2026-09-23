@@ -37,6 +37,15 @@ repos:
     rev: v6.0.0
     hooks:
       - id: check-added-large-files
+        exclude: ^assets/
+
+      #
+      # Allow original poster artwork up to 2 MiB while retaining the text-file limit.
+      #
+      - id: check-added-large-files
+        name: Check added artwork size
+        files: ^assets/
+        args: ["--maxkb=2048"]
       - id: check-case-conflict
       - id: check-executables-have-shebangs
       - id: check-json

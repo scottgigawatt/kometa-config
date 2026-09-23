@@ -172,7 +172,12 @@ class LocationUniverseTests(unittest.TestCase):
         )
         self.assertEqual(
             preview,
-            {"include": ["dceu"], "minimum_items": 3, "use_separator": False},
+            {
+                "include": ["dceu"],
+                "minimum_items": 3,
+                "use_separator": False,
+                "file_poster_dceu": variables["file_poster_dceu"],
+            },
         )
 
     def test_tracearr_behavior_preserved(self) -> None:
