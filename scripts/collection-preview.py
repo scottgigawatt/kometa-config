@@ -302,6 +302,7 @@ def rule_names(genres, themes) -> list[str]:
             "limit": 250,
             "sort_title": "!061_<<collection_name>>",
             "sync_mode": "sync",
+            "changes_webhooks": [],
             "visible_home": False,
             "visible_library": False,
             "visible_shared": False,
