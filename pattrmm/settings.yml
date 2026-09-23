@@ -9,6 +9,7 @@
 #
 # Keep generated definitions outside authored collection folders.
 # Collection-only status output preserves the complete custom overlay set.
+# Keep matching chart artwork and the legacy sort positions for history and returning shows.
 #
 libraries:
   Movies:
@@ -26,7 +27,8 @@ libraries:
           collection_order: custom
           sync_mode: sync
           minimum_items: 1
-          sort_title: "060_1_Movies by Size"
+          sort_title: "!020_2_Movies by Size"
+          file_poster: /config/assets/posters/chart/Movies by Size.png
           summary: "Big-screen ambitions, big-file energy. The storage hogs take their bow. 💾"
 
     #
@@ -41,7 +43,8 @@ libraries:
           collection_order: custom
           sync_mode: sync
           minimum_items: 1
-          sort_title: "060_2_This Month in Movie History"
+          sort_title: "!020_1_Plex In-History"
+          file_poster: /config/assets/posters/chart/This Month in Movie History.png
           summary: "Same month, different marquee. A birthday party for movies that made their entrance this time of year. 🎞️"
 
   TV Shows:
@@ -58,7 +61,8 @@ libraries:
           collection_order: custom
           sync_mode: sync
           minimum_items: 1
-          sort_title: "060_1_This Month in TV History"
+          sort_title: "!020_1_Plex In-History"
+          file_poster: /config/assets/posters/chart/This Month in TV History.png
           summary: "Before the cliffhangers and questionable finales, there was a pilot. These shows first said hello this month. 📺"
 
     #
@@ -77,7 +81,8 @@ libraries:
             collection_order: custom
             sync_mode: sync
             minimum_items: 1
-            sort_title: "060_2_Returning Soon"
+            sort_title: "!020_0_Plex Returning Soon"
+            file_poster: /config/assets/posters/chart/Returning Soon.png
             summary: "The hiatus is almost over. Time to remember who betrayed whom before the next episode drops. 🍿"
 
 #

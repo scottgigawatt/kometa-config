@@ -227,6 +227,11 @@ libraries:
         template_variables:
           collection_section: "106"
           minimum_items: 3
+
+          #
+          # Use the local DC poster because the upstream DCEU image is unavailable.
+          #
+          file_poster_dceu: /config/assets/posters/franchise/DC Universe.jpg
           append_data:
             star: Star Wars Saga
 

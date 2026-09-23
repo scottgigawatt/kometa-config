@@ -26,6 +26,8 @@ The [Plundarr Neo service](https://github.com/scottgigawatt/plundarr/blob/main/d
 
 Neo reads literal Plex URL/token and TMDb key, language, and region values from `/config/config.yml`. Keep them private. Its authored settings contain no credentials and select that file through `settings.kometa_config`.
 
+The authored collection settings select local posters from `assets/posters/chart/` and use the `!020_` sort prefix to keep Neo collections with the other Plex charts. Change presentation in `pattrmm/settings.yml`, then run Neo before Kometa so the generated definitions pick it up.
+
 Output belongs in `generated/pattrmm/movies/` and `generated/pattrmm/shows/`. The main Kometa configuration loads those directories. Keep each generated YAML file beside its paired `.txt` file. Returning Soon uses collection-only mode; Neo does not replace or add to the custom overlays.
 
 From the generated Duplex directory, create the output before the first Kometa run:

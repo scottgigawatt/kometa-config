@@ -259,6 +259,53 @@ class CollectionPresentationTests(unittest.TestCase):
                 )
                 self.assertEqual(rendered["schedule"], expected)
 
+    def test_beverly_hills_cop_keeps_franchise_sorting(self) -> None:
+        """Keep the franchise ahead of unprefixed dynamic people collections."""
+        source = self.yaml.load((self.root / "movies/franchises.yml").read_text())
+        name = "Beverly Hills Cop Collection"
+        rendered = self.render(source, name, source["collections"][name])
+
+        #
+        # Verify the expanded rule rather than adding a duplicate sort override.
+        #
+        self.assertEqual(rendered["sort_title"], f"!106_{name}")
+        self.assertEqual(rendered["tmdb_collection"], [85861])
+        self.assertEqual(rendered["schedule"], ["weekly(sunday)", "weekly(thursday)"])
+
+    def test_dceu_uses_local_artwork_in_pinned_defaults(self) -> None:
+        """Prefer the tracked DC poster over the unavailable upstream image."""
+        config = self.yaml.load((self.root / "config.yml").read_text())
+        variables = next(
+            entry["template_variables"]
+            for entry in config["libraries"]["Movies"]["collection_files"]
+            if entry.get("default") == "universe"
+        )
+        source = self.yaml.load(Path("/defaults/templates.yml").read_text())
+
+        #
+        # Exercise Defaults' conditional poster selection with the production override.
+        #
+        rendered = self.render(
+            source,
+            "DC Extended Universe",
+            {
+                "template": {
+                    "name": "shared",
+                    "key": "dceu",
+                    "key_name": "DC Extended Universe",
+                    "title": "DC Extended Universe",
+                    "image": "universe/dceu",
+                    **variables,
+                }
+            },
+        )
+        self.assertEqual(
+            rendered["file_poster"],
+            "/config/assets/posters/franchise/DC Universe.jpg",
+        )
+        self.assertNotIn("url_poster", rendered)
+        self.assertEqual(rendered["sort_title"], "!106_DC Extended Universe")
+
     def test_theme_rating_defaults_shared(self) -> None:
         """Keep both provider defaults identical while preserving explicit overrides."""
         source = self.yaml.load(
