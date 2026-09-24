@@ -9,7 +9,7 @@
 #
 # Keep generated definitions outside authored collection folders.
 # Collection-only status output preserves the complete custom overlay set.
-# Keep matching chart artwork and the legacy sort positions for history and returning shows.
+# Group movie history and size charts before Tracearr; retain the TV chart order.
 #
 libraries:
   Movies:
@@ -27,7 +27,7 @@ libraries:
           collection_order: custom
           sync_mode: sync
           minimum_items: 1
-          sort_title: "!020_2_Movies by Size"
+          sort_title: "!020_0_2_Movies by Size"
           file_poster: /config/assets/posters/chart/Movies by Size.png
           summary: "Big-screen ambitions, big-file energy. The storage hogs take their bow. 💾"
 
@@ -43,7 +43,7 @@ libraries:
           collection_order: custom
           sync_mode: sync
           minimum_items: 1
-          sort_title: "!020_1_Plex In-History"
+          sort_title: "!020_0_1_Plex In-History"
           file_poster: /config/assets/posters/chart/This Month in Movie History.png
           summary: "Same month, different marquee. A birthday party for movies that made their entrance this time of year. 🎞️"
 

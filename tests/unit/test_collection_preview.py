@@ -68,6 +68,15 @@ class CollectionPreviewTests(unittest.TestCase):
         self.assertIn("LGBTQ+ Movies", names)
         self.assertIn("Top Rated in Mindfuck", names)
 
+    def test_theme_preview_rejects_change_webhooks(self) -> None:
+        """Keep the notification workaround empty in fixture and production themes."""
+        changed = copy.deepcopy(self.themes)
+        changed["templates"]["ranked_theme"]["changes_webhooks"] = [
+            "https://example.invalid/webhook"
+        ]
+        with self.assertRaises(ValueError):
+            preview.rule_names(self.genres, changed)
+
     def test_sunday_theme_keywords(self) -> None:
         """Keep each Sunday theme tied to its named native TMDb keywords."""
         expected = {

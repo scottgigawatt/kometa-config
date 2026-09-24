@@ -20,6 +20,12 @@ templates:
     limit: 250
     sort_title: "!061_<<collection_name>>"
     sync_mode: sync
+
+    #
+    # Large membership changes exceed Discord embed limits in Kometa 2.5.0.
+    # Keep run/error notifications; omit only per-theme membership notifications.
+    #
+    changes_webhooks: []
     visible_home: false
     visible_library: false
     visible_shared: false

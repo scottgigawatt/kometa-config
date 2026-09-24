@@ -8,8 +8,12 @@
 
 """Check the production Neo contract without credentials or service access."""
 
+import copy
+import importlib
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import Mock, patch
 
 from ruamel.yaml import YAML
 
@@ -95,12 +99,12 @@ class PattrmmSettingsTests(unittest.TestCase):
                 names.add(collection["name"])
         self.assertEqual(len(names), 4)
 
-    def test_collection_posters_and_legacy_sort_positions(self) -> None:
+    def test_collection_posters_and_sort_positions(self) -> None:
         """Keep Neo in the original chart section with explicit local artwork."""
         expected = {
-            "Movies by Size": ("!020_2_Movies by Size", "Movies by Size.png"),
+            "Movies by Size": ("!020_0_2_Movies by Size", "Movies by Size.png"),
             "This Month in Movie History": (
-                "!020_1_Plex In-History",
+                "!020_0_1_Plex In-History",
                 "This Month in Movie History.png",
             ),
             "This Month in TV History": (
@@ -133,3 +137,56 @@ class PattrmmSettingsTests(unittest.TestCase):
         for library in self.config["libraries"].values():
             for entry in library.get("overlay_files", []):
                 self.assertNotIn("generated/pattrmm", str(entry))
+
+    def test_movie_chart_group_order(self) -> None:
+        """Keep both Neo movie charts together between recent additions and Tracearr."""
+        yaml = YAML(typ="safe")
+        recent = yaml.load(Path("/workspace/movies/recently-added.yml").read_text())
+        shared = yaml.load(Path("/defaults/templates.yml").read_text())
+        tracearr = yaml.load(Path("/defaults/chart/tracearr.yml").read_text())
+        importlib.import_module("modules.builder")
+        meta = importlib.import_module("modules.meta")
+        renderer = meta.DataFile.__new__(meta.DataFile)
+        renderer.templates = {
+            key: (value, {}) for key, value in shared["templates"].items()
+        }
+        renderer.library = SimpleNamespace(type="Movie", name="Fixture movies")
+        renderer.data_type = "Collection"
+        renderer.temp_vars = next(
+            entry["template_variables"]
+            for entry in self.config["libraries"]["Movies"]["collection_files"]
+            if entry.get("default") == "tracearr"
+        )
+        titles = {
+            name: definition["sort_title"]
+            for name, definition in recent["collections"].items()
+        }
+        for entry in self.settings["libraries"]["Movies"]:
+            collection = next(iter(entry.values()))["collection"]
+            titles[collection["name"]] = collection["sort_title"]
+
+        #
+        # Expand the actual pinned Defaults so changes to its prefix contract fail.
+        #
+        for name in ("Tracearr Popular", "Tracearr Watched"):
+            definition = tracearr["collections"][name]
+            with patch.object(meta, "logger", Mock()):
+                rendered = renderer.apply_template(
+                    None,
+                    name,
+                    {},
+                    [{"name": "shared"}],
+                    copy.deepcopy(definition["variables"]),
+                )
+            titles[rendered["name"]] = rendered["sort_title"]
+        self.assertEqual(
+            sorted(titles, key=titles.get),
+            [
+                "New Movie Releases",
+                "Old Movies Just Added",
+                "This Month in Movie History",
+                "Movies by Size",
+                "Plex Popular",
+                "Plex Watched",
+            ],
+        )

@@ -173,9 +173,19 @@ libraries:
           use_imdb_top_250: true
           use_oscars: true
           use_cannes: true
-          visible_library_top_250: true
-          visible_home_top_250: true
-          visible_shared_top_250: true
+          visible_library_top_500: true
+          visible_home_top_500: true
+          visible_shared_top_500: true
+
+          #
+          # Exclude unresolved movie records only from these Letterboxd charts.
+          # Recheck provider mappings before removing these exclusions.
+          #
+          ignore_ids:
+            - 712168   # Top 250 Black-Directed: unresolved movie record
+            - 753972   # Top 250 Black-Directed: unresolved movie record
+            - 1016041  # 1,001 To See Before You Die and Top 250 Black-Directed
+            - 1567451  # One Million Watched Club: unresolved movie record
 
       #
       # Use default holiday rules only where local seasonal files do not own the name.
@@ -561,6 +571,7 @@ playlist_files:
 
 #
 # Set shared defaults; library, template, and collection overrides take precedence.
+# Preserve explicit null settings in deployment copies to retain upstream defaults.
 #
 settings:
 
@@ -590,7 +601,7 @@ settings:
   #
   sync_mode: append
   minimum_items: 1
-  default_collection_order:
+  default_collection_order: null
   delete_below_minimum: true
   delete_not_scheduled: false
 
@@ -619,7 +630,7 @@ settings:
   # Verify HTTPS certificates and use Kometa's default repository resolution.
   #
   verify_ssl: true
-  custom_repo:
+  custom_repo: null
 
   #
   # Save rendered overlay posters as JPEGs at the selected quality level.
@@ -632,8 +643,8 @@ settings:
   #
   show_unconfigured: true
   show_unfiltered: false
-  auto_sort_hubs:
-  playlist_exclude_users:
+  auto_sort_hubs: null
+  playlist_exclude_users: null
 
   #
   # Update metadata before building collections and rendering ratings-dependent artwork.
@@ -656,7 +667,7 @@ plex:
   clean_bundles: false
   empty_trash: false
   optimize: false
-  verify_ssl:
+  verify_ssl: null
 
 #
 # Read viewing activity from Tracearr for the popular and watched collections.
