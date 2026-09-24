@@ -82,9 +82,9 @@ collections:
 
   #
   # Rank each show's local episodes separately so one fandom cannot fill the collection.
-  # episode_critic_rating targets the episode; critic_rating would filter its parent show.
+  # episode_audience_rating targets the episode; audience_rating would filter its parent show.
   # Keep five episodes per show at 8.5 or above; absent ratings never qualify.
-  # The rating source is whatever Plex already stores; this does not rewrite episode metadata.
+  # Use the audience scores Plex stores for episodes; do not rewrite episode metadata.
   # Empty per-show searches must not abort the first build; they remain visible as warnings.
   # Source: https://kometa.wiki/en/latest/files/builders/plex/search/
   #
@@ -94,19 +94,19 @@ collections:
       poster: tvs-greatest-episodes
       order: "02"
     builder_level: episode
-    collection_order: critic_rating.desc
+    collection_order: audience_rating.desc
     ignore_blank_results: true
     summary: "The beautifully timed joke, the devastating reveal, the hour you immediately want to talk about. Standout episodes across comedy, animation, drama, and science fiction; some surprises are best revisited after the full story."
     plex_search:
       - all:
           title.is: 30 Rock
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           title.is: Adventure Time
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           any:
@@ -115,68 +115,68 @@ collections:
               - Battlestar Galactica (2004)
           year.gte: 2004
           year.lte: 2004
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           title.is: Better Call Saul
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           title.is: Breaking Bad
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           title.is: Brooklyn Nine-Nine
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           title.is: Friends
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           title.is: Mad Men
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           title.is: Parks and Recreation
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           title.is: Rick and Morty
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           title.is: Schitt's Creek
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           title.is: Six Feet Under
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           title.is: "Star Trek: Deep Space Nine"
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           title.is: "Star Trek: The Next Generation"
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           title.is: The Golden Girls
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           any:
@@ -185,28 +185,28 @@ collections:
               - The Office (US)
           year.gte: 2005
           year.lte: 2005
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           title.is: The Sopranos
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           title.is: The Wire
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           title.is: The X-Files
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
       - all:
           title.is: What We Do in the Shadows
-          episode_critic_rating.gte: 8.5
-        sort_by: critic_rating.desc
+          episode_audience_rating.gte: 8.5
+        sort_by: audience_rating.desc
         limit: 5
 
   #
