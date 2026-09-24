@@ -85,6 +85,7 @@ class MidnightTVTests(unittest.TestCase):
         renderer.library = library
 
         self.assertEqual(definition["builder_level"], "episode")
+        self.assertEqual(definition["collection_order"], "audience_rating.desc")
         searches = definition["plex_search"]
         self.assertTrue(searches)
         titles = [
@@ -95,20 +96,20 @@ class MidnightTVTests(unittest.TestCase):
         for search in searches:
             with self.subTest(search=search):
                 self.assertEqual(search["limit"], 5)
-                self.assertEqual(search["sort_by"], "critic_rating.desc")
-                self.assertEqual(search["all"]["episode_critic_rating.gte"], 8.5)
-                self.assertNotIn("critic_rating.gte", search["all"])
+                self.assertEqual(search["sort_by"], "audience_rating.desc")
+                self.assertEqual(search["all"]["episode_audience_rating.gte"], 8.5)
+                self.assertNotIn("audience_rating.gte", search["all"])
                 item_type, _, query = renderer.build_filter("plex_search", dict(search))
                 self.assertEqual(item_type, 4)
-                self.assertIn("type=4&limit=5&sort=rating%3Adesc", query)
-                self.assertIn("episode.rating", query)
-                self.assertNotIn("show.rating", query)
+                self.assertIn("type=4&limit=5&sort=audienceRating%3Adesc", query)
+                self.assertIn("episode.audienceRating", query)
+                self.assertNotIn("show.audienceRating", query)
                 if "any" in search["all"]:
                     self.assertIn("or=1&show.title", query)
 
         self.assertEqual(
-            library.get_search_key("episode_critic_rating", libtype="episode"),
-            "episode.rating",
+            library.get_search_key("episode_audience_rating", libtype="episode"),
+            "episode.audienceRating",
         )
         self.assertEqual(
             library.get_search_key("title", libtype="episode"), "show.title"
