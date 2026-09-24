@@ -1,0 +1,55 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# midnight-series-requests.yml: Request complete parent series for Midnight Cinema episode selections.
+#
+
+#
+# Episode collections cannot send Sonarr requests, so this whole-show helper owns them.
+# Do not create a Plex collection or alter the adjacent themed collection block.
+# Parent IDs cover every Greatest Episodes candidate and both story arcs, independently of local episodes.
+# TVDb IDs were verified through TMDb show searches and /tv/{id}/external_ids on 2026-09-24.
+# Source: https://developer.themoviedb.org/reference/tv-series-external-ids
+#
+collections:
+  Midnight Cinema Series Requests:
+    builder_level: show
+    build_collection: false
+    sync_mode: append
+
+    #
+    # Add and search new series, including series partially present in Plex.
+    # Revisit cached additions to monitor all regular episodes in existing Sonarr series.
+    # Kometa searches new additions only; existing Sonarr series are monitored without a new search.
+    #
+    sonarr_add_missing: true
+    sonarr_add_existing: true
+    sonarr_monitor: all
+    sonarr_monitor_existing: true
+    sonarr_search: true
+    sonarr_ignore_cache: true
+    sonarr_upgrade_existing: false
+    sonarr_cutoff_search: false
+    tvdb_show:
+      - 79488   # 30 Rock (2006)
+      - 152831  # Adventure Time (2010)
+      - 73545   # Battlestar Galactica (2004)
+      - 273181  # Better Call Saul (2015)
+      - 81189   # Breaking Bad (2008)
+      - 269586  # Brooklyn Nine-Nine (2013)
+      - 79168   # Friends (1994)
+      - 80337   # Mad Men (2007)
+      - 84912   # Parks and Recreation (2009)
+      - 275274  # Rick and Morty (2013)
+      - 287247  # Schitt's Creek (2015)
+      - 75450   # Six Feet Under (2001)
+      - 72073   # Star Trek: Deep Space Nine (1993)
+      - 71470   # Star Trek: The Next Generation (1987)
+      - 71292   # The Golden Girls (1985)
+      - 73244   # The Office (2005)
+      - 75299   # The Sopranos (1999)
+      - 79126   # The Wire (2002)
+      - 77398   # The X-Files (1993)
+      - 358211  # What We Do in the Shadows (2019)

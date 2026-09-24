@@ -8,7 +8,7 @@
 
 #
 # Source links document research and editorial inspiration; Kometa never reads them.
-# Membership is fixed here and matches only existing Plex movies by TMDb movie ID.
+# Membership is fixed here; missing movies are requested from Radarr by TMDb movie ID.
 # Years identify original premieres, which may precede TMDb's main theatrical date.
 #
 templates:
@@ -20,8 +20,20 @@ templates:
     minimum_items: 3
     collection_mode: hide
     visible_library: true
-    visible_home: false
-    visible_shared: false
+    visible_home: true
+    visible_shared: true
+
+    #
+    # Add missing selections with monitoring and an initial search; retain quality defaults.
+    # Cached or existing Radarr entries can be monitored but are not searched again by Kometa.
+    #
+    radarr_add_missing: true
+    radarr_add_existing: false
+    radarr_search: true
+    radarr_monitor: true
+    radarr_monitor_existing: true
+    radarr_ignore_cache: true
+    radarr_upgrade_existing: false
 
 collections:
 

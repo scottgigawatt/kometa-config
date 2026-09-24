@@ -122,9 +122,57 @@ class MidnightCollectionTests(unittest.TestCase):
                 with self.subTest(key=key, inherited=inherited):
                     changed = copy.deepcopy(self.curated)
                     group = changed["templates" if inherited else "collections"]
-                    next(iter(group.values()))[key] = True
+                    target = next(iter(group.values()))
+                    target[key] = target.get(key) is not True
                     with self.assertRaises(ValueError):
                         preview.midnight_names(changed)
+
+    def test_acquisition_free_copy_preserves_membership_and_source(self) -> None:
+        """Strip approved production requests without changing builders or source objects."""
+        for source in self.sources.values():
+            original = copy.deepcopy(source)
+            rendered = preview.midnight_preview(source)
+            self.assertEqual(source, original)
+            for group in ("templates", "collections"):
+                for name, definition in source[group].items():
+                    expected = {
+                        key: value
+                        for key, value in definition.items()
+                        if not key.startswith(("radarr_", "sonarr_"))
+                    }
+                    for key in ("visible_home", "visible_shared"):
+                        if key in expected:
+                            expected[key] = False
+                    self.assertEqual(rendered[group][name], expected)
+            preview.midnight_names(source)
+
+    def test_acquisition_policy_rejects_partial_and_untyped_overrides(self) -> None:
+        """Never sanitize an unreviewed download policy into an apparently safe preview."""
+        for original, group, name, key in (
+            (self.curated, "templates", "midnight_curated", "radarr_search"),
+            (self.television, "collections", "Weekend Miniseries", "sonarr_search"),
+        ):
+            for invalid in (None, False, "true", 1):
+                with self.subTest(name=name, value=invalid):
+                    source = copy.deepcopy(original)
+                    if invalid is None:
+                        del source[group][name][key]
+                    else:
+                        source[group][name][key] = invalid
+                    with self.assertRaises(ValueError):
+                        preview.midnight_names(source)
+
+    def test_episode_and_discovery_definitions_cannot_acquire_media(self) -> None:
+        """Keep requests out of episode builders and owned-media discovery rules."""
+        for original, name in (
+            (self.television, "TV's Greatest Episodes"),
+            (self.discovery, "Hidden Gems"),
+            (self.discovery, "Director's Cuts & Extended Editions"),
+        ):
+            source = copy.deepcopy(original)
+            source["collections"][name]["sonarr_add_missing"] = True
+            with self.subTest(name=name), self.assertRaises(ValueError):
+                preview.midnight_names(source)
 
     def test_unknown_local_template_is_rejected(self) -> None:
         """Do not silently accept unresolved or externally supplied template names."""
@@ -133,14 +181,14 @@ class MidnightCollectionTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             preview.midnight_names(self.curated)
 
-    def test_shared_home_overrides_are_rejected(self) -> None:
-        """Fixture collections must stay off home screens even through overrides."""
+    def test_home_promotion_cannot_be_disabled_in_production(self) -> None:
+        """Keep all production collections promoted while preview copies stay private."""
         for key in ("visible_home", "visible_shared"):
             for inherited in (False, True):
                 with self.subTest(key=key, inherited=inherited):
                     changed = copy.deepcopy(self.curated)
                     group = changed["templates" if inherited else "collections"]
-                    next(iter(group.values()))[key] = True
+                    next(iter(group.values()))[key] = False
                     with self.assertRaises(ValueError):
                         preview.midnight_names(changed)
 
@@ -314,8 +362,8 @@ class MidnightCollectionTests(unittest.TestCase):
                                 "/config/assets/posters/midnight-cinema/"
                             )
                         )
-                        self.assertIs(rendered["visible_home"], False)
-                        self.assertIs(rendered["visible_shared"], False)
+                        self.assertIs(rendered["visible_home"], True)
+                        self.assertIs(rendered["visible_shared"], True)
                         if rendered.get("builder_level") == "episode":
                             self.assertNotIn("minimum_items", rendered)
                         else:
@@ -416,6 +464,27 @@ class MidnightCollectionTests(unittest.TestCase):
 
             def completed_run(*args, **kwargs) -> None:
                 """Create a fresh successful log without connecting to any Plex server."""
+                for filename in (
+                    "midnight-curated.yml",
+                    "midnight-discovery.yml",
+                    "midnight-cinema.yml",
+                ):
+                    rendered = self.yaml.load(runtime.joinpath(filename).read_text())
+                    for group in ("templates", "collections"):
+                        for definition in rendered[group].values():
+                            for key in ("visible_home", "visible_shared"):
+                                if key in definition:
+                                    self.assertIs(definition[key], False)
+                            self.assertFalse(
+                                any(
+                                    key.startswith(("radarr_", "sonarr_"))
+                                    for key in definition
+                                )
+                            )
+                self.assertNotIn(
+                    "midnight-series-requests",
+                    runtime.joinpath("config.yml").read_text(),
+                )
                 runtime.joinpath("logs").mkdir()
                 runtime.joinpath("logs/meta.log").write_text(
                     "\n".join(f"| {name} | 1 | 1 | 0 | 0 | Created |" for name in names)

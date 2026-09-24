@@ -57,8 +57,8 @@ def preview_names(franchises, config, smoke, shows) -> list[str]:
                 {"file": "/workspace/movies/top-rated-subgenres.yml"},
                 {"file": "/workspace/movies/cities.yml"},
                 {"file": "/workspace/movies/universes.yml"},
-                {"file": "/workspace/movies/midnight-curated.yml"},
-                {"file": "/workspace/movies/midnight-discovery.yml"},
+                {"file": "/config/midnight-curated.yml"},
+                {"file": "/config/midnight-discovery.yml"},
                 {"file": "/config/holiday-movies.yml"},
                 {"file": "/workspace/tests/kometa/smoke-collections.yml"},
             ]
@@ -66,7 +66,7 @@ def preview_names(franchises, config, smoke, shows) -> list[str]:
         "test_tv_lib": {
             "collection_files": [
                 {"file": "/workspace/shows/animation-and-sitcoms.yml"},
-                {"file": "/workspace/shows/midnight-cinema.yml"},
+                {"file": "/config/midnight-cinema.yml"},
                 {"file": "/config/holiday-episodes.yml"},
                 {"file": "/workspace/tests/kometa/smoke-collections.yml"},
             ]
@@ -839,8 +839,72 @@ def tv_seasonal_preview(seasonal) -> dict:
     return result
 
 
+def midnight_preview(source: dict) -> dict:
+    """Remove approved acquisition and home promotion from a fixture copy.
+
+    Args:
+        source: Authored Midnight Cinema definitions, including production requests.
+
+    Returns:
+        A deep copy with Arr attributes removed and home promotion disabled.
+
+    Raises:
+        ValueError: If a production policy is unexpected, partial, or on the wrong scope.
+        TypeError: If a collection or template is not a mapping.
+    """
+    result = copy.deepcopy(source)
+    movie_policy = {
+        "radarr_add_missing": True,
+        "radarr_add_existing": False,
+        "radarr_search": True,
+        "radarr_monitor": True,
+        "radarr_monitor_existing": True,
+        "radarr_ignore_cache": True,
+        "radarr_upgrade_existing": False,
+    }
+    show_policy = {
+        "sonarr_add_missing": True,
+        "sonarr_add_existing": True,
+        "sonarr_search": True,
+        "sonarr_monitor": "all",
+        "sonarr_monitor_existing": True,
+        "sonarr_ignore_cache": True,
+        "sonarr_upgrade_existing": False,
+        "sonarr_cutoff_search": False,
+    }
+    for group in ("templates", "collections"):
+        for name, definition in result.get(group, {}).items():
+            if not isinstance(definition, dict):
+                raise TypeError("Midnight Cinema definitions must be mappings.")
+            arr = {
+                key: value
+                for key, value in definition.items()
+                if key.startswith(("radarr_", "sonarr_"))
+            }
+            expected = {}
+            if group == "templates" and name == "midnight_curated":
+                expected = movie_policy
+            elif group == "collections" and name == "Weekend Miniseries":
+                expected = show_policy
+            if set(arr) != set(expected) or any(
+                type(arr[key]) is not type(value) or arr[key] != value
+                for key, value in expected.items()
+            ):
+                raise ValueError("Unexpected Midnight Cinema acquisition policy.")
+            for key in arr:
+                del definition[key]
+            for key in ("visible_home", "visible_shared"):
+                if key in definition:
+                    if definition[key] is not True:
+                        raise ValueError(
+                            "Midnight Cinema requires production home promotion."
+                        )
+                    definition[key] = False
+    return result
+
+
 def midnight_names(source: dict) -> list[str]:
-    """Reject external membership sources and side effects in the discovery block.
+    """Validate membership and approved acquisition before checking a safe copy.
 
     Args:
         source: One repository-owned Midnight Cinema collection file.
@@ -855,6 +919,7 @@ def midnight_names(source: dict) -> list[str]:
         raise ValueError(
             "Midnight Cinema must use only local templates and collections."
         )
+    source = midnight_preview(source)
     presentation = {
         "file_poster",
         "sort_title",
@@ -1149,8 +1214,8 @@ def main() -> None:
             )
 
         #
-        # Render only the guarded holiday copy into private runtime storage.
-        # All membership and presentation inputs remain identical to the source.
+        # Render guarded holiday and acquisition-free Midnight copies into private storage.
+        # Preserve membership and posters while keeping previews off user home screens.
         #
         yaml = YAML()
         seasonal = yaml.load(
@@ -1163,6 +1228,17 @@ def main() -> None:
         yaml.dump(
             tv_seasonal_preview(tv_seasonal), Path("/config/holiday-episodes.yml")
         )
+        for filename in (
+            "movies/midnight-curated.yml",
+            "movies/midnight-discovery.yml",
+            "shows/midnight-cinema.yml",
+        ):
+            authored = yaml.load((Path("/workspace") / filename).read_text())
+            midnight_names(authored)
+            yaml.dump(
+                midnight_preview(authored),
+                Path(f"/config/{Path(filename).name}"),
+            )
         log_path = Path("/config/logs/meta.log")
         previous = log_path.stat().st_mtime_ns if log_path.exists() else None
         subprocess.run(

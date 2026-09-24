@@ -17,8 +17,8 @@ templates:
     sync_mode: sync
     collection_mode: hide
     visible_library: true
-    visible_home: false
-    visible_shared: false
+    visible_home: true
+    visible_shared: true
 
 collections:
 
@@ -38,6 +38,20 @@ collections:
     builder_level: show
     minimum_items: 3
     collection_order: alpha
+
+    #
+    # Add and search new series, including series partially present in Plex.
+    # Revisit cached additions to monitor all regular episodes in existing Sonarr series.
+    # Kometa searches new additions only; existing Sonarr series are monitored without a new search.
+    #
+    sonarr_add_missing: true
+    sonarr_add_existing: true
+    sonarr_monitor: all
+    sonarr_monitor_existing: true
+    sonarr_search: true
+    sonarr_ignore_cache: true
+    sonarr_upgrade_existing: false
+    sonarr_cutoff_search: false
     filters:
       tmdb_type: miniseries
       tmdb_status: ended
