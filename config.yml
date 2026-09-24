@@ -178,8 +178,8 @@ libraries:
           visible_shared_top_500: true
 
           #
-          # Skip unresolved movie IDs from the reviewed run, only in these charts.
-          # See docs/run-warnings.md before changing or removing these exclusions.
+          # Exclude unresolved movie records only from these Letterboxd charts.
+          # Recheck provider mappings before removing these exclusions.
           #
           ignore_ids:
             - 712168   # Top 250 Black-Directed: unresolved movie record
