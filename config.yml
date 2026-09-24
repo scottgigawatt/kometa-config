@@ -239,9 +239,9 @@ libraries:
           minimum_items: 3
 
           #
-          # Use the local DC poster because the upstream DCEU image is unavailable.
+          # Use a distinct DCEU poster while retaining the blue DC collection theme.
           #
-          file_poster_dceu: /config/assets/posters/franchise/DC Universe.jpg
+          file_poster_dceu: /config/assets/posters/franchise/DC Extended Universe.jpg
           append_data:
             star: Star Wars Saga
 
