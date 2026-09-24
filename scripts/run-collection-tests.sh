@@ -8,7 +8,7 @@
 # run-collection-tests.sh: Preview movie and TV collection builders in Plex fixtures.
 #
 # Purpose: Reuse production definitions without overlays, downloads, or list writes.
-# Usage: KOMETA_IMAGE=<image> TEST_ENV=<path> scripts/run-collection-tests.sh [--seasonal-only | --tv-seasonal-only | --subgenres-only]
+# Usage: KOMETA_IMAGE=<image> TEST_ENV=<path> scripts/run-collection-tests.sh [--seasonal-only | --tv-seasonal-only | --subgenres-only | --midnight-only]
 #
 
 #
@@ -63,6 +63,9 @@ docker run --rm \
     --env-file "$test_environment" \
     --mount "type=bind,src=$runtime_directory,dst=/config" \
     --mount "type=bind,src=$repository_root/assets,dst=/config/assets,readonly" \
+    --mount "type=bind,src=$repository_root/movies/midnight-curated.yml,dst=/workspace/movies/midnight-curated.yml,readonly" \
+    --mount "type=bind,src=$repository_root/movies/midnight-discovery.yml,dst=/workspace/movies/midnight-discovery.yml,readonly" \
+    --mount "type=bind,src=$repository_root/shows/midnight-cinema.yml,dst=/workspace/shows/midnight-cinema.yml,readonly" \
     --mount "type=bind,src=$repository_root/movies/franchises.yml,dst=/workspace/movies/franchises.yml,readonly" \
     --mount "type=bind,src=$repository_root/movies/genres.yml,dst=/workspace/movies/genres.yml,readonly" \
     --mount "type=bind,src=$repository_root/movies/top-rated-subgenres.yml,dst=/workspace/movies/top-rated-subgenres.yml,readonly" \

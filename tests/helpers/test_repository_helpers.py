@@ -119,6 +119,7 @@ class MakefileTests(unittest.TestCase):
             "test-subgenres": "collections --subgenres-only",
             "test-seasonal": "collections --seasonal-only",
             "test-tv-seasonal": "collections --tv-seasonal-only",
+            "test-midnight": "collections --midnight-only",
             "lint-ci": "lint-ci",
         }
         for target, expected in routes.items():

@@ -1,0 +1,251 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# midnight-curated.yml: Repository-owned film selections for the Midnight Cinema block.
+#
+
+#
+# Source links document research and editorial inspiration; Kometa never reads them.
+# Membership is fixed here and matches only existing Plex movies by TMDb movie ID.
+# Years identify original premieres, which may precede TMDb's main theatrical date.
+#
+templates:
+  midnight_curated:
+    sort_title: "!020_2_<<position>>_<<collection_name>>"
+    file_poster: /config/assets/posters/midnight-cinema/<<poster>>.jpg
+    sync_mode: sync
+    collection_order: release
+    minimum_items: 3
+    collection_mode: hide
+    visible_library: true
+    visible_home: false
+    visible_shared: false
+
+collections:
+
+  #
+  # Completed feature debuts, including joint debuts; shorts do not disqualify a director.
+  # Criterion first-film programming informs the selection; later breakthroughs are excluded.
+  # https://www.criterion.com/shop/collection/103-first-films/list
+  # https://www.bfi.org.uk/bfi-funded-productions/aftersun
+  #
+  Impressive First Features:
+    template:
+      name: midnight_curated
+      position: "01"
+      poster: impressive-first-features
+    summary: "Bold beginnings, fresh voices, and filmmakers announcing themselves with a fully formed world. Everybody starts somewhere; some start with a small earthquake."
+    tmdb_movie:
+      - 15      # Citizen Kane (1941); Orson Welles
+      - 5801    # Pather Panchali (1955); Satyajit Ray
+      - 3112    # The Night of the Hunter (1955); Charles Laughton
+      - 389     # 12 Angry Men (1957); Sidney Lumet
+      - 147     # The 400 Blows (1959); François Truffaut
+      - 269     # Breathless (1960); Jean-Luc Godard
+      - 10331   # Night of the Living Dead (1968); George A. Romero
+      - 3133    # Badlands (1973); Terrence Malick
+      - 985     # Eraserhead (1977); David Lynch
+      - 11368   # Blood Simple (1984); Joel Coen
+      - 13820   # Repo Man (1984); Alex Cox
+      - 5683    # Pee-wee's Big Adventure (1985); Tim Burton
+      - 13446   # Withnail & I (1987); Bruce Robinson
+      - 16094   # House Party (1990); Reginald Hudlin
+      - 650     # Boyz n the Hood (1991); John Singleton
+      - 11655   # Cronos (1993); Guillermo del Toro
+      - 9905    # Shallow Grave (1994); Danny Boyle
+      - 13685   # Bottle Rocket (1996); Wes Anderson
+      - 9303    # Bound (1996); Lana and Lilly Wachowski
+      - 44479   # The Watermelon Woman (1996); Cheryl Dunye
+      - 11660   # Following (1998); Christopher Nolan
+      - 37636   # High Art (1998); Lisa Cholodenko
+      - 492     # Being John Malkovich (1999); Spike Jonze
+      - 1443    # The Virgin Suicides (1999); Sofia Coppola
+      - 55      # Amores Perros (2000); Alejandro G. Iñárritu
+      - 19348   # Girlfight (2000); Karyn Kusama
+      - 14295   # You Can Count on Me (2000); Kenneth Lonergan
+      - 19316   # Saving Face (2004); Alice Wu
+      - 375742  # The Lure (2015); Agnieszka Smoczyńska
+      - 965150  # Aftersun (2022); Charlotte Wells
+
+  #
+  # An editorial mix of queer underground film, reclaimed camp, and New Queer Cinema.
+  # Select individual works rather than including every film by a queer filmmaker.
+  # https://www.bfi.org.uk/features/where-begin-with-new-queer-cinema
+  # https://www.bfi.org.uk/features/where-begin-john-waters
+  # https://www.bfi.org.uk/lists/10-great-drag-films
+  # https://www.criterion.com/films/29647
+  #
+  Queer Cult Cinema:
+    template:
+      name: midnight_curated
+      position: "02"
+      poster: queer-cult-cinema
+    summary: "Outsiders, chosen families, dangerous desires, and glorious bad taste. Queer rebellion takes the stage in underground landmarks, unruly camp, and midnight favorites."
+    tmdb_movie:
+      - 42497  # Pink Narcissus (1971)
+      - 692    # Pink Flamingos (1972)
+      - 14267  # Female Trouble (1974)
+      - 36685  # The Rocky Horror Picture Show (1975)
+      - 14262  # Desperate Living (1977)
+      - 14269  # Polyester (1981)
+      - 294    # Desert Hearts (1985)
+      - 20537  # Caravaggio (1986)
+      - 11054  # Hairspray (1988)
+      - 97049  # Tongues Untied (1989)
+      - 31225  # Paris Is Burning (1990)
+      - 43654  # Edward II (1991)
+      - 468    # My Own Private Idaho (1991)
+      - 47620  # Poison (1991)
+      - 54934  # Swoon (1992)
+      - 33247  # The Living End (1992)
+      - 33560  # Totally F***ed Up (1993)
+      - 18620  # Go Fish (1994)
+      - 2759   # The Adventures of Priscilla, Queen of the Desert (1994)
+      - 13552  # The Doom Generation (1995)
+      - 9303   # Bound (1996)
+      - 44479  # The Watermelon Woman (1996)
+      - 1811   # Nowhere (1997)
+      - 37636  # High Art (1998)
+      - 1808   # Velvet Goldmine (1998)
+      - 20770  # But I'm a Cheerleader (1999)
+      - 13403  # Hedwig and the Angry Inch (2001)
+      - 540    # D.E.B.S. (2004)
+      - 11171  # Mysterious Skin (2004)
+      - 19994  # Jennifer's Body (2009)
+
+  #
+  # An editorial selection for expressive color, design, animation, and visual invention.
+  # BFI discussions of The Fall and Paprika inform the visual criteria, not a fixed ranking.
+  # https://whatson.bfi.org.uk/imax/Online/default.asp?BOparam::WScontent::loadArticle::permalink=fall-restored-directors-cut
+  # https://www.bfi.org.uk/lists/go-west-8-japanese-classics-western-films-inspired-them
+  #
+  Visually Insane:
+    template:
+      name: midnight_curated
+      position: "03"
+      poster: visually-insane
+    summary: "Impossible worlds, fearless color, and images that refuse to behave. Dream logic, dazzling animation, and extravagant design turn the screen into a spectacle."
+    tmdb_movie:
+      - 19542   # The Red Shoes (1948)
+      - 5967    # The Umbrellas of Cherbourg (1964)
+      - 62      # 2001: A Space Odyssey (1968)
+      - 26302   # The Color of Pomegranates (1969)
+      - 16306   # Fantastic Planet (1973)
+      - 8327    # The Holy Mountain (1973)
+      - 25623   # House (1977)
+      - 11906   # Suspiria (1977)
+      - 41077   # Son of the White Mare (1981)
+      - 149     # Akira (1988)
+      - 14002   # Baraka (1992)
+      - 8843    # The Cell (2000)
+      - 79      # Hero (2002)
+      - 1494    # Curse of the Golden Flower (2006)
+      - 4977    # Paprika (2006)
+      - 14784   # The Fall (2006)
+      - 1381    # The Fountain (2006)
+      - 7459    # Speed Racer (2008)
+      - 34647   # Enter the Void (2009)
+      - 71883   # Redline (2009)
+      - 22538   # Scott Pilgrim vs. the World (2010)
+      - 20526   # TRON: Legacy (2010)
+      - 89708   # Samsara (2011)
+      - 120467  # The Grand Budapest Hotel (2014)
+      - 76341   # Mad Max: Fury Road (2015)
+      - 335984  # Blade Runner 2049 (2017)
+      - 460885  # Mandy (2018)
+      - 324857  # Spider-Man: Into the Spider-Verse (2018)
+      - 545611  # Everything Everywhere All at Once (2022)
+      - 569094  # Spider-Man: Across the Spider-Verse (2023)
+
+  #
+  # Film production, craft, preservation, and exhibition are central subjects in these stories.
+  # Combine documentary accounts with fictional portraits of making and showing movies.
+  # https://www.criterion.com/films/546-burden-ofdreams
+  # https://player.bfi.org.uk/subscription/film/watch-8-12-1963-online
+  # https://www.criterion.com/current/posts/4420-cameraperson-getting-close
+  # https://www.festival-cannes.com/en/f/filmworker/
+  #
+  Behind the Scenes:
+    template:
+      name: midnight_curated
+      position: "04"
+      poster: behind-the-scenes
+    summary: "Cameras roll while budgets collapse, egos collide, and impossible ideas somehow become movies. Meet the dreamers, craftspeople, and devoted obsessives behind the screen."
+    tmdb_movie:
+      - 26317   # Man with a Movie Camera (1929)
+      - 599     # Sunset Boulevard (1950)
+      - 872     # Singin' in the Rain (1952)
+      - 422     # 8½ (1963)
+      - 1675    # Day for Night (1973)
+      - 42124   # Burden of Dreams (1982)
+      - 11216   # Cinema Paradiso (1988)
+      - 4539    # Hearts of Darkness: A Filmmaker's Apocalypse (1991)
+      - 10403   # The Player (1992)
+      - 522     # Ed Wood (1994)
+      - 9071    # Living in Oblivion (1995)
+      - 14242   # American Movie (1999)
+      - 11353   # Bowfinger (1999)
+      - 2757    # Adaptation. (2002)
+      - 21189   # Lost in La Mancha (2002)
+      - 16070   # This Film Is Not Yet Rated (2006)
+      - 4953    # Be Kind Rewind (2008)
+      - 44826   # Hugo (2011)
+      - 74643   # The Artist (2011)
+      - 110354  # Side by Side (2012)
+      - 191720  # Jodorowsky's Dune (2013)
+      - 279992  # Lost Soul: The Doomed Journey of Richard Stanley's Island of Dr. Moreau (2014)
+      - 216529  # Doomed! The Untold Story of Roger Corman's The Fantastic Four (2015)
+      - 376534  # Cameraperson (2016)
+      - 270487  # Hail, Caesar! (2016)
+      - 458080  # Filmworker (2017)
+      - 513434  # One Cut of the Dead (2017)
+      - 371638  # The Disaster Artist (2017)
+      - 615777  # Babylon (2022)
+      - 804095  # The Fabelmans (2022)
+
+  #
+  # An editorial selection about memory, grief, identity, moral choices, and lasting connection.
+  # BFI and filmmaker commentary inform the mood; this is not an externally ranked list.
+  # https://www.bfi.org.uk/bfi-funded-productions/aftersun
+  # https://www.bfi.org.uk/sight-and-sound/reviews/all-us-strangers-andrew-haighs-glorious-magic-realist-meditation-grief
+  # https://apnews.com/article/1aeb350862bc33d2c7d6e5dce6f56c29
+  #
+  Movies That Stay With You:
+    template:
+      name: midnight_curated
+      position: "05"
+      poster: movies-that-stay-with-you
+    summary: "Memories that change shape, love that leaves a mark, and choices without easy answers. The credits end; the conversation with yourself keeps going."
+    tmdb_movie:
+      - 3782    # Ikiru (1952)
+      - 655     # Paris, Texas (1984)
+      - 25237   # Come and See (1985)
+      - 144     # Wings of Desire (1987)
+      - 12477   # Grave of the Fireflies (1988)
+      - 37165   # The Truman Show (1998)
+      - 843     # In the Mood for Love (2000)
+      - 641     # Requiem for a Dream (2000)
+      - 38      # Eternal Sunshine of the Spotless Mind (2004)
+      - 9693    # Children of Men (2006)
+      - 582     # The Lives of Others (2006)
+      - 4960    # Synecdoche, New York (2008)
+      - 46738   # Incendies (2010)
+      - 42188   # Never Let Me Go (2010)
+      - 60243   # A Separation (2011)
+      - 62215   # Melancholia (2011)
+      - 8967    # The Tree of Life (2011)
+      - 152601  # Her (2013)
+      - 329865  # Arrival (2016)
+      - 334541  # Manchester by the Sea (2016)
+      - 376867  # Moonlight (2016)
+      - 428449  # A Ghost Story (2017)
+      - 394117  # The Florida Project (2017)
+      - 531428  # Portrait of a Lady on Fire (2019)
+      - 502033  # Sound of Metal (2019)
+      - 660120  # The Worst Person in the World (2021)
+      - 965150  # Aftersun (2022)
+      - 994108  # All of Us Strangers (2023)
+      - 666277  # Past Lives (2023)
+      - 976893  # Perfect Days (2023)

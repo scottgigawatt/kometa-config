@@ -1,0 +1,241 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# midnight-cinema.yml: Curated miniseries, local episode highlights, and ordered story arcs.
+#
+
+#
+# Keep the minimum on whole-show definitions; Kometa forbids it for episode collections.
+# Episode collections inherit the library minimum instead.
+#
+templates:
+  midnight:
+    file_poster: /config/assets/posters/midnight-cinema/<<poster>>.jpg
+    sort_title: "!020_2_<<order>>_<<collection_name>>"
+    sync_mode: sync
+    collection_mode: hide
+    visible_library: true
+    visible_home: false
+    visible_shared: false
+
+collections:
+
+  #
+  # Own this selection locally; do not follow a changing third-party list.
+  # TMDb /tv/{id} and every regular /season/{number} were checked on 2026-09-23.
+  # All entries are ended miniseries with complete episode runtimes totaling <=600 minutes.
+  # Totals below sum every regular episode, excluding behind-the-scenes specials.
+  # Type and status filters drop any selection subsequently renewed as an ongoing series.
+  # Source: https://developer.themoviedb.org/reference/tv-season-details
+  #
+  Weekend Miniseries:
+    template:
+      name: midnight
+      poster: weekend-miniseries
+      order: "01"
+    builder_level: show
+    minimum_items: 3
+    collection_order: alpha
+    filters:
+      tmdb_type: miniseries
+      tmdb_status: ended
+    summary: "Complete stories for a weekend: intimate portraits, tangled mysteries, historical reckonings, and extraordinary lives. A beginning, an ending, and time to come up for air."
+    tmdb_show:
+      - 79299   # A Very English Scandal (2018); 3 episodes, 173 minutes
+      - 72615   # Alias Grace (2017); 6 episodes, 276 minutes
+      - 11245   # Angels in America (2003); 6 episodes, 375 minutes
+      - 155537  # Black Bird (2022); 6 episodes, 360 minutes
+      - 87108   # Chernobyl (2019); 5 episodes, 331 minutes
+      - 110695  # Dopesick (2021); 8 episodes, 492 minutes
+      - 73467   # Godless (2017); 7 episodes, 452 minutes
+      - 116174  # It's a Sin (2021); 5 episodes, 233 minutes
+      - 81224   # Les Misérables (2018); 6 episodes, 360 minutes
+      - 111141  # Maid (2021); 10 episodes, 545 minutes
+      - 83605   # Mrs. America (2020); 9 episodes, 447 minutes
+      - 61585   # Olive Kitteridge (2014); 4 episodes, 243 minutes
+      - 78881   # Picnic at Hanging Rock (2018); 6 episodes, 330 minutes
+      - 70453   # Sharp Objects (2018); 8 episodes, 430 minutes
+      - 90972   # Station Eleven (2021); 10 episodes, 517 minutes
+      - 66276   # The Night Of (2016); 8 episodes, 530 minutes
+      - 16997   # The Pacific (2010); 10 episodes, 534 minutes
+      - 87739   # The Queen's Gambit (2020); 7 episodes, 395 minutes
+      - 91275   # Unbelievable (2019); 8 episodes, 388 minutes
+      - 99581   # Unorthodox (2020); 4 episodes, 213 minutes
+      - 81355   # When They See Us (2019); 4 episodes, 300 minutes
+      - 87104   # Years and Years (2019); 6 episodes, 345 minutes
+
+  #
+  # Rank each show's local episodes separately so one fandom cannot fill the collection.
+  # episode_critic_rating targets the episode; critic_rating would filter its parent show.
+  # Keep five episodes per show at 8.5 or above; absent ratings never qualify.
+  # The rating source is whatever Plex already stores; this does not rewrite episode metadata.
+  # Empty per-show searches must not abort the first build; they remain visible as warnings.
+  # Source: https://kometa.wiki/en/latest/files/builders/plex/search/
+  #
+  TV's Greatest Episodes:
+    template:
+      name: midnight
+      poster: tvs-greatest-episodes
+      order: "02"
+    builder_level: episode
+    collection_order: critic_rating.desc
+    ignore_blank_results: true
+    summary: "The beautifully timed joke, the devastating reveal, the hour you immediately want to talk about. Standout episodes across comedy, animation, drama, and science fiction; some surprises are best revisited after the full story."
+    plex_search:
+      - all:
+          title.is: 30 Rock
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          title.is: Adventure Time
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          any:
+            title.is:
+              - Battlestar Galactica
+              - Battlestar Galactica (2004)
+          year.gte: 2004
+          year.lte: 2004
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          title.is: Better Call Saul
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          title.is: Breaking Bad
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          title.is: Brooklyn Nine-Nine
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          title.is: Friends
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          title.is: Mad Men
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          title.is: Parks and Recreation
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          title.is: Rick and Morty
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          title.is: Schitt's Creek
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          title.is: Six Feet Under
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          title.is: "Star Trek: Deep Space Nine"
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          title.is: "Star Trek: The Next Generation"
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          title.is: The Golden Girls
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          any:
+            title.is:
+              - The Office
+              - The Office (US)
+          year.gte: 2005
+          year.lte: 2005
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          title.is: The Sopranos
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          title.is: The Wire
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          title.is: The X-Files
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+      - all:
+          title.is: What We Do in the Shadows
+          episode_critic_rating.gte: 8.5
+        sort_by: critic_rating.desc
+        limit: 5
+
+  #
+  # Keep the TNG encounters together, including Picard's recovery in Family.
+  # Use TVDb aired order, with each two-part story kept complete and consecutive.
+  # Sources: https://www.startrek.com/videos/doc-borgvideo-part3
+  # https://www.paramountplus.com/shows/star_trek_the_next_generation/episodes/
+  # https://thetvdb.com/series/star-trek-the-next-generation/allseasons/official
+  #
+  "TV Story Arcs: Star Trek — The Borg":
+    template:
+      name: midnight
+      poster: tv-story-arcs-borg
+      order: "03"
+    builder_level: episode
+    collection_order: custom
+    summary: "Picard and the Enterprise confront an enemy that erases individuality, then discover the people behind the machinery. From Q's reckless introduction through assimilation, recovery, Hugh, and Lore: the Borg's Next Generation story."
+    text:
+      - "tvdb_episode:71470_2_16"  # Star Trek: The Next Generation (1987) S02E16 - Q Who?
+      - "tvdb_episode:71470_3_26"  # Star Trek: The Next Generation (1987) S03E26 - The Best of Both Worlds (1)
+      - "tvdb_episode:71470_4_1"   # Star Trek: The Next Generation (1987) S04E01 - The Best of Both Worlds (2)
+      - "tvdb_episode:71470_4_2"   # Star Trek: The Next Generation (1987) S04E02 - Family
+      - "tvdb_episode:71470_5_23"  # Star Trek: The Next Generation (1987) S05E23 - I, Borg
+      - "tvdb_episode:71470_6_26"  # Star Trek: The Next Generation (1987) S06E26 - Descent (1)
+      - "tvdb_episode:71470_7_1"   # Star Trek: The Next Generation (1987) S07E01 - Descent (2)
+
+  #
+  # A focused opening arc, not a claim to include the entire X-Files mythology.
+  # Preserve both paired investigations: the salvaged aircraft and the Russian experiments.
+  # TVDb aired episode numbers were cross-checked against TMDb show 4087.
+  # Sources: https://thetvdb.com/series/the-x-files/seasons/official/3
+  # https://thetvdb.com/series/the-x-files/seasons/official/4
+  #
+  "TV Story Arcs: The X-Files — Black Oil Begins":
+    template:
+      name: midnight
+      poster: tv-story-arcs-x-files
+      order: "04"
+    builder_level: episode
+    collection_order: custom
+    summary: "A sunken wartime aircraft and a fragment from Siberia open two investigations into a terrifying infection. Mulder, Scully, and Krycek follow the first trails of the black oil, while powerful people work to keep its purpose hidden."
+    text:
+      - "tvdb_episode:77398_3_15"  # The X-Files (1993) S03E15 - Piper Maru
+      - "tvdb_episode:77398_3_16"  # The X-Files (1993) S03E16 - Apocrypha
+      - "tvdb_episode:77398_4_8"   # The X-Files (1993) S04E08 - Tunguska
+      - "tvdb_episode:77398_4_9"   # The X-Files (1993) S04E09 - Terma

@@ -26,6 +26,7 @@ TEST_COLLECTIONS=test-collections
 TEST_SUBGENRES=test-subgenres
 TEST_SEASONAL=test-seasonal
 TEST_TV_SEASONAL=test-tv-seasonal
+TEST_MIDNIGHT=test-midnight
 
 #
 # Internal target names.
@@ -53,7 +54,8 @@ PROJECT_TARGETS= \
 	$(TEST_COLLECTIONS) \
 	$(TEST_SUBGENRES) \
 	$(TEST_SEASONAL) \
-	$(TEST_TV_SEASONAL)
+	$(TEST_TV_SEASONAL) \
+	$(TEST_MIDNIGHT)
 
 #
 # Internal targets.
@@ -202,6 +204,7 @@ $(HELP):
 	$(call help_line,$(TEST_SUBGENRES),Preview all ranked movie themes.)
 	$(call help_line,$(TEST_SEASONAL),Preview seasonal movie collections.)
 	$(call help_line,$(TEST_TV_SEASONAL),Preview TV holiday episodes.)
+	$(call help_line,$(TEST_MIDNIGHT),Preview the Midnight Cinema collection block.)
 	$(call help_heading,CI and help)
 	$(call help_line,$(LINT_CI),Run hooks against files present in a sparse CI checkout.)
 	$(call help_line,$(HELP),Show this guide without starting services.)
@@ -273,6 +276,14 @@ $(TEST_SEASONAL):
 #
 $(TEST_TV_SEASONAL):
 	@$(TEST_COLLECTIONS_CMD) --tv-seasonal-only
+
+#
+# $(TEST_MIDNIGHT): Preview the themed movie and TV collections without overlays.
+#
+# Dependencies: Docker, TEST_ENV, and both configured Plex test libraries.
+#
+$(TEST_MIDNIGHT):
+	@$(TEST_COLLECTIONS_CMD) --midnight-only
 
 #
 # $(LINT_CI): Run pre-commit against files present in a sparse CI checkout.
