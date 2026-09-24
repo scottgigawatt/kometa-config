@@ -25,7 +25,7 @@ libraries:
             - dceu
           minimum_items: 3
           use_separator: false
-          file_poster_dceu: /config/assets/posters/franchise/DC Universe.jpg
+          file_poster_dceu: /config/assets/posters/franchise/DC Extended Universe.jpg
     overlay_files:
       - file: config/overlays/chart-award-ribbons.yml
       - file: config/overlays/corner-background.yml

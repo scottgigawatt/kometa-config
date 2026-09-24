@@ -273,7 +273,7 @@ class CollectionPresentationTests(unittest.TestCase):
         self.assertEqual(rendered["schedule"], ["weekly(sunday)", "weekly(thursday)"])
 
     def test_dceu_uses_local_artwork_in_pinned_defaults(self) -> None:
-        """Prefer the tracked DC poster over the unavailable upstream image."""
+        """Select the dedicated DCEU artwork instead of reusing the DC Universe poster."""
         config = self.yaml.load((self.root / "config.yml").read_text())
         variables = next(
             entry["template_variables"]
@@ -301,7 +301,7 @@ class CollectionPresentationTests(unittest.TestCase):
         )
         self.assertEqual(
             rendered["file_poster"],
-            "/config/assets/posters/franchise/DC Universe.jpg",
+            "/config/assets/posters/franchise/DC Extended Universe.jpg",
         )
         self.assertNotIn("url_poster", rendered)
         self.assertEqual(rendered["sort_title"], "!106_DC Extended Universe")
