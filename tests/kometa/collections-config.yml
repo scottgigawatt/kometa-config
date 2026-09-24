@@ -21,6 +21,8 @@ libraries:
       - file: /workspace/movies/top-rated-subgenres.yml
       - file: /workspace/movies/cities.yml
       - file: /workspace/movies/universes.yml
+      - file: /config/midnight-curated.yml
+      - file: /config/midnight-discovery.yml
 
       #
       # Load the guarded runtime copy with no Radarr attributes or scheduled deletion.
@@ -34,6 +36,7 @@ libraries:
   test_tv_lib:
     collection_files:
       - file: /workspace/shows/animation-and-sitcoms.yml
+      - file: /config/midnight-cinema.yml
 
       #
       # Preview individual holiday episodes without Sonarr or scheduled deletion.

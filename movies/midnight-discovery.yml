@@ -1,0 +1,77 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# Licensed under the Apache License, Version 2.0.
+#
+# midnight-discovery.yml: Discover overlooked movies and alternate editions locally.
+#
+
+templates:
+
+  #
+  # Keep the Midnight Cinema block after Tracearr and before the chart collections.
+  #
+  midnight_discovery:
+    file_poster: /config/assets/posters/midnight-cinema/<<poster>>.jpg
+    sort_title: "!020_2_<<order>>_<<collection_name>>"
+    sync_mode: sync
+    collection_mode: hide
+    collection_order: random
+    minimum_items: 3
+    visible_library: true
+    visible_home: true
+    visible_shared: true
+
+collections:
+
+  #
+  # Search only owned movies. Watch state belongs to Kometa's connected Plex user.
+  # Release age and a bounded vote count distinguish discoveries from recent hits.
+  # https://kometa.wiki/en/latest/files/filters/
+  #
+  Hidden Gems:
+    template:
+      name: midnight_discovery
+      poster: hidden-gems
+      order: "06"
+    summary: "Quiet triumphs, unexpected delights, and stories that deserve another moment in the spotlight. Your next favorite might be hiding in plain sight. 💎"
+    plex_search:
+      all:
+        unplayed: true
+        release.not: 730
+      sort_by: random
+      limit: 250
+    filters:
+      tmdb_vote_average.gte: 7
+      tmdb_vote_count.gte: 100
+      tmdb_vote_count.lte: 2500
+    limit: 25
+
+  #
+  # Match the edition of the owned copy, not a film that merely has another cut.
+  # Exact names avoid treating every restored or special edition as a longer cut.
+  # https://kometa.wiki/en/latest/files/builders/plex/search/
+  #
+  Director's Cuts & Extended Editions:
+    template:
+      name: midnight_discovery
+      poster: directors-cuts-and-extended-editions
+      order: "07"
+    summary: "More scenes, different choices, and familiar stories seen through another lens. Settle in for the version with a little more to say. ✂️"
+    collection_order: title.asc
+    plex_search:
+      any:
+        edition.is:
+          - Director's Cut
+          - Directors Cut
+          - Extended
+          - Extended Cut
+          - Extended Edition
+          - Extended Version
+          - Extended Director's Cut
+          - Ultimate Director's Cut
+          - Final Cut
+          - The Final Cut
+          - The Richard Donner Cut
+          - 2006 Richard Donner Cut
+          - Unrated Extended Cut

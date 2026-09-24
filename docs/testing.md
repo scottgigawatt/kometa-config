@@ -23,12 +23,19 @@ These commands connect to Plex and modify only the named test libraries.
 | Command | What it previews | Fixture libraries |
 | --- | --- | --- |
 | `make test-library` | Smoke collections, the default DCEU collection, and complete custom overlay sets | Movies and TV |
-| `make test-collections` | Guarded franchises, genres, themes, cities, universes, curated TV, and holidays | Movies and TV |
+| `make test-collections` | Guarded franchises, genres, themes, cities, universes, curated TV, holidays, and Midnight Cinema | Movies and TV |
 | `make test-subgenres` | All 101 ranked movie themes | Movies |
 | `make test-seasonal` | Thirteen holiday movie collections | Movies |
 | `make test-tv-seasonal` | Halloween, Thanksgiving, and Christmas episodes | TV |
+| `make test-midnight` | Midnight Cinema movie discovery, curated films, miniseries, and episode selections | Movies and TV |
 
-Movie and TV fixture names are `test_movie_lib` and `test_tv_lib`. The scoped collection previews ignore schedules so out-of-season results can be reviewed. They disable scheduled deletion in private runtime copies and reject download clients or external list writers. They do not load production playlists, mass-update operations, or PATTRMM output.
+Movie and TV fixture names are `test_movie_lib` and `test_tv_lib`. The scoped collection previews ignore schedules so out-of-season results can be reviewed. They disable scheduled deletion in private runtime copies and reject download-client connections or external list writers. They do not load production playlists, mass-update operations, or PATTRMM output.
+
+Midnight Cinema uses repository-owned movie and episode selections plus local discovery rules. Its source and posters live in `movies/midnight-curated.yml`, `movies/midnight-discovery.yml`, `shows/midnight-cinema.yml`, and `assets/posters/midnight-cinema/`. Source comments record curation references; updating a referenced website does not change the curated membership. Hidden Gems uses the connected Plex account's watch state. Edition collections require the correct edition labels on the owned copies.
+
+The five curated movie collections add missing selections to Radarr, monitor them, and search on first addition. Weekend Miniseries and the non-visible `shows/midnight-series-requests.yml` definition request full series through Sonarr with all episodes monitored. The latter covers the twenty candidate shows used by Greatest Episodes, including both story-arc parents. Existing Arr entries are monitored but Kometa does not start another search for them; missing files already registered in Arr need a search there. Quality profiles and root folders come from the existing library integration settings. Hidden Gems and alternate editions only search owned Plex media, so they have no missing-title requests.
+
+The fixture runner checks the exact approved production acquisition settings, then removes them from private copies. All three visible collection files enable `visible_home` and `visible_shared` in production; previews override both to false so fixture collections stay off user home screens. It never loads the series request helper or any Arr connection. These previews verify collection behavior without triggering downloads; acquisition parsing and scope are checked offline against the pinned runtime.
 
 The collection runner loads a deliberate subset of source files, not every collection in the repository. Weekly Shuffle, people collections, pre-rolls, and production charts are not included in `make test-collections`. Pre-rolls change a server-wide setting and must not be enabled in a fixture run.
 

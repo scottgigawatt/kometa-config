@@ -57,6 +57,8 @@ def preview_names(franchises, config, smoke, shows) -> list[str]:
                 {"file": "/workspace/movies/top-rated-subgenres.yml"},
                 {"file": "/workspace/movies/cities.yml"},
                 {"file": "/workspace/movies/universes.yml"},
+                {"file": "/config/midnight-curated.yml"},
+                {"file": "/config/midnight-discovery.yml"},
                 {"file": "/config/holiday-movies.yml"},
                 {"file": "/workspace/tests/kometa/smoke-collections.yml"},
             ]
@@ -64,6 +66,7 @@ def preview_names(franchises, config, smoke, shows) -> list[str]:
         "test_tv_lib": {
             "collection_files": [
                 {"file": "/workspace/shows/animation-and-sitcoms.yml"},
+                {"file": "/config/midnight-cinema.yml"},
                 {"file": "/config/holiday-episodes.yml"},
                 {"file": "/workspace/tests/kometa/smoke-collections.yml"},
             ]
@@ -836,6 +839,245 @@ def tv_seasonal_preview(seasonal) -> dict:
     return result
 
 
+def midnight_preview(source: dict) -> dict:
+    """Remove approved acquisition and home promotion from a fixture copy.
+
+    Args:
+        source: Authored Midnight Cinema definitions, including production requests.
+
+    Returns:
+        A deep copy with Arr attributes removed and home promotion disabled.
+
+    Raises:
+        ValueError: If a production policy is unexpected, partial, or on the wrong scope.
+        TypeError: If a collection or template is not a mapping.
+    """
+    result = copy.deepcopy(source)
+    movie_policy = {
+        "radarr_add_missing": True,
+        "radarr_add_existing": False,
+        "radarr_search": True,
+        "radarr_monitor": True,
+        "radarr_monitor_existing": True,
+        "radarr_ignore_cache": True,
+        "radarr_upgrade_existing": False,
+    }
+    show_policy = {
+        "sonarr_add_missing": True,
+        "sonarr_add_existing": True,
+        "sonarr_search": True,
+        "sonarr_monitor": "all",
+        "sonarr_monitor_existing": True,
+        "sonarr_ignore_cache": True,
+        "sonarr_upgrade_existing": False,
+        "sonarr_cutoff_search": False,
+    }
+    for group in ("templates", "collections"):
+        for name, definition in result.get(group, {}).items():
+            if not isinstance(definition, dict):
+                raise TypeError("Midnight Cinema definitions must be mappings.")
+            arr = {
+                key: value
+                for key, value in definition.items()
+                if key.startswith(("radarr_", "sonarr_"))
+            }
+            expected = {}
+            if group == "templates" and name == "midnight_curated":
+                expected = movie_policy
+            elif group == "collections" and name == "Weekend Miniseries":
+                expected = show_policy
+            if set(arr) != set(expected) or any(
+                type(arr[key]) is not type(value) or arr[key] != value
+                for key, value in expected.items()
+            ):
+                raise ValueError("Unexpected Midnight Cinema acquisition policy.")
+            for key in arr:
+                del definition[key]
+            for key in ("visible_home", "visible_shared"):
+                if key in definition:
+                    if definition[key] is not True:
+                        raise ValueError(
+                            "Midnight Cinema requires production home promotion."
+                        )
+                    definition[key] = False
+    return result
+
+
+def midnight_names(source: dict) -> list[str]:
+    """Validate membership and approved acquisition before checking a safe copy.
+
+    Args:
+        source: One repository-owned Midnight Cinema collection file.
+
+    Returns:
+        Collection names safe to include in the isolated fixture preview.
+
+    Raises:
+        ValueError: If templates, builders, artwork paths, or writes are unsafe.
+    """
+    if set(source) != {"templates", "collections"}:
+        raise ValueError(
+            "Midnight Cinema must use only local templates and collections."
+        )
+    source = midnight_preview(source)
+    presentation = {
+        "file_poster",
+        "sort_title",
+        "sync_mode",
+        "collection_mode",
+        "collection_order",
+        "minimum_items",
+        "visible_library",
+        "visible_home",
+        "visible_shared",
+        "builder_level",
+        "schedule",
+    }
+    builders = {"tmdb_movie", "tmdb_show", "plex_search", "text"}
+    definitions = (
+        presentation
+        | builders
+        | {"template", "summary", "filters", "limit", "ignore_blank_results"}
+    )
+    templates = source["templates"]
+    if not templates or not source["collections"]:
+        raise ValueError("Midnight Cinema needs local templates and collections.")
+
+    #
+    # An allowlist rejects list builders, remote assets, metadata edits, and writers.
+    # Templates are checked separately because inherited attributes can mutate Plex.
+    #
+    for template in templates.values():
+        if not isinstance(template, dict) or set(template) - presentation:
+            raise ValueError("Unexpected Midnight Cinema template behavior.")
+        if (
+            template.get("sync_mode") != "sync"
+            or template.get("visible_home") is not False
+            or template.get("visible_shared") is not False
+            or ("minimum_items" in template and template["minimum_items"] != 3)
+        ):
+            raise ValueError("Midnight Cinema requires bounded fixture presentation.")
+        poster = template.get("file_poster", "")
+        if (
+            not poster.startswith("/config/assets/posters/midnight-cinema/")
+            or ".." in poster
+        ):
+            raise ValueError("Midnight Cinema artwork must remain in its local folder.")
+        if not template.get("sort_title", "").startswith("!020_2_"):
+            raise ValueError("Midnight Cinema must sort after Tracearr.")
+    for name, definition in source["collections"].items():
+        if "|" in name or set(definition) - definitions:
+            raise ValueError("Unexpected Midnight Cinema source or writer behavior.")
+        calls = definition.get("template")
+        calls = calls if isinstance(calls, list) else [calls]
+        if not calls or any(
+            not isinstance(call, dict)
+            or call.get("name") not in templates
+            or any(not isinstance(value, (str, int)) for value in call.values())
+            for call in calls
+        ):
+            raise ValueError(
+                "Midnight Cinema requires explicit local template variables."
+            )
+        effective = {}
+        for call in calls:
+            effective.update(templates[call["name"]])
+        effective.update(
+            {key: value for key, value in definition.items() if key != "template"}
+        )
+        if (
+            effective.get("visible_home") is not False
+            or effective.get("visible_shared") is not False
+        ):
+            raise ValueError(
+                "Fixture collections must not appear on shared home screens."
+            )
+        if "ignore_blank_results" in definition and (
+            name != "TV's Greatest Episodes"
+            or definition["ignore_blank_results"] is not True
+            or effective.get("builder_level") != "episode"
+            or "plex_search" not in definition
+        ):
+            raise ValueError("Empty-search tolerance is limited to episode highlights.")
+        if effective.get("builder_level") == "episode":
+            if "minimum_items" in effective:
+                raise ValueError("Episode collections do not support minimum_items.")
+        elif effective.get("minimum_items") != 3:
+            raise ValueError("Movie and show collections require a three-item minimum.")
+        if effective.get("sync_mode") != "sync":
+            raise ValueError("Midnight Cinema must keep its sync policy.")
+        variables = {
+            key: value for call in calls for key, value in call.items() if key != "name"
+        }
+        variables["collection_name"] = name
+        poster = effective.get("file_poster", "")
+        sort_title = effective.get("sort_title", "")
+        for key, value in variables.items():
+            poster = poster.replace(f"<<{key}>>", str(value))
+            sort_title = sort_title.replace(f"<<{key}>>", str(value))
+        if not re.fullmatch(
+            r"/config/assets/posters/midnight-cinema/[a-z0-9-]+\.jpg", poster
+        ):
+            raise ValueError(
+                "Midnight Cinema requires a named local poster without path traversal."
+            )
+        if not re.fullmatch(r"!020_2_[0-9]{2}_.+", sort_title) or "<<" in sort_title:
+            raise ValueError("Midnight Cinema must stay together after Tracearr.")
+        if "text" in definition:
+            entries = definition["text"]
+            if (
+                effective.get("builder_level") != "episode"
+                or not isinstance(entries, list)
+                or not entries
+                or any(
+                    not isinstance(value, str)
+                    or not re.fullmatch(
+                        r"tvdb_episode:[1-9]\d*_(?:0|[1-9]\d*)_[1-9]\d*", value
+                    )
+                    for value in entries
+                )
+                or len(entries) != len(set(entries))
+            ):
+                raise ValueError(
+                    "Story arcs require unique explicit episode references, never URLs."
+                )
+        if not set(definition) & builders:
+            raise ValueError("Midnight Cinema requires a local query or explicit IDs.")
+        for builder in ("tmdb_movie", "tmdb_show"):
+            if builder not in definition:
+                continue
+            ids = definition[builder]
+            if (
+                not isinstance(ids, list)
+                or not ids
+                or any(type(value) is not int or value <= 0 for value in ids)
+                or len(ids) != len(set(ids))
+            ):
+                raise ValueError("Curated IDs must be unique positive integers.")
+    check_id_comments(source["collections"], "tmdb_movie")
+    check_id_comments(source["collections"], "tmdb_show")
+    return list(source["collections"])
+
+
+def load_midnight(source: Path) -> list[str]:
+    """Load the three authored collection files without following external sources.
+
+    Args:
+        source: Root of the credential-free repository snapshot.
+
+    Returns:
+        Names in the movie and TV Midnight Cinema blocks.
+    """
+    names = []
+    for filename in (
+        "movies/midnight-curated.yml",
+        "movies/midnight-discovery.yml",
+        "shows/midnight-cinema.yml",
+    ):
+        names.extend(midnight_names(YAML().load((source / filename).read_text())))
+    return names
+
+
 def load_preview(source: Path) -> tuple[list[str], dict]:
     """Load preview sources and validate their behavior and readable ID comments.
 
@@ -870,6 +1112,7 @@ def load_preview(source: Path) -> tuple[list[str], dict]:
     names.extend(location_universe_names(cities, universes))
     names.extend(seasonal_names(seasonal))
     names.extend(tv_seasonal_names(tv_seasonal))
+    names.extend(load_midnight(source))
     check_id_comments(franchises["collections"], "tmdb_collection")
     check_id_comments(shows["collections"], "tmdb_show")
     check_id_comments(genres["collections"], "tmdb_keyword")
@@ -937,6 +1180,7 @@ def main() -> None:
     scope.add_argument("--seasonal-only", action="store_true")
     scope.add_argument("--tv-seasonal-only", action="store_true")
     scope.add_argument("--subgenres-only", action="store_true")
+    scope.add_argument("--midnight-only", action="store_true")
     args = parser.parse_args()
     selected, preview = load_preview(Path("/workspace"))
     library_args = []
@@ -957,6 +1201,8 @@ def main() -> None:
             ]
         )
         library_args = ["--libraries", "test_movie_lib"]
+    if args.midnight_only:
+        selected = load_midnight(Path("/workspace"))
     if args.run:
         #
         # Check the copied runtime as well as source before enabling Plex writes.
@@ -968,8 +1214,8 @@ def main() -> None:
             )
 
         #
-        # Render only the guarded holiday copy into private runtime storage.
-        # All membership and presentation inputs remain identical to the source.
+        # Render guarded holiday and acquisition-free Midnight copies into private storage.
+        # Preserve membership and posters while keeping previews off user home screens.
         #
         yaml = YAML()
         seasonal = yaml.load(
@@ -982,6 +1228,17 @@ def main() -> None:
         yaml.dump(
             tv_seasonal_preview(tv_seasonal), Path("/config/holiday-episodes.yml")
         )
+        for filename in (
+            "movies/midnight-curated.yml",
+            "movies/midnight-discovery.yml",
+            "shows/midnight-cinema.yml",
+        ):
+            authored = yaml.load((Path("/workspace") / filename).read_text())
+            midnight_names(authored)
+            yaml.dump(
+                midnight_preview(authored),
+                Path(f"/config/{Path(filename).name}"),
+            )
         log_path = Path("/config/logs/meta.log")
         previous = log_path.stat().st_mtime_ns if log_path.exists() else None
         subprocess.run(

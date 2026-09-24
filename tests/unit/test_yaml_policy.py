@@ -78,12 +78,15 @@ class YamlPolicyTests(unittest.TestCase):
         """Resolve local source wiring after renames without reading private runtime state."""
 
         #
-        # Collection previews generate these two guarded copies from tracked source.
+        # Collection previews generate these guarded copies from tracked source.
         # Every other local definition must exist in the read-only YAML snapshot.
         #
         generated = {
             "/config/holiday-movies.yml": "scheduled/holiday-movies.yml",
             "/config/holiday-episodes.yml": "shows/holiday-episodes.yml",
+            "/config/midnight-curated.yml": "movies/midnight-curated.yml",
+            "/config/midnight-discovery.yml": "movies/midnight-discovery.yml",
+            "/config/midnight-cinema.yml": "shows/midnight-cinema.yml",
         }
         for name in (
             "config.yml",
