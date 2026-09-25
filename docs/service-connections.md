@@ -4,19 +4,19 @@
   service-connections.md: Configure shared runtime files and Tracearr history.
 -->
 
-# Service connections
+# Service connections 🔌
 
 Keep source templates separate from live connection values. These settings describe the deployment; they are not required for the isolated [test-library configuration](test-libraries.md).
 
 ## Shared configuration
 
-Duplex mounts the deployment checkout at `/config` for both Kometa and PATTRMM. By default, both read the checkout's root `config.yml`. `KOMETA_RUNTIME_CONFIG_PATH` in Duplex's `.env` can select another existing file; it replaces `/config/config.yml` inside both containers.
+The [Plundarr Duplex preset](https://github.com/scottgigawatt/plundarr) mounts the deployment checkout at `/config` for both Kometa and PATTRMM. By default, both read the checkout's root `config.yml`. `KOMETA_RUNTIME_CONFIG_PATH` in Duplex's `.env` can select another existing file; it replaces `/config/config.yml` inside both containers.
 
 Keep the checked-in template free of credentials. Set live values in the deployment copy, and provide literal connection values when PATTRMM needs them; it does not resolve Kometa environment-secret substitutions.
 
 Never copy that private deployment file back into a commit. Both credentials and server addresses follow the [security policy](SECURITY.md).
 
-Use Kometa 2.5.0 or newer with PATTRMM Neo. Generated definitions and paired text lists remain ignored runtime files; edit their authored settings to change their output.
+Use the Kometa runtime pinned in the [Makefile](../Makefile) with PATTRMM Neo.
 
 ## PATTRMM Neo
 
@@ -26,9 +26,9 @@ The [Plundarr Neo service](https://github.com/scottgigawatt/plundarr/blob/main/d
 
 Neo reads literal Plex URL/token and TMDb key, language, and region values from `/config/config.yml`. Keep them private. Its authored settings contain no credentials and select that file through `settings.kometa_config`.
 
-The authored collection settings select local posters from `assets/posters/chart/`. Movie sort titles keep the blue New Movie Releases and Old Movies Just Added collections first, followed by the purple This Month in Movie History and Movies by Size pair in the `!020_0` group, then the Tracearr charts in `!020_1`. TV retains its existing Returning Soon, This Month in TV History, and Tracearr order. Change presentation in `pattrmm/settings.yml`, then run Neo before Kometa so the generated definitions pick it up. Editing the settings alone does not update existing Plex collections.
+Edit names, summaries, local posters, and sort titles in `pattrmm/settings.yml`. Movie history and size collections sit between the release collections and Tracearr charts. TV order is Returning Soon, This Month in TV History, then Tracearr. Run Neo followed by Kometa to apply changes in Plex.
 
-Output belongs in `generated/pattrmm/movies/` and `generated/pattrmm/shows/`. The main Kometa configuration loads those directories. Keep each generated YAML file beside its paired `.txt` file. Returning Soon uses collection-only mode; Neo does not replace or add to the custom overlays.
+Output belongs in `generated/pattrmm/movies/` and `generated/pattrmm/shows/`. The main Kometa configuration loads those directories. Keep each generated YAML file beside its paired `.txt` file. Returning Soon generates a collection only; custom overlays are configured independently.
 
 From the generated Duplex directory, create the output before the first Kometa run:
 
@@ -42,6 +42,6 @@ Confirm every settings run reports `All operations complete` with no failed-sett
 
 Set the `tracearr.url` and Public API key in the deployment's `config.yml`. The URL must be reachable from the Duplex containers; `localhost` refers to the container itself. Leave `server_id` blank for automatic Plex-server selection, or supply the server's Tracearr UUID when selection is ambiguous.
 
-Movie and TV watch-history collections use a 30-day window and up to 25 items. They retain the `Plex Popular` and `Plex Watched` names, with the additional Tracearr charts disabled.
+Movie and TV watch-history collections use a 30-day window and up to 25 items. They are named `Plex Popular` and `Plex Watched`; additional Tracearr charts are disabled.
 
 See the [Tracearr connection reference](https://kometa.wiki/en/latest/config/tracearr/) and [Tracearr chart defaults](https://kometa.wiki/en/latest/defaults/chart/tracearr/).

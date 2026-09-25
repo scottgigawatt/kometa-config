@@ -8,7 +8,7 @@ Keep the root README as an introduction and navigation page. Put operating guide
 
 Preserve GitHub's recognized community filenames: `CONTRIBUTING.md`, `SECURITY.md`, `SUPPORT.md`, and `CODE_OF_CONDUCT.md`. Use lowercase kebab-case for ordinary articles.
 
-Separate one-time setup, repeatable procedures, and detailed reference material. Link to the canonical explanation instead of repeating it. Document the current arrangement, not migrations or superseded workflows.
+Separate one-time setup, repeatable procedures, and detailed reference material. Link to the canonical explanation instead of repeating it. Describe the current supported setup. Omit migration history, superseded paths, and comparisons with past behavior.
 
 ## Write and format clearly
 
@@ -18,7 +18,9 @@ Separate one-time setup, repeatable procedures, and detailed reference material.
 - Write ordinary prose paragraphs on one physical line and let the editor wrap visually.
 - Use descriptive relative links for repository files and specific upstream links for external behavior.
 - Put blank lines around headings, lists, and code fences.
-- Give meaningful alt text to images. Emoji must not carry essential meaning.
+- Give meaningful alt text to images. Use occasional emoji after descriptive headings; words must carry the meaning.
+- Keep movie and TV references brief and relevant. Leave commands, warnings, and security policies literal.
+- Correct misspellings and add genuine project terms to `cSpell.words` in `.vscode/settings.json`; never allowlist a typo.
 
 Keep copyable commands in `sh` fences without prompt characters or explanatory comments. Use `console` for transcripts, `text` for non-executable output, and the appropriate language for configuration snippets. Put explanations outside the fence.
 
@@ -26,7 +28,7 @@ Keep copyable commands in `sh` fences without prompt characters or explanatory c
 
 Use native `[!NOTE]`, `[!TIP]`, `[!IMPORTANT]`, `[!WARNING]`, or `[!CAUTION]` alerts for information readers must notice. Most pages need no more than one or two. Keep alerts separate and concise; do not turn ordinary steps into callouts.
 
-Use task lists in issue and PR templates. Reserve `<details>` for optional diagnostics, never prerequisites or safety warnings. Prefer ordinary Markdown; the root README may use a centered HTML badge and community-link header matching the sibling projects. Keep its lint exceptions local, image alt text descriptive, and status badges tied to real workflows.
+Use task lists in issue and PR templates. Reserve `<details>` for optional diagnostics, never prerequisites or safety warnings. Prefer ordinary Markdown and a small set of useful status badges tied to real workflows. Put the project name and purpose before badges or community links.
 
 ## Verify before publishing
 

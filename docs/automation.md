@@ -1,55 +1,43 @@
-# Repository automation
+# Repository automation ⚙️
 
-Run Make from the repository root with the contributor environment active. Plain `make` and `make help` only print usage; they require neither Docker nor secrets.
+Run Make from the repository root with the [contributor environment](CONTRIBUTING.md#prepare-the-checkout) active. Plain `make` and `make help` print usage without Docker or secrets.
 
 ## Local commands
 
-| Command | Purpose | Runtime access |
+| Command | Purpose | Requirements |
 | --- | --- | --- |
-| `make check` | Complete local gate | No Plex access |
-| `make validate` | Pinned Kometa validation, artwork checks, and container regression tests | Docker; upstream version check may use the network |
-| `make validate-editor` | Refresh the editor config schema and check valid fields, typos, and wrong types | Python; downloads the pinned public schema; no Plex access |
-| `make check-generated` | Reject tracked PATTRMM runtime files | Git only |
-| `make test-make-helpers` | Test Make behavior, documentation links, and community-file placement | Local Python and Make only |
-| `make lint` | All pre-commit hooks | Local files; first use may download tools |
-| `make format` | Safe whitespace and final-newline fixes | Edits tracked source files selected by hooks |
-| `make lint-ci` | Hooks for files present in sparse CI | CI checkout |
+| `make check` | Complete repository gate | Docker and development tools; no Plex access |
+| `make validate` | Kometa validation, artwork checks, and container regression tests | Pinned Docker image; upstream version check may use the network |
+| `make validate-editor` | Refresh editor schemas and test configuration validation | Python and pinned public schemas |
+| `make check-generated` | Reject tracked PATTRMM runtime files | Git |
+| `make test-make-helpers` | Test Make behavior, documentation links, and community-file placement | Python and Make |
+| `make lint` | Run all pre-commit hooks | Development tools; first use may download hook environments |
+| `make format` | Fix whitespace and final newlines | Edits source files selected by hooks |
+| `make lint-ci` | Run hooks for files present in sparse CI | CI checkout |
 
-`make format` runs all three whitespace hooks and returns nonzero if any hook reports changes or errors. Review the edits and run `make check`; failures are not silently ignored.
-
-See [testing](testing.md#choose-a-preview) for the five Plex-mutating preview targets. There are no Make targets to deploy production, print private environment values, remove media, or delete runtime state.
+`make format` returns nonzero when a hook changes files or fails. Review the edits and rerun `make check`. For commands that modify Plex fixtures, use the [preview guide](testing.md#choose-a-preview).
 
 ## Settings and overrides
 
-The [Makefile](../Makefile) centralizes target names, target groups, helper commands, terminal output, and settings. It follows the same structure as Plundarr and Privateerr without importing their service lifecycle commands.
+The [Makefile](../Makefile) defines the supported commands and defaults.
 
-- `KOMETA_IMAGE` selects the exact tag and digest used by validation and previews. Keep the checked-in pin; arbitrary overrides are not the supported validation baseline.
-- `TEST_ENV` selects the private preview environment, defaulting to `.secrets/test.env`. Relative paths resolve from the repository root.
-- `PYTHON_BIN` selects Python for the editor-schema checks and local helper tests. Kometa regression tests still use the pinned container's Python.
-- `NO_COLOR=1` disables terminal colors. Captured output is always plain text.
-
-Helper command variables support isolated tests. Normal operation uses their checked-in defaults; do not replace guarded preview commands with unrestricted production runs.
+- `KOMETA_IMAGE`: Exact runtime tag and digest for validation and previews. Use the checked-in pin for supported validation.
+- `TEST_ENV`: Private preview environment; defaults to `.secrets/test.env`. Relative paths resolve from the repository root.
+- `PYTHON_BIN`: Python for editor-schema checks and local helper tests. Kometa regression tests use the container's Python.
+- `NO_COLOR=1`: Disable terminal colors. Captured output is always plain text.
 
 ## Pull-request checks
 
-[Validation CI](../.github/workflows/validate-pr.yml) uses a sparse text checkout to avoid downloading the artwork library. It runs the same validation, generated-file, and helper gates as `make check`, with `lint-ci` selecting only files present in that checkout.
+[Validation CI](../.github/workflows/validate-pr.yml) runs the configuration, editor, generated-file, helper, lint, and secret checks. Its sparse checkout omits artwork binaries; artwork checks use Git's file inventory.
 
-[CodeQL](../.github/workflows/codeql-actions.yml) uses checked-in Advanced setup with independent Python and GitHub Actions analyses on pull requests, pushes to `main`, and manual dispatch. Keep GitHub Default setup disabled so it does not compete with this workflow. Standard queries need no additional CodeQL configuration file.
-
-The repository ruleset requires the `Validate the Configuration Reels 🎞️` check and CodeQL results. Verify both language analyses for the current commit; passing lint alone is not CodeQL coverage. GitHub Code Quality is a separate product and should not be required unless deliberately enabled.
-
-CodeQL does not connect to Plex or replace configuration validation and secret scanning. Action permissions are limited, checkout credentials are not retained, and action revisions are pinned.
+[CodeQL](../.github/workflows/codeql-actions.yml) analyzes Python and GitHub Actions separately on pull requests, pushes to `main`, and manual runs. Check both analyses and `Validate the Configuration Reels 🎞️` for the current commit before merging. CodeQL complements configuration validation and secret scanning.
 
 ## Dependency updates
 
-[Renovate](../.github/renovate.json5) tracks the Kometa image, three direct editor-schema URLs, GitHub Actions, CI Python, development requirements, and pre-commit hooks. The generated config schema derives its version from the image pin; it has no independent version to update. Runtime and schema updates share a PR; validation checks matching releases. Keep `ruamel.yaml` aligned with the pinned image. VS Code updates extensions separately.
+[Renovate](../.github/renovate.json5) manages the Kometa image, editor-schema URLs, GitHub Actions, CI Python, development requirements, and pre-commit hooks. Runtime and schema updates share a PR; validation checks matching releases. Keep `ruamel.yaml` aligned with the pinned image. VS Code manages extension updates.
 
-Review dependency PRs and their exact-head checks before merging. Do not add a competing Dependabot setup for the same dependencies.
+## Editor schemas
 
-## Editor configuration schema
+Run `make validate-editor` after cloning or updating Kometa; `make check` includes it. Generated schemas are cached under the ignored `.vscode/.schemas/` directory. Reload VS Code if diagnostics do not refresh.
 
-`make validate-editor` generates the ignored `.vscode/.schemas/config-schema.json` from the pinned upstream release. Run it after cloning or updating Kometa; `make check` also runs it. Reload VS Code's window if it retains old diagnostics.
-
-The [schema adapter](../scripts/editor-schema.py) adds only runtime-supported seasonal, universe, and final-overlay-offset fields missing from upstream, plus complete Plex URL secret placeholders. It preserves unknown-property and type checks; regression tests deliberately introduce misspellings and invalid values. The generated file is not deployed or committed. Refreshing it downloads only public schema data and never reads `.secrets/`.
-
-The same target validates both optional rating-overlay files against the unmodified upstream overlay schema, cached under `.vscode/.schemas/overlay-schema.json`. Their queues use named `default` layouts. Offline runtime tests confirm identical coordinates and ordering to list-based queues and reject invalid positions; neither rating file is added to the active overlay set.
+The [schema adapter](../scripts/editor-schema.py) accepts runtime-supported fields missing from upstream while preserving checks for unknown properties and incorrect types. Regression tests verify accepted fields and rejected mistakes. Optional rating-overlay files are checked against the upstream overlay schema and remain outside the active overlay set.

@@ -59,7 +59,7 @@ Use descriptive lowercase kebab-case for human-authored filenames. Name collecti
 
 Use four-space indentation, module and callable docstrings, and explicit return annotations. Document nontrivial helpers with `Args`, `Returns`, and `Raises` sections where applicable. Give every test a short behavioral docstring; use framed comments to explain test groups, setup boundaries, and non-obvious safety checks without narrating each assertion.
 
-Keep local editor dependencies in `requirements-dev.txt`, with `ruamel.yaml` matching the pinned Kometa runtime. Use the ignored `.venv` for editor imports and local lint tools. Regression tests still run inside Kometa through `make validate`; do not suppress missing-import diagnostics to hide an unconfigured interpreter.
+Keep local editor dependencies in `requirements-dev.txt`, with `ruamel.yaml` matching the pinned Kometa runtime. Use the ignored `.venv` for editor imports and local lint tools. Regression tests run inside Kometa through `make validate`; do not suppress missing-import diagnostics to hide an unconfigured interpreter.
 
 ## External lists and assets
 
@@ -83,19 +83,11 @@ make lint
 
 `make validate-editor` generates the ignored `.vscode/.schemas/config-schema.json` from the same runtime version and validates all public base configs. Keep compatibility fixes narrow and runtime-verified; never disable validation or permit arbitrary unknown properties. Add negative tests under `tests/editor/` when extending the schema adapter. CI runs this target through Make.
 
-For changes affecting collection membership or rendered artwork, use the isolated Plex fixtures documented in `docs/testing.md` before running against production:
+For collection membership or artwork changes, use the [isolated preview workflow](docs/testing.md) before running against production. Choose the smallest supported preview that covers the change. Never point test configuration at production library names. Overlay files must be evaluated together; do not use Kometa's `--run-files` option for overlays.
 
-```sh
-make test-library
-```
+Keep collection previews guarded: validate production source before creating private runtime copies, disable scheduled deletion, and omit only explicitly approved download attributes. Reject unexpected writer attributes, download-client connections, and external list writers. Keep production favorites, charts, playlists, and PATTRMM output outside fixture runs. Midnight Cinema's preview must also exclude the series-request helper and hide collections from home and shared screens.
 
-Use `make test-collections` for collection previews without rerunning overlays. It reuses the TMDb builders from `movies/franchises.yml`, the genre rules from `movies/genres.yml`, all 101 searches in `movies/top-rated-subgenres.yml`, the city keywords from `movies/cities.yml`, the four native sources from `movies/universes.yml`, the show-only collections from `shows/animation-and-sitcoms.yml`, and smoke collections in both fixtures. Use `make test-subgenres` to run only all 101 ranked themes in `test_movie_lib`. Ninety themes use TMDb Discover; eleven use native IMDb keyword searches. No personal-list builders or external templates are permitted anywhere in the subgenre file. Themes use a rating floor of 5 and 1,000 votes by default, with explicit per-theme overrides protected by regression tests. Keep every keyword and genre ID query documented with an aligned inline comment and at least two separating spaces. TV membership is maintained as named TMDb show IDs in source, with no external curated-list dependency. The runtime remains isolated under `.kometa-test/collections/`; production favorites, charts, download clients, and external list writers are not loaded.
-
-The collection preview also loads the thirteen holiday movie collections from `scheduled/holiday-movies.yml`. Use `make test-seasonal` to run only those collections in `test_movie_lib`. The runner validates production source before rendering a private runtime copy with scheduled deletion disabled and the five already-false Radarr attributes omitted; Kometa requires a Radarr connection even for false attributes. Do not remove enabled writer attributes to bypass validation. Keep all seasonal Radarr add, search, upgrade, and monitoring flags explicitly false in production source. Vintage Christmas includes first releases through 1979; St. Patrick's Day includes Irish-themed films and the holiday itself.
-
-Never point the test configuration at production library names. Overlay files must be evaluated together; do not use Kometa's `--run-files` option for overlays.
-
-TV holiday collections in `shows/holiday-episodes.yml` use `builder_level: episode`, `plex_all`, and separate title/summary regex filter sets. Match episode metadata, never parent-show metadata. Avoid generic seasonal words and air-date restrictions. Episode collections do not support Sonarr attributes, including false ones; the preview guard rejects all download-client attributes and external builders. Use `make test-tv-seasonal` for the three holidays in `test_tv_lib`. The private runtime copy changes only scheduled deletion, preserving the production rules and artwork. Keep positive, negative, summary-only, and CLI-isolation regression coverage when changing these rules.
+Use the native builders and thresholds defined in source. Subgenres prohibit personal-list builders and external templates. Seasonal movies explicitly disable Radarr additions, searches, upgrades, and monitoring changes. TV holiday collections match episode titles or summaries, never parent-show metadata, and contain no Sonarr attributes. Preserve positive, negative, metadata-boundary, and CLI-isolation regression coverage when changing these rules. See [collection behavior](docs/collections.md) for membership and download settings.
 
 CodeQL uses the checked-in `.github/workflows/codeql-actions.yml` with independent Python and GitHub Actions analyses. Preserve its digest pins, minimal permissions, separate language categories, and framed job/step comments. Keep GitHub Default setup disabled; do not introduce a competing CodeQL workflow or enable separate billable analysis features as part of routine maintenance.
 

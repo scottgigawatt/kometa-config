@@ -6,72 +6,26 @@
   README.md: Introduce the configuration and link to operating guidance.
 -->
 
-<!-- markdownlint-disable-next-line MD033 MD041 -->
-<hr />
-
-<!-- markdownlint-disable MD033 -->
-<p align="center">
-  <em>🍿 Enjoy the feature? Leave a ⭐. The algorithm demands a sequel.</em>
-</p>
-
-<p align="center">
-  <a href="https://github.com/scottgigawatt/kometa-config/stargazers"><img src="https://img.shields.io/github/stars/scottgigawatt/kometa-config?style=social&amp;label=Standing%20Ovations" alt="GitHub stars: Standing Ovations" /></a>
-  <a href="https://github.com/scottgigawatt/kometa-config/forks"><img src="https://img.shields.io/github/forks/scottgigawatt/kometa-config?style=social&amp;label=Spin-offs" alt="GitHub forks: Spin-offs" /></a>
-  <a href="https://github.com/scottgigawatt/kometa-config/watchers"><img src="https://img.shields.io/github/watchers/scottgigawatt/kometa-config?style=social&amp;label=Next%20Episode" alt="GitHub watchers: Next Episode" /></a>
-</p>
-
-<p align="center">
-  <a href="https://kometa.wiki/en/latest/"><img src="https://img.shields.io/badge/Directed%20by-Kometa-7C3AED" alt="Configuration for Kometa" /></a>
-  <a href="./docs/collections.md"><img src="https://img.shields.io/badge/Now%20Showing-Plex%20Collections-E5A00D?logo=plex&amp;logoColor=white" alt="Plex collection configuration" /></a>
-  <a href="./LICENSE"><img src="https://img.shields.io/github/license/scottgigawatt/kometa-config?label=Fine%20Print&amp;color=8250DF" alt="Apache 2.0 source license" /></a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/scottgigawatt/kometa-config/actions/workflows/validate-pr.yml"><img src="https://img.shields.io/github/actions/workflow/status/scottgigawatt/kometa-config/validate-pr.yml?branch=main&amp;label=Screen%20Test&amp;logo=githubactions&amp;logoColor=white" alt="Repository validation status on main" /></a>
-  <a href="https://github.com/scottgigawatt/kometa-config/actions/workflows/codeql-actions.yml"><img src="https://img.shields.io/github/actions/workflow/status/scottgigawatt/kometa-config/codeql-actions.yml?branch=main&amp;label=Security%20Screening&amp;logo=githubactions&amp;logoColor=white" alt="CodeQL analysis status on main" /></a>
-</p>
-
-<p align="center">─── 🎟️ ───</p>
-
-<p align="center">
-  <em>💀 Plot holes in your setup? Meet the supporting cast in <strong>🔥HADES🔥</strong>.</em>
-</p>
-
-<p align="center">
-  <a href="https://discord.gg/BpEGzWwGYf"><img src="https://img.shields.io/discord/1403601106315116626?label=%F0%9F%94%A5HADES%F0%9F%94%A5&amp;logo=discord&amp;logoColor=white&amp;color=5865F2" alt="Join the HADES Discord community" /></a>
-</p>
-<!-- markdownlint-enable MD033 -->
-
-<!-- markdownlint-disable-next-line MD033 -->
-<hr />
-
 # Kometa configuration 🎬
 
-Personal Plex collections, custom overlays, and the checks that keep them ready for their close-up. This repository contains configuration and artwork; [Kometa](https://kometa.wiki/en/latest/) is the application that runs them. Think of it as the production binder, not the projector.
+Personal Plex collections, custom overlays, playlists, and artwork for [Kometa](https://kometa.wiki/en/latest/). Movie franchises, TV comfort watches, and seasonal favorites get their own shelves; the posters get a wardrobe department.
 
-Movie franchises, TV comfort watches, seasonal favorites, and a Weekly Shuffle with actual standards. The posters get a wardrobe department; the YAML gets a script supervisor. Nobody gives Christmas a surprise July cameo. 🍿
+[![Validation on main](https://img.shields.io/github/actions/workflow/status/scottgigawatt/kometa-config/validate-pr.yml?branch=main&label=Validation)](https://github.com/scottgigawatt/kometa-config/actions/workflows/validate-pr.yml)
+[![CodeQL on main](https://img.shields.io/github/actions/workflow/status/scottgigawatt/kometa-config/codeql-actions.yml?branch=main&label=CodeQL)](https://github.com/scottgigawatt/kometa-config/actions/workflows/codeql-actions.yml)
+[![Apache 2.0 license](https://img.shields.io/github/license/scottgigawatt/kometa-config)](LICENSE)
 
 ## Start here 🎟️
 
-1. Follow [contributor setup](docs/CONTRIBUTING.md#prepare-the-checkout) to install the pinned checks.
-2. Run `make check` before changing a deployment.
-3. Prepare the [Plex test libraries](docs/test-libraries.md), then follow the [testing guide](docs/testing.md) for collection or artwork changes.
+This repository supplies configuration for your own Plex and Kometa deployment. Start with the guide for your task:
 
-Run commands from the repository root on your workstation. Plain `make` shows help; it never starts Kometa or changes Plex. Rehearse in the test libraries before opening night.
+- **Explore the setup:** Browse [collections](docs/collections.md), [overlays](docs/overlays.md), and the [documentation index](docs/index.md).
+- **Connect services:** Configure the shared runtime and credentials in [service connections](docs/service-connections.md).
+- **Make a change:** Follow [contributor setup](docs/CONTRIBUTING.md#prepare-the-checkout), then the [testing guide](docs/testing.md). Rehearse before opening night.
+
+Run repository commands from your workstation checkout. Plain `make` lists the available checks and previews.
 
 > [!IMPORTANT]
-> Keep credentials, private server addresses, logs, caches, reports, and generated files out of Git. Test access belongs in the ignored `.secrets/test.env`; production connections belong in private deployment settings. See the [security policy](docs/SECURITY.md).
-
-## Documentation: behind the scenes 📚
-
-The [documentation index](docs/index.md) links to the complete guide.
-
-- [Testing](docs/testing.md): Choose a safe check or preview.
-- [Collection behavior](docs/collections.md): Membership, ordering, schedules, and download boundaries.
-- [Custom overlays](docs/overlays.md): Artwork, fallbacks, and visual review.
-- [Service connections](docs/service-connections.md): Kometa, PATTRMM, and Tracearr.
-- [Automation](docs/automation.md): Make commands, CI, CodeQL, and Renovate.
-- [Contributing](docs/CONTRIBUTING.md), [support](docs/SUPPORT.md), and [code of conduct](docs/CODE_OF_CONDUCT.md).
+> Keep credentials, private server addresses, logs, and generated runtime files out of Git. Use private deployment settings and the ignored `.secrets/test.env` for tests. See the [security policy](docs/SECURITY.md).
 
 ## Artwork and credits 🎨
 
@@ -80,6 +34,10 @@ Explore the custom [subgenre posters](assets/posters/subgenre_top/) and their [c
 ![A selection of custom subgenre collection posters](https://github.com/scottgigawatt/kometa-config/assets/16313565/091fc37c-e9d4-4f8e-8e2c-0b537f46e8c0)
 
 Thanks to [TheChrisK](https://github.com/TheChrisK) for original files and posters, [meisnate12](https://github.com/meisnate12) for Kometa and images, [s0len](https://github.com/s0len) for TV overlays, and [pterisaur](https://github.com/pterisaur) for people posters. Stay for the credits; these people brought the production value.
+
+## Help and contributions
+
+Join [HADES on Discord](https://discord.gg/BpEGzWwGYf) for community help, or use [support](docs/SUPPORT.md) to report an issue. Contributions follow the [contribution guide](docs/CONTRIBUTING.md) and [code of conduct](docs/CODE_OF_CONDUCT.md).
 
 ## License
 

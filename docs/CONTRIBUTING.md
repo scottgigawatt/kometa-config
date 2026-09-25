@@ -28,13 +28,13 @@ Install Git, GNU Make, Docker with a running engine, and Python 3.14 on your wor
    make check
    ```
 
-In VS Code, run **Python: Select Interpreter** and choose `.venv/bin/python`. The selected environment supplies `ruamel.yaml` for editing; regression tests that depend on Kometa run inside the pinned container. Do not hide missing-import diagnostics or add container paths to the editor's search path.
+In VS Code, run **Python: Select Interpreter** and choose `.venv/bin/python`. The selected environment supplies `ruamel.yaml` for editing; regression tests that depend on Kometa run inside the pinned container.
 
-## Make a focused change
+## Make a focused change ✏️
 
 Follow [AGENTS.md](../AGENTS.md), [EditorConfig](../.editorconfig), and the [documentation style guide](documentation-style.md). Use concise, framed comments for non-obvious behavior. Document TMDb IDs by title and year; align related inline comments, leaving two spaces after the longest entry in each group.
 
-Prefer native builders and repository-owned definitions over personal lists maintained by other users. Preserve custom artwork unless the change explicitly concerns artwork. Document the current supported arrangement, not migration history.
+Prefer native builders and repository-owned definitions over personal lists maintained by other users. Preserve custom artwork unless the change explicitly concerns artwork. Write about the current supported setup.
 
 Keep credentials, private URLs, logs, caches, reports, `.secrets/`, and PATTRMM-generated files out of commits. See the [security policy](SECURITY.md) before sharing diagnostics.
 
