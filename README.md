@@ -37,7 +37,7 @@ Thanks to [TheChrisK](https://github.com/TheChrisK) for original files and poste
 
 ## Help and contributions
 
-Join [HADES on Discord](https://discord.gg/BpEGzWwGYf) for community help, or use [support](docs/SUPPORT.md) to report an issue. Contributions follow the [contribution guide](docs/CONTRIBUTING.md) and [code of conduct](docs/CODE_OF_CONDUCT.md).
+Join [🔥HADES🔥 Discord](https://discord.gg/BpEGzWwGYf) for community help, or use [support](docs/SUPPORT.md) to report an issue. Contributions follow the [contribution guide](docs/CONTRIBUTING.md) and [code of conduct](docs/CODE_OF_CONDUCT.md).
 
 ## License
 
