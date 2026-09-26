@@ -490,14 +490,14 @@
             "tests/kometa/config.yml",
             "tests/kometa/collections-config.yml"
         ],
-        "https://raw.githubusercontent.com/Kometa-Team/Kometa/v2.5.0/json-schema/collection-schema.json": [
+        "https://raw.githubusercontent.com/Kometa-Team/Kometa/v2.5.1/json-schema/collection-schema.json": [
             "movies/**/*.yml",
             "scheduled/**/*.yml",
             "shows/**/*.yml",
             "tests/kometa/smoke-collections.yml"
         ],
-        "https://raw.githubusercontent.com/Kometa-Team/Kometa/v2.5.0/json-schema/overlay-schema.json": "overlays/**/*.yml",
-        "https://raw.githubusercontent.com/Kometa-Team/Kometa/v2.5.0/json-schema/playlist-schema.json": "playlists/**/*.yml"
+        "https://raw.githubusercontent.com/Kometa-Team/Kometa/v2.5.1/json-schema/overlay-schema.json": "overlays/**/*.yml",
+        "https://raw.githubusercontent.com/Kometa-Team/Kometa/v2.5.1/json-schema/playlist-schema.json": "playlists/**/*.yml"
     },
     "yaml.validate": true,
     "yaml.yamlVersion": "1.2"
