@@ -77,7 +77,7 @@ repos:
   # Enforce Python correctness, import ordering, docstrings, and formatting.
   #
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.16.8
+    rev: v0.16.9
     hooks:
       - id: ruff-check
         args: ["--extend-select", "I,D100,D101,D102,D103"]
