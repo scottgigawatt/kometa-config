@@ -31,7 +31,9 @@ Run repository commands from your workstation checkout. Plain `make` lists the a
 
 Explore the custom [subgenre posters](assets/posters/subgenre_top/) and their [collection definitions](movies/top-rated-subgenres.yml).
 
-![A selection of custom subgenre collection posters](https://github.com/scottgigawatt/kometa-config/assets/16313565/091fc37c-e9d4-4f8e-8e2c-0b537f46e8c0)
+![Scrolling tour of movie collection posters in Plex](assets/previews/movie-collections.gif)
+
+[View a still image of the collection posters](assets/previews/movie-collections.jpg).
 
 Thanks to [TheChrisK](https://github.com/TheChrisK) for original files and posters, [meisnate12](https://github.com/meisnate12) for Kometa and images, [s0len](https://github.com/s0len) for TV overlays, and [pterisaur](https://github.com/pterisaur) for people posters. Stay for the credits; these people brought the production value.
 
