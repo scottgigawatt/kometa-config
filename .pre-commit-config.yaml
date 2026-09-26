@@ -45,7 +45,16 @@ repos:
       - id: check-added-large-files
         name: Check added artwork size
         files: ^assets/
+        exclude: ^assets/previews/movie-collections\.gif$
         args: ["--maxkb=2048"]
+
+      #
+      # Bound the full-library README animation separately from individual posters.
+      #
+      - id: check-added-large-files
+        name: Check README animation size
+        files: ^assets/previews/movie-collections\.gif$
+        args: ["--maxkb=25600"]
       - id: check-case-conflict
       - id: check-executables-have-shebangs
       - id: check-json

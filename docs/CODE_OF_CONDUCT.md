@@ -18,7 +18,7 @@ This policy applies to repository contributions, issues, pull requests, and proj
 
 ## Report a concern
 
-Use GitHub's reporting tools for abusive public content. For private concerns, request a private conversation with the repository owner or a HADES moderator without posting sensitive details. Do not put private conduct reports into public issues.
+Use GitHub's reporting tools for abusive public content. For private concerns, request a private conversation with the repository owner or a 🔥HADES🔥 Discord moderator without posting sensitive details. Do not put private conduct reports into public issues.
 
 The repository owner is responsible for enforcement. Reports will be handled as confidentially as practical, with information shared only as needed to investigate or respond. Platform rules and legal obligations still apply.
 

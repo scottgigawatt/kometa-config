@@ -1,10 +1,10 @@
-# Set up Plex test libraries
+# Set up Plex test libraries 🎟️
 
 Create tiny, private movie and TV libraries once, then reuse them for [preview runs](testing.md). Plex may run natively on Synology while Kometa runs in Docker on your workstation.
 
 ## Prepare media on Synology
 
-The example layout uses the existing `plex` share at `/volume1/plex`. Keep test media in a separate `test` folder, never inside a production movie or TV directory.
+The example layout uses a `plex` share at `/volume1/plex`. Keep test media in a separate `test` folder, never inside a production movie or TV directory.
 
 1. In File Station, create `test` inside the `plex` share.
 2. In an SSH session on the NAS, clone the [Plex test libraries](https://github.com/chazlarson/plex-test-libraries):
@@ -24,7 +24,7 @@ cd /Volumes/plex/test
 git clone https://github.com/chazlarson/plex-test-libraries.git
 ```
 
-The upstream repository already contains tiny media fixtures. You do not need to copy production movies or episodes. For additional coverage, use small synthetic clips with Plex-compatible movie or episode names inside the test directories only.
+The upstream repository contains tiny media fixtures. For additional coverage, use small synthetic clips with Plex-compatible movie or episode names inside the test directories only.
 
 ## Add the libraries in Plex
 

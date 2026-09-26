@@ -1,71 +1,60 @@
-# Test changes safely
+# Test changes safely 🧪
 
-Run repository commands from the workstation checkout. Use small, private Plex fixture libraries to review behavior before deploying to a large library.
+Run checks first, then preview collection or artwork changes in private Plex test libraries. Give the YAML a screen test before the premiere.
 
 ## Prerequisites
 
-Complete [contributor setup](CONTRIBUTING.md#prepare-the-checkout) for local checks. For previews, also complete the one-time [test-library setup](test-libraries.md). Keep Docker running and activate `.venv` in each new terminal session.
+Complete [contributor setup](CONTRIBUTING.md#prepare-the-checkout). Run commands from the workstation checkout with Docker running and `.venv` active. Previews also require the one-time [test-library setup](test-libraries.md).
 
 ## Run local checks
+
+Stage new source files so validation includes them, then run:
 
 ```sh
 make check
 ```
 
-This runs pinned Kometa validation and regression tests, artwork/parity checks, generated-file policy, documentation and Make helper tests, lint, and secret scans. It does not connect to Plex. Stage new source files first: Kometa's read-only snapshot includes Git-tracked YAML with your working-tree edits, not ignored runtime files.
+This checks configuration, artwork references, editor schemas, regression tests, documentation links, lint, and secrets without connecting to Plex. It uses the pinned Kometa image and tracked files with your working-tree edits. Tool installation, schema downloads, and Kometa's version check need network access.
 
-The validator may contact upstream for its version check; “local checks” does not mean every component is network-isolated. Container regression tests run with networking disabled. See [automation](automation.md) for individual commands and CI coverage.
+For documentation-only changes, this completes validation; also review the rendered Markdown. Individual checks are listed in [automation](automation.md).
 
 ## Choose a preview
 
-These commands connect to Plex and modify only the named test libraries.
+These commands modify the `test_movie_lib` and `test_tv_lib` fixture libraries. Run the smallest preview that covers your change.
 
-| Command | What it previews | Fixture libraries |
+| Command | What it previews | Libraries |
 | --- | --- | --- |
 | `make test-library` | Smoke collections, the default DCEU collection, and complete custom overlay sets | Movies and TV |
-| `make test-collections` | Guarded franchises, genres, themes, cities, universes, curated TV, holidays, and Midnight Cinema | Movies and TV |
-| `make test-subgenres` | All 101 ranked movie themes | Movies |
-| `make test-seasonal` | Thirteen holiday movie collections | Movies |
+| `make test-collections` | Franchises, genres, subgenres, cities, universes, curated TV, holidays, and Midnight Cinema | Movies and TV |
+| `make test-subgenres` | Ranked movie themes | Movies |
+| `make test-seasonal` | Holiday movies | Movies |
 | `make test-tv-seasonal` | Halloween, Thanksgiving, and Christmas episodes | TV |
-| `make test-midnight` | Midnight Cinema movie discovery, curated films, miniseries, and episode selections | Movies and TV |
+| `make test-midnight` | Midnight Cinema movies, miniseries, and episodes | Movies and TV |
 
-Movie and TV fixture names are `test_movie_lib` and `test_tv_lib`. The scoped collection previews ignore schedules so out-of-season results can be reviewed. They disable scheduled deletion in private runtime copies and reject download-client connections or external list writers. They do not load production playlists, mass-update operations, or PATTRMM output.
+Collection previews ignore schedules and disable scheduled deletion in private runtime copies. They validate production download settings, then omit those settings and all download-client connections. Midnight Cinema previews also hide their collections from home and shared screens. Collection-only previews leave overlays untouched.
 
-Midnight Cinema uses repository-owned movie and episode selections plus local discovery rules. Its source and posters live in `movies/midnight-curated.yml`, `movies/midnight-discovery.yml`, `shows/midnight-cinema.yml`, and `assets/posters/midnight-cinema/`. Source comments record curation references; updating a referenced website does not change the curated membership. Hidden Gems uses the connected Plex account's watch state. Edition collections require the correct edition labels on the owned copies.
-
-The five curated movie collections add missing selections to Radarr, monitor them, and search on first addition. Weekend Miniseries and the non-visible `shows/midnight-series-requests.yml` definition request full series through Sonarr with all episodes monitored. The latter covers the twenty candidate shows used by Greatest Episodes, including both story-arc parents. Existing Arr entries are monitored but Kometa does not start another search for them; missing files already registered in Arr need a search there. Quality profiles and root folders come from the existing library integration settings. Hidden Gems and alternate editions only search owned Plex media, so they have no missing-title requests.
-
-The fixture runner checks the exact approved production acquisition settings, then removes them from private copies. All three visible collection files enable `visible_home` and `visible_shared` in production; previews override both to false so fixture collections stay off user home screens. It never loads the series request helper or any Arr connection. These previews verify collection behavior without triggering downloads; acquisition parsing and scope are checked offline against the pinned runtime.
-
-The collection runner loads a deliberate subset of source files, not every collection in the repository. Weekly Shuffle, people collections, pre-rolls, and production charts are not included in `make test-collections`. Pre-rolls change a server-wide setting and must not be enabled in a fixture run.
+The previews cover the sources listed above. They do not load production favorites, people collections, Weekly Shuffle, charts, playlists, PATTRMM output, or the Midnight Cinema series-request helper. Never enable pre-rolls in a fixture run: they change a server-wide setting.
 
 ## Review the result
 
-1. Confirm the command succeeded, then inspect its private `logs/meta.log`: a zero Kometa exit code alone does not prove every collection succeeded. The collection runner also checks run summaries.
-2. Open the affected test collections in Plex. Check membership, ordering, summary, visibility, and artwork.
-3. For overlays, inspect both movie and TV posters and compare the expected badge matches with the log.
-4. Investigate empty results. Most sources need one matching item; the four custom universe collections need three. Add tiny matched fixtures when necessary—an empty collection is not a visual test.
+1. Confirm the command succeeded and inspect its private `logs/meta.log` for errors. A zero exit code alone does not prove every collection succeeded.
+2. In Plex, check membership, order, summary, visibility, and artwork against [collection behavior](collections.md) or [overlay behavior](overlays.md).
+3. For overlays, inspect both movie and TV posters for missing badges, overlap, and legibility.
+4. Investigate empty collections: check matching, provider metadata, and minimum-item rules. Add tiny matched fixtures as needed; an empty collection is not a visual test.
 
-See [collection behavior](collections.md) and [overlay behavior](overlays.md) for the expected results. Collection-only previews leave overlay artwork untouched.
-
-## Keep runtime state private
-
-Overlay output lives under `.kometa-test/`; collection output lives under `.kometa-test/collections/`. Preserve caches and original-poster backups between runs. Edit `tests/kometa/` or the shared source definitions, never the disposable runtime copies.
+Overlay output lives under `.kometa-test/`; collection output lives under `.kometa-test/collections/`. Preserve caches and original-poster backups. Edit source definitions or `tests/kometa/`, never disposable runtime copies.
 
 > [!WARNING]
-> Console output and logs can contain tokens and private server URLs. Keep full output local. Review and redact every excerpt or screenshot before posting it, even when the address is publicly reachable.
-
-The runners pass secrets through a private environment file without mounting the secrets directory. Source definitions and artwork are mounted read-only. Collection previews require Plex and TMDb access; the custom rating overlays also require MDBList.
+> Logs and console output can contain tokens and private server URLs. Keep full output local and redact every excerpt or screenshot before sharing it.
 
 ## Troubleshoot a preview
 
-- **Missing private environment:** Create `.secrets/test.env` using the [setup guide](test-libraries.md#configure-private-access); do not overwrite an existing file.
-- **Pylance cannot resolve imports:** Select `.venv/bin/python` after installing the development requirements.
-- **Container stays in Created:** Check Docker Desktop's status and file-sharing prompts. Restart it only when safe for other local containers.
-- **Slow first run:** External chart/provider lookups can outweigh rendering time. Retain the cache and let the scoped run finish.
-- **Missing badge or collection:** Confirm Plex matched the fixture, then check source membership, metadata, minimum items, and available artwork.
-- **Unexpected schema warning:** Run `make validate-editor` to refresh the local config schema, then reload VS Code if needed. Compare remaining diagnostics with Kometa's documented runtime behavior; do not disable validation globally.
+- **Missing private environment:** Create `.secrets/test.env` using the [setup guide](test-libraries.md#configure-private-access); preserve existing values.
+- **Container stays in Created:** Check Docker Desktop's status and file-sharing prompts.
+- **Slow first run:** Provider lookups can take longer than rendering. Preserve the cache and let the scoped run finish.
+- **Missing badge or collection:** Check Plex matching, source rules, minimum items, and artwork. See [overlay diagnostics](overlays.md#interpret-missing-badges).
+- **Editor errors:** Select `.venv/bin/python` for imports. Run `make validate-editor` to refresh the schema and reload VS Code if needed; investigate remaining diagnostics without disabling validation.
 
 ## Deploy separately
 
-After visual approval, deploy a clean commit through your normal deployment process. Run only the affected production scope where supported, review its log and Plex result, then allow the next full schedule. None of the preview commands deploys the production checkout.
+After visual approval, deploy a clean commit through your normal process. Run the affected production scope where supported, review its log and Plex result, then allow the next full schedule. Preview commands do not deploy production.

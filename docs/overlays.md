@@ -1,6 +1,6 @@
-# Custom overlays
+# Custom overlays 🎨
 
-The movie and TV libraries use repository-owned artwork and placement with [Kometa Defaults builders](https://kometa.wiki/en/latest/defaults/overlays/). Keep the look; let the maintained builders supply the matching.
+The movie and TV libraries use repository-owned artwork and placement with [Kometa Defaults builders](https://kometa.wiki/en/latest/defaults/overlays/). The posters get the costume department; the builders handle casting.
 
 ## Edit and preview
 
@@ -14,9 +14,9 @@ The movie and TV libraries use repository-owned artwork and placement with [Kome
 
 ## Artwork and fallbacks
 
-Movie backgrounds, chart ribbons, TV status ribbons, provider fallbacks, and other custom graphics use local files. Branch previews therefore use their own artwork rather than images from the default branch.
+Movie backgrounds, chart ribbons, TV status ribbons, provider fallbacks, and other custom graphics use files from the checkout being previewed.
 
-Provider aliases map renamed or differently capitalized upstream keys to existing graphics. Categories without matching artwork are disabled; movie resolution falls back to a supported base badge, and TV retains its existing provider fallback.
+Provider aliases map upstream keys to local graphics. Categories without matching artwork are disabled; resolution and provider definitions specify fallback badges where available.
 
 Provider graphics share the upper-left corner. Later files layer above earlier files, so ordering is intentional. Read [Kometa's overlay ordering and groups](https://kometa.wiki/en/latest/files/overlays/) before changing precedence.
 
