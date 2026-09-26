@@ -6,13 +6,41 @@
   README.md: Introduce the configuration and link to operating guidance.
 -->
 
+<!-- markdownlint-disable MD041 -->
+<hr />
+
+<p align="center">
+  <em>💫 Star this repo — could this BE any more organized?</em>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/github/license/scottgigawatt/kometa-config?label=Streaming%20Rights&amp;color=blue" alt="License" />
+  <img src="https://img.shields.io/github/last-commit/scottgigawatt/kometa-config?label=Last%20Rerun&amp;logo=git&amp;color=green" alt="Last Commit" />
+  <img src="https://img.shields.io/github/repo-size/scottgigawatt/kometa-config?label=Box%20Set%20Size&amp;color=orange" alt="Repo Size" />
+  <a href="https://www.bestpractices.dev/projects/14948"><img src="https://www.bestpractices.dev/projects/14948/badge" alt="OpenSSF Best Practices: passing" /></a>
+</p>
+
+<p align="center">─── ⛧ ───</p>
+
+<p align="center">
+  <em>📺 Got messy metadata or stubborn seasons? We’ll be there for you… in <strong>🔥HADES🔥 Discord</strong>.</em>
+</p>
+
+<p align="center">
+  <a href="https://discord.gg/BpEGzWwGYf">
+    <img src="https://img.shields.io/discord/1403601106315116626?label=%F0%9F%94%A5HADES%F0%9F%94%A5%20Discord&amp;logo=discord&amp;logoColor=white&amp;color=5865F2" alt="🔥HADES🔥 Discord" />
+  </a>
+</p>
+
+<hr />
+<!-- markdownlint-enable MD041 -->
+
 # Kometa configuration 🎬
 
 Personal Plex collections, custom overlays, playlists, and artwork for [Kometa](https://kometa.wiki/en/latest/). Movie franchises, TV comfort watches, and seasonal favorites get their own shelves; the posters get a wardrobe department.
 
 [![Validation on main](https://img.shields.io/github/actions/workflow/status/scottgigawatt/kometa-config/validate-pr.yml?branch=main&label=Validation)](https://github.com/scottgigawatt/kometa-config/actions/workflows/validate-pr.yml)
 [![CodeQL on main](https://img.shields.io/github/actions/workflow/status/scottgigawatt/kometa-config/codeql-actions.yml?branch=main&label=CodeQL)](https://github.com/scottgigawatt/kometa-config/actions/workflows/codeql-actions.yml)
-[![Apache 2.0 license](https://img.shields.io/github/license/scottgigawatt/kometa-config)](LICENSE)
 
 ## Start here 🎟️
 
