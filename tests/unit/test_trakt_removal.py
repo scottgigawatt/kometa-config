@@ -90,10 +90,11 @@ class TraktRemovalTests(unittest.TestCase):
             (self.root / "movies/edwards-favorites.yml").read_text()
         )
         ids = source["collections"]["Edward's Favorite Movies"]["tmdb_movie"]
-        self.assertEqual(len(ids), 97)
+        self.assertEqual(len(ids), 100)
         self.assertEqual(len(set(ids)), len(ids))
         self.assertTrue({120, 121, 122}.issubset(ids))
         self.assertTrue({603, 604, 605, 624860}.issubset(ids))
+        self.assertTrue({36657, 36658, 36668, 76170, 127585}.issubset(ids))
         for index, identifier in enumerate(ids):
             with self.subTest(identifier=identifier):
                 self.assertIs(type(identifier), int)
