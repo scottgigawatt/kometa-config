@@ -8,6 +8,7 @@
 
 """Check collection source contracts without contacting metadata providers."""
 
+import ast
 import importlib
 import unittest
 from pathlib import Path
@@ -76,6 +77,64 @@ class CollectionSourceTests(unittest.TestCase):
         self.assertEqual(
             source["collections"]["Max"]["template"]["network"], [6783, 3186]
         )
+
+    def test_bbc_itv_skip_missing_lookups_without_trimming_networks(self) -> None:
+        """Keep full network coverage while disabling the runtime's missing-item work."""
+        source = self.yaml.load((self.root / "shows/networks.yml").read_text())
+        config = self.yaml.load((self.root / "config.yml").read_text())
+        builder_module = importlib.import_module("modules.builder")
+
+        #
+        # Execute the pinned constructor's gating expressions without service initialization.
+        # Turning off display alone still runs missing lookups when reports are enabled.
+        #
+        tree = ast.parse(Path(builder_module.__file__).read_text())
+        gates = [
+            node
+            for node in ast.walk(tree)
+            if isinstance(node, ast.Assign)
+            and any(
+                isinstance(target, ast.Attribute)
+                and target.attr in {"do_report", "do_missing"}
+                for target in node.targets
+            )
+        ]
+        self.assertEqual(len(gates), 2)
+        gates.sort(key=lambda node: node.lineno)
+        code = compile(
+            ast.Module(body=gates, type_ignores=[]), "<missing gates>", "exec"
+        )
+        expected = {"BBC": 25, "ITV": 9}
+        for name, count in expected.items():
+            with self.subTest(collection=name):
+                definition = source["collections"][name]
+                self.assertEqual(len(definition["template"]["network"]), count)
+                builder = Mock()
+                builder.config.no_report = False
+                builder.config.no_missing = False
+                builder.library.Radarr = None
+                builder.library.Sonarr = Mock()
+                builder.sonarr_details = {
+                    "add_missing": config["sonarr"]["add_missing"]
+                }
+                builder.details = {
+                    "save_report": definition["save_report"],
+                    "show_missing": definition["show_missing"],
+                }
+                exec(code, {"self": builder})  # noqa: S102 - Execute only immutable pinned runtime code.
+                self.assertIs(builder.do_report, False)
+                self.assertIs(builder.do_missing, False)
+
+                #
+                # Prove the prior report setting activates the same pinned lookup path.
+                #
+                builder.details["save_report"] = True
+                exec(code, {"self": builder})  # noqa: S102 - Execute only immutable pinned runtime code.
+                self.assertIs(builder.do_missing, True)
+        for name, definition in source["collections"].items():
+            if name not in expected:
+                self.assertNotIn("save_report", definition)
+                self.assertNotIn("show_missing", definition)
 
     def test_numeric_tmdb_builders_have_comments(self) -> None:
         """Require individual documented IDs in custom collection builder lists."""

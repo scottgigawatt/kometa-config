@@ -106,6 +106,10 @@ class MidnightTVTests(unittest.TestCase):
                 self.assertNotIn("show.audienceRating", query)
                 if "any" in search["all"]:
                     self.assertIn("or=1&show.title", query)
+                if "Battlestar Galactica" in str(search["all"]):
+                    self.assertIn("show.year%3E=2003", query)
+                    self.assertIn("show.year%3C=2003", query)
+                    self.assertNotIn("2004", query)
 
         self.assertEqual(
             library.get_search_key("episode_audience_rating", libtype="episode"),

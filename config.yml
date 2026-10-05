@@ -239,6 +239,13 @@ libraries:
           minimum_items: 3
 
           #
+          # Skip the unresolved Star Wars IMDb-list record within these default universes.
+          # Recheck the TMDb mapping before removing the exclusion.
+          #
+          ignore_ids:
+            - 1756073  # Star Wars list: unresolved movie record
+
+          #
           # Use a distinct DCEU poster while retaining the blue DC collection theme.
           #
           file_poster_dceu: /config/assets/posters/franchise/DC Extended Universe.jpg
@@ -568,6 +575,13 @@ libraries:
 playlist_files:
   - file: config/playlists/battlestar-galactica-timeline.yml
   - default: playlist
+    template_variables:
+
+      #
+      # The Star Wars timeline shares the universe's unresolved IMDb-list record.
+      #
+      ignore_ids:
+        - 1756073  # Star Wars list: unresolved movie record
 
 #
 # Set shared defaults; library, template, and collection overrides take precedence.

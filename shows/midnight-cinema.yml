@@ -112,9 +112,9 @@ collections:
           any:
             title.is:
               - Battlestar Galactica
-              - Battlestar Galactica (2004)
-          year.gte: 2004
-          year.lte: 2004
+              - Battlestar Galactica (2003)
+          year.gte: 2003
+          year.lte: 2003
           episode_audience_rating.gte: 8.5
         sort_by: audience_rating.desc
         limit: 5
