@@ -141,7 +141,10 @@ class YamlPolicyTests(unittest.TestCase):
             config["playlist_files"],
             [
                 {"file": "config/playlists/battlestar-galactica-timeline.yml"},
-                {"default": "playlist"},
+                {
+                    "default": "playlist",
+                    "template_variables": {"ignore_ids": [1756073]},
+                },
             ],
         )
 

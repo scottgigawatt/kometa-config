@@ -60,7 +60,12 @@ collections:
       network:
         - 2552  # Apple TV
 
+  #
+  # Preserve network coverage while skipping TVDb lookups for shows absent from Plex.
+  #
   BBC:
+    show_missing: false
+    save_report: false
     template:
       name: network
       network:
@@ -217,7 +222,12 @@ collections:
       network:
         - 453  # Hulu (US)
 
+  #
+  # Preserve network coverage while skipping TVDb lookups for shows absent from Plex.
+  #
   ITV:
+    show_missing: false
+    save_report: false
     template:
       name: network
       network:
