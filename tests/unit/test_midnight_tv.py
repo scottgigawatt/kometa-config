@@ -130,23 +130,27 @@ class MidnightTVTests(unittest.TestCase):
         # This protects handling of empty searches without copying the upstream exception logic.
         #
         tree = ast.parse(Path("/kometa.py").read_text())
-        loops = [
+        runner = next(
             node
             for node in ast.walk(tree)
-            if isinstance(node, ast.For)
-            and isinstance(node.iter, ast.Attribute)
-            and node.iter.attr == "builders"
-            and any(isinstance(child, ast.ExceptHandler) for child in ast.walk(node))
-        ]
-        loop = next(
+            if isinstance(node, ast.FunctionDef) and node.name == "run_collection"
+        )
+        loops = [
             node
-            for node in loops
-            if any(
+            for node in ast.walk(runner)
+            if isinstance(node, ast.For)
+            and any(
+                isinstance(child, ast.Attribute) and child.attr == "builders"
+                for child in ast.walk(node.iter)
+            )
+            and any(
                 isinstance(child, ast.Attribute)
                 and child.attr == "ignore_blank_results"
                 for child in ast.walk(node)
             )
-        )
+        ]
+        self.assertEqual(len(loops), 1, "Expected one collection builder error loop")
+        loop = loops[0]
         code = compile(
             ast.fix_missing_locations(ast.Module(body=[loop], type_ignores=[])),
             "/kometa.py:collection-builder-loop",
@@ -174,8 +178,25 @@ class MidnightTVTests(unittest.TestCase):
             util.Failed("Plex Error: No Items found in Plex"),
             [(42, "ratingKey")],
         ]
+
+        #
+        # Plex sources must remain inline even when upstream prefetching is enabled.
+        # Use the pinned helper so its index alignment reaches the actual run loop.
+        #
+        config = SimpleNamespace(
+            thread_pool=Mock(), general={"threading": {"parallel_sources": True}}
+        )
+        prefetched = self.builder.prefetch_gather_ids(config, builder)
+        self.assertEqual(prefetched, [None, None])
+        config.thread_pool.submit.assert_not_called()
         logger = Mock()
-        exec(code, {"builder": builder, "logger": logger, **exceptions})  # noqa: S102 - Execute only immutable pinned runtime code.
+        namespace = {
+            "builder": builder,
+            "logger": logger,
+            "prefetched": prefetched,
+            **exceptions,
+        }
+        exec(code, namespace)  # noqa: S102 - Execute only immutable pinned runtime code.
         builder.filter_and_save_items.assert_called_once_with([(42, "ratingKey")])
         logger.warning.assert_called_once()
 
@@ -190,7 +211,7 @@ class MidnightTVTests(unittest.TestCase):
             with self.subTest(error=error_type.__name__):
                 builder.gather_ids.side_effect = error_type("Meaningful failure")
                 with self.assertRaises(error_type):
-                    exec(code, {"builder": builder, "logger": logger, **exceptions})  # noqa: S102 - Execute only immutable pinned runtime code.
+                    exec(code, namespace)  # noqa: S102 - Execute only immutable pinned runtime code.
 
     def test_arc_references_parse_in_story_order_without_requests(self) -> None:
         """Preserve both parts of each story and the recovery episode after assimilation."""
