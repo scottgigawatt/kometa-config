@@ -148,6 +148,15 @@
             "dependencyDashboardApproval": true,
             "automerge": false,
             "groupName": null
+        },
+
+        //
+        // Keep major Kometa runtime and schema upgrades in one approved review.
+        //
+        {
+            "matchUpdateTypes": ["major"],
+            "matchPackageNames": ["kometateam/kometa", "Kometa-Team/Kometa"],
+            "groupName": "Kometa runtime and schemas"
         }
     ]
 }
