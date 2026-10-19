@@ -43,7 +43,7 @@ class RatingQueueTests(unittest.TestCase):
         ):
             result = self.meta.OverlayFile(
                 SimpleNamespace(requested_files=[]),
-                SimpleNamespace(overlay_files=[]),
+                SimpleNamespace(overlay_files=[], type="movie"),
                 "File",
                 "ratings.yml",
                 {},
