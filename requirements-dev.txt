@@ -10,5 +10,5 @@
 # Run repository hooks and match the YAML parser in the pinned Kometa image.
 #
 jsonschema==4.26.0
-pre-commit==4.6.2
+pre-commit==4.7.0
 ruamel.yaml==0.19.1
