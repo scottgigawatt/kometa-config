@@ -77,7 +77,7 @@ repos:
   # Enforce Python correctness, import ordering, docstrings, and formatting.
   #
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.17.1
+    rev: v0.17.2
     hooks:
       - id: ruff-check
         args: ["--extend-select", "I,D100,D101,D102,D103"]
@@ -88,7 +88,7 @@ repos:
   # Validate every Markdown document with the shared repository configuration.
   #
   - repo: https://github.com/DavidAnson/markdownlint-cli2
-    rev: v0.23.3
+    rev: v0.24.0
     hooks:
       - id: markdownlint-cli2
         pass_filenames: false
