@@ -27,10 +27,7 @@ Personal Plex collections, custom overlays, playlists, and artwork for [Kometa](
 <p align="center">─── ⛧ ───</p>
 
 <p align="center">
-  <em>📺 Got messy metadata or stubborn seasons? We’ll be there for you… in <strong>🔥HADES🔥 Discord</strong>.</em>
-</p>
-
-<p align="center">
+  <em>🎬 Posters possessed? Drag that drama through the gates of</em>
   <a href="https://discord.gg/BpEGzWwGYf">
     <img src="https://img.shields.io/discord/1403601106315116626?label=%F0%9F%94%A5HADES%F0%9F%94%A5%20Discord&amp;logo=discord&amp;logoColor=white&amp;color=5865F2" alt="🔥HADES🔥 Discord" />
   </a>
