@@ -2,18 +2,18 @@
 
 Choose the guide for the job. The configuration supplies the drama; the instructions should not.
 
-## Set up and test
-
-- [Contributing](CONTRIBUTING.md): Install tools and prepare a focused change.
-- [Test libraries](test-libraries.md): Create tiny Plex fixtures and configure private access once.
-- [Testing](testing.md): Run checks, choose a preview, and verify the result.
-
-## Understand the configuration
+## Connect and use
 
 - [Collections](collections.md): Membership, Midnight Cinema, holidays, playlists, and download settings.
 - [Overlays](overlays.md): Custom graphics, placement, fallbacks, and matching.
 - [Service connections](service-connections.md): Shared configuration, PATTRMM Neo, and Tracearr.
 - [Automation](automation.md): Make commands, CI, CodeQL, and dependency updates.
+
+## Change and test
+
+- [Contributing](CONTRIBUTING.md): Install tools and prepare a focused change.
+- [Test libraries](test-libraries.md): Create tiny Plex fixtures and configure private access once.
+- [Testing](testing.md): Run checks, choose a preview, and verify the result.
 
 ## Participate safely
 

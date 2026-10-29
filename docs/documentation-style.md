@@ -1,47 +1,45 @@
 # Documentation style
 
-Write for someone trying to complete a task. A little cinema humor is welcome; commands, risks, privacy guidance, and troubleshooting stay literal.
+Write for someone completing a task. Follow [GitHub Docs style](https://docs.github.com/en/contributing/style-guide-and-content-model/style-guide), [GitHub writing best practices](https://docs.github.com/en/contributing/writing-for-github-docs/best-practices-for-github-docs), and the governing plain-language principles in [ISO 24495-1:2023](https://www.iso.org/standard/78907.html). This policy applies to project-owned documentation, agent guidance, and issue/PR templates.
+
+## Write for the reader
+
+Identify the audience and task before drafting. Review each page against four required outcomes:
+
+- **Relevant:** Give readers the information they need for their task or decision. Remove obsolete history, repeated explanations, and details already clear in linked source.
+- **Findable:** Use descriptive headings and task-based navigation. Give each explanation a canonical home and link to it.
+- **Understandable:** Use common words, active voice, concise sentences and coherent paragraphs. Explain necessary technical terms in context.
+- **Usable:** Put prerequisites before numbered steps and state the expected result. Preserve risks, side effects, compatibility constraints, and recovery limits.
+
+A little cinema humor is welcome; commands, risks, privacy guidance, and troubleshooting stay literal.
 
 ## Organize by purpose
 
-Keep the root README as an introduction and navigation page. Put operating guides and community policies under `docs/`; keep `AGENTS.md` at the root for discovery and issue/PR templates under `.github/`.
+Keep the README as an introduction and navigation page, with the project heading and purpose before the existing badge/community block. Preserve that block and its links. Put operating guides and community policies under `docs/`, `AGENTS.md` at the root, and issue/PR templates under `.github/`.
 
-Preserve GitHub's recognized community filenames: `CONTRIBUTING.md`, `SECURITY.md`, `SUPPORT.md`, and `CODE_OF_CONDUCT.md`. Use lowercase kebab-case for ordinary articles.
+Preserve recognized community filenames: `CONTRIBUTING.md`, `SECURITY.md`, `SUPPORT.md`, and `CODE_OF_CONDUCT.md`. Use lowercase kebab-case for ordinary articles. Separate one-time setup, recurring procedures, and reference. Retain currently actionable migration and compatibility instructions; omit superseded history.
 
-Separate one-time setup, repeatable procedures, and detailed reference material. Link to the canonical explanation instead of repeating it. Describe the current supported setup. Omit migration history, superseded paths, and comparisons with past behavior.
+## Format clearly
 
-## Write and format clearly
-
-- Use one descriptive H1 per page and sentence-case headings without skipped levels.
-- Put the outcome first, prerequisites before steps, and optional details afterward.
-- Use numbered steps for procedures and bullets for choices; use tables only for useful comparisons.
-- Write ordinary prose paragraphs on one physical line and let the editor wrap visually.
+- Use one descriptive H1 and sentence-case headings without skipped levels.
+- Use numbered steps for procedures, bullets for choices, and tables for genuine comparisons.
+- Keep ordinary prose paragraphs on one physical line; use editor word wrapping.
 - Use descriptive relative links for repository files and specific upstream links for external behavior.
-- Put blank lines around headings, lists, and code fences.
-- Give meaningful alt text to images. Use occasional emoji after descriptive headings; words must carry the meaning.
-- Keep movie and TV references brief and relevant. Leave commands, warnings, and security policies literal.
-- Correct misspellings and add genuine project terms to `cSpell.words` in `.vscode/settings.json`; never allowlist a typo.
+- Put blank lines around headings, lists, and fences. Give images meaningful alt text and preserve attribution.
+- Put occasional emoji after descriptive headings; words must carry the meaning.
+- Correct spelling; add only genuine vocabulary to `cSpell.words` in `.vscode/settings.json`.
 
-Keep copyable commands in `sh` fences without prompt characters or explanatory comments. Use `console` for transcripts, `text` for non-executable output, and the appropriate language for configuration snippets. Put explanations outside the fence.
+Use language-labelled fences: `sh` for copyable commands without prompts or explanatory comments, `console` for transcripts, `text` for output, and the actual language for configuration. Explain working directory, dependencies, required values, and consequential side effects before the command.
 
-## Use GitHub features sparingly
-
-Use native `[!NOTE]`, `[!TIP]`, `[!IMPORTANT]`, `[!WARNING]`, or `[!CAUTION]` alerts for information readers must notice. Most pages need no more than one or two. Keep alerts separate and concise; do not turn ordinary steps into callouts.
-
-Use task lists in issue and PR templates. Reserve `<details>` for optional diagnostics, never prerequisites or safety warnings. Prefer ordinary Markdown and a small set of useful status badges tied to real workflows. Put the project name and purpose before badges or community links.
+Use native GitHub alerts sparingly for significant information; most pages need at most one or two. Reserve `<details>` for optional diagnostics, never prerequisites or safety warnings. Use task lists in issue and PR templates. Follow [GitHub's Markdown syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
 
 ## Verify before publishing
 
-1. Check commands, paths, defaults, and behavior against current source.
-2. Update inbound links and the [documentation index](index.md) when moving a page.
-3. Run `make check` for lint, local-link checks, and Make behavior tests.
-4. Review rendered GitHub Markdown, including headings, tables, code blocks, and alerts.
-5. Inspect the staged diff for private addresses, credentials, runtime output, and unrelated changes.
+1. Check commands, paths, defaults, and behavior against source and the pinned stable runtime; label unreleased behavior.
+2. Update inbound links and the [documentation index](index.md) after moves or heading changes.
+3. Run spelling checks and `make check` for lint, local links, configuration, and helper tests.
+4. Review rendered GitHub Markdown, including narrow layouts, images, tables, fences, and alerts.
+5. Walk through the reader's task using the documented prerequisites, steps, and expected result. Assess relevance, findability, understanding, and usability; report what was checked and any limits.
+6. Inspect the staged diff for credentials, private addresses, runtime output, and unrelated changes.
 
-Markdown linting does not establish technical accuracy. Local-link tests do not verify external website availability.
-
-## Source guidance
-
-- [GitHub writing and formatting](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
-- [GitHub community files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file)
-- [GitHub issue templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository)
+Lint and a task walkthrough support review; they do not establish certified ISO conformity. Local-link tests do not verify external availability. Preserve point-of-use warnings and backup/rollback limits when shortening content.

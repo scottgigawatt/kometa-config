@@ -10,7 +10,7 @@ Keep source templates separate from live connection values. These settings descr
 
 ## Shared configuration
 
-The [Plundarr Duplex preset](https://github.com/scottgigawatt/plundarr) mounts the deployment checkout at `/config` for both Kometa and PATTRMM. By default, both read the checkout's root `config.yml`. `KOMETA_RUNTIME_CONFIG_PATH` in Duplex's `.env` can select another existing file; it replaces `/config/config.yml` inside both containers.
+The [Plundarr Duplex preset](https://github.com/scottgigawatt/plundarr) shares `/config/config.yml` between Kometa and PATTRMM. Its [Kometa service reference](https://github.com/scottgigawatt/plundarr/blob/main/docker/services/kometa/README.md) owns Compose mounts and the optional `KOMETA_RUNTIME_CONFIG_PATH` override. The selected file must exist before startup.
 
 Keep the checked-in template free of credentials. Set live values in the deployment copy, and provide literal connection values when PATTRMM needs them; it does not resolve Kometa environment-secret substitutions.
 
@@ -22,11 +22,11 @@ Use the Kometa runtime pinned in the [Makefile](../Makefile) with PATTRMM Neo.
 
 [PATTRMM Neo](https://github.com/InsertDisc/pattrmm/tree/neo) generates local Plex-GUID lists consumed by Kometa's `text_file` builder. [pattrmm/settings.yml](../pattrmm/settings.yml) owns four collections: Movies by Size, This Month in Movie History, This Month in TV History, and Returning Soon. The library names must match Plex exactly.
 
-The [Plundarr Neo service](https://github.com/scottgigawatt/plundarr/blob/main/docker/services/pattrmm/README.md) defaults to `ghcr.io/insertdisc/pattrmm:neo`. It mounts this checkout's `pattrmm/` directory read-only at `/settings`, its private cache at `/data`, and this checkout at `/config`. Set `PATTRMM_SETTINGS=settings.yml`; `PATTRMM_TIMES=02:00,14:00` runs before Kometa's `05:00,17:00` schedule. Give the configured container user write access to the cache and generated output directories.
+Follow the [Plundarr Neo service reference](https://github.com/scottgigawatt/plundarr/blob/main/docker/services/pattrmm/README.md) for mounts, settings selection, permissions, and schedules. The container user needs write access to its private cache and generated output. Allow Neo to finish before Kometa reads that output.
 
 Neo reads literal Plex URL/token and TMDb key, language, and region values from `/config/config.yml`. Keep them private. Its authored settings contain no credentials and select that file through `settings.kometa_config`.
 
-Edit names, summaries, local posters, and sort titles in `pattrmm/settings.yml`. Movie history and size collections sit between the release collections and Tracearr charts. TV order is Returning Soon, This Month in TV History, then Tracearr. Run Neo followed by Kometa to apply changes in Plex.
+Edit names, summaries, posters, and sort titles in `pattrmm/settings.yml`, then run Neo followed by Kometa to apply changes in Plex.
 
 Output belongs in `generated/pattrmm/movies/` and `generated/pattrmm/shows/`. The main Kometa configuration loads those directories. Keep each generated YAML file beside its paired `.txt` file. Returning Soon generates a collection only; custom overlays are configured independently.
 
