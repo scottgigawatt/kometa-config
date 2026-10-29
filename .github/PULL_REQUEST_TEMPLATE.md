@@ -12,7 +12,7 @@
 
 - [ ] `make check` (validation, generated-file policy, helper tests, and lint)
 - [ ] Plex fixture-library render, when behavior or artwork changes
-- [ ] Documentation links and rendered Markdown reviewed, when changed
+- [ ] Changed documentation reviewed for the reader's task: relevant, findable, understandable, and usable; links and rendered Markdown checked
 
 <!-- Explain checks that were skipped. See docs/testing.md and docs/CONTRIBUTING.md. -->
 

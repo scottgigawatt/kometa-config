@@ -6,6 +6,10 @@
   README.md: Introduce the configuration and link to operating guidance.
 -->
 
+# Kometa configuration 🎬
+
+Personal Plex collections, custom overlays, playlists, and artwork for [Kometa](https://kometa.wiki/en/latest/). Movie franchises, TV comfort watches, and seasonal favorites get their own shelves; the posters get a wardrobe department.
+
 <!-- markdownlint-disable MD041 -->
 <hr />
 
@@ -34,10 +38,6 @@
 
 <hr />
 <!-- markdownlint-enable MD041 -->
-
-# Kometa configuration 🎬
-
-Personal Plex collections, custom overlays, playlists, and artwork for [Kometa](https://kometa.wiki/en/latest/). Movie franchises, TV comfort watches, and seasonal favorites get their own shelves; the posters get a wardrobe department.
 
 [![Validation on main](https://img.shields.io/github/actions/workflow/status/scottgigawatt/kometa-config/validate-pr.yml?branch=main&label=Validation)](https://github.com/scottgigawatt/kometa-config/actions/workflows/validate-pr.yml)
 [![CodeQL on main](https://img.shields.io/github/actions/workflow/status/scottgigawatt/kometa-config/codeql-actions.yml?branch=main&label=CodeQL)](https://github.com/scottgigawatt/kometa-config/actions/workflows/codeql-actions.yml)
