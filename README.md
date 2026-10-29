@@ -22,6 +22,8 @@ Personal Plex collections, custom overlays, playlists, and artwork for [Kometa](
   <img src="https://img.shields.io/github/last-commit/scottgigawatt/kometa-config?label=Last%20Rerun&amp;logo=git&amp;color=green" alt="Last Commit" />
   <img src="https://img.shields.io/github/repo-size/scottgigawatt/kometa-config?label=Box%20Set%20Size&amp;color=orange" alt="Repo Size" />
   <a href="https://www.bestpractices.dev/projects/14948"><img src="https://www.bestpractices.dev/projects/14948/badge" alt="OpenSSF Best Practices: passing" /></a>
+  <a href="https://github.com/scottgigawatt/kometa-config/actions/workflows/validate-pr.yml"><img src="https://img.shields.io/github/actions/workflow/status/scottgigawatt/kometa-config/validate-pr.yml?branch=main&amp;label=Validation" alt="Validation on main" /></a>
+  <a href="https://github.com/scottgigawatt/kometa-config/actions/workflows/codeql-actions.yml"><img src="https://img.shields.io/github/actions/workflow/status/scottgigawatt/kometa-config/codeql-actions.yml?branch=main&amp;label=CodeQL" alt="CodeQL on main" /></a>
 </p>
 
 <p align="center">─── ⛧ ───</p>
@@ -35,9 +37,6 @@ Personal Plex collections, custom overlays, playlists, and artwork for [Kometa](
 
 <hr />
 <!-- markdownlint-enable MD041 -->
-
-[![Validation on main](https://img.shields.io/github/actions/workflow/status/scottgigawatt/kometa-config/validate-pr.yml?branch=main&label=Validation)](https://github.com/scottgigawatt/kometa-config/actions/workflows/validate-pr.yml)
-[![CodeQL on main](https://img.shields.io/github/actions/workflow/status/scottgigawatt/kometa-config/codeql-actions.yml?branch=main&label=CodeQL)](https://github.com/scottgigawatt/kometa-config/actions/workflows/codeql-actions.yml)
 
 ## Start here 🎟️
 
