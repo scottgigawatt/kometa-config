@@ -117,6 +117,7 @@ class CollectionSourceTests(unittest.TestCase):
                 builder.sonarr_details = {
                     "add_missing": config["sonarr"]["add_missing"]
                 }
+                builder.seerr_details = {"add_missing": False}
                 builder.details = {
                     "save_report": definition["save_report"],
                     "show_missing": definition["show_missing"],
