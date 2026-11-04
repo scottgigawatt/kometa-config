@@ -84,6 +84,12 @@ class MidnightTVTests(unittest.TestCase):
         renderer.builder_level = "episode"
         renderer.library = library
 
+        #
+        # Match the constructor's non-music collection state for the native filter parser.
+        #
+        renderer.music_playlist = False
+        renderer.music_playlist_smart = False
+
         self.assertEqual(definition["builder_level"], "episode")
         self.assertEqual(definition["collection_order"], "audience_rating.desc")
         searches = definition["plex_search"]
