@@ -3,7 +3,7 @@
 #
 # Copyright 2025-2026 Scott Gigawatt
 #
-# Licensed under the Apache License, Version 2.0.
+# SPDX-License-Identifier: Apache-2.0
 #
 # test_yaml_policy.py: Protect YAML comments, shuffle eligibility, and Arr monitoring.
 #
@@ -44,7 +44,7 @@ class YamlPolicyTests(unittest.TestCase):
             with self.subTest(path=path.relative_to(self.root)):
                 header = "\n".join(path.read_text().splitlines()[:10])
                 self.assertIn("Copyright 2025-2026 Scott Gigawatt", header)
-                self.assertIn("Licensed under the Apache License, Version 2.0.", header)
+                self.assertIn("SPDX-License-Identifier: Apache-2.0", header)
                 self.assertIn(f"# {path.name}:", header)
 
     def test_subgenre_id_comments(self) -> None:

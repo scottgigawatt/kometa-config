@@ -1,7 +1,7 @@
 <!--
   Copyright 2025-2026 Scott Gigawatt
 
-  Licensed under the Apache License, Version 2.0.
+  SPDX-License-Identifier: Apache-2.0
 
   AGENTS.md: Contributor and AI-agent instructions for the configuration repository.
 -->
@@ -51,7 +51,7 @@ Do not read, print, diff, or stage `.secrets/` content while performing unrelate
 
 Follow `.editorconfig` and checked-in linter configurations: UTF-8, LF line endings, a final newline, two-space YAML and Markdown indentation, four-space Python and shell indentation, and literal tabs in Make recipes. Avoid trailing whitespace except intentional Markdown hard breaks. Keep one logical definition per block and preserve meaningful ordering. Do not run an unconstrained formatter across Kometa YAML; key ordering and nearby comments are part of the maintainability of these files.
 
-Comments use concise plain English and explain intent, ownership, scheduling, external-source choices, or Plex side effects. Do not comment obvious syntax. New project-owned configuration, scripts, and workflow files begin with the established copyright, Apache-2.0, filename, and purpose header.
+Comments use concise plain English and explain intent, ownership, scheduling, external-source choices, or Plex side effects. Do not comment obvious syntax. New project-owned configuration, scripts, and workflow files begin with the established copyright, `SPDX-License-Identifier: Apache-2.0`, filename, and purpose header. Preserve the blank comment lines around the license identifier.
 
 Write explicit TMDb IDs one per YAML list line with a descriptive inline comment. Align adjacent end-of-line comments within logical groups at the same indentation, placing two spaces after the longest code entry. Shorter entries receive padding to that same comment column; standalone entries use two spaces. Apply this rule to all authored YAML, including `movies/top-rated-subgenres.yml`. Movie and show IDs identify the title and premiere year; collection IDs identify the TMDb collection name, not an individual movie. Follow native TMDb collection membership without adding standalone films to recreate a broader franchise.
 
