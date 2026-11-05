@@ -3,7 +3,7 @@
 #
 # Copyright 2025-2026 Scott Gigawatt
 #
-# Licensed under the Apache License, Version 2.0.
+# SPDX-License-Identifier: Apache-2.0
 #
 # validate-kometa.sh: Validate YAML with the pinned official Kometa image.
 #
