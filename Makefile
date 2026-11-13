@@ -74,7 +74,7 @@ TARGETS= \
 # Pinned Kometa runtime and private test-library environment settings.
 # Keep the image assignment compatible with Renovate's custom manager.
 #
-KOMETA_IMAGE ?= kometateam/kometa:v2.5.4@sha256:e3f509c3044ac011e1938dae2f7e80ea3cfe9663720a9f98683d1ea28c127e64
+KOMETA_IMAGE ?= kometateam/kometa:v2.5.5@sha256:864cec57d099c71a26a5a5ce2784d34d9b53874c91269c3a12df3949eab96562
 TEST_ENV      = .secrets/test.env
 
 #
