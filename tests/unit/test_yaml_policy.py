@@ -254,7 +254,7 @@ class YamlPolicyTests(unittest.TestCase):
         library = SimpleNamespace(
             type="Movie",
             collections=[],
-            get_all=lambda: [movie] * 10,
+            get_all=Mock(return_value=[movie] * 10),
             reload=lambda item: item,
         )
         config = SimpleNamespace(Cache=None, requested_files=[])
@@ -280,6 +280,11 @@ class YamlPolicyTests(unittest.TestCase):
                     loaded = meta.MetadataFile(
                         config, library, "File", "fixture.yml", {}, None, "collection"
                     )
+
+                #
+                # Kometa 2.5.5 explicitly loads actors outside the schedule scope.
+                #
+                library.get_all.assert_called_with(ignore_schedule_scope=True)
                 logger.error.assert_not_called()
                 self.assertEqual(
                     "Ray Liotta Collection" in loaded.collections, exclude_reserved
