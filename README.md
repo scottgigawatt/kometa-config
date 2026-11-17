@@ -34,7 +34,7 @@ Personal Plex collections, custom overlays, playlists, and artwork for [Kometa](
 <p align="center">
   <em>🎬 Posters possessed? Drag that drama through the gates of</em>
   <a href="https://discord.gg/BpEGzWwGYf">
-    <img src="https://img.shields.io/discord/1403601106315116626?label=%F0%9F%94%A5HADES%F0%9F%94%A5&amp;logo=discord&amp;logoColor=white&amp;style=flat&amp;color=5865F2&amp;labelColor=5865F2" alt="HADES Discord community" align="absmiddle" />
+    <img src="https://img.shields.io/discord/1403601106315116626?label=%F0%9F%94%A5HADES%F0%9F%94%A5&amp;logo=discord&amp;logoColor=white&amp;style=flat&amp;color=D62F65&amp;labelColor=D62F65" alt="HADES Discord community" align="absmiddle" />
   </a>
 </p>
 
