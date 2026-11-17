@@ -18,15 +18,15 @@ Personal Plex collections, custom overlays, playlists, and artwork for [Kometa](
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/license/scottgigawatt/kometa-config?label=Streaming%20Rights&amp;color=E11D48" alt="License" />
-  <img src="https://img.shields.io/github/last-commit/scottgigawatt/kometa-config?label=Last%20Rerun&amp;logo=git&amp;color=C2410C" alt="Last Commit" />
-  <img src="https://img.shields.io/github/repo-size/scottgigawatt/kometa-config?label=Box%20Set%20Size&amp;color=A16207" alt="Repo Size" />
+  <img src="https://img.shields.io/github/license/scottgigawatt/kometa-config?label=Streaming%20Rights&amp;style=flat&amp;color=E11D48&amp;labelColor=E11D48" alt="License" />
+  <img src="https://img.shields.io/github/last-commit/scottgigawatt/kometa-config?label=Last%20Rerun&amp;logo=git&amp;style=flat&amp;color=C2410C&amp;labelColor=C2410C" alt="Last Commit" />
+  <img src="https://img.shields.io/github/repo-size/scottgigawatt/kometa-config?label=Box%20Set%20Size&amp;style=flat&amp;color=A16207&amp;labelColor=A16207" alt="Repo Size" />
 </p>
 
 <p align="center">
-  <a href="https://www.bestpractices.dev/projects/14948"><img src="https://www.bestpractices.dev/projects/14948/badge" alt="OpenSSF Best Practices: passing" /></a>
-  <a href="https://github.com/scottgigawatt/kometa-config/actions/workflows/validate-pr.yml"><img src="https://img.shields.io/github/actions/workflow/status/scottgigawatt/kometa-config/validate-pr.yml?branch=main&amp;label=Validation&amp;color=0284C7" alt="Validation on main" /></a>
-  <a href="https://github.com/scottgigawatt/kometa-config/actions/workflows/codeql-actions.yml"><img src="https://img.shields.io/github/actions/workflow/status/scottgigawatt/kometa-config/codeql-actions.yml?branch=main&amp;label=CodeQL&amp;color=7C3AED" alt="CodeQL on main" /></a>
+  <a href="https://www.bestpractices.dev/projects/14948"><img src="https://img.shields.io/cii/summary/14948?label=OpenSSF%20Best%20Practices&amp;style=flat&amp;color=16823B&amp;labelColor=16823B" alt="OpenSSF Best Practices: passing" /></a>
+  <a href="https://github.com/scottgigawatt/kometa-config/actions/workflows/validate-pr.yml"><img src="https://img.shields.io/github/actions/workflow/status/scottgigawatt/kometa-config/validate-pr.yml?branch=main&amp;label=Validation&amp;style=flat&amp;color=0284C7&amp;labelColor=0284C7" alt="Validation on main" /></a>
+  <a href="https://github.com/scottgigawatt/kometa-config/actions/workflows/codeql-actions.yml"><img src="https://img.shields.io/github/actions/workflow/status/scottgigawatt/kometa-config/codeql-actions.yml?branch=main&amp;label=CodeQL&amp;style=flat&amp;color=7C3AED&amp;labelColor=7C3AED" alt="CodeQL on main" /></a>
 </p>
 
 <p align="center">─── ⛧ ───</p>
@@ -34,7 +34,7 @@ Personal Plex collections, custom overlays, playlists, and artwork for [Kometa](
 <p align="center">
   <em>🎬 Posters possessed? Drag that drama through the gates of</em>
   <a href="https://discord.gg/BpEGzWwGYf">
-    <img src="https://img.shields.io/discord/1403601106315116626?label=%F0%9F%94%A5HADES%F0%9F%94%A5&amp;logo=discord&amp;logoColor=white&amp;color=5865F2" alt="HADES Discord community" align="absmiddle" />
+    <img src="https://img.shields.io/discord/1403601106315116626?label=%F0%9F%94%A5HADES%F0%9F%94%A5&amp;logo=discord&amp;logoColor=white&amp;style=flat&amp;color=5865F2&amp;labelColor=5865F2" alt="HADES Discord community" align="absmiddle" />
   </a>
 </p>
 
