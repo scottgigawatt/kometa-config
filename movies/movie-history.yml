@@ -1,0 +1,29 @@
+#
+# Copyright 2025-2026 Scott Gigawatt
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# movie-history.yml: Revisit local movie releases from this month in past years.
+#
+
+#
+# Work with Plex item keys so unmatched movies cannot invalidate a generated GUID list.
+# Resolve the year boundary at run time and keep current-year releases out of history.
+#
+templates:
+  movie_history:
+    plex_all: true
+    filters:
+      history: month
+      release.before: 01/01/<<current_year>>
+
+collections:
+  This Month in Movie History:
+    template:
+      name: movie_history
+    collection_order: alpha
+    sync_mode: sync
+    minimum_items: 1
+    sort_title: "!020_0_1_Plex In-History"
+    file_poster: /config/assets/posters/chart/This Month in Movie History.png
+    summary: "Same month, different marquee. A birthday party for movies that made their entrance this time of year. 🎞️"

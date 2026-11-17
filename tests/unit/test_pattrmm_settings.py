@@ -45,7 +45,7 @@ class PattrmmSettingsTests(unittest.TestCase):
         )
         self.assertEqual(set(self.settings["libraries"]), {"Movies", "TV Shows"})
         expected = {
-            "Movies": ["by_size", "in_history"],
+            "Movies": ["by_size"],
             "TV Shows": ["in_history", "extended_status"],
         }
         for library, cores in self.settings["libraries"].items():
@@ -59,10 +59,19 @@ class PattrmmSettingsTests(unittest.TestCase):
         names = set()
         for library, folder in (("Movies", "movies"), ("TV Shows", "shows")):
             directory = f"generated/pattrmm/{folder}/"
-            self.assertIn(
-                {"folder": f"config/{directory}"},
-                self.config["libraries"][library]["collection_files"],
+            expected_input = (
+                {"file": f"config/{directory}Movies-by-size-collection.yml"}
+                if library == "Movies"
+                else {"folder": f"config/{directory}"}
             )
+            self.assertIn(
+                expected_input, self.config["libraries"][library]["collection_files"]
+            )
+            if library == "Movies":
+                self.assertNotIn(
+                    {"folder": f"config/{directory}"},
+                    self.config["libraries"][library]["collection_files"],
+                )
             for entry in self.settings["libraries"][library]:
                 core, settings = next(iter(entry.items()))
                 if core == "extended_status":
@@ -97,16 +106,12 @@ class PattrmmSettingsTests(unittest.TestCase):
                 self.assertTrue(collection["summary"])
                 self.assertNotIn(collection["name"], names)
                 names.add(collection["name"])
-        self.assertEqual(len(names), 4)
+        self.assertEqual(len(names), 3)
 
     def test_collection_posters_and_sort_positions(self) -> None:
         """Keep Neo in the original chart section with explicit local artwork."""
         expected = {
             "Movies by Size": ("!020_0_2_Movies by Size", "Movies by Size.png"),
-            "This Month in Movie History": (
-                "!020_0_1_Plex In-History",
-                "This Month in Movie History.png",
-            ),
             "This Month in TV History": (
                 "!020_1_Plex In-History",
                 "This Month in TV History.png",
@@ -164,6 +169,9 @@ class PattrmmSettingsTests(unittest.TestCase):
         for entry in self.settings["libraries"]["Movies"]:
             collection = next(iter(entry.values()))["collection"]
             titles[collection["name"]] = collection["sort_title"]
+        history = yaml.load(Path("/workspace/movies/movie-history.yml").read_text())
+        for name, definition in history["collections"].items():
+            titles[name] = definition["sort_title"]
 
         #
         # Expand the actual pinned Defaults so changes to its prefix contract fail.

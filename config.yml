@@ -90,9 +90,9 @@ libraries:
       - folder: config/movies/
 
       #
-      # Load Neo's movie history and size collections after generation completes.
+      # Load only Neo's size collection; movie history is authored under movies/.
       #
-      - folder: config/generated/pattrmm/movies/
+      - file: config/generated/pattrmm/movies/Movies-by-size-collection.yml
 
       #
       # Group movies by their available US content ratings.

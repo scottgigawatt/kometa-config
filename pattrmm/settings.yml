@@ -9,7 +9,7 @@
 #
 # Keep generated definitions outside authored collection folders.
 # Collection-only status output preserves the complete custom overlay set.
-# Group movie history and size charts before Tracearr; retain the TV chart order.
+# Keep the movie size chart before Tracearr; retain the TV chart order.
 #
 libraries:
   Movies:
@@ -30,22 +30,6 @@ libraries:
           sort_title: "!020_0_2_Movies by Size"
           file_poster: /config/assets/posters/chart/Movies by Size.png
           summary: "Big-screen ambitions, big-file energy. The storage hogs take their bow. 💾"
-
-    #
-    # Revisit releases from this calendar month in past years.
-    #
-    - in_history:
-        enabled: true
-        range: month
-        collection_dir: generated/pattrmm/movies/
-        collection:
-          name: This Month in Movie History
-          collection_order: custom
-          sync_mode: sync
-          minimum_items: 1
-          sort_title: "!020_0_1_Plex In-History"
-          file_poster: /config/assets/posters/chart/This Month in Movie History.png
-          summary: "Same month, different marquee. A birthday party for movies that made their entrance this time of year. 🎞️"
 
   TV Shows:
 

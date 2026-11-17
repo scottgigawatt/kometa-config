@@ -20,15 +20,15 @@ Use the Kometa runtime pinned in the [Makefile](../Makefile) with PATTRMM Neo.
 
 ## PATTRMM Neo
 
-[PATTRMM Neo](https://github.com/InsertDisc/pattrmm/tree/neo) generates local Plex-GUID lists consumed by Kometa's `text_file` builder. [pattrmm/settings.yml](../pattrmm/settings.yml) owns four collections: Movies by Size, This Month in Movie History, This Month in TV History, and Returning Soon. The library names must match Plex exactly.
+[PATTRMM Neo](https://github.com/InsertDisc/pattrmm/tree/neo) generates local Plex-GUID lists consumed by Kometa's `text_file` builder. [pattrmm/settings.yml](../pattrmm/settings.yml) owns three collections: Movies by Size, This Month in TV History, and Returning Soon. [Movie history](collections.md#movie-history) uses native Kometa filters instead of a generated GUID list. The library names must match Plex exactly.
 
 Follow the [Plundarr Neo service reference](https://github.com/scottgigawatt/plundarr/blob/main/docker/services/pattrmm/README.md) for mounts, settings selection, permissions, and schedules. The container user needs write access to its private cache and generated output. Allow Neo to finish before Kometa reads that output.
 
 Neo reads literal Plex URL/token and TMDb key, language, and region values from `/config/config.yml`. Keep them private. Its authored settings contain no credentials and select that file through `settings.kometa_config`.
 
-Edit names, summaries, posters, and sort titles in `pattrmm/settings.yml`, then run Neo followed by Kometa to apply changes in Plex.
+Edit names, summaries, posters, and sort titles in `pattrmm/settings.yml`, then run Neo followed by Kometa to apply changes in Plex. After deploying the movie history migration, run Neo before Kometa so the remaining size collection is available at its explicit input path. No image change or generated-file cleanup is required.
 
-Output belongs in `generated/pattrmm/movies/` and `generated/pattrmm/shows/`. The main Kometa configuration loads those directories. Keep each generated YAML file beside its paired `.txt` file. Returning Soon generates a collection only; custom overlays are configured independently.
+Output belongs in `generated/pattrmm/movies/` and `generated/pattrmm/shows/`. The main Kometa configuration loads the movie size file explicitly and the generated shows directory. Older generated movie history files are ignored; leave runtime files outside Git. Keep each generated YAML file beside its paired `.txt` file. Returning Soon generates a collection only; custom overlays are configured independently.
 
 From the generated Duplex directory, create the output before the first Kometa run:
 
