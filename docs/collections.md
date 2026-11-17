@@ -18,6 +18,12 @@ TMDb Discover ranks up to 1,000 English-original candidates; pipe-separated keyw
 
 The [movie shuffle](../movies/weekly-shuffle.yml) samples up to 250 random watched or unwatched movies every Monday. It keeps up to 25 that meet TMDb rating ≥6 and vote-count ≥250. Christmas/Xmas titles and the Christmas keyword are excluded year-round; incomplete metadata can affect matches. Fewer qualifying films produce a smaller collection.
 
+## Movie history
+
+[Movie history](../movies/movie-history.yml) selects local movies released during the current calendar month in earlier years, using Plex release dates. Current-year releases and movies without release dates are excluded. Membership synchronizes on each run and browses alphabetically; the existing name, artwork, summary, and sort position remain in use.
+
+This definition works with local Plex item keys, including unmatched movies. It does not use PATTRMM's generated movie history list or change Plex matching. Correct inaccurate release dates separately before relying on membership.
+
 ## People collections
 
 [People collections](../movies/actors-directors-writers.yml) rank Plex actor, director, and writer credits using shared artwork and a Saturday schedule. Explicit actor collections are excluded before the dynamic limit is filled. Check private logs for cross-role name collisions.

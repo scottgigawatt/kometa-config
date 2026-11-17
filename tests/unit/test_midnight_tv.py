@@ -114,8 +114,9 @@ class MidnightTVTests(unittest.TestCase):
                     self.assertIn("or=1&show.title", query)
                 if "Battlestar Galactica" in str(search["all"]):
                     self.assertIn("show.year%3E=2003", query)
-                    self.assertIn("show.year%3C=2003", query)
-                    self.assertNotIn("2004", query)
+                    self.assertIn("show.year%3C=2004", query)
+                    self.assertIn("Battlestar%20Galactica%20%282003%29", query)
+                    self.assertIn("Battlestar%20Galactica%20%282004%29", query)
 
         self.assertEqual(
             library.get_search_key("episode_audience_rating", libtype="episode"),
@@ -125,8 +126,10 @@ class MidnightTVTests(unittest.TestCase):
             library.get_search_key("title", libtype="episode"), "show.title"
         )
 
-    def test_empty_show_search_does_not_abort_other_episode_matches(self) -> None:
-        """Execute the pinned run loop to preserve partial matches and real error failures."""
+    def test_empty_show_search_warns_on_creation_but_aborts_existing_collection(
+        self,
+    ) -> None:
+        """Expose the pinned creation-only exception before relying on blank searches."""
         definition = self.collections["TV's Greatest Episodes"]
         self.assertIs(definition["ignore_blank_results"], True)
         self.assertNotIn("ignore_blank_results", self.source["templates"]["midnight"])
@@ -205,6 +208,28 @@ class MidnightTVTests(unittest.TestCase):
         exec(code, namespace)  # noqa: S102 - Execute only immutable pinned runtime code.
         builder.filter_and_save_items.assert_called_once_with([(42, "ratingKey")])
         logger.warning.assert_called_once()
+
+        #
+        # Existing collections abort even after valid matches; creation coverage alone
+        # cannot establish that an empty per-show search is safe on later runs.
+        #
+        builder.reset_mock()
+        builder.obj = object()
+        builder.builders = [
+            ("plex_search", "first present show"),
+            ("plex_search", "absent show"),
+            ("plex_search", "last present show"),
+        ]
+        builder.gather_ids.side_effect = [
+            [(7, "ratingKey")],
+            util.Failed("Plex Error: No Items found in Plex"),
+            [(42, "ratingKey")],
+        ]
+        namespace["prefetched"] = [None, None, None]
+        with self.assertRaisesRegex(util.Failed, "No Items found in Plex"):
+            exec(code, namespace)  # noqa: S102 - Execute only immutable pinned runtime code.
+        builder.filter_and_save_items.assert_called_once_with([(7, "ratingKey")])
+        self.assertEqual(builder.gather_ids.call_count, 2)
 
         #
         # Service and definition errors still abort; the setting is scoped to this collection.

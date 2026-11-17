@@ -4,7 +4,7 @@ Choose the guide for the job. The configuration supplies the drama; the instruct
 
 ## Connect and use
 
-- [Collections](collections.md): Membership, Midnight Cinema, holidays, playlists, and download settings.
+- [Collections](collections.md): Membership, movie history, Midnight Cinema, holidays, playlists, and download settings.
 - [Overlays](overlays.md): Custom graphics, placement, fallbacks, and matching.
 - [Service connections](service-connections.md): Shared configuration, PATTRMM Neo, and Tracearr.
 - [Automation](automation.md): Make commands, CI, CodeQL, and dependency updates.
