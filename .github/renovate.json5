@@ -1,162 +1,109 @@
-//
-// Copyright 2025-2026 Scott Gigawatt
-//
-// SPDX-License-Identifier: Apache-2.0
-//
-// renovate.json5: Automated dependency update policy for repository tooling
-//                 and the pinned Kometa runtime and editor schemas.
-//
 {
-    //
-    // Renovate schema and shared safe defaults.
-    //
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": [
+    $schema: "https://docs.renovatebot.com/renovate-schema.json",
+    extends: [
         "config:recommended",
         "helpers:pinGitHubActionDigests",
-        ":enablePreCommit"
+        ":enablePreCommit",
     ],
-
-    //
-    // Keep dependency work predictable for a single-maintainer repository.
-    //
-    "timezone": "America/New_York",
-    "schedule": ["* 0-7 1 * *"],
-    "automergeSchedule": ["* 0-7 1 * *"],
-    "updateNotScheduled": false,
-    "prConcurrentLimit": 2,
-    "dependencyDashboard": true,
-
-    //
-    // Merge dependency PRs after required checks pass; keep branches current.
-    //
-    "automerge": true,
-    "automergeType": "pr",
-    "automergeStrategy": "squash",
-    "platformAutomerge": false,
-    "rebaseWhen": "behind-base-branch",
-    "labels": ["dependencies"],
-    "assignees": ["scottgigawatt"],
-    "reviewers": ["scottgigawatt"],
-
-    //
-    // Propose security fixes immediately in separate PRs for manual review.
-    //
-    "vulnerabilityAlerts": {
-        "enabled": true,
-        "dependencyDashboardApproval": false,
-        "groupName": null,
-        "automerge": false,
-        "schedule": ["at any time"],
-        "automergeSchedule": ["at any time"],
-        "updateNotScheduled": true
+    timezone: "America/New_York",
+    schedule: ["* 0-7 1 * *"],
+    automergeSchedule: ["* 0-7 1 * *"],
+    updateNotScheduled: false,
+    prConcurrentLimit: 2,
+    dependencyDashboard: {
+        enabled: true,
     },
-
-    //
-    // Renovate owns each dependency surface currently used by this repository.
-    //
-    "enabledManagers": [
+    automerge: true,
+    automergeType: "pr",
+    automergeStrategy: "squash",
+    platformAutomerge: false,
+    rebaseWhen: "behind-base-branch",
+    labels: ["dependencies"],
+    assignees: ["scottgigawatt"],
+    reviewers: ["scottgigawatt"],
+    vulnerabilityAlerts: {
+        enabled: true,
+        dependencyDashboardApproval: false,
+        groupName: null,
+        automerge: false,
+        schedule: ["at any time"],
+        automergeSchedule: ["at any time"],
+        updateNotScheduled: true,
+    },
+    enabledManagers: [
         "custom.regex",
         "github-actions",
         "pip_requirements",
-        "pre-commit"
+        "pre-commit",
     ],
-
-    //
-    // Track the immutable runtime and each versioned editor schema URL.
-    //
-    "customManagers": [
+    customManagers: [
         {
-            "customType": "regex",
-            "managerFilePatterns": ["/^Makefile$/"],
-            "matchStrings": [
-                "KOMETA_IMAGE \\?= (?<depName>kometateam/kometa):(?<currentValue>[^@\\s]+)@(?<currentDigest>sha256:[a-f0-9]+)"
+            customType: "regex",
+            managerFilePatterns: ["/^Makefile$/"],
+            matchStrings: [
+                "KOMETA_IMAGE \\?= (?<depName>kometateam/kometa):(?<currentValue>[^@\\s]+)@(?<currentDigest>sha256:[a-f0-9]+)",
             ],
-            "datasourceTemplate": "docker",
-            "versioningTemplate": "docker"
+            datasourceTemplate: "docker",
+            versioningTemplate: "docker",
         },
         {
-            "customType": "regex",
-            "managerFilePatterns": ["/^\\.vscode/settings\\.json$/"],
-            "matchStrings": [
-                "https://raw\\.githubusercontent\\.com/Kometa-Team/Kometa/(?<currentValue>v\\d+\\.\\d+\\.\\d+)/json-schema/(?:config|collection|overlay|playlist)-schema\\.json"
+            customType: "regex",
+            managerFilePatterns: ["/^\\.vscode/settings\\.json$/"],
+            matchStrings: [
+                "https://raw\\.githubusercontent\\.com/Kometa-Team/Kometa/(?<currentValue>v\\d+\\.\\d+\\.\\d+)/json-schema/(?:config|collection|overlay|playlist)-schema\\.json",
             ],
-            "depNameTemplate": "Kometa-Team/Kometa",
-            "datasourceTemplate": "github-tags",
-            "versioningTemplate": "semver"
-        }
+            depNameTemplate: "Kometa-Team/Kometa",
+            datasourceTemplate: "github-tags",
+            versioningTemplate: "semver",
+        },
     ],
-
-    //
-    // Group related tooling updates and keep the Kometa image immutable.
-    //
-    "packageRules": [
+    packageRules: [
         {
-            "groupName": "GitHub Actions",
-            "matchManagers": ["github-actions"]
+            groupName: "GitHub Actions",
+            matchManagers: ["github-actions"],
         },
         {
-            "groupName": "pre-commit hooks",
-            "matchManagers": ["pre-commit"]
+            groupName: "pre-commit hooks",
+            matchManagers: ["pre-commit"],
         },
         {
-            "groupName": "Kometa runtime and schemas",
-            "matchDepNames": ["kometateam/kometa", "Kometa-Team/Kometa"]
+            groupName: "Kometa runtime and schemas",
+            matchDepNames: ["kometateam/kometa", "Kometa-Team/Kometa"],
         },
         {
-            "matchDepNames": ["kometateam/kometa"],
-            "pinDigests": true
+            matchDepNames: ["kometateam/kometa"],
+            pinDigests: true,
         },
         {
-            "matchManagers": ["pip_requirements"],
-            "rangeStrategy": "pin"
+            matchManagers: ["pip_requirements"],
+            rangeStrategy: "pin",
         },
-
-        //
-        // Combine routine tooling updates during the monthly maintenance window.
-        //
         {
-            "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-            "groupName": "monthly maintenance"
+            matchUpdateTypes: ["minor", "patch", "pin", "digest"],
+            groupName: "monthly maintenance",
         },
-
-        //
-        // Keep shared image pins together in the weekly production window.
-        //
         {
-            "matchDatasources": ["docker"],
-            "schedule": ["* 0-7 * * 1"],
-            "automergeSchedule": ["* 0-7 * * 1"],
-            "groupName": "weekly production dependencies"
+            matchDatasources: ["docker"],
+            schedule: ["* 0-7 * * 1"],
+            automergeSchedule: ["* 0-7 * * 1"],
+            groupName: "weekly production dependencies",
         },
-
-        //
-        // Keep the Kometa runtime and versioned editor schemas in the same review.
-        //
         {
-            "matchPackageNames": ["kometateam/kometa", "Kometa-Team/Kometa"],
-            "schedule": ["* 0-7 * * 1"],
-            "automergeSchedule": ["* 0-7 * * 1"],
-            "groupName": "weekly production dependencies"
+            matchPackageNames: ["kometateam/kometa", "Kometa-Team/Kometa"],
+            schedule: ["* 0-7 * * 1"],
+            automergeSchedule: ["* 0-7 * * 1"],
+            groupName: "weekly production dependencies",
         },
-
-        //
-        // Require dashboard approval for major upgrades and keep them separate.
-        //
         {
-            "matchUpdateTypes": ["major"],
-            "dependencyDashboardApproval": true,
-            "automerge": false,
-            "groupName": null
+            matchUpdateTypes: ["major"],
+            dependencyDashboardApproval: true,
+            automerge: false,
+            groupName: null,
         },
-
-        //
-        // Keep major Kometa runtime and schema upgrades in one approved review.
-        //
         {
-            "matchUpdateTypes": ["major"],
-            "matchPackageNames": ["kometateam/kometa", "Kometa-Team/Kometa"],
-            "groupName": "Kometa runtime and schemas"
-        }
-    ]
+            matchUpdateTypes: ["major"],
+            matchPackageNames: ["kometateam/kometa", "Kometa-Team/Kometa"],
+            groupName: "Kometa runtime and schemas",
+        },
+    ],
 }
