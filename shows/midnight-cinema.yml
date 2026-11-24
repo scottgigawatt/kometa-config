@@ -85,7 +85,7 @@ collections:
   # episode_audience_rating targets the episode; audience_rating would filter its parent show.
   # Keep five episodes per show at 8.5 or above; absent ratings never qualify.
   # Use the audience scores Plex stores for episodes; do not rewrite episode metadata.
-  # Empty per-show searches must not abort the first build; they remain visible as warnings.
+  # Empty per-show searches warn on creation; the pinned runtime aborts existing collections.
   # Source: https://kometa.wiki/en/latest/files/builders/plex/search/
   #
   TV's Greatest Episodes:
@@ -113,8 +113,13 @@ collections:
             title.is:
               - Battlestar Galactica
               - Battlestar Galactica (2003)
+              - Battlestar Galactica (2004)
+
+          #
+          # Providers date the reboot to 2003 or 2004, independently of its Plex title.
+          #
           year.gte: 2003
-          year.lte: 2003
+          year.lte: 2004
           episode_audience_rating.gte: 8.5
         sort_by: audience_rating.desc
         limit: 5
